@@ -6,18 +6,21 @@
 #include <QPushButton>
 #include <QtWidgets>
 #include <vector>
+#include <cctype>
 #include <cstring>
+#include <stdexcept>
+#include <iostream>
 
 namespace parser
 {
 
     struct Expression
     {
-        Expression( QString token ) : token( token ) {}
-        Expression( QString token, Expression a ) : token( token ), arguments{ a } {}
-        Expression( QString token, Expression a, Expression b ) : token( token ), arguments{ a, b } {}
+        Expression( std::string token ) : token( token ) {}
+        Expression( std::string token, Expression a ) : token( token ), arguments{ a } {}
+        Expression( std::string token, Expression a, Expression b ) : token( token ), arguments{ a, b } {}
 
-        QString token; // Операция или число
+        std::string token; // Операция или число
         std::vector<Expression> arguments; // Выражения - аргументы операции
     };
 
@@ -25,23 +28,20 @@ namespace parser
     {
         Q_OBJECT
     private:
-        QString input;
+        const char* input;
 
     public:
-        explicit StringParser( const QString& input ) : input( input ) {}
+        explicit StringParser( const char* input ) : input( input ) {}
         Expression parseExpression();
 
     private:
-        QString parseToken();
+        std::string parseToken();
         Expression parseSimpleExpression();
         Expression parseBinaryExpression( const int minPriority );
 
-    public slots:
-    private slots:
-
     };
 
-    int getPriority( const QString& token );
+    int getPriority( const std::string& token );
 
     double eval( const Expression& e );
 

@@ -10,9 +10,9 @@ int main( void )
     //w.show();
     //return a.exec();
 
-    QString input = "sin0";
-    parser::StringParser parser( input );
+    std::string input = "1+10*2";
+    parser::StringParser parser( input.c_str() );
 
     auto res = eval( parser.parseExpression() );
-    std::cout << input.toStdString() << " = " << res << std::endl;
+    std::cout << input << " = " << res << std::endl;
 }

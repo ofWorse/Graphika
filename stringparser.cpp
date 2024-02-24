@@ -5,64 +5,67 @@ parser::Expression parser::StringParser::parseExpression()
     return parseBinaryExpression( 0 );
 }
 
-QString parser::StringParser::parseToken()
+std::string parser::StringParser::parseToken()
 {
-    while( input[0] == " " )
+    while( std::isspace( *input ) )
     {
-        input.replace( 0, 1, "" );
+        ++input;
     }
 
-    QString number;
-    if( input[0].isDigit() )
+
+    if(  std::isdigit( *input ) )
     {
+        std::string number;
         int i = 0;
-        while( input[i].isDigit() || input[0] == "." )
+        while( std::isdigit( *input ) || *input == '.' )
         {
-            number.push_back( input[i] );
+            number.push_back( *input++ );
             i++;
         }
         return number;
     }
 
-    static const std::vector<QString> tokens =
+    static const std::vector<std::string> tokens =
         { "+", "-", "*", "/", "**", "mod", "abs", "sin", "cos", "(", ")" };
     for( auto& t : tokens )
     {
-        if( input.compare( t.size() ) == 0 )
+        if( std::strncmp( input, t.c_str(), t.size() ) == 0 )
         {
             input += t.size();
             return t;
         }
     }
 
-    return QString("");
+    return "";
 }
 
 parser::Expression parser::StringParser::parseSimpleExpression()
 {
     auto token = parseToken();
-    if( token.isEmpty() )
+
+    if( token.empty() )
     {
         throw std::runtime_error( "Invalid input" );
     }
 
-    if( token[0].isDigit() )
-    {
-        return Expression( token );
-    }
-
-    if( token == "(" )
+    if ( token == "(" )
     {
         auto result = parseExpression();
-        if( parseToken() != ")" )
+
+        if ( parseToken() != ")" )
         {
-            throw std::runtime_error("Expected ')'");
+            throw std::runtime_error( "Expected ')'" );
         }
+
         return result;
     }
 
-    auto arg = parseSimpleExpression();
-    return Expression( arg );
+    if ( std::isdigit( token[0] ) )
+    {
+        return Expression( token ) ;
+    }
+
+    return Expression( token, parseSimpleExpression() );
 }
 
 parser::Expression parser::StringParser::parseBinaryExpression( const int minPriority )
@@ -76,7 +79,7 @@ parser::Expression parser::StringParser::parseBinaryExpression( const int minPri
 
         if( priority <= minPriority )
         {
-            input.remove( 0, operation.size() );
+            input -= operation.size();
             return leftExpr;
         }
 
@@ -85,7 +88,7 @@ parser::Expression parser::StringParser::parseBinaryExpression( const int minPri
     }
 }
 
-int parser::getPriority(const QString &token)
+int parser::getPriority( const std::string &token )
 {
     if( token == "+" )   return 1;
     if( token == "-" )   return 1;
@@ -96,7 +99,7 @@ int parser::getPriority(const QString &token)
     return 0;
 }
 
-double parser::eval(const Expression &e)
+double parser::eval( const Expression &e )
 {
     switch( e.arguments.size() )
     {
@@ -128,7 +131,7 @@ double parser::eval(const Expression &e)
     }
     case 0:
     {
-        return std::strtod( e.token.toStdString().c_str(), nullptr );
+        return std::strtod( e.token.c_str(), nullptr );
     }
     }
 
