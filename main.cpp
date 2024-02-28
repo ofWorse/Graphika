@@ -10,9 +10,15 @@ int main( void )
     //w.show();
     //return a.exec();
 
-    QString input = "sin0";
-    parser::StringParser parser( input );
+    std::vector<double> X = { -1.0, -0.5, 0.0, 1.0 };
+    std::string input = "1/x";
 
-    auto res = eval( parser.parseExpression() );
-    std::cout << input.toStdString() << " = " << res << std::endl;
+
+
+    for( int i = 0; i < X.size(); ++i )
+    {
+        parser::StringParser parser( input.c_str(), X[i] );
+        auto res = eval( parser.parseExpression(), X[i] );
+        std::cout << X[i] << " : " << res << std::endl;
+    }
 }
