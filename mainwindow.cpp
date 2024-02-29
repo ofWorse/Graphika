@@ -1,15 +1,10 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+//#include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+QPushButton* MainWindow::createButton(const QString &str)
 {
-    ui->setupUi(this);
+    QPushButton* pcmd = new QPushButton(str);
+    pcmd->setMinimumSize(40, 40);
+    connect(pcmd, SIGNAL(clicked()), SLOT(buttonClicked()));
+    return pcmd;
 }
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-

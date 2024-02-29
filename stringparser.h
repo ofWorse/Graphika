@@ -25,8 +25,8 @@ namespace parser
         Expression( std::string token, Expression a, Expression b ) :
             token( token ), arguments{ a, b }, isVariable( false ){}
 
-        std::string token; // Операция или число
-        std::vector<Expression> arguments; // Выражения - аргументы операции
+        std::string token;
+        std::vector<Expression> arguments;
         bool isVariable;
     };
 

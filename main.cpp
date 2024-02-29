@@ -3,17 +3,16 @@
 #include <QApplication>
 #include <iostream>
 
-int main( void )
+int main( int argc, char *argv[] )
 {
-    //QApplication a(argc, argv);
-    //MainWindow w;
-    //w.show();
-    //return a.exec();
+    QApplication a( argc, argv );
+    QWidget wgt;
+    MainWindow window( &wgt );
+    window.show();
+
 
     std::vector<double> X = { -1.0, -0.5, 0.0, 1.0 };
     std::string input = "1/x";
-
-
 
     for( int i = 0; i < X.size(); ++i )
     {
@@ -21,4 +20,6 @@ int main( void )
         auto res = eval( parser.parseExpression(), X[i] );
         std::cout << X[i] << " : " << res << std::endl;
     }
+
+    //return a.exec();
 }
