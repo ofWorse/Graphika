@@ -6,14 +6,28 @@ CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+# DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    graphbuilder.cpp \
     main.cpp \
     mainwindow.cpp \
     stringparser.cpp
 
+INCLUDEPATH +="/usr/local/include/opencv4"
+
+LIBS += -L"/usr/share/doc/"
+LIBS += \
+   -lopencv_core \
+   -lopencv_features2d \
+   -lopencv_highgui \
+   -lopencv_imgcodecs \
+   -lopencv_imgproc \
+   -lopencv_video \
+   -lopencv_videoio
+
 HEADERS += \
+    graphbuilder.h \
     mainwindow.h \
     stringparser.h
 
