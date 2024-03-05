@@ -4,26 +4,27 @@
 #include "stringparser.h"
 #include <QMainWindow>
 
-namespace
+using namespace parser;
+
+class MainWindow : public QWidget
 {
+    Q_OBJECT
 
-    using namespace parser;
+private:
+    QString expression;
+    StringParser* parser;
 
-    class MainWindow : public QMainWindow
-    {
-        Q_OBJECT
-    private:
-        QString expression;
-        StringParser parser;
+    double min;
+    double max;
+    double step;
 
-    public:
-        MainWindow( QWidget *parent = 0 );
-        QPushButton* createButton( const QString& str );
+std::vector<double> x;
+std::vector<double> y;
 
-    public slots:
-        //void buttonClicked();
-    };
+public:
+    MainWindow( QWidget* parent = nullptr );
+    void showTable( const std::vector<double> x, const std::vector<double> y );
+};
 
-} // anonymous namespace
 
 #endif // MAINWINDOW_H

@@ -1,7 +1,7 @@
 #ifndef STRINGPARSER_H
 #define STRINGPARSER_H
 
-#include <QWidget>
+#include <QtWidgets>
 #include <QStack>
 #include <QPushButton>
 #include <QtWidgets>

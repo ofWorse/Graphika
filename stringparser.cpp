@@ -30,7 +30,7 @@ std::string parser::StringParser::parseToken()
     }
 
     static const std::vector<std::string> tokens =
-        { "+", "-", "*", "/", "**", "mod", "abs", "sin", "cos", "(", ")" };
+        { "+", "-", "*", "/", "^", "mod", "abs", "sin", "cos", "(", ")" };
     for( auto& t : tokens )
     {
         if( std::strncmp( input, t.c_str(), t.size() ) == 0 )
