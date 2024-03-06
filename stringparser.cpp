@@ -30,7 +30,7 @@ std::string parser::StringParser::parseToken()
     }
 
     static const std::vector<std::string> tokens =
-        { "+", "-", "*", "/", "^", "mod", "abs", "sin", "cos", "(", ")" };
+        { "+", "-", "*", "/", "^", "mod", "abs", "sin", "cos", "log", "(", ")" };
     for( auto& t : tokens )
     {
         if( std::strncmp( input, t.c_str(), t.size() ) == 0 )
@@ -103,8 +103,8 @@ int parser::getPriority( const std::string &token )
     if( token == "-" )   return 1;
     if( token == "*" )   return 2;
     if( token == "/" )   return 2;
-    if( token == "%" ) return 2;
-    if( token == "^" )  return 3;
+    if( token == "%" )   return 2;
+    if( token == "^" )   return 3;
     return 0;
 }
 
@@ -125,10 +125,17 @@ double parser::eval( const Expression &e, double x )
         if( e.token == "+" )   return a + b;
         if( e.token == "-" )   return a - b;
         if( e.token == "*" )   return a * b;
-        if( e.token == "/" )   return a / b;
         if( e.token == "^" )   return pow( a, b );
-        if( e.token == "%" )   return ( int )a % ( int )b;
-
+        if( e.token == "%" )
+        {
+            if( b == 0 ) throw std::runtime_error( "Can not divive by zero" );
+            return ( int )a % ( int )b;
+        }
+        if( e.token == "/" )
+        {
+            if( b == 0 ) throw std::runtime_error( "Can not divive by zero" );
+            return a / b;
+        }
         throw std::runtime_error( "Unknown binary operator" );
     }
     case 1:
@@ -140,7 +147,11 @@ double parser::eval( const Expression &e, double x )
         if( e.token == "abs" ) return abs( a );
         if( e.token == "sin" ) return sin( a );
         if( e.token == "cos" ) return cos( a );
-
+        if( e.token == "log" )
+        {
+            if( a == 0 ) throw std::runtime_error( "Function is undefined" );
+            return log( a );
+        }
         throw std::runtime_error( "Unknown unary operator" );
     }
     case 0:
@@ -156,7 +167,7 @@ double parser::eval( const Expression &e, double x )
     throw std::runtime_error( "Unknown expression type" );
 }
 
-double parser::eval(const Expression &e)
+double parser::eval( const Expression &e )
 {
     return eval( e, 0.0 );
 }

@@ -13,17 +13,23 @@ class MainWindow : public QWidget
 private:
     QString expression;
     StringParser* parser;
+    QTableWidget* tableWidget;
 
-    double min;
-    double max;
-    double step;
+    QLineEdit* expressionInput;
+    QDoubleSpinBox* min;
+    QDoubleSpinBox* max;
+    QDoubleSpinBox* step;
 
-std::vector<double> x;
-std::vector<double> y;
+    std::vector<double> x;
+    std::vector<double> y;
 
 public:
     MainWindow( QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y );
+
+public slots:
+    void solve( void );
+    void clearTable( void );
 };
 
 
