@@ -128,12 +128,20 @@ double parser::eval( const Expression &e, double x )
         if( e.token == "^" )   return pow( a, b );
         if( e.token == "%" )
         {
-            if( b == 0 ) throw std::runtime_error( "Can not divive by zero" );
+            if( b == 0 )
+            {
+                throw std::runtime_error( "Can not divive by zero" );
+                exit( EXIT_FAILURE );
+            }
             return ( int )a % ( int )b;
         }
         if( e.token == "/" )
         {
-            if( b == 0 ) throw std::runtime_error( "Can not divive by zero" );
+            if( b == 0 )
+            {
+                throw std::runtime_error( "Can not divive by zero" );
+                exit( EXIT_FAILURE );
+            }
             return a / b;
         }
         throw std::runtime_error( "Unknown binary operator" );
@@ -149,7 +157,11 @@ double parser::eval( const Expression &e, double x )
         if( e.token == "cos" ) return cos( a );
         if( e.token == "log" )
         {
-            if( a == 0 ) throw std::runtime_error( "Function is undefined" );
+            if( a <= 0 )
+            {
+                throw std::runtime_error( "Function is undefined" );
+                exit( EXIT_FAILURE );
+            }
             return log( a );
         }
         throw std::runtime_error( "Unknown unary operator" );
