@@ -1,6 +1,12 @@
 #include "stringparser.h"
 
-parser::Expression parser::StringParser::parseExpression()
+
+parser::StringParser* parser::StringParser::operator=( const StringParser &parent )
+{
+    return new StringParser( parent.input, parent.x );
+}
+
+std::optional<parser::Expression> parser::StringParser::parseExpression()
 {
     return parseBinaryExpression( 0 );
 }
@@ -43,13 +49,14 @@ std::string parser::StringParser::parseToken()
     return "";
 }
 
-parser::Expression parser::StringParser::parseSimpleExpression()
+std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
 {
     auto token = parseToken();
 
     if( token.empty() )
     {
-        throw std::runtime_error( "Invalid input" );
+        emit errorOccurred( "Некорректный ввод" );
+        return std::nullopt;
     }
 
     if ( token == "(" )
@@ -58,7 +65,9 @@ parser::Expression parser::StringParser::parseSimpleExpression()
 
         if ( parseToken() != ")" )
         {
-            throw std::runtime_error( "Expected ')'" );
+            std::cout << "err" << std::endl;
+            emit errorOccurred( "Требуется ')'" );
+            return std::nullopt;
         }
 
         return result;
@@ -74,10 +83,15 @@ parser::Expression parser::StringParser::parseSimpleExpression()
         return Expression( token, true );
     }
 
-    return Expression( token, parseSimpleExpression() );
+    auto nestedExpr = parseSimpleExpression();
+    if( !nestedExpr.has_value() )
+    {
+        return std::nullopt;
+    }
+    return Expression( token, *nestedExpr );
 }
 
-parser::Expression parser::StringParser::parseBinaryExpression( const int minPriority )
+std::optional<parser::Expression> parser::StringParser::parseBinaryExpression( const int minPriority )
 {
     auto leftExpr = parseSimpleExpression();
 
@@ -93,11 +107,15 @@ parser::Expression parser::StringParser::parseBinaryExpression( const int minPri
         }
 
         auto rightExpr = parseBinaryExpression( priority );
-        leftExpr = Expression( operation, leftExpr, rightExpr );
+        if( !rightExpr.has_value() )
+        {
+            return std::nullopt;
+        }
+        leftExpr = Expression( operation, leftExpr.value(), rightExpr.value() );
     }
 }
 
-int parser::getPriority( const std::string &token )
+int parser::StringParser::getPriority( const std::string &token )
 {
     if( token == "+" )   return 1;
     if( token == "-" )   return 1;
@@ -108,78 +126,77 @@ int parser::getPriority( const std::string &token )
     return 0;
 }
 
-double parser::eval( const Expression &e, double x )
+double parser::StringParser::eval( const std::optional<Expression> &e, double x )
 {
-    if( e.isVariable )
+    auto expr = e.value();
+    if( expr.isVariable )
     {
         return x;
     }
 
-    switch( e.arguments.size() )
+    switch( expr.arguments.size() )
     {
     case 2:
     {
-        auto a = eval( e.arguments[0], x );
-        auto b = eval( e.arguments[1], x );
+        auto a = eval( expr.arguments[0], x );
+        auto b = eval( expr.arguments[1], x );
 
-        if( e.token == "+" )   return a + b;
-        if( e.token == "-" )   return a - b;
-        if( e.token == "*" )   return a * b;
-        if( e.token == "^" )   return pow( a, b );
-        if( e.token == "%" )
+        if( expr.token == "+" )   return a + b;
+        if( expr.token == "-" )   return a - b;
+        if( expr.token == "*" )   return a * b;
+        if( expr.token == "^" )   return pow( a, b );
+        if( expr.token == "%" )
         {
             if( b == 0 )
             {
-                throw std::runtime_error( "Can not divive by zero" );
-                exit( EXIT_FAILURE );
+                emit errorOccurred( "На ноль делить нельзя" );
             }
             return ( int )a % ( int )b;
         }
-        if( e.token == "/" )
+        if( expr.token == "/" )
         {
             if( b == 0 )
             {
-                throw std::runtime_error( "Can not divive by zero" );
-                exit( EXIT_FAILURE );
+                emit errorOccurred( "На ноль делить нельзя" );
             }
             return a / b;
         }
-        throw std::runtime_error( "Unknown binary operator" );
+        emit errorOccurred( "Неизвестный бинарный оператор" );
     }
     case 1:
     {
-        auto a = eval( e.arguments[0], x );
+        auto a = eval( expr.arguments[0], x );
 
-        if( e.token == "+" )   return +a;
-        if( e.token == "-" )   return -a;
-        if( e.token == "abs" ) return abs( a );
-        if( e.token == "sin" ) return sin( a );
-        if( e.token == "cos" ) return cos( a );
-        if( e.token == "log" )
+        if( expr.token == "+" )   return +a;
+        if( expr.token == "-" )   return -a;
+        if( expr.token == "abs" ) return abs( a );
+        if( expr.token == "sin" ) return sin( a );
+        if( expr.token == "cos" ) return cos( a );
+        if( expr.token == "log" )
         {
             if( a <= 0 )
             {
-                throw std::runtime_error( "Function is undefined" );
-                exit( EXIT_FAILURE );
+                emit errorOccurred( "Функция не определена" );
             }
             return log( a );
         }
-        throw std::runtime_error( "Unknown unary operator" );
+        emit errorOccurred( "Неизвестный унарный оператор" );
     }
     case 0:
     {
-        if( e.token == "x" )
+        if( expr.token == "x" )
         {
             return x;
         }
-        return std::strtod( e.token.c_str(), nullptr );
+        return std::strtod( expr.token.c_str(), nullptr );
     }
     }
 
-    throw std::runtime_error( "Unknown expression type" );
+    emit errorOccurred( "Неизвестный вид выражения" );
 }
 
-double parser::eval( const Expression &e )
+double parser::StringParser::eval( const std::optional<Expression> &e )
 {
     return eval( e, 0.0 );
 }
+

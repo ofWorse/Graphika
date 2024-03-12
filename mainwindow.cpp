@@ -5,8 +5,11 @@
 MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
 {
     QLabel* label = new QLabel( "f(x) = ", this );
+    errLabel = new QLabel( "", this );
+    QLabel* minLabel = new QLabel( "Минимальное значение x:", this );
+    QLabel* maxLabel = new QLabel( "Максимальное значение x:", this );
+    QLabel* stepLabel = new QLabel( "Шаг по x:", this );
     expressionInput = new QLineEdit( this );
-    QLabel* rangeLabel = new QLabel( "Значения для x:", this );
     min = new QDoubleSpinBox( this );
     max = new QDoubleSpinBox( this );
     step = new QDoubleSpinBox( this );
@@ -26,12 +29,16 @@ MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
     step->setRange( 0.1, 10.0 );
     step->setSingleStep( 0.1 );
 
-    QVBoxLayout* layout = new QVBoxLayout( this );
+    // TODO: Сделать метод, который в цикле принимает все слои в layout по указанному порядку
+    layout = new QVBoxLayout( this ); /* addLayout(  ); */
     layout->addWidget( label );
     layout->addWidget( expressionInput );
-    layout->addWidget( rangeLabel );
+    layout->addWidget( errLabel );
+    layout->addWidget( minLabel );
     layout->addWidget( min );
+    layout->addWidget( maxLabel );
     layout->addWidget( max );
+    layout->addWidget( stepLabel );
     layout->addWidget( step );
     layout->addWidget( solve );
     layout->addWidget( clear );
@@ -39,6 +46,7 @@ MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
     setLayout( layout );
 
     connect( solve, &QPushButton::clicked, this, &MainWindow::solve );
+    //connect( solve, &QPushButton::clicked, this, &MainWindow::handleParserError );
     connect( clear, &QPushButton::clicked, this, &MainWindow::clearTable );
 }
 
@@ -67,26 +75,36 @@ void MainWindow::solve( void )
     auto max        = this->max->value();
     auto step       = this->step->value();
 
+    std::vector<double> X;
+    std::vector<double> Y;
+
     for( double x = min; x <= max; x += step )
     {
-        auto y = eval(
-            (new StringParser(
-                 expression.toStdString().c_str(), x )
-             )->parseExpression(),
-            x
-        );
+        parser = new StringParser( expression.toStdString().c_str(), x );
 
-        this->x.push_back( x );
-        this->y.push_back( y );
+        connect( parser, &StringParser::errorOccurred, this, &MainWindow::handleParserError );
+
+        auto parsed = parser->parseExpression();
+        auto y = parser->eval( parsed, x );
+
+        X.push_back( x );
+        Y.push_back( y );
     }
 
-    showTable( x, y );
-    x.clear();
-    y.clear();
+    showTable( X, Y );
 }
 
 void MainWindow::clearTable( void )
 {
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
+    errLabel->clear();
 }
+
+// TODO: Добавить очистку таблицы (clearTable() - не работает)
+void MainWindow::handleParserError( const QString& err )
+{
+    errLabel->setStyleSheet( "QLabel { color : red; }" );
+    errLabel->setText( err + "!" );
+}
+

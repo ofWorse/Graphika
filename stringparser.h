@@ -5,11 +5,13 @@
 #include <QStack>
 #include <QPushButton>
 #include <QtWidgets>
+#include <optional>
 #include <vector>
 #include <cctype>
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
+#include <optional>
 
 namespace parser
 {
@@ -23,7 +25,7 @@ namespace parser
         Expression( std::string token, Expression a ) :
             token( token ), arguments{ a }, isVariable( false ) {}
         Expression( std::string token, Expression a, Expression b ) :
-            token( token ), arguments{ a, b }, isVariable( false ){}
+            token( token ), arguments{ a, b }, isVariable( false ){};
 
         std::string token;
         std::vector<Expression> arguments;
@@ -35,24 +37,32 @@ namespace parser
         Q_OBJECT
     private:
         const char* input;
-        const double x;
+        double x;
 
     public:
         explicit StringParser( const char* input, const double x )
             : input( input ), x( x ) {}
-        Expression parseExpression();
+        explicit StringParser( const char* input )
+            : input( input ) {}
+        StringParser* operator=( const StringParser& parent );
+
+        std::optional<Expression> parseExpression();
+
+        void setX( const double& x ) { this->x = x; }
+
+        double eval( const std::optional<Expression>& e, double x );
+        double eval( const std::optional<Expression>& e );
 
     private:
         std::string parseToken();
-        Expression parseSimpleExpression();
-        Expression parseBinaryExpression( const int minPriority );
+        std::optional<Expression> parseSimpleExpression();
+        std::optional<Expression> parseBinaryExpression( const int minPriority );
 
+        int getPriority( const std::string& token );
+
+    signals:
+        void errorOccurred( const QString& err );
     };
-
-    int getPriority( const std::string& token );
-
-    double eval( const Expression& e, double x );
-    double eval( const Expression& e );
 
 } // parser namespace
 
