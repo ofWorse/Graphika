@@ -29,24 +29,13 @@ MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
     step->setRange( 0.1, 10.0 );
     step->setSingleStep( 0.1 );
 
-    // TODO: Сделать метод, который в цикле принимает все слои в layout по указанному порядку
-    layout = new QVBoxLayout( this ); /* addLayout(  ); */
-    layout->addWidget( label );
-    layout->addWidget( expressionInput );
-    layout->addWidget( errLabel );
-    layout->addWidget( minLabel );
-    layout->addWidget( min );
-    layout->addWidget( maxLabel );
-    layout->addWidget( max );
-    layout->addWidget( stepLabel );
-    layout->addWidget( step );
-    layout->addWidget( solve );
-    layout->addWidget( clear );
-    layout->addWidget( tableWidget );
+    layout = new QVBoxLayout( this );
+    createLayout( *layout, this, label, expressionInput, errLabel,
+                 minLabel, min, maxLabel, max, stepLabel,
+                 step, solve, clear, tableWidget );
     setLayout( layout );
 
     connect( solve, &QPushButton::clicked, this, &MainWindow::solve );
-    //connect( solve, &QPushButton::clicked, this, &MainWindow::handleParserError );
     connect( clear, &QPushButton::clicked, this, &MainWindow::clearTable );
 }
 

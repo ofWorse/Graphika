@@ -27,17 +27,10 @@ public:
     void showTable( const std::vector<double> x, const std::vector<double> y );
 
 private:
-    // TODO: Присобачить к инициализации основного слоя
     template<typename... A>
-    QVBoxLayout* addLayout( QWidget* wgt, A... args )
+    void createLayout( QVBoxLayout& layout, QWidget* wgt, A... args )
     {
-        QVBoxLayout* layout = new QVBoxLayout( wgt );
-        ( ..., [args, layout]()
-         {
-             layout->addWidget( args );
-         }
-         ) ();
-        return layout;
+        ( layout.addWidget( args ), ... );
     }
 
 public slots:
