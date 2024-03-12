@@ -55,6 +55,7 @@ std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
 
     if( token.empty() )
     {
+        std::cout << "err" << std::endl;
         emit errorOccurred( "Некорректный ввод" );
         return std::nullopt;
     }
@@ -73,6 +74,7 @@ std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
         return result;
     }
 
+    // TODO: Убрать повтор
     if ( std::isdigit( token[0] ) )
     {
         return Expression( token ) ;
@@ -86,6 +88,8 @@ std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
     auto nestedExpr = parseSimpleExpression();
     if( !nestedExpr.has_value() )
     {
+        std::cout << "err" << std::endl;
+        emit errorOccurred( "Ошибка ввода" );
         return std::nullopt;
     }
     return Expression( token, *nestedExpr );
@@ -144,7 +148,15 @@ double parser::StringParser::eval( const std::optional<Expression> &e, double x 
         if( expr.token == "+" )   return a + b;
         if( expr.token == "-" )   return a - b;
         if( expr.token == "*" )   return a * b;
-        if( expr.token == "^" )   return pow( a, b );
+        if( expr.token == "^" )
+        {
+            if( b < 0 && a == 0 )
+            {
+                emit errorOccurred( "На ноль делить нельзя" );
+            }
+            return pow( a, b );
+        }
+
         if( expr.token == "%" )
         {
             if( b == 0 )

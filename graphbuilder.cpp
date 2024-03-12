@@ -45,6 +45,7 @@ int graph::GraphBuilder::axisSpotter(const vector<double> &X, const vector<doubl
     return 0;
 }
 
+// TODO: ...
 void graph::GraphBuilder::Builder::produceAxis() const
 {
     line( image, Point( _beginAxis, _endAxis ),

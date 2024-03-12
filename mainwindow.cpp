@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 //#include "ui_mainwindow.h"
 
-// TODO: Сделать дефакто код чище, возможно стоит избавиться от таких членов класса как векторы.
+// TODO: Сделать дефакто код чище
 MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
 {
     QLabel* label = new QLabel( "f(x) = ", this );
@@ -70,7 +70,6 @@ void MainWindow::solve( void )
     for( double x = min; x <= max; x += step )
     {
         parser = new StringParser( expression.toStdString().c_str(), x );
-
         connect( parser, &StringParser::errorOccurred, this, &MainWindow::handleParserError );
 
         auto parsed = parser->parseExpression();
