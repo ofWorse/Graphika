@@ -4,17 +4,34 @@
 // TODO: Сделать дефакто код чище
 MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
 {
+    validator = new ValidateString( this );
+    connect( validator, &ValidateString::validExpression, this, &MainWindow::onValidateStringValid );
+    connect( validator, &ValidateString::invalidExpression, this, &MainWindow::onValidateStringInvalid );
+    parser = new StringParser( this );
+
+
     QLabel* label = new QLabel( "f(x) = ", this );
     errLabel = new QLabel( "", this );
+
+    connect( parser, &StringParser::errorOccurred, this, &MainWindow::handleParserError );
+
     QLabel* minLabel = new QLabel( "Минимальное значение x:", this );
     QLabel* maxLabel = new QLabel( "Максимальное значение x:", this );
     QLabel* stepLabel = new QLabel( "Шаг по x:", this );
+
     expressionInput = new QLineEdit( this );
+    connect( expressionInput, &QLineEdit::textChanged, this, &MainWindow::onInputTextChanged );
+
     min = new QDoubleSpinBox( this );
     max = new QDoubleSpinBox( this );
     step = new QDoubleSpinBox( this );
-    QPushButton* solve = new QPushButton( "Решить", this );
+
+    solve = new QPushButton( "Решить", this );
+    solve->setEnabled( false );
+    connect( solve, &QPushButton::clicked, this, &MainWindow::onSolveButtonClicked );
+
     QPushButton* clear = new QPushButton( "Очистить", this );
+    connect( clear, &QPushButton::clicked, this, &MainWindow::clearTable );
 
     tableWidget = new QTableWidget( this );
     tableWidget->setColumnCount( 2 );
@@ -35,8 +52,7 @@ MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
                  step, solve, clear, tableWidget );
     setLayout( layout );
 
-    connect( solve, &QPushButton::clicked, this, &MainWindow::solve );
-    connect( clear, &QPushButton::clicked, this, &MainWindow::clearTable );
+    //connect( solve, &QPushButton::clicked, this, &MainWindow::solve );
 }
 
 void MainWindow::showTable( const std::vector<double> x, const std::vector<double> y )
@@ -48,7 +64,7 @@ void MainWindow::showTable( const std::vector<double> x, const std::vector<doubl
     labels << "X" << "Y";
     tableWidget->setHorizontalHeaderLabels( labels );
 
-    for( int i{}; i < x.size(); ++i )
+    for( std::size_t i{}; i < x.size(); ++i )
     {
         QTableWidgetItem* itemX = new QTableWidgetItem( QString::number( x[i] ) );
         QTableWidgetItem* itemY = new QTableWidgetItem( QString::number( y[i] ) );
@@ -57,7 +73,7 @@ void MainWindow::showTable( const std::vector<double> x, const std::vector<doubl
     }
 }
 
-void MainWindow::solve( void )
+void MainWindow::onSolveButtonClicked( void )
 {
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
@@ -65,19 +81,15 @@ void MainWindow::solve( void )
     auto step       = this->step->value();
 
     std::vector<double> X;
-    std::vector<double> Y;
-
-    for( double x = min; x <= max; x += step )
+    for( double i = min; i <= max; i += step )
     {
-        parser = new StringParser( expression.toStdString().c_str(), x );
-        connect( parser, &StringParser::errorOccurred, this, &MainWindow::handleParserError );
-
-        auto parsed = parser->parseExpression();
-        auto y = parser->eval( parsed, x );
-
-        X.push_back( x );
-        Y.push_back( y );
+        X.push_back( i );
     }
+
+    parser->setDataX( X );
+
+    std::vector<double> Y = parser->parseExpression( expression.toStdString().c_str() );
+
 
     showTable( X, Y );
 }
@@ -96,3 +108,17 @@ void MainWindow::handleParserError( const QString& err )
     errLabel->setText( err + "!" );
 }
 
+void MainWindow::onInputTextChanged( const QString &text )
+{
+    validator->validateExpression( text );
+}
+
+void MainWindow::onValidateStringValid()
+{
+    solve->setEnabled( true );
+}
+
+void MainWindow::onValidateStringInvalid()
+{
+    solve->setEnabled( false );
+}

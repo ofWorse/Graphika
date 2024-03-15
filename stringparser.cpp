@@ -1,17 +1,28 @@
 #include "stringparser.h"
 
 
-parser::StringParser* parser::StringParser::operator=( const StringParser &parent )
-{
-    return new StringParser( parent.input, parent.x );
-}
+StringParser::StringParser( QObject *parent ) : QObject( parent ) {}
 
-std::optional<parser::Expression> parser::StringParser::parseExpression()
+std::optional<Expression> StringParser::parseExpression()
 {
     return parseBinaryExpression( 0 );
 }
 
-std::string parser::StringParser::parseToken()
+std::vector<double> StringParser::parseExpression( QString input )
+{
+    this->input = input.toStdString().c_str();
+    double y{};
+    std::vector<double> yTable;
+    auto parsed = parseExpression();
+    for( const auto& x : xTable )
+    {
+        y = eval( parsed, x );
+        yTable.push_back( y );
+    }
+    return yTable;
+}
+
+std::string StringParser::parseToken()
 {
     while( std::isspace( *input ) )
     {
@@ -36,7 +47,7 @@ std::string parser::StringParser::parseToken()
     }
 
     static const std::vector<std::string> tokens =
-        { "+", "-", "*", "/", "^", "mod", "abs", "sin", "cos", "log", "(", ")" };
+        { "+", "-", "*", "/", "^", "mod", "abs", "sin", "cos", "ln", "lg", "(", ")" };
     for( auto& t : tokens )
     {
         if( std::strncmp( input, t.c_str(), t.size() ) == 0 )
@@ -49,13 +60,13 @@ std::string parser::StringParser::parseToken()
     return "";
 }
 
-std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
+std::optional<Expression> StringParser::parseSimpleExpression()
 {
     auto token = parseToken();
 
     if( token.empty() )
     {
-        std::cout << "err" << std::endl;
+        std::cout << "Некорректный ввод" << std::endl;
         emit errorOccurred( "Некорректный ввод" );
         return std::nullopt;
     }
@@ -66,7 +77,7 @@ std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
 
         if ( parseToken() != ")" )
         {
-            std::cout << "err" << std::endl;
+            std::cout << "Требуется ')'" << std::endl;
             emit errorOccurred( "Требуется ')'" );
             return std::nullopt;
         }
@@ -88,14 +99,14 @@ std::optional<parser::Expression> parser::StringParser::parseSimpleExpression()
     auto nestedExpr = parseSimpleExpression();
     if( !nestedExpr.has_value() )
     {
-        std::cout << "err" << std::endl;
+        std::cout << "Ошибка ввода" << std::endl;
         emit errorOccurred( "Ошибка ввода" );
         return std::nullopt;
     }
     return Expression( token, *nestedExpr );
 }
 
-std::optional<parser::Expression> parser::StringParser::parseBinaryExpression( const int minPriority )
+std::optional<Expression> StringParser::parseBinaryExpression( const int minPriority )
 {
     auto leftExpr = parseSimpleExpression();
 
@@ -119,7 +130,7 @@ std::optional<parser::Expression> parser::StringParser::parseBinaryExpression( c
     }
 }
 
-int parser::StringParser::getPriority( const std::string &token )
+int StringParser::getPriority( const std::string &token )
 {
     if( token == "+" )   return 1;
     if( token == "-" )   return 1;
@@ -130,8 +141,14 @@ int parser::StringParser::getPriority( const std::string &token )
     return 0;
 }
 
-double parser::StringParser::eval( const std::optional<Expression> &e, double x )
+double StringParser::eval( const std::optional<Expression> &e, double x )
 {
+    if( !e.has_value() )
+    {
+        emit errorOccurred( "Ошибка ввода" );
+        return 0.0;
+    }
+
     auto expr = e.value();
     if( expr.isVariable )
     {
@@ -184,13 +201,14 @@ double parser::StringParser::eval( const std::optional<Expression> &e, double x 
         if( expr.token == "abs" ) return abs( a );
         if( expr.token == "sin" ) return sin( a );
         if( expr.token == "cos" ) return cos( a );
-        if( expr.token == "log" )
+        if( expr.token == "ln" || expr.token == "lg" )
         {
             if( a <= 0 )
             {
                 emit errorOccurred( "Функция не определена" );
             }
-            return log( a );
+            if(expr.token == "ln" ) return log( a );
+            return log10( a );
         }
         emit errorOccurred( "Неизвестный унарный оператор" );
     }
@@ -203,11 +221,10 @@ double parser::StringParser::eval( const std::optional<Expression> &e, double x 
         return std::strtod( expr.token.c_str(), nullptr );
     }
     }
-
     emit errorOccurred( "Неизвестный вид выражения" );
 }
 
-double parser::StringParser::eval( const std::optional<Expression> &e )
+double StringParser::eval( const std::optional<Expression> &e )
 {
     return eval( e, 0.0 );
 }

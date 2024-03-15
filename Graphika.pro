@@ -12,7 +12,8 @@ SOURCES += \
     graphbuilder.cpp \
     main.cpp \
     mainwindow.cpp \
-    stringparser.cpp
+    stringparser.cpp \
+    validatestring.cpp
 
 INCLUDEPATH +="/usr/local/include/opencv4"
 
@@ -27,9 +28,11 @@ LIBS += \
    -lopencv_videoio
 
 HEADERS += \
+    expressionvalidator.h \
     graphbuilder.h \
     mainwindow.h \
-    stringparser.h
+    stringparser.h \
+    validatestring.h
 
 FORMS += \
     mainwindow.ui

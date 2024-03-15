@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include "stringparser.h"
+#include "validatestring.h"
 #include <QMainWindow>
 
-using namespace parser;
 
 class MainWindow : public QWidget
 {
@@ -12,6 +12,7 @@ class MainWindow : public QWidget
 
 private:
     QString expression;
+    ValidateString* validator;
     StringParser* parser;
     QLabel* errLabel;
     QVBoxLayout* layout;
@@ -21,6 +22,7 @@ private:
     QDoubleSpinBox* min;
     QDoubleSpinBox* max;
     QDoubleSpinBox* step;
+    QPushButton* solve;
 
 public:
     MainWindow( QWidget* parent = nullptr );
@@ -34,9 +36,13 @@ private:
     }
 
 public slots:
-    void solve( void );
+    void onSolveButtonClicked( void );
     void clearTable( void );
     void handleParserError( const QString& err );
+
+    void onInputTextChanged( const QString& text );
+    void onValidateStringValid();
+    void onValidateStringInvalid();
 };
 
 
