@@ -2,9 +2,6 @@
 #define STRINGPARSER_H
 
 #include <QtWidgets>
-#include <QStack>
-#include <QPushButton>
-#include <QtWidgets>
 #include <optional>
 #include <vector>
 #include <cctype>
@@ -13,8 +10,7 @@
 #include <iostream>
 #include <optional>
 
-namespace parser
-{
+
 
     struct Expression
     {
@@ -39,16 +35,19 @@ namespace parser
         const char* input;
         double x;
 
+        std::vector<double> xTable;
     public:
+        explicit StringParser( QObject *parent = nullptr );
         explicit StringParser( const char* input, const double x )
             : input( input ), x( x ) {}
         explicit StringParser( const char* input )
             : input( input ) {}
-        StringParser* operator=( const StringParser& parent );
 
         std::optional<Expression> parseExpression();
+        std::vector<double> parseExpression( QString input );
 
         void setX( const double& x ) { this->x = x; }
+        void setDataX( const std::vector<double> x ) { xTable = x; }
 
         double eval( const std::optional<Expression>& e, double x );
         double eval( const std::optional<Expression>& e );
@@ -64,7 +63,6 @@ namespace parser
         void errorOccurred( const QString& err );
     };
 
-} // parser namespace
 
 
 #endif // STRINGPARSER_H

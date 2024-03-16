@@ -43,7 +43,7 @@ MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
     min->setSingleStep( 0.1 );
     max->setRange( -100.0, 100.0 );
     max->setSingleStep( 0.1 );
-    step->setRange( 0.1, 10.0 );
+    step->setRange( 0.01, 10.0 );
     step->setSingleStep( 0.1 );
 
     layout = new QVBoxLayout( this );
@@ -51,8 +51,6 @@ MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
                  minLabel, min, maxLabel, max, stepLabel,
                  step, solve, clear, tableWidget );
     setLayout( layout );
-
-    //connect( solve, &QPushButton::clicked, this, &MainWindow::solve );
 }
 
 void MainWindow::showTable( const std::vector<double> x, const std::vector<double> y )
@@ -90,8 +88,11 @@ void MainWindow::onSolveButtonClicked( void )
 
     std::vector<double> Y = parser->parseExpression( expression.toStdString().c_str() );
 
-
-    showTable( X, Y );
+    if( couldBuildTable )
+    {
+        showTable( X, Y );
+    }
+    couldBuildTable = true;
 }
 
 void MainWindow::clearTable( void )
@@ -104,6 +105,7 @@ void MainWindow::clearTable( void )
 // TODO: Добавить очистку таблицы (clearTable() - не работает)
 void MainWindow::handleParserError( const QString& err )
 {
+    couldBuildTable = false;
     errLabel->setStyleSheet( "QLabel { color : red; }" );
     errLabel->setText( err + "!" );
 }

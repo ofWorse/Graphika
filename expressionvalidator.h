@@ -33,7 +33,7 @@ private:
     static bool isExpressionValid( const QString& expression )
     {
         auto tmp = expression;
-        QRegExp expressionRegex( QRegExp( R"(^(?:[x0-9+\-*/^()%]|sin|cos|ln|lg|abs|\s)+$)" ) );
+        QRegExp expressionRegex( QRegExp( R"(^(?:[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s)+$)" ) );
 
         if( expressionRegex.exactMatch( tmp ) )
         {
@@ -60,21 +60,6 @@ private:
             }
         }
         return parenthesesStack.empty();
-    }
-
-
-
-
-
-
-    static bool areFunctionsValid( const QString& expression )
-    {
-        std::stack<std::string> functionStack;
-        QRegExpValidator functionRegex( QRegExp( "(sin|cos|log|abs)") );
-
-
-
-        return functionStack.empty();
     }
 };
 

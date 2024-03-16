@@ -24,6 +24,8 @@ private:
     QDoubleSpinBox* step;
     QPushButton* solve;
 
+    bool couldBuildTable = true;
+
 public:
     MainWindow( QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y );
