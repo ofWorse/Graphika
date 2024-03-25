@@ -3,10 +3,12 @@
 // TODO: Сделать код чище
 //       Подумать над неймингом объектов.
 //       Сделать вертикальное меню
+//       Многочисленные действия требуется передать в другие "руки"
 MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
 {
     mainWindow = new QMainWindow( this );
 
+    // TODO: Данная реализация меню не подходит. Надо будет переделать.
     menuBar = new QMenuBar( this );
     menu = menuBar->addMenu( "меню" );
     functionMenu = new QAction( "f(x)", menu );
