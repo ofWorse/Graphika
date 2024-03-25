@@ -5,6 +5,8 @@
 #include <regex>
 #include <stack>
 #include <QRegExpValidator>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
 
 /*
  * TODO:
@@ -32,11 +34,9 @@ public:
 private:
     static bool isExpressionValid( const QString& expression )
     {
-        auto tmp = expression;
-        QRegExp expressionRegex( QRegExp( R"(^(?:[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s)+$)" ) );
-
-        if( expressionRegex.exactMatch( tmp ) )
-        {
+        QRegularExpression expr(R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s]+$)");
+        QRegularExpressionMatch match = expr.match(expression.toStdString().c_str());
+        if (match.hasMatch()) {
             return true;
         }
         return false;

@@ -11,7 +11,6 @@ class ValidateString : public QObject
 public:
     explicit ValidateString( QObject *parent = nullptr );
 
-
 signals:
     void validExpression();
     void invalidExpression();
