@@ -12,10 +12,10 @@
 
 
 
-    struct Expression
-    {
-        Expression( std::string token ) :
-            token( token ), isVariable( false ) {}
+struct Expression
+{
+    Expression( std::string token ) :
+        token( token ), isVariable( false ) {}
         Expression( std::string token, bool isVariable ) :
             token( token ), isVariable( isVariable ) {}
         Expression( std::string token, Expression a ) :
@@ -59,9 +59,9 @@
 
         int getPriority( const std::string& token );
 
-    signals:
-        void errorOccurred( const QString& err );
-    };
+signals:
+    void errorOccurred( const QString& err );
+};
 
 
 
