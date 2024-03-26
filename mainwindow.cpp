@@ -3,29 +3,24 @@
 // TODO: Сделать код чище
 //       Подумать над неймингом объектов.
 //       Сделать вертикальное меню
-//       Многочисленные действия требуется передать в другие "руки"
-MainWindow::MainWindow( QWidget* parent ) : QWidget( parent )
+MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
-    mainWindow = new QMainWindow( this );
+    setFixedSize( 500, 300 );
+    setWindowTitle( "Graphika" );
 
-    // TODO: Данная реализация меню не подходит. Надо будет переделать.
-    menuBar = new QMenuBar( this );
-    menu = menuBar->addMenu( "меню" );
-    functionMenu = new QAction( "f(x)", menu );
-    derivateMenu = new QAction( "f'(x)", menu );
-    polinomeMenu = new QAction( "p(x)", menu );
-    graphMenu = new QAction( "Graphika", menu );
-    menu->addAction( functionMenu );
-    menu->addAction( derivateMenu );
-    menu->addAction( polinomeMenu );
-    menu->addAction( graphMenu );
+    toolbar = new Toolbar( this );
+    addToolBar( toolbar );
 
-    setFixedSize( 400, 300 );
+    layout = new QGridLayout( this );
+    centralwidget = new QWidget( this );
 
-    connect( functionMenu, &QAction::triggered, this, &MainWindow::openFunctionMenuWidget );
-    connect( derivateMenu, &QAction::triggered, this, &MainWindow::openDerivativeMenuWidget );
-    connect( polinomeMenu, &QAction::triggered, this, &MainWindow::openPolynomialMenuWidget );
-    connect( graphMenu, &QAction::triggered, this, &MainWindow::openGraphMenuWidget );
+    centralwidget->setLayout( layout );
+    setCentralWidget( centralwidget );
+
+    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenuWidget );
+    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openDerivativeMenuWidget );
+    connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openPolynomialMenuWidget );
+    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::openGraphMenuWidget );
 }
 
 void MainWindow::showTable( const std::vector<double> x, const std::vector<double> y )
@@ -134,7 +129,6 @@ void MainWindow::hideSecondLayer()
     countOfx->hide();
     countOfxLabel->hide();
     xIs->hide();
-    //xVariables->hide();
 
     setX->hide();
     minLabel->show();
@@ -145,32 +139,31 @@ void MainWindow::hideSecondLayer()
     step->show();
 }
 
-void MainWindow::updateLayoutCondition( void )
+void MainWindow::clearLayout( QLayout *layout )
 {
-    if ( layout )
+    if ( layout == NULL )
     {
-        QLayoutItem* item;
-        while( ( item = layout->takeAt( 0 ) ) != nullptr )
+        return;
+    }
+    QLayoutItem *item;
+    while( ( item = layout->takeAt( 0 ) ) )
+    {
+        if ( item->layout() )
+        {
+            clearLayout( item->layout() );
+            delete item->layout();
+        }
+        if ( item->widget() )
         {
             delete item->widget();
-            delete item;
         }
-        delete layout;
-        layout = nullptr;
+        delete item;
     }
 }
 
 void MainWindow::openFunctionMenuWidget()
 {
-    if (layout) {
-        QLayoutItem* item;
-        while ((item = layout->takeAt(0)) != nullptr) {
-            delete item->widget();
-            delete item;
-        }
-        delete layout;
-        layout = nullptr;
-    }
+    clearLayout( layout );
 
     validator = new ValidateString( this );
     connect( validator, &ValidateString::validExpression, this, &MainWindow::onValidateStringValid );
@@ -225,12 +218,9 @@ void MainWindow::openFunctionMenuWidget()
     tableWidget->setHorizontalHeaderLabels( labels );
 
     setRange();
-    setFixedSize( 400, 300 );
-
-    layout = new QGridLayout( this );
+    setFixedSize( 500, 300 );
 
     QScrollArea *scrollArea = new QScrollArea( this );
-    scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
     QWidget *scrollContentWidget = new QWidget();
     scrollLayout = new QGridLayout( scrollContentWidget );
@@ -251,9 +241,7 @@ void MainWindow::openFunctionMenuWidget()
     scrollLayout->addWidget( step, 7, 1 );
     scrollLayout->addWidget( solve, 8, 0 );
     scrollLayout->addWidget( clear, 8, 1 );
-    scrollLayout->addWidget( tableWidget, 9, 0, 1, 5 );
-    scrollLayout->setColumnStretch( 0, 1 );
-    scrollLayout->setColumnStretch( 1, 1 );
+    scrollLayout->addWidget( tableWidget, 9, 0, Qt::AlignCenter );
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     hideFirstLayer();
 
@@ -262,37 +250,30 @@ void MainWindow::openFunctionMenuWidget()
 
     connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &MainWindow::switchLayers );
     connect( setX, &QPushButton::clicked, this, &MainWindow::showXDataSetupWindow );
-    setLayout( layout );
+
+    centralwidget->setLayout( layout );
+    setCentralWidget( centralwidget );
 }
 
 void MainWindow::openDerivativeMenuWidget()
 {
-    updateLayoutCondition();
+    clearLayout( layout );
     QLabel* soon = new QLabel( "скоро", this );
-    layout = new QGridLayout( this );
-    layout->addWidget( soon );
-    setFixedSize( 400, 300 );
-    setLayout( layout );
+    layout->addWidget( soon, 0, 0 );
 }
 
 void MainWindow::openPolynomialMenuWidget()
 {
-    updateLayoutCondition();
+    clearLayout( layout );
     QLabel* soon = new QLabel( "скоро", this );
-    layout = new QGridLayout( this );
-    layout->addWidget( soon );
-    setFixedSize( 400, 300 );
-    setLayout( layout );
+    layout->addWidget( soon, 0, 0 );
 }
 
 void MainWindow::openGraphMenuWidget()
 {
-    updateLayoutCondition();
+    clearLayout( layout );
     QLabel* soon = new QLabel( "скоро", this );
-    layout = new QGridLayout( this );
-    layout->addWidget( soon );
-    setFixedSize( 400, 300 );
-    setLayout( layout );
+    layout->addWidget( soon, 0, 0 );
 }
 
 void MainWindow::switchLayers( int index )

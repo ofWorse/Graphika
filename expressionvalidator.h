@@ -35,9 +35,8 @@ private:
     static bool isExpressionValid( const QString& expression )
     {
         QRegularExpression expr(R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s]+$)");
-        QRegularExpressionMatch match = expr.match( expression.toStdString().c_str() );
-        if ( match.hasMatch() ) 
-        {
+        QRegularExpressionMatch match = expr.match(expression.toStdString().c_str());
+        if (match.hasMatch()) {
             return true;
         }
         return false;
@@ -46,8 +45,7 @@ private:
     static bool areParenthesesValid( const QString& expression )
     {
         std::stack<char> parenthesesStack;
-        for ( char c : expression.toStdString() ) 
-        {
+        for ( char c : expression.toStdString() ) {
             if ( c == '(' )
             {
                 parenthesesStack.push( c );

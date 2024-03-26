@@ -12,6 +12,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     stringparser.cpp \
+    toolbar.cpp \
     validatestring.cpp
 
 INCLUDEPATH +="/usr/local/include/opencv4"
@@ -30,6 +31,7 @@ HEADERS += \
     expressionvalidator.h \
     mainwindow.h \
     stringparser.h \
+    toolbar.h \
     validatestring.h
 
 FORMS += \

@@ -3,22 +3,19 @@
 
 #include "stringparser.h"
 #include "validatestring.h"
+#include "toolbar.h"
 #include <QMainWindow>
 #include <QScrollArea>
 
 // TODO: Сделать принцип ответственности единственного объекта.
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 private:
     QMainWindow* mainWindow;
-    QMenu *menu;
-    QMenuBar* menuBar;
-    QAction* functionMenu;
-    QAction* derivateMenu;
-    QAction* polinomeMenu;
-    QAction* graphMenu;
+    Toolbar* toolbar;
+    QWidget* centralwidget;
 
     QString expression;
     ValidateString* validator;
@@ -49,7 +46,7 @@ private:
     std::vector<double> X;
 
 public:
-    MainWindow( QWidget* parent = nullptr );
+    explicit MainWindow( QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y );
 
 private:
@@ -59,7 +56,7 @@ private:
     void hideFirstLayer( void );
     void hideSecondLayer( void );
 
-    void updateLayoutCondition( void );
+    void clearLayout( QLayout *layout );
 
 public slots:
     void openFunctionMenuWidget( void );
