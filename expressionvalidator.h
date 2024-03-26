@@ -9,13 +9,13 @@
 
 /*
  * TODO:
- * 1) Реализовать алгоритм проверки чтобы после x не было иных символов кроме задуманных
- * 2) Добавить поддержку double чисел на манер Z = a.b
+ * Реализовать алгоритм проверки чтобы после x не было иных символов кроме задуманных
 */
 class ExpressionValidator {
 
 public:
-    static bool validateExpression( const QString& expression) {
+    static bool validateExpression( const QString& expression )
+    {
 
         if ( !isExpressionValid( expression ) )
         {
@@ -33,9 +33,10 @@ public:
 private:
     static bool isExpressionValid( const QString& expression )
     {
-        QRegularExpression expr(R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s]+$)");
-        QRegularExpressionMatch match = expr.match(expression.toStdString().c_str());
-        if (match.hasMatch()) {
+        QRegularExpression expr( R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s]+$)" );
+        QRegularExpressionMatch match = expr.match( expression.toStdString().c_str() );
+        if ( match.hasMatch() ) 
+        {
             return true;
         }
         return false;
@@ -44,7 +45,8 @@ private:
     static bool areParenthesesValid( const QString& expression )
     {
         std::stack<char> parenthesesStack;
-        for ( char c : expression.toStdString() ) {
+        for ( char c : expression.toStdString() ) 
+        {
             if ( c == '(' )
             {
                 parenthesesStack.push( c );
