@@ -4,6 +4,7 @@
 #include <iostream>
 #include <regex>
 #include <stack>
+#include <QRegExpValidator>
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
 
@@ -14,7 +15,7 @@
 class ExpressionValidator {
 
 public:
-    static bool validateExpression( const QString& expression )
+    static bool validateExpression( const QString& expression)
     {
 
         if ( !isExpressionValid( expression ) )
@@ -35,7 +36,7 @@ private:
     {
         QRegularExpression expr( R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s]+$)" );
         QRegularExpressionMatch match = expr.match( expression.toStdString().c_str() );
-        if ( match.hasMatch() ) 
+        if ( match.hasMatch() )
         {
             return true;
         }
@@ -45,7 +46,7 @@ private:
     static bool areParenthesesValid( const QString& expression )
     {
         std::stack<char> parenthesesStack;
-        for ( char c : expression.toStdString() ) 
+        for ( char c : expression.toStdString() )
         {
             if ( c == '(' )
             {

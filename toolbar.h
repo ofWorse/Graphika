@@ -12,8 +12,6 @@ class Toolbar : public QToolBar
 public:
     explicit Toolbar( QWidget *parent = nullptr );
 
-signals:
-
 };
 
 #endif // TOOLBAR_H

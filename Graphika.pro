@@ -9,8 +9,12 @@ CONFIG += c++17
 # DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    functionlayout.cpp \
+    graphlayout.cpp \
+    layoutfactory.cpp \
     main.cpp \
     mainwindow.cpp \
+    polynomelayout.cpp \
     stringparser.cpp \
     toolbar.cpp \
     validatestring.cpp
@@ -29,7 +33,11 @@ LIBS += \
 
 HEADERS += \
     expressionvalidator.h \
+    functionlayout.h \
+    graphlayout.h \
+    layoutfactory.h \
     mainwindow.h \
+    polynomelayout.h \
     stringparser.h \
     toolbar.h \
     validatestring.h
