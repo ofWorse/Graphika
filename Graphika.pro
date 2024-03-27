@@ -15,21 +15,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     polynomelayout.cpp \
+    pyhelper.cpp \
     stringparser.cpp \
     toolbar.cpp \
     validatestring.cpp
 
-INCLUDEPATH +="/usr/local/include/opencv4"
-
-LIBS += -L"/usr/share/doc/"
-LIBS += \
-   -lopencv_core \
-   -lopencv_features2d \
-   -lopencv_highgui \
-   -lopencv_imgcodecs \
-   -lopencv_imgproc \
-   -lopencv_video \
-   -lopencv_videoio
 
 HEADERS += \
     expressionvalidator.h \
@@ -38,6 +28,7 @@ HEADERS += \
     layoutfactory.h \
     mainwindow.h \
     polynomelayout.h \
+    pyhelper.h \
     stringparser.h \
     toolbar.h \
     validatestring.h
