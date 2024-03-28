@@ -15,20 +15,9 @@ FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
     QLabel* typeOfInput = new QLabel( "Ввод значений x: ", this );
 
     QComboBox* typeOfVariableInput = new QComboBox( this );
-    typeOfVariableInput->addItems( { "вручную", "автоматически с шагом", "автоматически с узлами" } );
+    typeOfVariableInput->addItems( { "с шагом", "с узлами" } );
 
     { // Переменные элементы
-        countOfxLabel = new QLabel( "Число точек x = ", this );
-        countOfx = new QSpinBox( this );
-        setX = new QPushButton( "Ввести x", this );
-
-        countOfx->setSingleStep( 1 );
-        countOfx->setMinimum( 0 );
-        countOfx->setMaximum( 100 );
-
-        xIs = new QLabel( "x = " );
-        xVariables = new QSpinBox( this );
-
         minLabel = new QLabel( "Минимальное значение x:", this );
         maxLabel = new QLabel( "Максимальное значение x:", this );
         stepLabel = new QLabel( "Шаг по x:", this );
@@ -68,21 +57,17 @@ FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
     scrollLayout->addWidget( errLabel, 1, 0 );
     scrollLayout->addWidget( typeOfInput, 2, 0 );
     scrollLayout->addWidget( typeOfVariableInput, 2, 1 );
-    scrollLayout->addWidget( countOfxLabel, 3, 0 );
-    scrollLayout->addWidget( countOfx, 3, 1 );
-    scrollLayout->addWidget( xIs, 4, 0 );
-    scrollLayout->addWidget( setX, 4, 1 );
-    scrollLayout->addWidget( minLabel, 5, 0 );
-    scrollLayout->addWidget( min, 5, 1 );
-    scrollLayout->addWidget( maxLabel, 6, 0 );
-    scrollLayout->addWidget( max, 6, 1 );
-    scrollLayout->addWidget( stepLabel, 7, 0 );
-    scrollLayout->addWidget( step, 7, 1 );
-    scrollLayout->addWidget( nodesLabel, 8, 0 );
-    scrollLayout->addWidget( nodes, 8, 1 );
-    scrollLayout->addWidget( solve, 9, 0 );
-    scrollLayout->addWidget( clear, 9, 1 );
-    scrollLayout->addWidget( tableWidget, 10, 0, Qt::AlignCenter );
+    scrollLayout->addWidget( minLabel, 3, 0 );
+    scrollLayout->addWidget( min, 3, 1 );
+    scrollLayout->addWidget( maxLabel, 4, 0 );
+    scrollLayout->addWidget( max, 4, 1 );
+    scrollLayout->addWidget( stepLabel, 5, 0 );
+    scrollLayout->addWidget( step, 5, 1 );
+    scrollLayout->addWidget( nodesLabel, 6, 0 );
+    scrollLayout->addWidget( nodes, 6, 1 );
+    scrollLayout->addWidget( solve, 7, 0 );
+    scrollLayout->addWidget( clear, 7, 1 );
+    scrollLayout->addWidget( tableWidget, 9, 0, Qt::AlignCenter );
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     hideFirstLayer();
 
@@ -90,10 +75,9 @@ FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
     layout->addWidget( scrollArea, 0, 0 );
 
     connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &FunctionLayout::switchLayers );
-    connect( setX, &QPushButton::clicked, this, &FunctionLayout::showXDataSetupWindow );
 }
 
-void FunctionLayout::showTable(const std::vector<double> x, const std::vector<double> y)
+void FunctionLayout::showTable( const std::vector<double> x, const std::vector<double> y )
 {
     tableWidget->clear();
     tableWidget->setRowCount( x.size() );
@@ -111,7 +95,7 @@ void FunctionLayout::showTable(const std::vector<double> x, const std::vector<do
     }
 }
 
-void FunctionLayout::setRange()
+void FunctionLayout::setRange( void )
 {
     min->setRange( -100.0, 100.0 );
     min->setSingleStep( 0.1 );
@@ -122,12 +106,12 @@ void FunctionLayout::setRange()
     nodes->setRange( 0.0, 5000.0 );
 }
 
-void FunctionLayout::onValidateStringValid()
+void FunctionLayout::onValidateStringValid( void )
 {
     solve->setEnabled( true );
 }
 
-void FunctionLayout::onValidateStringInvalid()
+void FunctionLayout::onValidateStringInvalid( void )
 {
     solve->setEnabled( false );
 }
@@ -139,24 +123,29 @@ void FunctionLayout::handleParserError(const QString &err)
     errLabel->setText( err + "!" );
 }
 
-void FunctionLayout::onInputTextChanged(const QString &text)
+void FunctionLayout::onInputTextChanged( const QString &text )
 {
     validator->validateExpression( text );
 }
 
-void FunctionLayout::onSolveButtonClicked()
+void FunctionLayout::onSolveButtonClicked( void )
 {
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
     auto max        = this->max->value();
     auto step       = this->step->value();
 
-    if( X.empty() )
+    // TODO: Это отдельный метод и подумать над реализацией
+    if( X.empty() && !nodes->isEnabled() )
     {
         for( double i = min; i <= max; i += step )
         {
             X.push_back( i );
         }
+    }
+    else
+    {
+        setupNodes( nodes->value() );
     }
     parser->setDataX( X );
 
@@ -176,33 +165,10 @@ void FunctionLayout::clearTable()
     errLabel->clear();
 }
 
-void FunctionLayout::hideFirstLayer()
+void FunctionLayout::hideFirstLayer( void )
 {
     X.clear();
 
-    countOfx->show();
-    countOfxLabel->show();
-
-    xIs->hide();
-    nodes->hide();
-    nodesLabel->hide();
-    setX->show();
-    minLabel->hide();
-    min->hide();
-    maxLabel->hide();
-    max->hide();
-    stepLabel->hide();
-    step->hide();
-}
-
-void FunctionLayout::hideSecondLayer()
-{
-    X.clear();
-
-    countOfx->hide();
-    countOfxLabel->hide();
-    xIs->hide();
-    setX->hide();
     nodes->hide();
     nodesLabel->hide();
 
@@ -214,14 +180,10 @@ void FunctionLayout::hideSecondLayer()
     step->show();
 }
 
-void FunctionLayout::hideThirdLayer()
+void FunctionLayout::hideSecondLayer( void )
 {
     X.clear();
 
-    countOfx->hide();
-    countOfxLabel->hide();
-    xIs->hide();
-    setX->hide();
     stepLabel->hide();
     step->hide();
 
@@ -233,7 +195,18 @@ void FunctionLayout::hideThirdLayer()
     nodes->show();
 }
 
-void FunctionLayout::switchLayers(int index)
+void FunctionLayout::setupNodes( const double node )
+{
+    X.clear();
+    auto min = this->min->value();
+    auto max = this->max->value();
+    for( auto delta = min; delta <= max; delta += ( abs( min ) + abs( max ) ) / ( node + 1 ) )
+    {
+        X.push_back( delta );
+    }
+}
+
+void FunctionLayout::switchLayers( int index )
 {
     if( index == 0 )
     {
@@ -243,51 +216,6 @@ void FunctionLayout::switchLayers(int index)
     {
         hideSecondLayer();
     }
-    else
-    {
-        hideThirdLayer();
-    }
-}
-
-void FunctionLayout::showXDataSetupWindow()
-{
-    QDialog* newXDataSetupWindow = new QDialog( this );
-    //QGridLayout* layout = new QGridLayout( newXDataSetupWindow );
-    QSpinBox* xData = new QSpinBox();
-    QPushButton* set = new QPushButton( "Ввести", newXDataSetupWindow );
-    newXDataSetupWindow->setWindowTitle( "Введите x" );
-    if( countOfx->value() == 0 )
-    {
-        set->setDisabled( true );
-    }
-    spinBoxes.clear();
-
-    int N = countOfx->value();
-
-    for( int i = 0; i < N; ++i )
-    {
-        spinBoxes.append( new QSpinBox( xData ) );
-        spinBoxes.at( i )->setRange( -100.0, 100.0 );
-    }
-
-    QWidget* wgt = spinBoxes.first()->parentWidget();
-    QGridLayout* layout = new QGridLayout( wgt );
-    wgt->setLayout( layout );
-
-    int col = qCeil( static_cast<double>(N) / qCeil(qSqrt(N)));
-    int row = qCeil( qSqrt( N ) );
-    for( int i = 0; i < N; ++i )
-    {
-        int rowIdx = i / col;
-        int colIdx = i % col;
-        layout->addWidget( spinBoxes.at( i ), rowIdx, colIdx );
-        connect( spinBoxes.at( i ), QOverload<int>::of( &QSpinBox::valueChanged ), this, &FunctionLayout::updateSpinBoxValues );
-    }
-    QMetaObject::invokeMethod( this, "spinBoxValuesChanged", Qt::QueuedConnection );
-    layout->addWidget( set );
-    connect( set, &QPushButton::clicked, this, &FunctionLayout::setEnteredXData );
-    newXDataSetupWindow->setLayout( layout );
-    newXDataSetupWindow->show();
 }
 
 // Для дебага

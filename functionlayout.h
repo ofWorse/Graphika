@@ -12,9 +12,6 @@ private:
     ValidateString* validator;
     StringParser* parser;
     QLabel* errLabel;
-    QLabel* countOfxLabel;
-    QSpinBox* countOfx;
-    QPushButton* setX;
     QLabel* xIs;
     QSpinBox* xVariables;
     QLabel* minLabel;
@@ -47,6 +44,8 @@ public:
 private:
     void setRange( void );
 
+    void setupNodes( const double node );
+
 public slots:
     void onValidateStringValid( void );
     void onValidateStringInvalid( void );
@@ -61,11 +60,8 @@ public slots:
 
     void hideFirstLayer( void );
     void hideSecondLayer( void );
-    void hideThirdLayer( void );
 
     void switchLayers( int index );
-
-    void showXDataSetupWindow( void );
 
     void setEnteredXData( void );
 
