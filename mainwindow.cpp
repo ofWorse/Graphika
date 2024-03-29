@@ -5,7 +5,7 @@
 //       Сделать вертикальное меню
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
-    setFixedSize( 500, 300 );
+    setFixedSize( 740, 480 );
     setWindowTitle( "Graphika" );
 
     toolbar = new Toolbar( this );

@@ -34,7 +34,7 @@ public:
 private:
     static bool isExpressionValid( const QString& expression )
     {
-        QRegularExpression expr( R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|cos|ln|lg|abs|\s]+$)" );
+        QRegularExpression expr( R"(^(?!.*xx)[x([(\d+\.\d+)|(0-9))+\-*/^()%]|sin|sinh|asin|cos|cosh|acos|tan|tanh|atan|sqrt|cbrt|ceil|floor|round|ln|lg|abs|\s]+$)" );
         QRegularExpressionMatch match = expr.match( expression.toStdString().c_str() );
         if ( match.hasMatch() )
         {

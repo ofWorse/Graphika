@@ -1,6 +1,5 @@
 #include "stringparser.h"
 
-
 StringParser::StringParser( QObject *parent ) : QObject( parent ) {}
 
 std::optional<Expression> StringParser::parseExpression()
@@ -16,7 +15,7 @@ std::vector<double> StringParser::parseExpression( QString input )
     auto parsed = parseExpression();
     for( const auto& x : xTable )
     {
-        y = eval( parsed, x );
+        y = eval( parsed, iszero( x ) ? 0.0 : x );
         yTable.push_back( y );
     }
     return yTable;
@@ -47,7 +46,10 @@ std::string StringParser::parseToken()
     }
 
     static const std::vector<std::string> tokens =
-        { "+", "-", "*", "/", "^", "mod", "abs", "sin", "cos", "ln", "lg", "(", ")" };
+        { "+", "-", "*", "/", "^", "abs", "sin",
+          "sinh", "cos", "cosh", "ln", "lg", "tan", "asin",
+          "acos", "atan", "tanh", "sqrt", "cbrt", "ceil",
+          "floor", "round", "(", ")" };
     for( auto& t : tokens )
     {
         if( std::strncmp( input, t.c_str(), t.size() ) == 0 )
@@ -196,20 +198,47 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
     {
         auto a = eval( expr.arguments[0], x );
 
-        if( expr.token == "+" )   return +a;
-        if( expr.token == "-" )   return -a;
-        if( expr.token == "abs" ) return abs( a );
-        if( expr.token == "sin" ) return sin( a );
-        if( expr.token == "cos" ) return cos( a );
+        //TODO: подумать над инкапсуляции реализации путем добавления хеш таблицы.
+        if( expr.token == "+"    )     return +a;
+        if( expr.token == "-"    )     return -a;
+        if( expr.token == "abs"  )     return abs( a );
+        if( expr.token == "sin"  )     return sin( a );
+        if( expr.token == "sinh" )     return sinh( a );
+        if( expr.token == "asin" )     return asin( a );
+        if( expr.token == "cos"  )     return cos( a );
+        if( expr.token == "cosh" )     return cosh( a );
+        if( expr.token == "acos" )     return acos( a );
+        if( expr.token == "tan"  )     return tan( a );
+        if( expr.token == "tanh" )     return tanh( a );
+        if( expr.token == "atan" )     return atan( a );
+        if( expr.token == "ceil" )     return ceil( a );
+        if( expr.token == "floor")     return floor( a );
+        if( expr.token == "round")     return round( a );
+        if( expr.token == "sqrt" || expr.token == "cbrt" )
+        {
+            if( a < 0 )
+            {
+                emit errorOccurred( "Не определен" );
+            }
+            else
+            {
+                if( expr.token == "sqrt" ) return sqrt( a );
+                return cbrt( a );
+            }
+        }
         if( expr.token == "ln" || expr.token == "lg" )
         {
             if( a <= 0 )
             {
                 emit errorOccurred( "Функция не определена" );
             }
-            if(expr.token == "ln" ) return log( a );
-            return log10( a );
+            else
+            {
+                if( expr.token == "ln" ) return log( a );
+                return log10( a );
+            }
         }
+
         emit errorOccurred( "Неизвестный унарный оператор" );
     }
     case 0:

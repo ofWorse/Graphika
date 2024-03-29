@@ -68,6 +68,8 @@ FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
     scrollLayout->addWidget( solve, 7, 0 );
     scrollLayout->addWidget( clear, 7, 1 );
     scrollLayout->addWidget( tableWidget, 9, 0, Qt::AlignCenter );
+    scrollLayout->setColumnStretch( 1, 10 );
+    scrollLayout->setColumnStretch( 0, 2 );
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     hideFirstLayer();
 
@@ -136,7 +138,7 @@ void FunctionLayout::onSolveButtonClicked( void )
     auto step       = this->step->value();
 
     // TODO: Это отдельный метод и подумать над реализацией
-    if( X.empty() && !nodes->isEnabled() )
+    if( !nodes->isVisible() )
     {
         for( double i = min; i <= max; i += step )
         {
@@ -147,6 +149,7 @@ void FunctionLayout::onSolveButtonClicked( void )
     {
         setupNodes( nodes->value() );
     }
+
     parser->setDataX( X );
 
     std::vector<double> Y = parser->parseExpression( expression.toStdString().c_str() );
@@ -156,6 +159,7 @@ void FunctionLayout::onSolveButtonClicked( void )
         showTable( X, Y );
     }
     couldBuildTable = true;
+    X.clear();
 }
 
 void FunctionLayout::clearTable()
