@@ -204,13 +204,23 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
         if( expr.token == "abs"  )     return abs( a );
         if( expr.token == "sin"  )     return sin( a );
         if( expr.token == "sinh" )     return sinh( a );
-        if( expr.token == "asin" )     return asin( a );
         if( expr.token == "cos"  )     return cos( a );
         if( expr.token == "cosh" )     return cosh( a );
-        if( expr.token == "acos" )     return acos( a );
         if( expr.token == "tan"  )     return tan( a );
         if( expr.token == "tanh" )     return tanh( a );
-        if( expr.token == "atan" )     return atan( a );
+        if( expr.token == "asin" || expr.token == "acos" || expr.token == "atan" )
+        {
+            if( a < -1 || a > 1 )
+            {
+                emit errorOccurred( "Не определен" );
+            }
+            else
+            {
+                if( expr.token == "atan" )     return atan( a );
+                if( expr.token == "acos" )     return acos( a );
+                if( expr.token == "asin" )     return asin( a );
+            }
+        }
         if( expr.token == "ceil" )     return ceil( a );
         if( expr.token == "floor")     return floor( a );
         if( expr.token == "round")     return round( a );
