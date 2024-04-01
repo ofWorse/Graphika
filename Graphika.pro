@@ -1,4 +1,5 @@
 QT += core gui
+QT +=printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,6 +20,8 @@ SOURCES += \
     stringparser.cpp \
     toolbar.cpp \
     validatestring.cpp \
+    graphbuilder.cpp \
+    ./qcustomplot/qcustomplot.cpp \
     pythonconveyor.cpp
 
 LIBS += -lpython3.11
@@ -36,6 +39,8 @@ HEADERS += \
     stringparser.h \
     toolbar.h \
     validatestring.h \
+    graphbuilder.h \
+    ./qcustomplot/qcustomplot.h \
     pythonconveyor.h
 
 FORMS += \
