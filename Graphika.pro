@@ -18,8 +18,12 @@ SOURCES += \
     pyhelper.cpp \
     stringparser.cpp \
     toolbar.cpp \
-    validatestring.cpp
+    validatestring.cpp \
+    pythonconveyor.cpp
 
+LIBS += -lpython3.11
+
+INCLUDEPATH += ./python3.11/
 
 HEADERS += \
     expressionvalidator.h \
@@ -31,7 +35,8 @@ HEADERS += \
     pyhelper.h \
     stringparser.h \
     toolbar.h \
-    validatestring.h
+    validatestring.h \
+    pythonconveyor.h
 
 FORMS += \
     mainwindow.ui
