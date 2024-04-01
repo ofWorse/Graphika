@@ -21,8 +21,12 @@ SOURCES += \
     toolbar.cpp \
     validatestring.cpp \
     graphbuilder.cpp \
-    ./qcustomplot/qcustomplot.cpp
+    ./qcustomplot/qcustomplot.cpp \
+    pythonconveyor.cpp
 
+LIBS += -lpython3.11
+
+INCLUDEPATH += ./python3.11/
 
 HEADERS += \
     expressionvalidator.h \
@@ -36,7 +40,8 @@ HEADERS += \
     toolbar.h \
     validatestring.h \
     graphbuilder.h \
-    ./qcustomplot/qcustomplot.h
+    ./qcustomplot/qcustomplot.h \
+    pythonconveyor.h
 
 FORMS += \
     mainwindow.ui
