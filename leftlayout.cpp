@@ -1,16 +1,16 @@
-#include "functionlayout.h"
+#include "leftlayout.h"
 
-FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
+LeftLayout::LeftLayout( SpecialBuffer& buffer, QWidget *parent ) : QWidget( parent )
 {
     validator = new ValidateString( this );
-    connect( validator, &ValidateString::validExpression, this, &FunctionLayout::onValidateStringValid );
-    connect( validator, &ValidateString::invalidExpression, this, &FunctionLayout::onValidateStringInvalid );
+    connect( validator, &ValidateString::validExpression, this, &LeftLayout::onValidateStringValid );
+    connect( validator, &ValidateString::invalidExpression, this, &LeftLayout::onValidateStringInvalid );
     parser = new StringParser( this );
 
     QLabel* label = new QLabel( "f(x) = ", this );
     errLabel = new QLabel( "", this );
 
-    connect( parser, &StringParser::errorOccurred, this, &FunctionLayout::handleParserError );
+    connect( parser, &StringParser::errorOccurred, this, &LeftLayout::handleParserError );
 
     QLabel* typeOfInput = new QLabel( "Ввод значений x: ", this );
 
@@ -31,14 +31,17 @@ FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
     } // Переменные элементы
 
     expressionInput = new QLineEdit( this );
-    connect( expressionInput, &QLineEdit::textChanged, this, &FunctionLayout::onInputTextChanged );
+    connect( expressionInput, &QLineEdit::textChanged, this, &LeftLayout::onInputTextChanged );
 
     solve = new QPushButton( "Решить", this );
     solve->setEnabled( false );
-    connect( solve, &QPushButton::clicked, this, &FunctionLayout::onSolveButtonClicked );
+    connect( solve, &QPushButton::clicked, [&buffer, this]()
+        {
+            onSolveButtonClicked( buffer );
+        } );
 
     QPushButton* clear = new QPushButton( "Очистить", this );
-    connect( clear, &QPushButton::clicked, this, &FunctionLayout::clearTable );
+    connect( clear, &QPushButton::clicked, this, &LeftLayout::clearTable );
 
     tableWidget = new QTableWidget( this );
     tableWidget->setColumnCount( 2 );
@@ -76,10 +79,10 @@ FunctionLayout::FunctionLayout( QWidget *parent ) : QWidget( parent )
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
-    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &FunctionLayout::switchLayers );
+    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftLayout::switchLayers );
 }
 
-void FunctionLayout::showTable( const std::vector<double> x, const std::vector<double> y )
+void LeftLayout::showTable( const std::vector<double> x, const std::vector<double> y )
 {
     tableWidget->clear();
     tableWidget->setRowCount( x.size() );
@@ -97,7 +100,7 @@ void FunctionLayout::showTable( const std::vector<double> x, const std::vector<d
     }
 }
 
-void FunctionLayout::setRange( void )
+void LeftLayout::setRange( void )
 {
     min->setRange( -100.0, 100.0 );
     min->setSingleStep( 0.1 );
@@ -108,29 +111,29 @@ void FunctionLayout::setRange( void )
     nodes->setRange( 0.0, 5000.0 );
 }
 
-void FunctionLayout::onValidateStringValid( void )
+void LeftLayout::onValidateStringValid( void )
 {
     solve->setEnabled( true );
 }
 
-void FunctionLayout::onValidateStringInvalid( void )
+void LeftLayout::onValidateStringInvalid( void )
 {
     solve->setEnabled( false );
 }
 
-void FunctionLayout::handleParserError(const QString &err)
+void LeftLayout::handleParserError( const QString &err )
 {
     couldBuildTable = false;
     errLabel->setStyleSheet( "QLabel { color : red; }" );
     errLabel->setText( err + "!" );
 }
 
-void FunctionLayout::onInputTextChanged( const QString &text )
+void LeftLayout::onInputTextChanged( const QString &text )
 {
     validator->validateExpression( text );
 }
 
-void FunctionLayout::onSolveButtonClicked( void )
+void LeftLayout::onSolveButtonClicked( SpecialBuffer& buffer )
 {
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
@@ -151,8 +154,9 @@ void FunctionLayout::onSolveButtonClicked( void )
     }
 
     parser->setDataX( X );
-
     std::vector<double> Y = parser->parseExpression( expression.toStdString().c_str() );
+    buffer.x = QVector<double>( X.begin(), X.end() );
+    buffer.y = QVector<double>( Y.begin(), Y.end() );
 
     if( couldBuildTable )
     {
@@ -162,14 +166,14 @@ void FunctionLayout::onSolveButtonClicked( void )
     X.clear();
 }
 
-void FunctionLayout::clearTable()
+void LeftLayout::clearTable()
 {
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
     errLabel->clear();
 }
 
-void FunctionLayout::hideFirstLayer( void )
+void LeftLayout::hideFirstLayer( void )
 {
     X.clear();
 
@@ -184,7 +188,7 @@ void FunctionLayout::hideFirstLayer( void )
     step->show();
 }
 
-void FunctionLayout::hideSecondLayer( void )
+void LeftLayout::hideSecondLayer( void )
 {
     X.clear();
 
@@ -199,7 +203,7 @@ void FunctionLayout::hideSecondLayer( void )
     nodes->show();
 }
 
-void FunctionLayout::setupNodes( const double node )
+void LeftLayout::setupNodes( const double node )
 {
     X.clear();
     auto min = this->min->value();
@@ -210,7 +214,7 @@ void FunctionLayout::setupNodes( const double node )
     }
 }
 
-void FunctionLayout::switchLayers( int index )
+void LeftLayout::switchLayers( int index )
 {
     if( index == 0 )
     {
@@ -223,7 +227,7 @@ void FunctionLayout::switchLayers( int index )
 }
 
 // Для дебага
-void FunctionLayout::setEnteredXData()
+void LeftLayout::setEnteredXData()
 {
     if( X.empty() ) std::cout << "empty" << std::endl;
     for( const auto& x : X )

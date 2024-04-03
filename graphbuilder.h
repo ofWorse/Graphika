@@ -8,14 +8,22 @@
 #include <QString>
 #include <QWidget>
 
+namespace Ui
+{
+class MainWindow;
+}
 
-
-
-class GraphBuilder : public QWidget
+class GraphBuilder : public QMainWindow
 {
     Q_OBJECT
+
+private:
+    Ui::MainWindow* ui;
+    QCustomPlot* wGraphic;
+    QCPItemTracer* tracer;
+
 public:
-    explicit GraphBuilder(QWidget *parent = 0);
+    explicit GraphBuilder( QWidget *parent = nullptr );
     int i = 0;
     double xmax = 2.0;
     double xmin = -2.0;
@@ -23,14 +31,9 @@ public:
     double ymax = 2.0;
     double ymin = -2.0;
 
-private:
-    QCustomPlot *wGraphic;
-    QCPItemTracer *tracer;
-//Collichestvo tochek neobhodimo ykazivat
 public slots:
-    void PaintG(QVector <double> x,QVector <double> y,const QString name);
-    void on_clearButton_clicked();
-private slots:
+    void PaintG( QVector<double>& x, QVector<double>& y, const QString& name );
+    void on_clearButton_clicked( void );
 
 };
 #endif // GRAPHBUILDER_H

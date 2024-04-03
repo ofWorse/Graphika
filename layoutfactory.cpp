@@ -1,20 +1,16 @@
-#include "functionlayout.h"
-#include "graphlayout.h"
+#include "leftlayout.h"
+#include "rightlayout.h"
 #include "layoutfactory.h"
-#include "polynomelayout.h"
 
-
-QGridLayout *LayoutFactory::createFunctionLayout( QWidget *parent )
+// TODO: возможно придется избавиться от данного класса
+QGridLayout* LayoutFactory::createLeftLayout( QWidget *parent )
 {
-    return (new FunctionLayout( parent ))->getLayout();
+    //LeftLayout* layout = new LeftLayout( parent );
+    //return layout->getLayout();
 }
 
-QGridLayout *LayoutFactory::createPolynomeLayout( QWidget *parent )
+QGridLayout* LayoutFactory::createRightLayout( QWidget *parent )
 {
-    return (new PolynomeLayout( parent ))->getLayout();
-}
-
-QGridLayout *LayoutFactory::createGraphLayout( QWidget *parent )
-{
-    return (new GraphLayout( parent ))->getLayout();
+   // RightLayout* layout = new RightLayout( parent );
+   // return layout->getLayout();
 }

@@ -7,9 +7,8 @@
 class LayoutFactory
 {
 public:
-    static QGridLayout* createFunctionLayout( QWidget* parent );
-    static QGridLayout* createPolynomeLayout( QWidget* parent );
-    static QGridLayout* createGraphLayout( QWidget* parent );
+    static QGridLayout* createLeftLayout( QWidget* parent );
+    static QGridLayout* createRightLayout( QWidget* parent );
 };
 
 #endif // LAYOUTFACTORY_H

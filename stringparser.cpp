@@ -15,7 +15,7 @@ std::vector<double> StringParser::parseExpression( QString input )
     auto parsed = parseExpression();
     for( const auto& x : xTable )
     {
-        y = eval( parsed, iszero( x ) ? 0.0 : x );
+        y = eval( parsed, x );
         yTable.push_back( y );
     }
     return yTable;
