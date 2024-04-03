@@ -17,9 +17,27 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     centralwidget->setLayout( layout );
     setCentralWidget( centralwidget );
 
-    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenuWidget );
-    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openPolynomialMenuWidget );
-    connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openGraphMenuWidget );
+    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openLeftMenuWidget );
+    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openRightMenuWidget );
+}
+
+void MainWindow::openLeftMenuWidget( void )
+{
+    clearLayout( layout );
+    layout->deleteLater();
+    leftLayout = new LeftLayout( buffer, this );
+    layout = leftLayout->getLayout();
+    centralwidget->setLayout( layout );
+}
+
+
+void MainWindow::openRightMenuWidget( )
+{
+    clearLayout( layout );
+    layout->deleteLater();
+    rightLayout = new RightLayout( buffer, this );
+    layout = rightLayout->getLayout();
+    centralwidget->setLayout( layout );
 }
 
 void MainWindow::clearLayout( QLayout *layout )
@@ -42,29 +60,4 @@ void MainWindow::clearLayout( QLayout *layout )
         }
         delete item;
     }
-}
-
-void MainWindow::openFunctionMenuWidget()
-{
-    clearLayout( layout );
-    layout->deleteLater();
-    layout = LayoutFactory::createFunctionLayout( this );
-    centralwidget->setLayout( layout );
-}
-
-
-void MainWindow::openPolynomialMenuWidget()
-{
-    clearLayout( layout );
-    layout->deleteLater();
-    layout = LayoutFactory::createPolynomeLayout( this );
-    centralwidget->setLayout( layout );
-}
-
-void MainWindow::openGraphMenuWidget()
-{
-    clearLayout( layout );
-    layout->deleteLater();
-    layout = LayoutFactory::createGraphLayout( this );
-    centralwidget->setLayout( layout );
 }

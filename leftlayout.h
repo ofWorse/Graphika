@@ -1,11 +1,12 @@
-#ifndef FUNCTIONLAYOUT_H
-#define FUNCTIONLAYOUT_H
+#ifndef LEFTLAYOUT_H
+#define LEFTLAYOUT_H
 
 #include <QWidget>
 #include "validatestring.h"
 #include "stringparser.h"
+#include "buffer.h"
 
-class FunctionLayout : public QWidget
+class LeftLayout : public QWidget
 {
     Q_OBJECT
 private:
@@ -34,7 +35,7 @@ private:
     std::vector<double> X;
 
 public:
-    explicit FunctionLayout( QWidget* parent = nullptr );
+    explicit LeftLayout( SpecialBuffer& buffer, QWidget* parent = nullptr );
     QGridLayout* getLayout( void )
     {
         return layout;
@@ -54,7 +55,7 @@ public slots:
 
     void onInputTextChanged( const QString& text );
 
-    void onSolveButtonClicked( void );
+    void onSolveButtonClicked( SpecialBuffer& buffer );
 
     void clearTable( void );
 
@@ -64,21 +65,6 @@ public slots:
     void switchLayers( int index );
 
     void setEnteredXData( void );
-
-    void updateSpinBoxValues( void )
-    {
-        X.clear();
-        std::cout << spinBoxes.size() << std::endl;
-        for( const auto& spinBox : spinBoxes )
-        {
-            double value = spinBox->value();
-            if( spinBox->text().isEmpty() )
-            {
-                value = 0;
-            }
-            X.push_back( value );
-        }
-    }
 };
 
-#endif // FUNCTIONLAYOUT_H
+#endif // LEFTLAYOUT_H

@@ -2,9 +2,8 @@
 #define MAINWINDOW_H
 
 #include "toolbar.h"
-#include "functionlayout.h"
-#include "polynomelayout.h"
-#include "graphlayout.h"
+#include "leftlayout.h"
+#include "rightlayout.h"
 #include "layoutfactory.h"
 #include <QMainWindow>
 
@@ -18,11 +17,14 @@ private:
     Toolbar* toolbar;
     QWidget* centralwidget;
 
-    FunctionLayout* fLayout;
-    PolynomeLayout* pLayout;
-    GraphLayout* gLayout;
-
+    LeftLayout* leftLayout;
+    RightLayout* rightLayout;
+    RightLayout* tempLayout;
     QGridLayout* layout;
+    SpecialBuffer buffer;
+
+    std::vector<double> x;
+    std::vector<double> y;
 
 public:
     explicit MainWindow( QWidget* parent = nullptr );
@@ -30,13 +32,11 @@ public:
 private:
     void clearLayout( QLayout *layout );
 
-public slots:
-    void openFunctionMenuWidget( void );
-    void openPolynomialMenuWidget( void );
-    void openGraphMenuWidget( void );
+private slots:
+    void openRightMenuWidget( void );
+    void openLeftMenuWidget( void );
 
-signals:
-    void spinBoxValuesChanged( const std::vector<double>& values );
+friend LeftLayout;
 };
 
 

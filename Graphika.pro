@@ -10,13 +10,12 @@ CONFIG += c++17
 # DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    functionlayout.cpp \
-    graphlayout.cpp \
+    buffer.cpp \
     layoutfactory.cpp \
+    leftlayout.cpp \
     main.cpp \
     mainwindow.cpp \
-    polynomelayout.cpp \
-    pyhelper.cpp \
+    rightlayout.cpp \
     stringparser.cpp \
     toolbar.cpp \
     validatestring.cpp \
@@ -29,13 +28,12 @@ LIBS += -lpython3.11
 INCLUDEPATH += ./python3.11/
 
 HEADERS += \
+    buffer.h \
     expressionvalidator.h \
-    functionlayout.h \
-    graphlayout.h \
     layoutfactory.h \
+    leftlayout.h \
     mainwindow.h \
-    polynomelayout.h \
-    pyhelper.h \
+    rightlayout.h \
     stringparser.h \
     toolbar.h \
     validatestring.h \

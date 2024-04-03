@@ -4,10 +4,15 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <algorithm>
+#include <filesystem>
 
 PythonConveyor::PythonConveyor( const std::string& folderPath, const std::string& moduleName, const std::string& functionName )
     : pName( nullptr ), pModule( nullptr ), pDict( nullptr ), pObjct( nullptr ), pVal( nullptr ), sys( nullptr ), sys_path( nullptr ), folder_path( nullptr ),
-    m_folderPath( folderPath ), m_moduleName( moduleName ), m_functionName( functionName ) {}
+    m_folderPath( folderPath ), m_moduleName( moduleName ), m_functionName( functionName )
+{
+
+}
 
 PythonConveyor::~PythonConveyor()
 {
@@ -90,8 +95,11 @@ void PythonConveyor::checkArraysSizes( const std::vector< std::string >& array1,
     }
 }
 
-void PythonConveyor::sendArraysToPythonFunction( const std::vector< std::string >& array1, const std::vector< std::string >& array2 )
+void PythonConveyor::sendArraysToPythonFunction( )
 {
+    std::vector<std::string> array1 = convertDoubleToString( x );
+    std::vector<std::string> array2 = convertDoubleToString( y );
+
     checkArraysSizes( array1, array2 );
 
     pObjct = PyDict_GetItemString( pDict, m_functionName.c_str() );
@@ -125,6 +133,7 @@ void PythonConveyor::sendArraysToPythonFunction( const std::vector< std::string 
         {
             PyObject* pResultRepr = PyObject_Repr( pVal );
             m_result = PyBytes_AsString( PyUnicode_AsEncodedString( pResultRepr, "utf-8", "ERROR" ) );
+            m_result.erase( std::remove( m_result.begin(), m_result.end(), '\'' ), m_result.end() );
             std::cout << "Function " << m_functionName << " result: " << m_result << std::endl;
             Py_XDECREF( pResultRepr );
             Py_XDECREF( pVal );

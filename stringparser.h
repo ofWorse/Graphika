@@ -10,8 +10,6 @@
 #include <iostream>
 #include <optional>
 
-
-
 struct Expression
 {
     Expression( std::string token ) :
