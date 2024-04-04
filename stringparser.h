@@ -30,15 +30,15 @@ struct Expression
     {
         Q_OBJECT
     private:
-        const char* input;
+        unsigned const char* input;
         double x;
 
         std::vector<double> xTable;
     public:
         explicit StringParser( QObject *parent = nullptr );
-        explicit StringParser( const char* input, const double x )
+        explicit StringParser( unsigned char* input, const double x )
             : input( input ), x( x ) {}
-        explicit StringParser( const char* input )
+        explicit StringParser( unsigned char* input )
             : input( input ) {}
 
         std::optional<Expression> parseExpression();
