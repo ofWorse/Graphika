@@ -9,7 +9,8 @@ std::optional<Expression> StringParser::parseExpression()
 
 std::vector<double> StringParser::parseExpression( QString input )
 {
-    this->input = input.toStdString().c_str();
+    QByteArray bytes = input.toUtf8();
+    this->input = reinterpret_cast<unsigned const char*>( bytes.constData() );
     double y{};
     std::vector<double> yTable;
     auto parsed = parseExpression();
@@ -23,11 +24,13 @@ std::vector<double> StringParser::parseExpression( QString input )
 
 std::string StringParser::parseToken()
 {
-    while( std::isspace( *input ) )
+    for( int i{}; input[i] != '\0'; ++i )
     {
-        ++input;
+        if( std::isspace( input[i] ) )
+        {
+            ++input;
+        }
     }
-
 
     if(  std::isdigit( *input ) )
     {
@@ -52,7 +55,7 @@ std::string StringParser::parseToken()
           "floor", "round", "(", ")" };
     for( auto& t : tokens )
     {
-        if( std::strncmp( input, t.c_str(), t.size() ) == 0 )
+        if( std::strncmp( reinterpret_cast<const char*>( input ), t.c_str(), t.size() ) == 0 )
         {
             input += t.size();
             return t;
