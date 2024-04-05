@@ -1,12 +1,13 @@
-#ifndef LEFTLAYOUT_H
-#define LEFTLAYOUT_H
+#ifndef LEFTWIDGET_H
+#define LEFTWIDGET_H
 
 #include <QWidget>
+#include "rightwidget.h"
 #include "validatestring.h"
 #include "stringparser.h"
 #include "buffer.h"
 
-class LeftLayout : public QWidget
+class LeftWidget : public QWidget
 {
     Q_OBJECT
 private:
@@ -26,20 +27,14 @@ private:
     QLineEdit* expressionInput;
     QPushButton* solve;
     QTableWidget* tableWidget;
-    QGridLayout* scrollLayout;
-    QList<QSpinBox*> spinBoxes;
-
     QGridLayout* layout;
+    QList<QSpinBox*> spinBoxes;
 
     bool couldBuildTable = true;
     std::vector<double> X;
 
 public:
-    explicit LeftLayout( SpecialBuffer& buffer, QWidget* parent = nullptr );
-    QGridLayout* getLayout( void )
-    {
-        return layout;
-    }
+    explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y );
 
 private:
@@ -58,6 +53,7 @@ public slots:
     void onSolveButtonClicked( SpecialBuffer& buffer );
 
     void clearTable( void );
+    void handleClearGraph( RightWidget& right );
 
     void hideFirstLayer( void );
     void hideSecondLayer( void );
@@ -67,4 +63,4 @@ public slots:
     void setEnteredXData( void );
 };
 
-#endif // LEFTLAYOUT_H
+#endif // LEFTWIDGET_H

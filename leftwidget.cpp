@@ -1,16 +1,16 @@
-#include "leftlayout.h"
+#include "leftwidget.h"
 
-LeftLayout::LeftLayout( SpecialBuffer& buffer, QWidget *parent ) : QWidget( parent )
+LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( parent )
 {
     validator = new ValidateString( this );
-    connect( validator, &ValidateString::validExpression, this, &LeftLayout::onValidateStringValid );
-    connect( validator, &ValidateString::invalidExpression, this, &LeftLayout::onValidateStringInvalid );
+    connect( validator, &ValidateString::validExpression, this, &LeftWidget::onValidateStringValid );
+    connect( validator, &ValidateString::invalidExpression, this, &LeftWidget::onValidateStringInvalid );
     parser = new StringParser( this );
 
     QLabel* label = new QLabel( "f(x) = ", this );
     errLabel = new QLabel( "", this );
 
-    connect( parser, &StringParser::errorOccurred, this, &LeftLayout::handleParserError );
+    connect( parser, &StringParser::errorOccurred, this, &LeftWidget::handleParserError );
 
     QLabel* typeOfInput = new QLabel( "Ввод значений x: ", this );
 
@@ -22,7 +22,7 @@ LeftLayout::LeftLayout( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
         maxLabel = new QLabel( "Максимальное значение x:", this );
         stepLabel = new QLabel( "Шаг по x:", this );
 
-        nodesLabel = new QLabel( "Число узлов между пределами: ", this );
+        nodesLabel = new QLabel( "Кол-во узлов: ", this );
 
         min = new QDoubleSpinBox( this );
         max = new QDoubleSpinBox( this );
@@ -31,17 +31,18 @@ LeftLayout::LeftLayout( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     } // Переменные элементы
 
     expressionInput = new QLineEdit( this );
-    connect( expressionInput, &QLineEdit::textChanged, this, &LeftLayout::onInputTextChanged );
+    connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
 
     solve = new QPushButton( "Решить", this );
+    solve->setStyleSheet( "background-color: tomato;" );
     solve->setEnabled( false );
     connect( solve, &QPushButton::clicked, [&buffer, this]()
         {
             onSolveButtonClicked( buffer );
         } );
 
-    QPushButton* clear = new QPushButton( "Очистить", this );
-    connect( clear, &QPushButton::clicked, this, &LeftLayout::clearTable );
+    QPushButton* clearTable = new QPushButton( "Очистить таблицу", this );
+    connect( clearTable, &QPushButton::clicked, this, &LeftWidget::clearTable );
 
     tableWidget = new QTableWidget( this );
     tableWidget->setColumnCount( 2 );
@@ -51,38 +52,31 @@ LeftLayout::LeftLayout( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
 
     setRange();
 
-    QScrollArea *scrollArea = new QScrollArea( this );
     layout = new QGridLayout( this );
-    QWidget *scrollContentWidget = new QWidget();
-    scrollLayout = new QGridLayout( scrollContentWidget );
-    scrollLayout->addWidget( label, 0, 0 );
-    scrollLayout->addWidget( expressionInput, 0, 1 );
-    scrollLayout->addWidget( errLabel, 1, 0 );
-    scrollLayout->addWidget( typeOfInput, 2, 0 );
-    scrollLayout->addWidget( typeOfVariableInput, 2, 1 );
-    scrollLayout->addWidget( minLabel, 3, 0 );
-    scrollLayout->addWidget( min, 3, 1 );
-    scrollLayout->addWidget( maxLabel, 4, 0 );
-    scrollLayout->addWidget( max, 4, 1 );
-    scrollLayout->addWidget( stepLabel, 5, 0 );
-    scrollLayout->addWidget( step, 5, 1 );
-    scrollLayout->addWidget( nodesLabel, 6, 0 );
-    scrollLayout->addWidget( nodes, 6, 1 );
-    scrollLayout->addWidget( solve, 7, 0 );
-    scrollLayout->addWidget( clear, 7, 1 );
-    scrollLayout->addWidget( tableWidget, 9, 0, Qt::AlignCenter );
-    scrollLayout->setColumnStretch( 1, 10 );
-    scrollLayout->setColumnStretch( 0, 2 );
-    setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    layout->addWidget( label, 0, 0 );
+    layout->addWidget( expressionInput, 0, 1 );
+    layout->addWidget( errLabel, 1, 0 );
+    layout->addWidget( typeOfInput, 2, 0 );
+    layout->addWidget( typeOfVariableInput, 2, 1 );
+    layout->addWidget( minLabel, 3, 0 );
+    layout->addWidget( min, 3, 1 );
+    layout->addWidget( maxLabel, 4, 0 );
+    layout->addWidget( max, 4, 1 );
+    layout->addWidget( stepLabel, 5, 0 );
+    layout->addWidget( step, 5, 1 );
+    layout->addWidget( nodesLabel, 6, 0 );
+    layout->addWidget( nodes, 6, 1 );
+    layout->addWidget( solve, 7, 0 );
+    layout->addWidget( clearTable, 7, 1 );
+    layout->addWidget( tableWidget, 8, 0, Qt::AlignCenter );
+    layout->setColumnStretch( 1, 10 );
+    layout->setColumnStretch( 0, 2 );
     hideFirstLayer();
 
-    scrollArea->setWidget( scrollContentWidget );
-    layout->addWidget( scrollArea, 0, 0 );
-
-    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftLayout::switchLayers );
+    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftWidget::switchLayers );
 }
 
-void LeftLayout::showTable( const std::vector<double> x, const std::vector<double> y )
+void LeftWidget::showTable( const std::vector<double> x, const std::vector<double> y )
 {
     tableWidget->clear();
     tableWidget->setRowCount( x.size() );
@@ -100,7 +94,7 @@ void LeftLayout::showTable( const std::vector<double> x, const std::vector<doubl
     }
 }
 
-void LeftLayout::setRange( void )
+void LeftWidget::setRange( void )
 {
     min->setRange( -100.0, 100.0 );
     min->setSingleStep( 0.1 );
@@ -111,29 +105,31 @@ void LeftLayout::setRange( void )
     nodes->setRange( 0.0, 5000.0 );
 }
 
-void LeftLayout::onValidateStringValid( void )
+void LeftWidget::onValidateStringValid( void )
 {
     solve->setEnabled( true );
+    solve->setStyleSheet( "background-color: lightgreen;" );
 }
 
-void LeftLayout::onValidateStringInvalid( void )
+void LeftWidget::onValidateStringInvalid( void )
 {
     solve->setEnabled( false );
+    solve->setStyleSheet( "background-color: tomato;" );
 }
 
-void LeftLayout::handleParserError( const QString &err )
+void LeftWidget::handleParserError( const QString &err )
 {
     couldBuildTable = false;
     errLabel->setStyleSheet( "QLabel { color : red; }" );
     errLabel->setText( err + "!" );
 }
 
-void LeftLayout::onInputTextChanged( const QString &text )
+void LeftWidget::onInputTextChanged( const QString &text )
 {
     validator->validateExpression( text );
 }
 
-void LeftLayout::onSolveButtonClicked( SpecialBuffer& buffer )
+void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 {
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
@@ -166,14 +162,19 @@ void LeftLayout::onSolveButtonClicked( SpecialBuffer& buffer )
     X.clear();
 }
 
-void LeftLayout::clearTable()
+void LeftWidget::clearTable()
 {
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
     errLabel->clear();
 }
 
-void LeftLayout::hideFirstLayer( void )
+void LeftWidget::handleClearGraph( RightWidget &right )
+{
+    right.clearGraph();
+}
+
+void LeftWidget::hideFirstLayer( void )
 {
     X.clear();
 
@@ -188,7 +189,7 @@ void LeftLayout::hideFirstLayer( void )
     step->show();
 }
 
-void LeftLayout::hideSecondLayer( void )
+void LeftWidget::hideSecondLayer( void )
 {
     X.clear();
 
@@ -203,7 +204,7 @@ void LeftLayout::hideSecondLayer( void )
     nodes->show();
 }
 
-void LeftLayout::setupNodes( const double node )
+void LeftWidget::setupNodes( const double node )
 {
     X.clear();
     auto min = this->min->value();
@@ -214,7 +215,7 @@ void LeftLayout::setupNodes( const double node )
     }
 }
 
-void LeftLayout::switchLayers( int index )
+void LeftWidget::switchLayers( int index )
 {
     if( index == 0 )
     {
@@ -227,7 +228,7 @@ void LeftLayout::switchLayers( int index )
 }
 
 // Для дебага
-void LeftLayout::setEnteredXData()
+void LeftWidget::setEnteredXData()
 {
     if( X.empty() ) std::cout << "empty" << std::endl;
     for( const auto& x : X )

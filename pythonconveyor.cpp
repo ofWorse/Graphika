@@ -9,10 +9,7 @@
 
 PythonConveyor::PythonConveyor( const std::string& folderPath, const std::string& moduleName, const std::string& functionName )
     : pName( nullptr ), pModule( nullptr ), pDict( nullptr ), pObjct( nullptr ), pVal( nullptr ), sys( nullptr ), sys_path( nullptr ), folder_path( nullptr ),
-    m_folderPath( folderPath ), m_moduleName( moduleName ), m_functionName( functionName )
-{
-
-}
+    m_folderPath( folderPath ), m_moduleName( moduleName ), m_functionName( functionName ) {}
 
 PythonConveyor::~PythonConveyor()
 {

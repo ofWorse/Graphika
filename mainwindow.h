@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include "toolbar.h"
-#include "leftlayout.h"
-#include "rightlayout.h"
+#include "leftwidget.h"
+#include "rightwidget.h"
 #include "layoutfactory.h"
 #include <QMainWindow>
 
@@ -17,9 +17,9 @@ private:
     Toolbar* toolbar;
     QWidget* centralwidget;
 
-    LeftLayout* leftLayout;
-    RightLayout* rightLayout;
-    RightLayout* tempLayout;
+    LeftWidget* leftWidget;
+    RightWidget* rightWidget;
+    QGridLayout* scrollLayout;
     QGridLayout* layout;
     SpecialBuffer buffer;
 
@@ -32,11 +32,12 @@ public:
 private:
     void clearLayout( QLayout *layout );
 
-private slots:
-    void openRightMenuWidget( void );
-    void openLeftMenuWidget( void );
+public slots:
+    void sendAction( void );
+    void clearGraph( void );
 
-friend LeftLayout;
+friend RightWidget;
+friend LeftWidget;
 };
 
 

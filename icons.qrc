@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/toolbaricons">
+        <file>resources/newthon.PNG</file>
+        <file>resources/lagrange.PNG</file>
+        <file>resources/function.PNG</file>
+        <file>resources/clean.PNG</file>
+        <file>resources/berruta.PNG</file>
+        <file>resources/about.PNG</file>
+    </qresource>
+</RCC>

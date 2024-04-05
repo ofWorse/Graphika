@@ -1,16 +1,16 @@
-#ifndef RIGHTLAYOUT_H
-#define RIGHTLAYOUT_H
+#ifndef RIGHTWIDGET_H
+#define RIGHTWIDGET_H
 
 #include <QWidget>
 #include "graphbuilder.h"
 #include "buffer.h"
 #include "pythonconveyor.h"
 
-class RightLayout : public QWidget
+class RightWidget : public QWidget
 {
     Q_OBJECT
 
-private:
+public:
     QGridLayout* rightLayout;
 
     PythonConveyor* conveyor;
@@ -19,16 +19,19 @@ private:
     QVector<double> x;
     QVector<double> y;
 
+private:
     std::string resultModel;
+    QLineEdit* model;
+    QLabel* label;
+
+private:
+    void clearLayout( QLayout *layout );
 
 public:
-    explicit RightLayout( SpecialBuffer& buffer, QWidget *parent = nullptr );
+    explicit RightWidget( QWidget *parent = nullptr );
+    void printGraph( SpecialBuffer& buffer );
     void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y );
-
-    QGridLayout* getLayout( void )
-    {
-        return rightLayout;
-    }
+    void clearGraph( void );
 };
 
-#endif // RIGHTLAYOUT_H
+#endif // RIGHTWIDGET_H

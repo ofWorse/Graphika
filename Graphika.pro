@@ -9,13 +9,14 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 # DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+RESOURCES += ./resources/icons.qrc
+
 SOURCES += \
     buffer.cpp \
-    layoutfactory.cpp \
-    leftlayout.cpp \
+    leftwidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    rightlayout.cpp \
+    rightwidget.cpp \
     stringparser.cpp \
     toolbar.cpp \
     validatestring.cpp \
@@ -30,10 +31,9 @@ INCLUDEPATH += ./python3.11/
 HEADERS += \
     buffer.h \
     expressionvalidator.h \
-    layoutfactory.h \
-    leftlayout.h \
+    leftwidget.h \
     mainwindow.h \
-    rightlayout.h \
+    rightwidget.h \
     stringparser.h \
     toolbar.h \
     validatestring.h \
@@ -48,3 +48,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    icons.qrc

@@ -1,5 +1,4 @@
 #include "graphbuilder.h"
-#include <QMainWindow>
 #include <QApplication>
 #include <QGridLayout>
 #include <qcustomplot/qcustomplot.h>
@@ -12,12 +11,10 @@
 #include <QColor>
 
 GraphBuilder::GraphBuilder( QWidget* parent )
-    : QMainWindow( parent )
+    : QWidget( parent )
 {
-    QFrame* frame = new QFrame();
-    QGridLayout* layout = new QGridLayout();
-
-    wGraphic = new QCustomPlot();
+    layout = new QGridLayout( this );
+    wGraphic = new QCustomPlot( this );
 
     wGraphic->setMinimumSize( 400, 300 );
 
@@ -33,8 +30,6 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     wGraphic->replot();
 
     layout->addWidget( wGraphic );
-    frame->setLayout( layout );
-    setCentralWidget( frame );
 }
 
 void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name )
@@ -105,7 +100,7 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->graph( i )->setPen( pin );
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
     wGraphic->graph( i )->setName( name );
-    wGraphic->legend->setVisible( true );
+    //wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
     pen.setWidth( 4 );
     wGraphic->graph( i )->setPen( pen );
