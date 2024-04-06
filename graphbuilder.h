@@ -32,6 +32,7 @@ public:
 public slots:
     void PaintG( QVector<double>& x, QVector<double>& y, const QString& name );
     void on_clearButton_clicked( void );
+    void ZoomB();
 
 };
 #endif // GRAPHBUILDER_H

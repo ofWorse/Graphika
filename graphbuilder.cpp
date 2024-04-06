@@ -64,6 +64,8 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
         wGraphic->update();
 
     }
+
+
     if ( ymax < *maxYElement )
     {
         if( ymin > *minYElement )
@@ -77,7 +79,7 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
         else
         {
             ymax = *maxYElement;
-            wGraphic->xAxis->setRange( ymin, ymax );
+            wGraphic->yAxis->setRange( ymin, ymax );
             wGraphic->replot();
             wGraphic->update();
         }
@@ -85,7 +87,7 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     else if( ymin > *minYElement )
     {
         ymin = *minYElement;
-        wGraphic->xAxis->setRange( ymin, ymax );
+        wGraphic->yAxis->setRange( ymin, ymax );
         wGraphic->replot();
         wGraphic->update();
     }
@@ -105,6 +107,9 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     pen.setWidth( 4 );
     wGraphic->graph( i )->setPen( pen );
     i++;
+    wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
+    wGraphic->axisRect()->setRangeZoomFactor(Qt::Horizontal,0.85);
+    wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
 }
 
 
@@ -116,6 +121,12 @@ void GraphBuilder::on_clearButton_clicked()
     }
     wGraphic->legend->clear();
     wGraphic->legend->setVisible( false );
+    wGraphic->replot();
+    wGraphic->update();
+}
+void GraphBuilder::ZoomB(){
+    wGraphic->xAxis->setRange( xmin, xmax );
+    wGraphic->yAxis->setRange( ymin, ymax );
     wGraphic->replot();
     wGraphic->update();
 }
