@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <optional>
+#include <regex>
 
 struct Expression
 {
@@ -55,6 +56,7 @@ struct Expression
         std::optional<Expression> parseSimpleExpression();
         std::optional<Expression> parseBinaryExpression( const int minPriority );
 
+        bool isInvalid( const Expression& expression, double x );
         int getPriority( const std::string& token );
 
 signals:

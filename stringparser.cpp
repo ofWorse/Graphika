@@ -135,6 +135,17 @@ std::optional<Expression> StringParser::parseBinaryExpression( const int minPrio
     }
 }
 
+bool StringParser::isInvalid(const Expression &expression, double x )
+{
+    std::regex regex( "(\\d+\\/)?(x|(\\d+\\*)?x)" );
+
+    if( std::regex_search( expression.token, regex ) )
+    {
+        return x == 0;
+    }
+    return false;
+}
+
 int StringParser::getPriority( const std::string &token )
 {
     if( token == "+" )   return 1;
@@ -148,6 +159,12 @@ int StringParser::getPriority( const std::string &token )
 
 double StringParser::eval( const std::optional<Expression> &e, double x )
 {
+    if( e.has_value() && isInvalid( e.value(), x ) )
+    {
+        emit errorOccurred( "На ноль делить нельзя" );
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+
     if( !e.has_value() )
     {
         emit errorOccurred( "Ошибка ввода" );
@@ -178,7 +195,6 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
             }
             return pow( a, b );
         }
-
         if( expr.token == "%" )
         {
             if( b == 0 )
