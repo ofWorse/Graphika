@@ -5,7 +5,7 @@
 //       Сделать вертикальное меню
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
-    setFixedSize( 940, 490 );
+    setFixedSize( 1020, 540 );
     setWindowTitle( "Graphika" );
 
     toolbar = new Toolbar( this );
@@ -33,14 +33,20 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::sendAction );
     connect( toolbar->actions().at( 4 ), &QAction::triggered, this, &MainWindow::clearGraph );
+    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::resetZoom );
 }
 
-void MainWindow::sendAction()
+void MainWindow::sendAction( void )
 {
     rightWidget->printGraph( buffer );
 }
 
-void MainWindow::clearGraph()
+void MainWindow::clearGraph( void )
 {
     rightWidget->clearGraph();
+}
+
+void MainWindow::resetZoom( void )
+{
+    rightWidget->graphBuilder->ZoomB();
 }
