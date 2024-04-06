@@ -16,7 +16,7 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     layout = new QGridLayout( this );
     wGraphic = new QCustomPlot( this );
 
-    wGraphic->setMinimumSize( 400, 300 );
+    wGraphic->setMinimumSize( 450, 380 );
 
     tracer = new QCPItemTracer( wGraphic );
     tracer->setGraph( wGraphic->graph( 0 ) );
