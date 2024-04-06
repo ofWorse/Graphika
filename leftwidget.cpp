@@ -143,6 +143,10 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
         {
             X.push_back( i );
         }
+        if( X[ X.size() ] != max )
+        {
+            X.push_back( max );
+        }
     }
     else
     {
