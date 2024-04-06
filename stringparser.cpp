@@ -14,6 +14,7 @@ std::vector<double> StringParser::parseExpression( QString input )
     double y{};
     std::vector<double> yTable;
     auto parsed = parseExpression();
+
     for( const auto& x : xTable )
     {
         y = eval( parsed, x );
@@ -135,7 +136,7 @@ std::optional<Expression> StringParser::parseBinaryExpression( const int minPrio
     }
 }
 
-bool StringParser::isInvalid(const Expression &expression, double x )
+bool StringParser::isInvalid( const Expression &expression, double x )
 {
     std::regex regex( "(\\d+\\/)?(x|(\\d+\\*)?x)" );
 
@@ -159,12 +160,6 @@ int StringParser::getPriority( const std::string &token )
 
 double StringParser::eval( const std::optional<Expression> &e, double x )
 {
-    if( e.has_value() && isInvalid( e.value(), x ) )
-    {
-        emit errorOccurred( "На ноль делить нельзя" );
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-
     if( !e.has_value() )
     {
         emit errorOccurred( "Ошибка ввода" );
