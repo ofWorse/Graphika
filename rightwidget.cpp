@@ -28,7 +28,10 @@ RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
 {
     graphBuilder = new GraphBuilder( this );
-    conveyor = new PythonConveyor( "./", "polynomials", "lagrange_polynomial" );
+    conveyor = new PythonConveyor();
+
+    conveyor->setPythonFilePath(":/pyFiles/resources/pymodules/polynomials.py");
+    conveyor->setFunctionName("lagrange_polynomial");
     rightLayout = new QGridLayout( this );
     label = new QLabel( "Полученная модель: ", this );
     model = new QLineEdit( this );
@@ -54,9 +57,8 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
     conveyor->setDataX( x );
     conveyor->setDataY( y );
 
-    conveyor->initialize();
     conveyor->sendArraysToPythonFunction();
-    resultModel = conveyor->getResult();
+    resultModel = conveyor->getResult().toStdString();
 }
 
 void RightWidget::clearGraph( void )
