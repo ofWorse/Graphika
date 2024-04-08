@@ -1,6 +1,5 @@
 import sympy
 from sympy import symbols
-import time
 
 def cast_to_number(x, y):
     x_act = list()
