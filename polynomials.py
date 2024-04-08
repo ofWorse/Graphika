@@ -78,23 +78,3 @@ def berruta_functions(x_values, y_values, precision=4):
     if contains_float:
         return str(polynomial.evalf(n=precision)).replace("**", "^")
     return str(sympy.cancel(polynomial)).replace("**", "^")
-
-
-x_val = ["-3" ,"-2", "-1.5", "-1", "-0.5", "0", "0.5", '1', "1.5", "2", "3"]
-y_val = ["-3" ,"-2", "-1.5", "-1", "-0.5", "0", "0.5", '1', "1.5", "2", "3"]
-x_val2 = ["1", "2", "4", "6", "7"]
-y_val2 = ["10", "22", "35", "47", "61"]
-x_val3 = ["-1", "-0.5", "0", "0.5", "1", "1.5"]
-y_val3 = ["1", "1.14471", "1.25992", "1.35721", "1.44225", "1.44714"]
-
-print(newton_polynomial(x_val, y_val))
-print(lagrange_polynomial(x_val, y_val))
-print(berruta_functions(x_val, y_val))
-# #
-print(newton_polynomial(x_val2, y_val2))
-print(lagrange_polynomial(x_val2, y_val2))
-print(berruta_functions(x_val2, y_val2))
-
-print(newton_polynomial(x_val3, y_val3))
-print(lagrange_polynomial(x_val3, y_val3))
-print(berruta_functions(x_val3, y_val3))
