@@ -7,7 +7,6 @@
 #include "layoutfactory.h"
 #include <QMainWindow>
 
-// TODO: Сделать принцип ответственности единственного объекта.
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
