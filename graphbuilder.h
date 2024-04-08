@@ -15,6 +15,7 @@ class GraphBuilder : public QWidget
 private:
     QCPItemTracer* tracer;
     QGridLayout* layout;
+    QCPItemText* textItem;
 
     int i = 0;
 
@@ -33,6 +34,8 @@ public slots:
     void PaintG( QVector<double>& x, QVector<double>& y, const QString& name );
     void on_clearButton_clicked( void );
     void ZoomB();
+    void onMousMove(QMouseEvent* event);
+
 
 };
 #endif // GRAPHBUILDER_H
