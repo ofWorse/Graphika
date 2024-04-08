@@ -7,13 +7,9 @@ def cast_to_number(x, y):
     contains_float = False
     for i in range(len(x)):
         if "." in x[i] or "." in y[i]:
-            # x_act.append(sympy.core.Float(x[i]))
-            # y_act.append(sympy.core.Float(y[i]))
             contains_float = True
-            # continue
         x_act.append(sympy.core.Rational(x[i]))
         y_act.append(sympy.core.Rational(y[i]))
-        # print(x_act)
     return x_act, y_act, contains_float
 
 
