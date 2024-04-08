@@ -10,13 +10,18 @@
 #include <QRandomGenerator>
 #include <QColor>
 
+
 GraphBuilder::GraphBuilder( QWidget* parent )
     : QWidget( parent )
 {
     layout = new QGridLayout( this );
     wGraphic = new QCustomPlot( this );
 
+    textItem = new QCPItemText(wGraphic);
+    connect(wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove);
+
     wGraphic->setMinimumSize( 450, 380 );
+
 
     tracer = new QCPItemTracer( wGraphic );
     tracer->setGraph( wGraphic->graph( 0 ) );
@@ -102,7 +107,7 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->graph( i )->setPen( pin );
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
     wGraphic->graph( i )->setName( name );
-    //wGraphic->legend->setVisible( true );
+    wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
     pen.setWidth( 4 );
     wGraphic->graph( i )->setPen( pen );
@@ -130,4 +135,14 @@ void GraphBuilder::ZoomB(){
     wGraphic->replot();
     wGraphic->update();
 }
+void GraphBuilder::onMousMove(QMouseEvent *event){
+    QCustomPlot* customPlot = qobject_cast<QCustomPlot*>(sender());
+    double x = customPlot->xAxis->pixelToCoord(event->pos().x());
+    double y = customPlot->yAxis->pixelToCoord(event->pos().y());
+    textItem->setText(QString("(%1, %2)").arg(x).arg(y));
+    textItem->position->setCoords(QPointF(x,y));
+    textItem->setFont(QFont(font().family(), 10));
+    customPlot->replot();
+}
+
 
