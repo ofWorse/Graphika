@@ -30,7 +30,7 @@ def newton_polynomial(x_values, y_values, precision=4):
         polynomial += (divided_difference(polynomial_term, x_values[:polynomial_term + 1],
                                           y_values[:polynomial_term + 1])) * multiplier
     if contains_float:
-        return str(sympy.sympify(polynomial, rational=None).evalf(n=precision)).replace("**", "^")
+        return str(sympy.sympify(sympy.cancel(polynomial, x), rational=None).evalf(n=precision)).replace("**", "^")
     return str(sympy.cancel(polynomial, x)).replace("**", "^")
 
 
@@ -55,7 +55,7 @@ def lagrange_polynomial(x_values, y_values, precision=4):
             lagrange *= (x - x_values[j]) / (x_values[i] - x_values[j])
         polynomial += y_values[i] * lagrange
     if contains_float:
-        return str((sympy.simplify(polynomial, rational=None)).evalf(n=precision)).replace("**", "^")
+        return str(sympy.sympify(sympy.cancel(polynomial, x), rational=None).evalf(n=precision)).replace("**", "^")
     return str(sympy.cancel(polynomial, x)).replace("**", "^")
 
 
@@ -77,4 +77,3 @@ def berruta_functions(x_values, y_values, precision=4):
     if contains_float:
         return str(sympy.sympify(sympy.cancel(polynomial, x), rational=None).evalf(n=precision)).replace("**", "^")
     return str(sympy.cancel(polynomial, x)).replace("**", "^")
-
