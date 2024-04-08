@@ -35,6 +35,7 @@ private:
 public slots:
     void sendAction( void );
     void clearGraph( void );
+    void resetZoom( void );
 
 friend RightWidget;
 friend LeftWidget;

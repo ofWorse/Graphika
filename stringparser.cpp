@@ -72,8 +72,6 @@ std::optional<Expression> StringParser::parseSimpleExpression()
 
     if( token.empty() )
     {
-        std::cout << "Некорректный ввод" << std::endl;
-        emit errorOccurred( "Некорректный ввод" );
         return std::nullopt;
     }
 
@@ -83,8 +81,6 @@ std::optional<Expression> StringParser::parseSimpleExpression()
 
         if ( parseToken() != ")" )
         {
-            std::cout << "Требуется ')'" << std::endl;
-            emit errorOccurred( "Требуется ')'" );
             return std::nullopt;
         }
 
@@ -105,8 +101,6 @@ std::optional<Expression> StringParser::parseSimpleExpression()
     auto nestedExpr = parseSimpleExpression();
     if( !nestedExpr.has_value() )
     {
-        std::cout << "Ошибка ввода" << std::endl;
-        emit errorOccurred( "Ошибка ввода" );
         return std::nullopt;
     }
     return Expression( token, *nestedExpr );
@@ -262,8 +256,6 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
                 return log10( a );
             }
         }
-
-        emit errorOccurred( "Неизвестный унарный оператор" );
     }
     case 0:
     {
