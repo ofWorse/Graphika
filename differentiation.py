@@ -1,6 +1,8 @@
 import sympy
 from sympy import symbols
 
+"""Core functions"""
+
 
 def differential_2p(equation, x_point, order=1, delta=0.02):
     delta = sympy.core.Rational(delta).limit_denominator(1000)
@@ -45,6 +47,9 @@ def differential_5p(equation, x_point, order=1, delta=0.02):
                 (12 * delta)).evalf()
 
 
+"""Wrap functions with formatted output"""
+
+
 def differential_2_points(equation, x_point, order=1, delta=0.02, precision=4):
     return differential_2p(equation, x_point, order, delta).evalf(n=precision, chop=1e-5)
 
@@ -55,6 +60,9 @@ def differential_3_points(equation, x_point, order=1, delta=0.02, precision=4):
 
 def differential_5_points(equation, x_point, order=1, delta=0.02, precision=4):
     return differential_5p(equation, x_point, order, delta).evalf(n=precision, chop=1e-5)
+
+
+"""Polt-ready functions"""
 
 
 def differential_2p_for_plot(equation, a, b, order=1, delta=0.1, precision=4):
