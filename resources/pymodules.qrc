@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/pyFiles">
+        <file>pymodules/polynomials.py</file>
+    </qresource>
+</RCC>
