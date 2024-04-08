@@ -160,6 +160,15 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
         X = fillDataFromTable( 0 );
         Y = fillDataFromTable( 1 );
     }
+
+    if ( X.size() > pymodules::NODES_LIMIT )
+    {
+        emit handleParserError( QString::asprintf( "Не больше %d узлов", pymodules::NODES_LIMIT ) );
+        X.clear();
+        Y.clear();
+        return;
+    }
+
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
 

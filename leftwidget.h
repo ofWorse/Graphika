@@ -6,6 +6,7 @@
 #include "validatestring.h"
 #include "stringparser.h"
 #include "buffer.h"
+#include "settings.h"
 
 class LeftWidget : public QWidget
 {

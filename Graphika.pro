@@ -40,6 +40,7 @@ HEADERS += \
     pythonconveyor.h \
     rightwidget.h \
     sender.h \
+    settings.h \
     stringparser.h \
     toolbar.h \
     validatestring.h \
