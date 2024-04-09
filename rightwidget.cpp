@@ -2,28 +2,6 @@
 #include <qstring.h>
 #include <filesystem>
 
-void RightWidget::clearLayout(QLayout *layout)
-{
-    if ( layout == NULL )
-    {
-        return;
-    }
-    QLayoutItem *item;
-    while( ( item = layout->takeAt( 0 ) ) )
-    {
-        if ( item->layout() )
-        {
-            clearLayout( item->layout() );
-            delete item->layout();
-        }
-        if ( item->widget() )
-        {
-            delete item->widget();
-        }
-        delete item;
-    }
-}
-
 RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
 {
@@ -37,13 +15,24 @@ RightWidget::RightWidget( QWidget *parent )
     rightLayout->addWidget( graphBuilder );
 }
 
-void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender)
+void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
 {
     x = buffer.x;
     y = buffer.y;
+
     graphBuilder->wGraphic->replot();
-    graphBuilder->PaintG( x, y, "Полином Лагранжа" );
-    interpolationSolve( x.toStdVector(), y.toStdVector(), sender);
+    // TODO: исправить заглушку
+    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName );
+
+    if( !( sender.functionName == nullptr ) || !( sender.moduleName == nullptr ) )
+    {
+        if( y.size() >= pymodules::NODES_LIMIT )
+        {
+            emit errorOccured( QString::asprintf( "Не больше %d узлов", pymodules::NODES_LIMIT ) );
+            return;
+        }
+        interpolationSolve( x.toStdVector(), y.toStdVector(), sender);
+    }
 
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );

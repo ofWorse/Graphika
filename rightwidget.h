@@ -6,6 +6,7 @@
 #include "buffer.h"
 #include "pythonconveyor.h"
 #include "sender.h"
+#include "settings.h"
 
 class RightWidget : public QWidget
 {
@@ -33,6 +34,9 @@ public:
     void printGraph( SpecialBuffer& buffer, Sender& sender );
     void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y, Sender& sender);
     void clearGraph( void );
+
+signals:
+    void errorOccured( const QString& err );
 };
 
 #endif // RIGHTWIDGET_H

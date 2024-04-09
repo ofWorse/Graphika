@@ -9,6 +9,7 @@
 #include <QString>
 #include <QRandomGenerator>
 #include <QColor>
+#include <iostream>
 
 
 GraphBuilder::GraphBuilder( QWidget* parent )
@@ -20,7 +21,7 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     textItem = new QCPItemText(wGraphic);
     connect(wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove);
 
-    wGraphic->setMinimumSize( 450, 380 );
+    wGraphic->setMinimumSize( 450, 400 );
 
 
     tracer = new QCPItemTracer( wGraphic );
@@ -39,6 +40,17 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 
 void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name )
 {
+
+    for( const auto& yPoints : data )
+    {
+        if( yPoints == yAxis )
+        {
+            return;
+        }
+    }
+
+    this->data.push_back( yAxis );
+
     auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
     auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
     auto maxYElement = std::max_element( yAxis.begin(), yAxis.end() );
@@ -109,9 +121,10 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->graph( i )->setName( name );
     wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
-    pen.setWidth( 4 );
+    pen.setWidth( 2 );
     wGraphic->graph( i )->setPen( pen );
     i++;
+    wGraphic->replot();
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Horizontal,0.85);
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
@@ -128,13 +141,16 @@ void GraphBuilder::on_clearButton_clicked()
     wGraphic->legend->setVisible( false );
     wGraphic->replot();
     wGraphic->update();
+    data.clear();
 }
+
 void GraphBuilder::ZoomB(){
     wGraphic->xAxis->setRange( xmin, xmax );
     wGraphic->yAxis->setRange( ymin, ymax );
     wGraphic->replot();
     wGraphic->update();
 }
+
 void GraphBuilder::onMousMove(QMouseEvent *event){
     QCustomPlot* customPlot = qobject_cast<QCustomPlot*>(sender());
     double x = customPlot->xAxis->pixelToCoord(event->pos().x());

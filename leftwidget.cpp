@@ -155,18 +155,10 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
         parser->setDataX( X );
         Y = parser->parseExpression( expression.toStdString().c_str() );
     }
-    else if( !nodes->isVisible() && manualInput )
+    else if( manualInput )
     {
         X = fillDataFromTable( 0 );
         Y = fillDataFromTable( 1 );
-    }
-
-    if ( X.size() > pymodules::NODES_LIMIT )
-    {
-        emit handleParserError( QString::asprintf( "Не больше %d узлов", pymodules::NODES_LIMIT ) );
-        X.clear();
-        Y.clear();
-        return;
     }
 
     buffer.x = QVector<double>( X.begin(), X.end() );

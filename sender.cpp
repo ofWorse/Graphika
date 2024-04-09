@@ -13,10 +13,12 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
         functionName = "lagrange_polynomial";
         break;
     case pymodules::Methods::BERRUTA:
-        // Обработка метода BERRUTA
+        functionName = "berruta_functions";
+        break;
+    case pymodules::Methods::NIL:
+        functionName = nullptr;
         break;
     default:
-        // Обработка некорректного метода
         break;
     }
 
@@ -24,8 +26,10 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
     case pymodules::Modules::POLYNOMIALS:
         moduleName = ":/pyFiles/resources/pymodules/polynomials.py";
         break;
+    case pymodules::Modules::NIL:
+        moduleName = nullptr;
+        break;
     default:
-        // Обработка некорректного модуля
         break;
     }
 }
