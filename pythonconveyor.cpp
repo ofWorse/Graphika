@@ -12,8 +12,8 @@
 
 PythonConveyor::PythonConveyor( QObject* parent ) : QObject( parent ) {}
 
-PythonConveyor::PythonConveyor( const QString& pythonFilePath, const QString& functionName, double precision, QObject* parent )
-    : QObject( parent ), m_pythonFilePath( pythonFilePath ), m_functionName( functionName ), m_precision( precision ) {}
+PythonConveyor::PythonConveyor( const QString& pythonFilePath, const QString& functionName, QObject* parent )
+    : QObject( parent ), m_pythonFilePath( pythonFilePath ), m_functionName( functionName ) {}
 
 void PythonConveyor::setPythonFilePath( const QString& pythonFilePath )
 {

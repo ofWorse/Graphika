@@ -5,6 +5,7 @@
 #include "graphbuilder.h"
 #include "buffer.h"
 #include "pythonconveyor.h"
+#include "sender.h"
 
 class RightWidget : public QWidget
 {
@@ -29,8 +30,8 @@ private:
 
 public:
     explicit RightWidget( QWidget *parent = nullptr );
-    void printGraph( SpecialBuffer& buffer );
-    void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y );
+    void printGraph( SpecialBuffer& buffer, Sender& sender );
+    void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y, Sender& sender);
     void clearGraph( void );
 };
 

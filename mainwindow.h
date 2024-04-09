@@ -6,6 +6,7 @@
 #include "rightwidget.h"
 #include "layoutfactory.h"
 #include <QMainWindow>
+#include "sender.h"
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +22,7 @@ private:
     QGridLayout* scrollLayout;
     QGridLayout* layout;
     SpecialBuffer buffer;
+    Sender sender;
 
     std::vector<double> x;
     std::vector<double> y;

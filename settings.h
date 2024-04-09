@@ -15,6 +15,5 @@ enum class Modules
 {
     POLYNOMIALS
 };
-};
-
+}
 #endif // SETTINGS_H
