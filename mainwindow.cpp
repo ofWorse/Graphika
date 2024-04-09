@@ -38,7 +38,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
 void MainWindow::sendAction( void )
 {
-    rightWidget->printGraph( buffer );
+    sender.setMacro(pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS);
+    rightWidget->printGraph( buffer, sender );
 }
 
 void MainWindow::clearGraph( void )

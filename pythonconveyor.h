@@ -12,7 +12,7 @@ class PythonConveyor : public QObject
 
 public:
     explicit PythonConveyor( QObject* parent = nullptr );
-    PythonConveyor( const QString& pythonFilePath, const QString& functionName, double precision, QObject* parent = nullptr );
+    PythonConveyor( const QString& pythonFilePath, const QString& functionName, QObject* parent = nullptr );
 
     void setPythonFilePath( const QString& pythonFilePath );
     QString getPythonFilePath() const;

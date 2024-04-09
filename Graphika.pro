@@ -11,7 +11,6 @@ CONFIG += c++17
 
 RESOURCES += ./resources/icons.qrc \
     pymodules.qrc \
-    resources/pymodules.qrc \
     ./resources/pymodules/pymodules.qrc
 
 SOURCES += \

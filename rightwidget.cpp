@@ -29,9 +29,6 @@ RightWidget::RightWidget( QWidget *parent )
 {
     graphBuilder = new GraphBuilder( this );
     conveyor = new PythonConveyor();
-
-    conveyor->setPythonFilePath(":/pyFiles/resources/pymodules/polynomials.py");
-    conveyor->setFunctionName("lagrange_polynomial");
     rightLayout = new QGridLayout( this );
     label = new QLabel( "Полученная модель: ", this );
     model = new QLineEdit( this );
@@ -40,20 +37,22 @@ RightWidget::RightWidget( QWidget *parent )
     rightLayout->addWidget( graphBuilder );
 }
 
-void RightWidget::printGraph( SpecialBuffer& buffer )
+void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender)
 {
     x = buffer.x;
     y = buffer.y;
     graphBuilder->wGraphic->replot();
     graphBuilder->PaintG( x, y, "Полином Лагранжа" );
-    interpolationSolve( x.toStdVector(), y.toStdVector() );
+    interpolationSolve( x.toStdVector(), y.toStdVector(), sender);
 
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
 }
 
-void RightWidget::interpolationSolve( const std::vector<double> &x, const std::vector<double> &y )
+void RightWidget::interpolationSolve( const std::vector<double> &x, const std::vector<double> &y, Sender& sender )
 {
+    conveyor->setFunctionName(sender.functionName);
+    conveyor->setPythonFilePath(sender.moduleName);
     conveyor->setDataX( x );
     conveyor->setDataY( y );
 
