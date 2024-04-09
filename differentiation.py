@@ -5,6 +5,9 @@ from sympy import symbols
 
 
 def differential_2p(equation: str, x_point, order=1, delta=0.02):
+    x_point = x_point
+    order = order
+    delta = delta
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     x = symbols("x")
     equation = sympy.sympify(equation)
@@ -17,6 +20,9 @@ def differential_2p(equation: str, x_point, order=1, delta=0.02):
 
 
 def differential_3p(equation: str, x_point, order=1, delta=0.02):
+    x_point = x_point
+    order = order
+    delta = delta
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     x = symbols("x")
     equation = sympy.sympify(equation)
@@ -29,6 +35,9 @@ def differential_3p(equation: str, x_point, order=1, delta=0.02):
 
 
 def differential_5p(equation: str, x_point, order=1, delta=0.02):
+    x_point = x_point
+    order = order
+    delta = delta
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     x = symbols("x")
     equation = sympy.sympify(equation)
@@ -66,6 +75,11 @@ def differential_5_points(equation: str, x_point, order=1, delta=0.02, precision
 
 
 def differential_2p_for_plot(equation: str, a, b, order=1, delta=0.05, precision=4):
+    a = a
+    b = b
+    order = order
+    delta = delta
+    precision = precision
     equation = sympy.sympify(equation)
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     y_for_plot = list()
@@ -77,6 +91,11 @@ def differential_2p_for_plot(equation: str, a, b, order=1, delta=0.05, precision
 
 
 def differential_3p_for_plot(equation: str, a, b, order=1, delta=0.05, precision=4):
+    a = a
+    b = b
+    order = order
+    delta = delta
+    precision = precision
     equation = sympy.sympify(equation)
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     y_for_plot = list()
@@ -88,6 +107,11 @@ def differential_3p_for_plot(equation: str, a, b, order=1, delta=0.05, precision
 
 
 def differential_5p_for_plot(equation: str, a, b, order=1, delta=0.05, precision=4):
+    a = a
+    b = b
+    order = order
+    delta = delta
+    precision = precision
     equation = sympy.sympify(equation)
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     y_for_plot = list()
