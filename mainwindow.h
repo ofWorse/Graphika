@@ -34,7 +34,11 @@ private:
     void clearLayout( QLayout *layout );
 
 public slots:
-    void sendAction( void );
+    void printGraph( void );
+    void invokeLagrangeMethod( void );
+    void invokeNewtonMethod( void );
+    void invokeBerrutaMethod( void );
+
     void clearGraph( void );
     void resetZoom( void );
 
