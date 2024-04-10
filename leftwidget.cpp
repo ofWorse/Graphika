@@ -281,3 +281,16 @@ void LeftWidget::editTable()
     solve->setEnabled( true );
     solve->setStyleSheet( "background-color: lightgreen;" );
 }
+
+// МЕТОД ДЛЯ ОТРИСОВКИ ГРАФИКА ПО ДИСКРЕТНО ЗАДАННЫМ ВЕЛИЧИНАМ
+void LeftWidget::acceptData( const QString &expr, const double a, const double b )
+{
+    std::vector<double> x;
+    for( double i = a; i <= b; i += 0.1 )
+    {
+        x.push_back( i );
+    }
+    parser->setDataX( x );
+    std::vector<double> y = parser->parseExpression( expr.toStdString().c_str() );
+    emit readyToDraw( x, y );
+}

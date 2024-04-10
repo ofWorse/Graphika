@@ -38,6 +38,17 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
     model->setText( str );
 }
 
+void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender )
+{
+    x = buffer.x;
+    y = buffer.y;
+    graphBuilder->wGraphic->replot();
+    interpolationSolve( x.toStdVector(), y.toStdVector(), sender );
+    QString str = QString::fromUtf8( resultModel.c_str() );
+    model->setText( str );
+    emit readyToSendData( model->text(), x[0], x.back() );
+}
+
 void RightWidget::interpolationSolve( const std::vector<double> &x, const std::vector<double> &y, Sender& sender )
 {
     conveyor->setFunctionName(sender.functionName);
@@ -52,4 +63,11 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
 void RightWidget::clearGraph( void )
 {
     graphBuilder->on_clearButton_clicked();
+}
+
+void RightWidget::drawGraph( const std::vector<double> x, const std::vector<double> y )
+{
+    QVector<double> X = QVector<double>::fromStdVector( x );
+    QVector<double> Y = QVector<double>::fromStdVector( y );
+    graphBuilder->PaintG( X, Y, "Полином" );
 }

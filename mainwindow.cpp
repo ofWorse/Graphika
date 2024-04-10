@@ -26,6 +26,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollLayout->addWidget( leftWidget, 0, 0 );
     scrollLayout->addWidget( rightWidget, 0, 1 );
     connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
+    connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
+    connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
 
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
@@ -57,19 +59,19 @@ void MainWindow::printDiffGraph()
 void MainWindow::invokeLagrangeMethod( void )
 {
     sender.setMacro( pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS );
-    rightWidget->printGraph( buffer, sender );
+    rightWidget->buildPolynome( buffer, sender );
 }
 
 void MainWindow::invokeNewtonMethod( void )
 {
     sender.setMacro( pymodules::Methods::NEWTON, pymodules::Modules::POLYNOMIALS );
-    rightWidget->printGraph( buffer, sender );
+    rightWidget->buildPolynome( buffer, sender );
 }
 
 void MainWindow::invokeBerrutaMethod( void )
 {
     sender.setMacro( pymodules::Methods::BERRUTA, pymodules::Modules::POLYNOMIALS );
-    rightWidget->printGraph( buffer, sender );
+    rightWidget->buildPolynome( buffer, sender );
 }
 
 void MainWindow::clearGraph( void )
