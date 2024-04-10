@@ -67,6 +67,11 @@ public slots:
     void switchLayers( int index );
 
     void editTable( void );
+
+    void acceptData( const QString& expr, const double a, const double b );
+
+signals:
+    void readyToDraw( const std::vector<double> x, const std::vector<double> y );
 };
 
 #endif // LEFTWIDGET_H
