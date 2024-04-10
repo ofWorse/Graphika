@@ -35,6 +35,7 @@ private:
 
 public slots:
     void printGraph( void );
+    void printDiffGraph( void );
     void invokeLagrangeMethod( void );
     void invokeNewtonMethod( void );
     void invokeBerrutaMethod( void );

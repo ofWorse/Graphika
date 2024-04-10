@@ -33,11 +33,12 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     layout->addWidget( scrollArea, 0, 0 );
 
     connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::printGraph );
-    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::invokeLagrangeMethod );
-    connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::invokeNewtonMethod );
-    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::invokeBerrutaMethod );
-    connect( toolbar->actions().at( 4 ), &QAction::triggered, this, &MainWindow::clearGraph );
-    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::resetZoom );
+    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::printDiffGraph );
+    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::invokeLagrangeMethod );
+    connect( toolbar->actions().at( 4 ), &QAction::triggered, this, &MainWindow::invokeNewtonMethod );
+    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::invokeBerrutaMethod );
+    connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::clearGraph );
+    connect( toolbar->actions().at( 8 ), &QAction::triggered, this, &MainWindow::resetZoom );
 }
 
 void MainWindow::printGraph()
@@ -45,6 +46,13 @@ void MainWindow::printGraph()
     sender.setMacro( pymodules::Methods::NIL, pymodules::Modules::NIL );
     rightWidget->printGraph( buffer, sender );
 }
+
+void MainWindow::printDiffGraph()
+{
+    sender.setMacro( pymodules::Methods::DIFF_3P, pymodules::Modules::DIFFERENTIATION );
+    rightWidget->printGraph( buffer, sender );
+}
+
 
 void MainWindow::invokeLagrangeMethod( void )
 {

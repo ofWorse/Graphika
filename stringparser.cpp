@@ -25,12 +25,9 @@ std::vector<double> StringParser::parseExpression( QString input )
 
 std::string StringParser::parseToken()
 {
-    for( int i{}; input[i] != '\0'; ++i )
+    while( std::isspace( *input ) )
     {
-        if( std::isspace( input[i] ) )
-        {
-            ++input;
-        }
+        ++input;
     }
 
     if(  std::isdigit( *input ) )
@@ -128,17 +125,6 @@ std::optional<Expression> StringParser::parseBinaryExpression( const int minPrio
         }
         leftExpr = Expression( operation, leftExpr.value(), rightExpr.value() );
     }
-}
-
-bool StringParser::isInvalid( const Expression &expression, double x )
-{
-    std::regex regex( "(\\d+\\/)?(x|(\\d+\\*)?x)" );
-
-    if( std::regex_search( expression.token, regex ) )
-    {
-        return x == 0;
-    }
-    return false;
 }
 
 int StringParser::getPriority( const std::string &token )
