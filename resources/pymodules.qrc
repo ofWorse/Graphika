@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/pyFiles">
         <file>pymodules/polynomials.py</file>
+        <file>pymodules/differentiation.py</file>
+        <file>pymodules/integration.py</file>
     </qresource>
 </RCC>
