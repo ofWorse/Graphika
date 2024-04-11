@@ -324,3 +324,7 @@ void LeftWidget::acceptData( const QString &expr, const double a, const double b
     std::vector<double> y = parser->parseExpression( expr.toStdString().c_str() );
     emit readyToDraw( x, y );
 }
+
+QLineEdit* LeftWidget::getExpressionInput() const {
+    return expressionInput;
+}

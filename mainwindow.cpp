@@ -52,7 +52,8 @@ void MainWindow::printGraph()
 void MainWindow::printDiffGraph()
 {
     sender.setMacro( pymodules::Methods::DIFF_3P, pymodules::Modules::DIFFERENTIATION );
-    rightWidget->printGraph( buffer, sender );
+    QString expression = leftWidget->getExpressionInput()->text();
+    rightWidget->printDiffGraph( buffer, sender, expression );
 }
 
 

@@ -18,6 +18,24 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
     case pymodules::Methods::NIL:
         functionName = nullptr;
         break;
+    case pymodules::Methods::DIFF_2P:
+        functionName = "differential_2p_for_plot";
+        break;
+    case pymodules::Methods::DIFF_3P:
+        functionName = "differential_3p_for_plot";
+        break;
+    case pymodules::Methods::DIFF_5P:
+        functionName = "differential_5p_for_plot";
+        break;
+    case pymodules::Methods::INTEG_LINEAR:
+        functionName = "integral_linear";
+        break;
+    case pymodules::Methods::INTEG_TRAP:
+        functionName = "integral_trapezoid";
+        break;
+    case pymodules::Methods::INTEG_PARAB:
+        functionName = "integral_parabolic";
+        break;
     default:
         break;
     }
@@ -29,6 +47,11 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
     case pymodules::Modules::NIL:
         moduleName = nullptr;
         break;
+    case pymodules::Modules::DIFFERENTIATION:
+        moduleName = ":/pyFiles/resources/pymodules/differentiation.py";
+        break;
+    case pymodules::Modules::INTEGRATION:
+        moduleName = ":/pyFiles/resources/pymodules/integration.py";
     default:
         break;
     }

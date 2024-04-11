@@ -23,6 +23,28 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName );
+
+    QString str = QString::fromUtf8( resultModel.c_str() );
+    model->setText( str );
+}
+
+void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& sender )
+{
+    graphBuilder->wGraphic->replot();
+    // TODO: исправить заглушку
+    graphBuilder->PaintG( x, y, "График производной функции" );
+
+}
+
+
+void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const QString& expression )
+{
+    //Временный код для тестирования differentiationSolve
+    x = buffer.x;
+
+    graphBuilder->wGraphic->replot();
+
+    differentiationSolve( expression, x, sender );
 }
 
 void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender )
@@ -45,6 +67,33 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
 
     conveyor->sendArraysToPythonFunction();
     resultModel = conveyor->getResult().toStdString();
+}
+
+void RightWidget::integrationSolve(const QString &expression, const double &a, const double &b, Sender &sender)
+{
+    conveyor->setFunctionName(sender.functionName);
+    conveyor->setPythonFilePath(sender.moduleName);
+
+    conveyor->setFunctionToIntegration(expression);
+    conveyor->setStartNumToIntegration(a);
+    conveyor->setEndNumToIntegration(b);
+
+    conveyor->sendDataToIntegration();
+    resultModel = conveyor->getResult().toStdString();
+}
+
+void RightWidget::differentiationSolve(const QString& expression, const QVector<double>& x, Sender& sender)
+{
+    conveyor->setFunctionName(sender.functionName);
+    conveyor->setPythonFilePath(sender.moduleName);
+
+    conveyor->setFunctionToDiff(expression);
+    conveyor->setDataNums(x.toStdVector());
+
+    conveyor->sendDataToDifferentiation();
+    QVector<double> resultX = QVector<double>::fromStdVector(conveyor->get_Nums_Vector());
+    QVector<double> resultY = conveyor->getResultVector();
+    printGraph(resultX, resultY, sender);
 }
 
 void RightWidget::clearGraph( void )
