@@ -1,6 +1,8 @@
 import sympy
 from sympy import symbols
 
+from analysis import plot_function
+
 """Core functions"""
 
 
@@ -74,49 +76,46 @@ def differential_5_points(equation: str, x_point, order=1, delta=0.02, precision
 """Polt-ready functions"""
 
 
-def differential_2p_for_plot(equation: str, a, b, order=1, delta=0.05, precision=4):
-    a = a
-    b = b
+def differential_2p_for_plot(equation: str, x_for_plot, order=1, delta=0.1, precision=4):
+    x_for_plot = x_for_plot
     order = order
     delta = delta
     precision = precision
     equation = sympy.sympify(equation)
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     y_for_plot = list()
-    x_for_sub = a + delta
-    while x_for_sub + delta < b:
-        y_for_plot.append(float(differential_2_points(equation, x_for_sub, order, delta, precision).evalf(n=precision)))
-        x_for_sub += delta
+    for i in range(len(x_for_plot)):
+        y_for_plot.append(
+            float(differential_2_points(equation, x_for_plot[i], order, delta, precision).evalf(n=precision))
+        )
     return y_for_plot
 
 
-def differential_3p_for_plot(equation: str, a, b, order=1, delta=0.05, precision=4):
-    a = a
-    b = b
+def differential_3p_for_plot(equation: str, x_for_plot, order=1, delta=0.1, precision=4):
+    x_for_plot = x_for_plot
     order = order
     delta = delta
     precision = precision
     equation = sympy.sympify(equation)
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     y_for_plot = list()
-    x_for_sub = a + delta
-    while x_for_sub + delta < b:
-        y_for_plot.append(float(differential_3_points(equation, x_for_sub, order, delta, precision).evalf(n=precision)))
-        x_for_sub += delta
+    for i in range(len(x_for_plot)):
+        y_for_plot.append(
+            float(differential_2_points(equation, x_for_plot[i], order, delta, precision).evalf(n=precision))
+        )
     return y_for_plot
 
 
-def differential_5p_for_plot(equation: str, a, b, order=1, delta=0.05, precision=4):
-    a = a
-    b = b
+def differential_5p_for_plot(equation: str, x_for_plot, order=1, delta=0.1, precision=4):
+    x_for_plot = x_for_plot
     order = order
     delta = delta
     precision = precision
     equation = sympy.sympify(equation)
     delta = sympy.core.Rational(delta).limit_denominator(1000)
     y_for_plot = list()
-    x_for_sub = a + delta
-    while x_for_sub + delta < b:
-        y_for_plot.append(float(differential_5_points(equation, x_for_sub, order, delta, precision).evalf(n=precision)))
-        x_for_sub += delta
+    for i in range(len(x_for_plot)):
+        y_for_plot.append(
+            float(differential_2_points(equation, x_for_plot[i], order, delta, precision).evalf(n=precision))
+        )
     return y_for_plot
