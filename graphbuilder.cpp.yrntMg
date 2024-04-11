@@ -32,11 +32,8 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     layout->addWidget( wGraphic );
 }
 
-void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
+void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name )
 {
-    if (name.isEmpty()){
-        wGraphic->legend->setVisible( false );
-    }
     auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
     auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
     auto maxYElement = std::max_element( yAxis.begin(), yAxis.end() );
@@ -97,20 +94,13 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
 
     wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
     wGraphic->graph( i )->setData( xAxis, yAxis );
-    if (graphOn == false){
-        wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
-    }
     //wGraphic->graph(i)->setInterpolation(trou);
     QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 255 ),
                                     QRandomGenerator::global()->bounded( 255 ),
                                     QRandomGenerator::global()->bounded( 255 ) );
     QPen pin( color );
     wGraphic->graph( i )->setPen( pin );
-    if (scatterOn == false){
-        wGraphic->graph(i)->setScatterStyle(QCPGraph::lsNone);
-    }else {
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
-    }
     wGraphic->graph( i )->setName( name );
     //wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
@@ -122,8 +112,86 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
 }
 
+void GraphBuilder::PaintT( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name )
+{
+    auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
+    auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
+    auto maxYElement = std::max_element( yAxis.begin(), yAxis.end() );
+    auto minYElement = std::min_element( yAxis.begin(), yAxis.end() );
+    if ( xmax < *maxXElement )
+    {
+        if( xmin > *minXElement )
+        {
+            xmax = *maxXElement;
+            xmin = *minXElement;
+            wGraphic->xAxis->setRange( xmin, xmax );
+            wGraphic->replot();
+            wGraphic->update();
+        }
+        else
+        {
+            xmax = *maxXElement;
+            wGraphic->xAxis->setRange( xmin, xmax );
+            wGraphic->replot();
+            wGraphic->update();
+        }
+    }
+    else if( xmin > *minXElement )
+    {
+        xmin = *minXElement;
+        wGraphic->xAxis->setRange( xmin, xmax );
+        wGraphic->replot();
+        wGraphic->update();
+
+    }
 
 
+    if ( ymax < *maxYElement )
+    {
+        if( ymin > *minYElement )
+        {
+            ymax = *maxYElement;
+            ymin = *minYElement;
+            wGraphic->yAxis->setRange( ymin, ymax );
+            wGraphic->replot();
+            wGraphic->update();
+        }
+        else
+        {
+            ymax = *maxYElement;
+            wGraphic->yAxis->setRange( ymin, ymax );
+            wGraphic->replot();
+            wGraphic->update();
+        }
+    }
+    else if( ymin > *minYElement )
+    {
+        ymin = *minYElement;
+        wGraphic->yAxis->setRange( ymin, ymax );
+        wGraphic->replot();
+        wGraphic->update();
+    }
+
+    wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
+    wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
+    wGraphic->graph( i )->setData( xAxis, yAxis );
+    //wGraphic->graph(i)->setInterpolation(trou);
+    QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 255 ),
+                                   QRandomGenerator::global()->bounded( 255 ),
+                                   QRandomGenerator::global()->bounded( 255 ) );
+    QPen pin( color );
+    wGraphic->graph( i )->setPen( pin );
+    wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
+    wGraphic->graph( i )->setName( name );
+    //wGraphic->legend->setVisible( true );
+    QPen pen = wGraphic->graph( i )->pen();
+    pen.setWidth( 4 );
+    wGraphic->graph( i )->setPen( pen );
+    i++;
+    wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
+    wGraphic->axisRect()->setRangeZoomFactor(Qt::Horizontal,0.85);
+    wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
+}
 
 void GraphBuilder::on_clearButton_clicked()
 {
