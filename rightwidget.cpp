@@ -23,19 +23,6 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName );
-
-    if( !( sender.functionName == nullptr ) || !( sender.moduleName == nullptr ) )
-    {
-        if( y.size() >= pymodules::NODES_LIMIT )
-        {
-            emit errorOccured( QString::asprintf( "Не больше %d узлов", pymodules::NODES_LIMIT ) );
-            return;
-        }
-        interpolationSolve( x.toStdVector(), y.toStdVector(), sender);
-    }
-
-    QString str = QString::fromUtf8( resultModel.c_str() );
-    model->setText( str );
 }
 
 void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender )
@@ -69,5 +56,5 @@ void RightWidget::drawGraph( const std::vector<double> x, const std::vector<doub
 {
     QVector<double> X = QVector<double>::fromStdVector( x );
     QVector<double> Y = QVector<double>::fromStdVector( y );
-    graphBuilder->PaintG( X, Y, "Полином" );
+    graphBuilder->PaintG( X, Y, "График интерполяции" );
 }

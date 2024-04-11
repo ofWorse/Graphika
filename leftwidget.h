@@ -67,6 +67,7 @@ public slots:
     void switchLayers( int index );
 
     void editTable( void );
+    void updateDataFromTable( SpecialBuffer& buffer );
 
     void acceptData( const QString& expr, const double a, const double b );
 

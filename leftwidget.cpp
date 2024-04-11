@@ -51,6 +51,11 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     QStringList labels;
     labels << "X" << "Y";
     tableWidget->setHorizontalHeaderLabels( labels );
+    connect( tableWidget, &QTableWidget::itemChanged, this, [ this, &buffer ]()
+        {
+            updateDataFromTable( buffer );
+        }
+    );
 
     setRange();
 
@@ -134,6 +139,8 @@ void LeftWidget::onInputTextChanged( const QString &text )
 
 void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 {
+    clearTable();
+
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
     auto max        = this->max->value();
@@ -163,6 +170,7 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
+    buffer.print();
 
     if( couldBuildTable )
     {
@@ -179,6 +187,8 @@ void LeftWidget::clearTable()
     tableWidget->setRowCount( 0 );
     errLabel->clear();
     manualInput = false;
+    X.clear();
+    Y.clear();
 }
 
 void LeftWidget::handleClearGraph( RightWidget &right )
@@ -280,6 +290,26 @@ void LeftWidget::editTable()
     manualInput = true;
     solve->setEnabled( true );
     solve->setStyleSheet( "background-color: lightgreen;" );
+}
+
+void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
+{
+    X.clear();
+    Y.clear();
+    for( int row{}; row < tableWidget->rowCount(); ++row )
+    {
+        QTableWidgetItem* itemX = tableWidget->item( row, 0 );
+        QTableWidgetItem* itemY = tableWidget->item( row, 1 );
+
+        if( itemX && itemY )
+        {
+            X.push_back( itemX->text().toDouble() );
+            Y.push_back( itemY->text().toDouble() );
+        }
+    }
+    buffer.x = QVector<double>( X.begin(), X.end() );
+    buffer.y = QVector<double>( Y.begin(), Y.end() );
+    buffer.print();
 }
 
 // МЕТОД ДЛЯ ОТРИСОВКИ ГРАФИКА ПО ДИСКРЕТНО ЗАДАННЫМ ВЕЛИЧИНАМ
