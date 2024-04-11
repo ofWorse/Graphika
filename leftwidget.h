@@ -26,21 +26,28 @@ private:
     QDoubleSpinBox* step;
     QLineEdit* expressionInput;
     QPushButton* solve;
+    QPushButton* manualTableInput;
     QTableWidget* tableWidget;
     QGridLayout* layout;
     QList<QSpinBox*> spinBoxes;
 
+    bool manualInput = false;
     bool couldBuildTable = true;
     std::vector<double> X;
+    std::vector<double> Y;
 
 public:
     explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y );
+    QLineEdit* getExpressionInput() const;
 
 private:
     void setRange( void );
 
     void setupNodes( const double node );
+
+    std::vector<double> fillDataFromTable( int column );
+    bool tableIsEmpty( void );
 
 public slots:
     void onValidateStringValid( void );
@@ -60,7 +67,13 @@ public slots:
 
     void switchLayers( int index );
 
-    void setEnteredXData( void );
+    void editTable( void );
+    void updateDataFromTable( SpecialBuffer& buffer );
+
+    void acceptData( const QString& expr, const double a, const double b );
+
+signals:
+    void readyToDraw( const std::vector<double> x, const std::vector<double> y );
 };
 
 #endif // LEFTWIDGET_H

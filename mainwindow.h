@@ -6,8 +6,8 @@
 #include "rightwidget.h"
 #include "layoutfactory.h"
 #include <QMainWindow>
+#include "sender.h"
 
-// TODO: Сделать принцип ответственности единственного объекта.
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -22,6 +22,7 @@ private:
     QGridLayout* scrollLayout;
     QGridLayout* layout;
     SpecialBuffer buffer;
+    Sender sender;
 
     std::vector<double> x;
     std::vector<double> y;
@@ -33,7 +34,12 @@ private:
     void clearLayout( QLayout *layout );
 
 public slots:
-    void sendAction( void );
+    void printGraph( void );
+    void printDiffGraph( void );
+    void invokeLagrangeMethod( void );
+    void invokeNewtonMethod( void );
+    void invokeBerrutaMethod( void );
+
     void clearGraph( void );
     void resetZoom( void );
 

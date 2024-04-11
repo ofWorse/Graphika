@@ -9,6 +9,8 @@
 #include <QString>
 #include <QRandomGenerator>
 #include <QColor>
+#include <iostream>
+
 
 GraphBuilder::GraphBuilder( QWidget* parent )
     : QWidget( parent )
@@ -16,7 +18,11 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     layout = new QGridLayout( this );
     wGraphic = new QCustomPlot( this );
 
-    wGraphic->setMinimumSize( 450, 380 );
+    textItem = new QCPItemText(wGraphic);
+    connect(wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove);
+
+    wGraphic->setMinimumSize( 450, 400 );
+
 
     tracer = new QCPItemTracer( wGraphic );
     tracer->setGraph( wGraphic->graph( 0 ) );
@@ -37,6 +43,18 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     if (name.isEmpty()){
         wGraphic->legend->setVisible( false );
     }
+
+
+    for( const auto& yPoints : data )
+    {
+        if( yPoints == yAxis )
+        {
+            return;
+        }
+    }
+
+    this->data.push_back( yAxis );
+
     auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
     auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
     auto maxYElement = std::max_element( yAxis.begin(), yAxis.end() );
@@ -112,11 +130,12 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
     }
     wGraphic->graph( i )->setName( name );
-    //wGraphic->legend->setVisible( true );
+    wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
-    pen.setWidth( 4 );
+    pen.setWidth( 2 );
     wGraphic->graph( i )->setPen( pen );
     i++;
+    wGraphic->replot();
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Horizontal,0.85);
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
@@ -135,11 +154,24 @@ void GraphBuilder::on_clearButton_clicked()
     wGraphic->legend->setVisible( false );
     wGraphic->replot();
     wGraphic->update();
+    data.clear();
 }
+
 void GraphBuilder::ZoomB(){
     wGraphic->xAxis->setRange( xmin, xmax );
     wGraphic->yAxis->setRange( ymin, ymax );
     wGraphic->replot();
     wGraphic->update();
 }
+
+void GraphBuilder::onMousMove(QMouseEvent *event){
+    QCustomPlot* customPlot = qobject_cast<QCustomPlot*>(sender());
+    double x = customPlot->xAxis->pixelToCoord(event->pos().x());
+    double y = customPlot->yAxis->pixelToCoord(event->pos().y());
+    textItem->setText(QString("(%1, %2)").arg(x).arg(y));
+    textItem->position->setCoords(QPointF(x,y));
+    textItem->setFont(QFont(font().family(), 10));
+    customPlot->replot();
+}
+
 

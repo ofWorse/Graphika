@@ -1,70 +1,91 @@
 #ifndef PYTHONCONVEYOR_H
 #define PYTHONCONVEYOR_H
-#include <Python.h>
-#include <iostream>
+
+
+#include <QObject>
+#include <QString>
 #include <vector>
-#include <string>
-#include <stdexcept>
-#include <sstream>
 
-class PythonConveyor
+class PythonConveyor : public QObject
 {
-private:
-    PyObject* pName;
-    PyObject* pModule;
-    PyObject* pDict;
-    PyObject* pObjct;
-    PyObject* pVal;
-    PyObject* sys;
-    PyObject* sys_path;
-    PyObject* folder_path;
-
-    std::string m_folderPath;
-    std::string m_moduleName;
-    std::string m_functionName;
-    std::string m_result;
-
-    std::vector<double> x;
-    std::vector<double> y;
+    Q_OBJECT
 
 public:
-    PythonConveyor( const std::string& folderPath, const std::string& moduleName, const std::string& functionName );
-    ~PythonConveyor();
+    explicit PythonConveyor( QObject* parent = nullptr );
+    PythonConveyor( const QString& pythonFilePath, const QString& functionName, QObject* parent = nullptr );
 
-    void setDataX( const std::vector<double>& x )
-    {
-        this->x = x;
-    }
+    void setPythonFilePath( const QString& pythonFilePath );
+    QString getPythonFilePath() const;
 
-    void setDataY( const std::vector<double>& y )
-    {
-        this->y = y;
-    }
+    void setFunctionName( const QString& functionName );
+    QString getFunctionName() const;
 
-    void setFolderPath( const std::string& folderPath );
-    void setModuleName( const std::string& moduleName );
-    void setFunctionName( const std::string& functionName );
-    std::string getResult( void );
+    void setFunctionToDiff( const QString& expression );
+    QString getFunctionToDiff() const;
 
-    void initialize( void );
+    void setFunctionToIntegration( const QString& expression );
+    QString getFunctionToIntegration() const;
 
-    std::vector<std::string> convertDoubleToString( const std::vector<double>& input )
-    {
-        std::vector<std::string> output;
+    void setPrecision( double precision );
+    double getPrecision() const;
 
-        for ( const auto& value : input )
-        {
-            std::ostringstream stream;
-            stream << value;
-            output.push_back( stream.str() );
-        }
+    void setResultVector(const QVector<double>& resultVector);
+    QVector<double> getResultVector() const;
 
-        return output;
-    }
+    void setStartNumToIntegration( double startNumToIntegration );
+    double getStartNumToIntegration() const;
 
-    void clear( void );
-    void sendArraysToPythonFunction(  );
-    void checkArraysSizes( const std::vector< std::string >& array1, const std::vector< std::string >& array2 );
+    void setEndNumToIntegration( double endNumToIntegration );
+    double getEndNumToIntegration() const;
+
+    void setStartNumToDiff( double startNumToDiff );
+    double getStartNumToDiff() const;
+
+    void setEndNumToDiff( double endNumToDiff );
+    double getEndNumToDiff() const;
+
+    void setDataX( const std::vector< double >& vector );
+    std::vector< double > get_X_Vector() const;
+
+    void setDataY( const std::vector< double >& vector );
+    std::vector< double > get_Y_Vector() const;
+
+    void setDataNums( const std::vector< double >& vector );
+    std::vector< double > get_Nums_Vector() const;
+
+    void setResult( const QString& result );
+    QString getResult() const;
+
+    void setResultValue(const double resultValue);
+    double getResultValue() const;
+
+    QStringList convertVectorToStringList( const std::vector< double >& inputVector );
+
+    void sendArraysToPythonFunction();
+    QString getResourceFilePath( const QString& resourcePath );
+
+    void sendDataToDifferentiation();
+    void sendDataToIntegration();
+
+private:
+    QString m_pythonFilePath;
+    QString m_functionName;
+    QString m_result;
+    QString m_functionToDiff;
+    QString m_functionToIntegration;
+    double m_precision;
+    double m_startNumToIntegration;
+    double m_endNumToIntegration;
+    double m_startNumToDiff;
+    double m_endNumToDiff;
+    double m_resultValue;
+    std::vector< double > m_xVector;
+    std::vector< double > m_yVector;
+    std::vector< double > m_numVector;
+
+    QVector<double> m_resultVector;
+
+    bool isResourcePath( const QString& path );
 };
 
 #endif // PYTHONCONVEYOR_H

@@ -2,9 +2,12 @@
 #define RIGHTWIDGET_H
 
 #include <QWidget>
+#include <QVector>
 #include "graphbuilder.h"
 #include "buffer.h"
 #include "pythonconveyor.h"
+#include "sender.h"
+#include "settings.h"
 
 class RightWidget : public QWidget
 {
@@ -29,9 +32,24 @@ private:
 
 public:
     explicit RightWidget( QWidget *parent = nullptr );
-    void printGraph( SpecialBuffer& buffer );
-    void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y );
+    void printGraph( SpecialBuffer& buffer, Sender& sender );
+    void printGraph( QVector<double>& x, QVector<double>& y, Sender& sender);
+    void printDiffGraph( SpecialBuffer& buffer, Sender& sender, const QString& expression);
+
+    void buildPolynome( SpecialBuffer& buffer, Sender& sender );
+    void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y, Sender& sender);
+
+    void differentiationSolve( const QString& expression, const QVector<double>& x, Sender& sender); // массив y'
+    void integrationSolve( const QString& expression, const double& a, const double& b, Sender& sender); // будет число
+
     void clearGraph( void );
+
+public slots:
+    void drawGraph( const std::vector<double> x, const std::vector<double> y );
+
+signals:
+    void errorOccured( const QString& err );
+    void readyToSendData( const QString& expr, const double a, const double b );
 };
 
 #endif // RIGHTWIDGET_H

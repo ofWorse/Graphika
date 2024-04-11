@@ -25,20 +25,54 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     scrollLayout->addWidget( leftWidget, 0, 0 );
     scrollLayout->addWidget( rightWidget, 0, 1 );
+    connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
+    connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
+    connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
 
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
-    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::sendAction );
-    connect( toolbar->actions().at( 4 ), &QAction::triggered, this, &MainWindow::clearGraph );
-    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::resetZoom );
+    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::printGraph );
+    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::printDiffGraph );
+    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::invokeLagrangeMethod );
+    connect( toolbar->actions().at( 4 ), &QAction::triggered, this, &MainWindow::invokeNewtonMethod );
+    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::invokeBerrutaMethod );
+    connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::clearGraph );
+    connect( toolbar->actions().at( 8 ), &QAction::triggered, this, &MainWindow::resetZoom );
 }
 
-void MainWindow::sendAction( void )
+void MainWindow::printGraph()
 {
-    rightWidget->printGraph( buffer );
+    sender.setMacro( pymodules::Methods::NIL, pymodules::Modules::NIL );
+    rightWidget->printGraph( buffer, sender );
+}
+
+void MainWindow::printDiffGraph()
+{
+    sender.setMacro( pymodules::Methods::DIFF_3P, pymodules::Modules::DIFFERENTIATION );
+    QString expression = leftWidget->getExpressionInput()->text();
+    rightWidget->printDiffGraph( buffer, sender, expression );
+}
+
+
+void MainWindow::invokeLagrangeMethod( void )
+{
+    sender.setMacro( pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS );
+    rightWidget->buildPolynome( buffer, sender );
+}
+
+void MainWindow::invokeNewtonMethod( void )
+{
+    sender.setMacro( pymodules::Methods::NEWTON, pymodules::Modules::POLYNOMIALS );
+    rightWidget->buildPolynome( buffer, sender );
+}
+
+void MainWindow::invokeBerrutaMethod( void )
+{
+    sender.setMacro( pymodules::Methods::BERRUTA, pymodules::Modules::POLYNOMIALS );
+    rightWidget->buildPolynome( buffer, sender );
 }
 
 void MainWindow::clearGraph( void )

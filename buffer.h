@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+#include <iostream>
 
 class SpecialBuffer : public QObject
 {
@@ -11,6 +12,21 @@ public:
     SpecialBuffer( void );
     QVector<double> x;
     QVector<double> y;
+
+    void print()
+    {
+        for( auto& a : x )
+        {
+            std::cout << a << " ";
+        }
+        std::cout << std::endl;
+
+        for( auto& a : y )
+        {
+            std::cout << a << " ";
+        }
+        std::cout << std::endl;
+    }
 };
 
 #endif // BUFFER_H

@@ -33,6 +33,8 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     expressionInput = new QLineEdit( this );
     connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
 
+    manualTableInput = new QPushButton( "Ручной ввод", this );
+    connect( manualTableInput, &QPushButton::clicked, this, &LeftWidget::editTable );
     solve = new QPushButton( "Решить", this );
     solve->setStyleSheet( "background-color: tomato;" );
     solve->setEnabled( false );
@@ -49,6 +51,11 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     QStringList labels;
     labels << "X" << "Y";
     tableWidget->setHorizontalHeaderLabels( labels );
+    connect( tableWidget, &QTableWidget::itemChanged, this, [ this, &buffer ]()
+        {
+            updateDataFromTable( buffer );
+        }
+    );
 
     setRange();
 
@@ -68,7 +75,8 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     layout->addWidget( nodes, 6, 1 );
     layout->addWidget( solve, 7, 0 );
     layout->addWidget( clearTable, 7, 1 );
-    layout->addWidget( tableWidget, 8, 0, Qt::AlignCenter );
+    layout->addWidget( manualTableInput, 8, 1 );
+    layout->addWidget( tableWidget, 9, 0, Qt::AlignCenter );
     layout->setColumnStretch( 1, 10 );
     layout->setColumnStretch( 0, 2 );
     hideFirstLayer();
@@ -131,32 +139,38 @@ void LeftWidget::onInputTextChanged( const QString &text )
 
 void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 {
+    clearTable();
+
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
     auto max        = this->max->value();
     auto step       = this->step->value();
 
     // TODO: Это отдельный метод и подумать над реализацией
-    if( !nodes->isVisible() )
+    if( !nodes->isVisible() && manualInput == false )
     {
         for( double i = min; i <= max; i += step )
         {
             X.push_back( i );
         }
-        if( X[ X.size() ] != max )
-        {
-            X.push_back( max );
-        }
+        parser->setDataX( X );
+        Y = parser->parseExpression( expression.toStdString().c_str() );
     }
-    else
+    else if( nodes->isVisible() && manualInput == false )
     {
         setupNodes( nodes->value() );
+        parser->setDataX( X );
+        Y = parser->parseExpression( expression.toStdString().c_str() );
+    }
+    else if( manualInput )
+    {
+        X = fillDataFromTable( 0 );
+        Y = fillDataFromTable( 1 );
     }
 
-    parser->setDataX( X );
-    std::vector<double> Y = parser->parseExpression( expression.toStdString().c_str() );
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
+    buffer.print();
 
     if( couldBuildTable )
     {
@@ -164,6 +178,7 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
     }
     couldBuildTable = true;
     X.clear();
+    Y.clear();
 }
 
 void LeftWidget::clearTable()
@@ -171,6 +186,9 @@ void LeftWidget::clearTable()
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
     errLabel->clear();
+    manualInput = false;
+    X.clear();
+    Y.clear();
 }
 
 void LeftWidget::handleClearGraph( RightWidget &right )
@@ -219,6 +237,34 @@ void LeftWidget::setupNodes( const double node )
     }
 }
 
+std::vector<double> LeftWidget::fillDataFromTable( int column )
+{
+    std::vector<double> data;
+    for( int row{}; row < tableWidget->rowCount(); ++row )
+    {
+        QTableWidgetItem* item = tableWidget->item( row, column );
+        if( item != nullptr )
+        {
+            bool ok;
+            double value = item->text().toDouble( &ok );
+            if( ok )
+            {
+                data.push_back( value );
+            }
+            else
+            {
+                emit handleParserError( QString::asprintf( "Некорректное значение в таблице. Строка: %d", row+1 ) );
+            }
+        }
+        else
+        {
+            emit handleParserError( QString::asprintf( "Пустая ячейка в строке: %d", row+1 ) );
+        }
+    }
+    return data;
+}
+
+
 void LeftWidget::switchLayers( int index )
 {
     if( index == 0 )
@@ -231,13 +277,54 @@ void LeftWidget::switchLayers( int index )
     }
 }
 
-// Для дебага
-void LeftWidget::setEnteredXData()
+void LeftWidget::editTable()
 {
-    if( X.empty() ) std::cout << "empty" << std::endl;
-    for( const auto& x : X )
+    clearTable();
+    tableWidget->setColumnCount( 2 );
+    tableWidget->setRowCount( 10 );
+    for( int row{}; row < tableWidget->rowCount(); ++row )
     {
-        std::cout << x << " ";;
+        QRadioButton* button = new QRadioButton;
+        tableWidget->setCellWidget( row, 2, button );
     }
-    std::cout << std::endl;
+    manualInput = true;
+    solve->setEnabled( true );
+    solve->setStyleSheet( "background-color: lightgreen;" );
+}
+
+void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
+{
+    X.clear();
+    Y.clear();
+    for( int row{}; row < tableWidget->rowCount(); ++row )
+    {
+        QTableWidgetItem* itemX = tableWidget->item( row, 0 );
+        QTableWidgetItem* itemY = tableWidget->item( row, 1 );
+
+        if( itemX && itemY )
+        {
+            X.push_back( itemX->text().toDouble() );
+            Y.push_back( itemY->text().toDouble() );
+        }
+    }
+    buffer.x = QVector<double>( X.begin(), X.end() );
+    buffer.y = QVector<double>( Y.begin(), Y.end() );
+    buffer.print();
+}
+
+// МЕТОД ДЛЯ ОТРИСОВКИ ГРАФИКА ПО ДИСКРЕТНО ЗАДАННЫМ ВЕЛИЧИНАМ
+void LeftWidget::acceptData( const QString &expr, const double a, const double b )
+{
+    std::vector<double> x;
+    for( double i = a; i <= b; i += 0.1 )
+    {
+        x.push_back( i );
+    }
+    parser->setDataX( x );
+    std::vector<double> y = parser->parseExpression( expr.toStdString().c_str() );
+    emit readyToDraw( x, y );
+}
+
+QLineEdit* LeftWidget::getExpressionInput() const {
+    return expressionInput;
 }

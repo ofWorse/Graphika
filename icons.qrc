@@ -6,5 +6,8 @@
         <file>resources/clean.PNG</file>
         <file>resources/berruta.PNG</file>
         <file>resources/about.PNG</file>
+        <file>resources/home.PNG</file>
+        <file>resources/diff.PNG</file>
+        <file>resources/int.PNG</file>
     </qresource>
 </RCC>
