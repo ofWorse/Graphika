@@ -125,14 +125,14 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     QPen pin( color );
     wGraphic->graph( i )->setPen( pin );
     if (scatterOn == false){
-        wGraphic->graph(i)->setScatterStyle(QCPGraph::lsNone);
+        //wGraphic->graph(i)->setScatterStyle();
     }else {
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
     }
     wGraphic->graph( i )->setName( name );
     wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
-    pen.setWidth( 2 );
+    pen.setWidth( 4 );
     wGraphic->graph( i )->setPen( pen );
     i++;
     wGraphic->replot();

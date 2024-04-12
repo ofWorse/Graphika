@@ -22,7 +22,7 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
 
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName );
+    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false );
 
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
@@ -32,7 +32,7 @@ void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& se
 {
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, "График производной функции" );
+    graphBuilder->PaintG( x, y, "График производной функции", true, false  );
 
 }
 
@@ -51,7 +51,13 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender )
 {
     x = buffer.x;
     y = buffer.y;
+    if( x.size() > pymodules::NODES_LIMIT )
+    {
+        emit errorOccured( "Не больше 10 узлов" );
+        return;
+    }
     graphBuilder->wGraphic->replot();
+    graphBuilder->PaintG( x, y, "Точки интерполяции", false, true );
     interpolationSolve( x.toStdVector(), y.toStdVector(), sender );
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
@@ -105,5 +111,5 @@ void RightWidget::drawGraph( const std::vector<double> x, const std::vector<doub
 {
     QVector<double> X = QVector<double>::fromStdVector( x );
     QVector<double> Y = QVector<double>::fromStdVector( y );
-    graphBuilder->PaintG( X, Y, "График интерполяции" );
+    graphBuilder->PaintG( X, Y, "График интерполяции", true, false );
 }
