@@ -1,7 +1,7 @@
 #ifndef PYTHONCONVEYOR_H
 #define PYTHONCONVEYOR_H
 
-
+#include<Python.h>
 #include <QObject>
 #include <QString>
 #include <vector>
@@ -67,21 +67,30 @@ public:
     void sendDataToDifferentiation();
     void sendDataToIntegration();
 
+    void initPythonInterpreter();
+    PyObject* getPythonFunction(const QString& functionName);
+
 private:
     QString m_pythonFilePath;
     QString m_functionName;
     QString m_result;
     QString m_functionToDiff;
     QString m_functionToIntegration;
+
     double m_precision;
     double m_startNumToIntegration;
     double m_endNumToIntegration;
     double m_startNumToDiff;
     double m_endNumToDiff;
     double m_resultValue;
+
     std::vector< double > m_xVector;
     std::vector< double > m_yVector;
     std::vector< double > m_numVector;
+
+    PyObject* module;
+    PyObject* globals;
+    PyObject* result;
 
     QVector<double> m_resultVector;
 
