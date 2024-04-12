@@ -75,6 +75,75 @@ QString PythonConveyor::getResult() const
     return m_result;
 }
 
+std::vector< double > PythonConveyor::get_Nums_Vector() const
+{
+    return m_numVector;
+}
+
+void PythonConveyor::setDataNums( const std::vector< double > &vector )
+{
+    m_numVector = vector;
+}
+
+void PythonConveyor::setFunctionToDiff( const QString& expression )
+{
+    m_functionToDiff = expression;
+}
+
+QString PythonConveyor::getFunctionToDiff() const
+{
+    return m_functionToDiff;
+}
+
+void PythonConveyor::setFunctionToIntegration(const QString &expression)
+{
+    m_functionToIntegration = expression;
+}
+QString PythonConveyor::getFunctionToIntegration() const
+{
+    return m_functionToIntegration;
+}
+
+void PythonConveyor::setStartNumToIntegration(double startNumToIntegration)
+{
+    m_startNumToIntegration = startNumToIntegration;
+}
+
+double PythonConveyor::getStartNumToIntegration() const
+{
+    return m_startNumToIntegration;
+}
+
+void PythonConveyor::setEndNumToIntegration(double endNumToIntegration)
+{
+    m_endNumToIntegration = endNumToIntegration;
+}
+
+double PythonConveyor::getEndNumToIntegration() const
+{
+    return m_endNumToIntegration;
+}
+
+void PythonConveyor::setStartNumToDiff(double startNumToDiff)
+{
+    m_startNumToDiff = startNumToDiff;
+}
+
+double PythonConveyor::getStartNumToDiff() const
+{
+    return m_startNumToDiff;
+}
+
+void PythonConveyor::setEndNumToDiff(double endNumToDiff)
+{
+    m_endNumToDiff = endNumToDiff;
+}
+
+double PythonConveyor::getEndNumToDiff() const
+{
+    return m_endNumToDiff;
+}
+
 QStringList PythonConveyor::convertVectorToStringList( const std::vector< double >& inputVector )
 {
     QStringList stringList;
@@ -89,6 +158,7 @@ bool PythonConveyor::isResourcePath( const QString& path )
 {
     return path.startsWith( ":/" );
 }
+
 QString PythonConveyor::getResourceFilePath( const QString& resourcePath )
 {
     // Проверяем, существует ли ресурсный файл
@@ -106,48 +176,11 @@ QString PythonConveyor::getResourceFilePath( const QString& resourcePath )
 
 void PythonConveyor::sendArraysToPythonFunction()
 {
-    // Инициализация интерпретатора Python
-    Py_Initialize();
+    initPythonInterpreter();
 
-    QString absoluteFilePath = isResourcePath( m_pythonFilePath ) ? getResourceFilePath( m_pythonFilePath ) : m_pythonFilePath;
-
-    // Проверка существования файла Python
-    QFile file( absoluteFilePath );
-    if ( !file.exists() ) {
-        qDebug() << "Python file does not exist: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Открытие файла Python
-    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
-        qDebug() << "Failed to open Python file: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Загрузка кода из файла Python
-    QByteArray byteArray = file.readAll();
-    PyObject* module = PyImport_AddModule( "__main__" );
-    PyObject* globals = PyModule_GetDict( module );
-    PyObject* result = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
-    if ( !result ) {
-        qDebug() << "Failed to execute Python script: " << absoluteFilePath;
-        PyErr_Print();
-        file.close();
-        Py_Finalize();
-        return;
-    }
-
-    // Закрытие файла Python
-    file.close();
-
-    // Получение объекта функции из модуля Python
-    PyObject* function = PyObject_GetAttrString( module, m_functionName.toStdString().c_str() );
-    if ( !function || !PyCallable_Check( function ) ) {
-        qDebug() << "Function" << m_functionName << "is not callable or does not exist";
-        Py_DECREF(result);
-        Py_Finalize();
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
         return;
     }
 
@@ -195,3 +228,180 @@ void PythonConveyor::sendArraysToPythonFunction()
     Py_Finalize();
 }
 
+void PythonConveyor::sendDataToIntegration()
+{
+    initPythonInterpreter();
+
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
+        return;
+    }
+
+    // Подготовка аргументов для вызова функции Python
+    PyObject* args = PyTuple_New( 3 );
+
+    //Установка строки функции в аргументы
+    PyTuple_SetItem( args, 0, Py_BuildValue( "s", m_functionToIntegration.toUtf8().constData() ) );
+
+    // Установка начального числа интегрирования в аргументы кортежа
+    PyTuple_SetItem(args, 1, Py_BuildValue("d", m_startNumToIntegration));
+
+    // Установка конечного числа интегрирования в аргументы кортежа
+    PyTuple_SetItem(args, 2, Py_BuildValue("d", m_endNumToIntegration));
+
+    // Вызов функции Python
+    PyObject* pyResult = PyObject_CallObject( function, args );
+    if ( !pyResult ) {
+        qDebug() << "Failed to call function" << m_functionName;
+        PyErr_Print();
+    } else {
+        // Обработка результата, если это необходимо
+        double resultValue = PyFloat_AsDouble(pyResult); // Преобразование результата в число
+        setResultValue(resultValue); // Установка результата в поле класса
+
+        // Преобразование результата в строку для вывода в консоль
+        QString resultString = QString::number(resultValue);
+        qDebug() << "Integration result: " << resultString;
+        setResult(resultString);
+
+        Py_DECREF( pyResult );
+    }
+
+    // Освобождение ресурсов
+    Py_DECREF( args );
+    Py_DECREF( function );
+    Py_DECREF( result );
+
+    // Финализация интерпретатора Python
+    Py_Finalize();
+}
+
+void PythonConveyor::sendDataToDifferentiation()
+{
+    initPythonInterpreter();
+
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
+        return;
+    }
+
+    // Подготовка аргументов для вызова функции Python
+    PyObject* args = PyTuple_New( 2 );
+
+    PyObject* numList = PyList_New(m_numVector.size());
+
+    for ( int i = 0; i < m_numVector.size(); ++i )
+    {
+        PyList_SetItem(numList, i, PyFloat_FromDouble(m_numVector[i]));
+    }
+
+
+    //Установка строки функции в аргументы
+    PyTuple_SetItem( args, 0, Py_BuildValue( "s", m_functionToDiff.toUtf8().constData() ) );
+
+    PyTuple_SetItem( args, 1, numList);
+
+    // Вызов функции Python
+    PyObject* pyResult = PyObject_CallObject( function, args );
+    if ( !pyResult ) {
+        qDebug() << "Failed to call function" << m_functionName;
+        PyErr_Print();
+    } else {
+        // Преобразование списка в вектор чисел
+        if (PyList_Check(pyResult)) {
+            int size = PyList_Size(pyResult);
+            QVector<double> resultList;
+            QString resultString;
+            for (int i = 0; i < size; ++i) {
+                PyObject* item = PyList_GetItem(pyResult, i);
+                // Получение числового значения элемента списка
+                double value = PyFloat_AsDouble(item);
+                resultList.append(value);
+                // Добавление значения в строку для вывода в консоль
+                resultString += QString::number(value) + " ";
+            }
+            // Вывод результата в консоль как строку
+            qDebug() << "Differentiation result: " << resultString;
+            // Установка результирующего вектора чисел в поле класса
+            setResultVector(resultList);
+            setResult(resultString);
+        }
+        Py_DECREF( pyResult );
+    }
+
+    // Освобождение ресурсов
+    Py_DECREF( args );
+    Py_DECREF( function );
+    Py_DECREF( result );
+
+    // Финализация интерпретатора Python
+    Py_Finalize();
+}
+
+void PythonConveyor::setResultVector(const QVector<double>& resultVector)
+{
+    m_resultVector = resultVector;
+}
+
+QVector<double> PythonConveyor::getResultVector() const{
+    return m_resultVector;
+}
+
+void PythonConveyor::setResultValue(const double resultValue)
+{
+    m_resultValue = resultValue;
+}
+
+double PythonConveyor::getResultValue() const
+{
+    return m_resultValue;
+}
+
+void PythonConveyor::initPythonInterpreter()
+{
+    Py_Initialize();
+
+    QString absoluteFilePath = isResourcePath( m_pythonFilePath ) ? getResourceFilePath( m_pythonFilePath ) : m_pythonFilePath;
+
+    QFile file( absoluteFilePath );
+    if ( !file.exists() ) {
+        qDebug() << "Python file does not exist: " << absoluteFilePath;
+        Py_Finalize();
+        return;
+    }
+
+    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+        qDebug() << "Failed to open Python file: " << absoluteFilePath;
+        Py_Finalize();
+        return;
+    }
+
+    QByteArray byteArray = file.readAll();
+    module = PyImport_AddModule( "__main__" );
+    globals = PyModule_GetDict( module );
+    result = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
+    if ( !result ) {
+        qDebug() << "Failed to execute Python script: " << absoluteFilePath;
+        PyErr_Print();
+        file.close();
+        Py_Finalize();
+        return;
+    }
+
+    file.close();
+    Py_DECREF(result);
+}
+
+PyObject* PythonConveyor::getPythonFunction(const QString &functionName)
+{
+    PyObject* function = PyObject_GetAttrString(module, functionName.toStdString().c_str());
+    if (!function || !PyCallable_Check(function)) {
+        qDebug() << "Function" << functionName << "is not callable or does not exist";
+        Py_DECREF(result);
+        Py_Finalize();
+        return nullptr;
+    }
+    return function;
+}

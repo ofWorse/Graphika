@@ -34,7 +34,7 @@ public:
     explicit GraphBuilder( QWidget *parent = nullptr );
 
 public slots:
-    void PaintG( QVector<double>& x, QVector<double>& y, const QString& name );
+    void PaintG( QVector<double>& x, QVector<double>& y, const QString& name, bool graphOn, bool scatterOn);
     void on_clearButton_clicked( void );
     void ZoomB();
     void onMousMove(QMouseEvent* event);

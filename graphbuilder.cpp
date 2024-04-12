@@ -38,8 +38,12 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     layout->addWidget( wGraphic );
 }
 
-void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name )
+void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
 {
+    if (name.isEmpty()){
+        wGraphic->legend->setVisible( false );
+    }
+
 
     for( const auto& yPoints : data )
     {
@@ -111,13 +115,20 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
 
     wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
     wGraphic->graph( i )->setData( xAxis, yAxis );
+    if (graphOn == false){
+        wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
+    }
     //wGraphic->graph(i)->setInterpolation(trou);
     QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 255 ),
                                     QRandomGenerator::global()->bounded( 255 ),
                                     QRandomGenerator::global()->bounded( 255 ) );
     QPen pin( color );
     wGraphic->graph( i )->setPen( pin );
+    if (scatterOn == false){
+        wGraphic->graph(i)->setScatterStyle(QCPGraph::lsNone);
+    }else {
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
+    }
     wGraphic->graph( i )->setName( name );
     wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
@@ -129,6 +140,8 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Horizontal,0.85);
     wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
 }
+
+
 
 
 void GraphBuilder::on_clearButton_clicked()
