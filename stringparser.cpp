@@ -50,7 +50,7 @@ std::string StringParser::parseToken()
         { "+", "-", "*", "/", "^", "abs", "sin",
           "sinh", "cos", "cosh", "ln", "lg", "tan", "asin",
           "acos", "atan", "tanh", "sqrt", "cbrt", "ceil",
-          "floor", "round", "(", ")" };
+          "floor", "round", "exp", "(", ")" };
     for( auto& t : tokens )
     {
         if( std::strncmp( reinterpret_cast<const char*>( input ), t.c_str(), t.size() ) == 0 )
@@ -242,6 +242,7 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
                 return log10( a );
             }
         }
+        if( expr.token == "exp" ) return exp( a );
     }
     case 0:
     {
