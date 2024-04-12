@@ -144,9 +144,6 @@ double PythonConveyor::getEndNumToDiff() const
     return m_endNumToDiff;
 }
 
-
-//-------------------------
-
 QStringList PythonConveyor::convertVectorToStringList( const std::vector< double >& inputVector )
 {
     QStringList stringList;
@@ -177,52 +174,13 @@ QString PythonConveyor::getResourceFilePath( const QString& resourcePath )
     return absoluteFilePath;
 }
 
-//-------------------------
-
 void PythonConveyor::sendArraysToPythonFunction()
 {
-    // Инициализация интерпретатора Python
-    Py_Initialize();
+    initPythonInterpreter();
 
-    QString absoluteFilePath = isResourcePath( m_pythonFilePath ) ? getResourceFilePath( m_pythonFilePath ) : m_pythonFilePath;
-
-    // Проверка существования файла Python
-    QFile file( absoluteFilePath );
-    if ( !file.exists() ) {
-        qDebug() << "Python file does not exist: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Открытие файла Python
-    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
-        qDebug() << "Failed to open Python file: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Загрузка кода из файла Python
-    QByteArray byteArray = file.readAll();
-    PyObject* module = PyImport_AddModule( "__main__" );
-    PyObject* globals = PyModule_GetDict( module );
-    PyObject* result = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
-    if ( !result ) {
-        qDebug() << "Failed to execute Python script: " << absoluteFilePath;
-        PyErr_Print();
-        file.close();
-        Py_Finalize();
-        return;
-    }
-
-    // Закрытие файла Python
-    file.close();
-
-    // Получение объекта функции из модуля Python
-    PyObject* function = PyObject_GetAttrString( module, m_functionName.toStdString().c_str() );
-    if ( !function || !PyCallable_Check( function ) ) {
-        qDebug() << "Function" << m_functionName << "is not callable or does not exist";
-        Py_DECREF(result);
-        Py_Finalize();
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
         return;
     }
 
@@ -272,48 +230,11 @@ void PythonConveyor::sendArraysToPythonFunction()
 
 void PythonConveyor::sendDataToIntegration()
 {
-    // Инициализация интерпретатора Python
-    Py_Initialize();
+    initPythonInterpreter();
 
-    QString absoluteFilePath = isResourcePath( m_pythonFilePath ) ? getResourceFilePath( m_pythonFilePath ) : m_pythonFilePath;
-
-    // Проверка существования файла Python
-    QFile file( absoluteFilePath );
-    if ( !file.exists() ) {
-        qDebug() << "Python file does not exist: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Открытие файла Python
-    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
-        qDebug() << "Failed to open Python file: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Загрузка кода из файла Python
-    QByteArray byteArray = file.readAll();
-    PyObject* module = PyImport_AddModule( "__main__" );
-    PyObject* globals = PyModule_GetDict( module );
-    PyObject* result = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
-    if ( !result ) {
-        qDebug() << "Failed to execute Python script: " << absoluteFilePath;
-        PyErr_Print();
-        file.close();
-        Py_Finalize();
-        return;
-    }
-
-    // Закрытие файла Python
-    file.close();
-
-    // Получение объекта функции из модуля Python
-    PyObject* function = PyObject_GetAttrString( module, m_functionName.toStdString().c_str() );
-    if ( !function || !PyCallable_Check( function ) ) {
-        qDebug() << "Function" << m_functionName << "is not callable or does not exist";
-        Py_DECREF(result);
-        Py_Finalize();
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
         return;
     }
 
@@ -358,48 +279,11 @@ void PythonConveyor::sendDataToIntegration()
 
 void PythonConveyor::sendDataToDifferentiation()
 {
-    // Инициализация интерпретатора Python
-    Py_Initialize();
+    initPythonInterpreter();
 
-    QString absoluteFilePath = isResourcePath( m_pythonFilePath ) ? getResourceFilePath( m_pythonFilePath ) : m_pythonFilePath;
-
-    // Проверка существования файла Python
-    QFile file( absoluteFilePath );
-    if ( !file.exists() ) {
-        qDebug() << "Python file does not exist: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Открытие файла Python
-    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
-        qDebug() << "Failed to open Python file: " << absoluteFilePath;
-        Py_Finalize();
-        return;
-    }
-
-    // Загрузка кода из файла Python
-    QByteArray byteArray = file.readAll();
-    PyObject* module = PyImport_AddModule( "__main__" );
-    PyObject* globals = PyModule_GetDict( module );
-    PyObject* result = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
-    if ( !result ) {
-        qDebug() << "Failed to execute Python script: " << absoluteFilePath;
-        PyErr_Print();
-        file.close();
-        Py_Finalize();
-        return;
-    }
-
-    // Закрытие файла Python
-    file.close();
-
-    // Получение объекта функции из модуля Python
-    PyObject* function = PyObject_GetAttrString( module, m_functionName.toStdString().c_str() );
-    if ( !function || !PyCallable_Check( function ) ) {
-        qDebug() << "Function" << m_functionName << "is not callable or does not exist";
-        Py_DECREF(result);
-        Py_Finalize();
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
         return;
     }
 
@@ -473,4 +357,51 @@ void PythonConveyor::setResultValue(const double resultValue)
 double PythonConveyor::getResultValue() const
 {
     return m_resultValue;
+}
+
+void PythonConveyor::initPythonInterpreter()
+{
+    Py_Initialize();
+
+    QString absoluteFilePath = isResourcePath( m_pythonFilePath ) ? getResourceFilePath( m_pythonFilePath ) : m_pythonFilePath;
+
+    QFile file( absoluteFilePath );
+    if ( !file.exists() ) {
+        qDebug() << "Python file does not exist: " << absoluteFilePath;
+        Py_Finalize();
+        return;
+    }
+
+    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+        qDebug() << "Failed to open Python file: " << absoluteFilePath;
+        Py_Finalize();
+        return;
+    }
+
+    QByteArray byteArray = file.readAll();
+    module = PyImport_AddModule( "__main__" );
+    globals = PyModule_GetDict( module );
+    result = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
+    if ( !result ) {
+        qDebug() << "Failed to execute Python script: " << absoluteFilePath;
+        PyErr_Print();
+        file.close();
+        Py_Finalize();
+        return;
+    }
+
+    file.close();
+    Py_DECREF(result);
+}
+
+PyObject* PythonConveyor::getPythonFunction(const QString &functionName)
+{
+    PyObject* function = PyObject_GetAttrString(module, functionName.toStdString().c_str());
+    if (!function || !PyCallable_Check(function)) {
+        qDebug() << "Function" << functionName << "is not callable or does not exist";
+        Py_DECREF(result);
+        Py_Finalize();
+        return nullptr;
+    }
+    return function;
 }
