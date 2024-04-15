@@ -5,12 +5,15 @@
 //       Сделать вертикальное меню
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
-    setFixedSize( 1020, 540 );
+    resize( 1020, 600 );
+    setMinimumSize( 640, 380 );
+    setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
 
     menu = new Menu( this );
 
     toolbar = new Toolbar( this );
+    toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
     addToolBar( Qt::RightToolBarArea, toolbar );
 
     QScrollArea *scrollArea = new QScrollArea( this );

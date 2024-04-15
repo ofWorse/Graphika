@@ -19,9 +19,9 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     wGraphic = new QCustomPlot( this );
 
     textItem = new QCPItemText(wGraphic);
-    connect(wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove);
+    connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove );
 
-    wGraphic->setMinimumSize( 450, 400 );
+    wGraphic->setMinimumSize( 550, 500 );
 
 
     tracer = new QCPItemTracer( wGraphic );
