@@ -7,12 +7,14 @@
 #include "layoutfactory.h"
 #include <QMainWindow>
 #include "sender.h"
+#include "menu.h"
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 private:
+    Menu* menu;
     QMainWindow* mainWindow;
     Toolbar* toolbar;
     QWidget* centralwidget;

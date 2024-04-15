@@ -18,6 +18,7 @@ SOURCES += \
     leftwidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    menu.cpp \
     pythonconveyor.cpp \
     rightwidget.cpp \
     sender.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     expressionvalidator.h \
     leftwidget.h \
     mainwindow.h \
+    menu.h \
     pythonconveyor.h \
     rightwidget.h \
     sender.h \
