@@ -61,7 +61,7 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
 
     layout = new QGridLayout( this );
     layout->addWidget( label, 0, 0 );
-    layout->addWidget( expressionInput, 0, 1 );
+    layout->addWidget( expressionInput, 0, 1, 1, 10 );
     layout->addWidget( errLabel, 1, 0 );
     layout->addWidget( typeOfInput, 2, 0 );
     layout->addWidget( typeOfVariableInput, 2, 1 );
@@ -76,7 +76,7 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     layout->addWidget( solve, 7, 0 );
     layout->addWidget( clearTable, 7, 1 );
     layout->addWidget( manualTableInput, 8, 1 );
-    layout->addWidget( tableWidget, 9, 0, Qt::AlignCenter );
+    layout->addWidget( tableWidget, 9, 0, 1, 2 );
     layout->setColumnStretch( 1, 10 );
     layout->setColumnStretch( 0, 2 );
     hideFirstLayer();
