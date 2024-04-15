@@ -8,6 +8,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setFixedSize( 1020, 540 );
     setWindowTitle( "Graphika" );
 
+    menu = new Menu( this );
+
     toolbar = new Toolbar( this );
     addToolBar( Qt::RightToolBarArea, toolbar );
 
@@ -23,8 +25,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setCentralWidget( centralwidget );
     scrollLayout = new QGridLayout( scrollContentWidget );
 
-    scrollLayout->addWidget( leftWidget, 0, 0 );
-    scrollLayout->addWidget( rightWidget, 0, 1 );
+    scrollLayout->addWidget( menu->get(), 0, 0, 1, 2 );
+    scrollLayout->addWidget( leftWidget, 1, 0 );
+    scrollLayout->addWidget( rightWidget, 1, 1 );
     connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
     connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
