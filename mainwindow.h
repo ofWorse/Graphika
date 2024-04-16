@@ -5,8 +5,8 @@
 #include "leftwidget.h"
 #include "rightwidget.h"
 #include "layoutfactory.h"
-#include <QMainWindow>
 #include "sender.h"
+#include "compositestatestack.h"
 #include "menu.h"
 
 class MainWindow : public QMainWindow
@@ -24,16 +24,20 @@ private:
     QGridLayout* scrollLayout;
     QGridLayout* layout;
     SpecialBuffer buffer;
+    CompositeStateStack logStack;
     Sender sender;
 
     std::vector<double> x;
     std::vector<double> y;
+
+    bool isSession{ false };
 
 public:
     explicit MainWindow( QWidget* parent = nullptr );
 
 private:
     void clearLayout( QLayout *layout );
+    QAction* action( const QString& name, Menu* menu );
 
 public slots:
     void printGraph( void );
@@ -44,6 +48,9 @@ public slots:
 
     void clearGraph( void );
     void resetZoom( void );
+
+    void startSession( void );
+    void endSession( void );
 
 friend RightWidget;
 friend LeftWidget;
