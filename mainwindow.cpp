@@ -10,7 +10,10 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
 
+    // TODO: Подумать над реализацией соединения
     menu = new Menu( this );
+   //connect( action( tr( "Начать сессию" ), menu ), &QAction::triggered, this, &MainWindow::startSession );
+   //connect( action( tr( "Закончить сессию" ), menu ), &QAction::triggered, this, &MainWindow::endSession );
 
     toolbar = new Toolbar( this );
     toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
@@ -31,6 +34,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollLayout->addWidget( menu->get(), 0, 0, 1, 2 );
     scrollLayout->addWidget( leftWidget, 1, 0 );
     scrollLayout->addWidget( rightWidget, 1, 1 );
+    connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
+    connect( leftWidget, &LeftWidget::sendData, &logStack, &CompositeStateStack::receiveData );
     connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
     connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
@@ -49,36 +54,73 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 8 ), &QAction::triggered, this, &MainWindow::resetZoom );
 }
 
+QAction* MainWindow::action( const QString &name, Menu* menu )
+{
+    foreach( QAction* action, menu->actions() )
+    {
+        if( action->text() == name )
+        {
+            return action;
+        }
+    }
+    return nullptr;
+}
+
 void MainWindow::printGraph()
 {
     sender.setMacro( pymodules::Methods::NIL, pymodules::Modules::NIL );
-    rightWidget->printGraph( buffer, sender );
+    if( isSession )
+    {
+        rightWidget->printGraph( buffer, sender, &logStack );
+        return;
+    }
+    rightWidget->printGraph( buffer, sender, nullptr );
 }
 
 void MainWindow::printDiffGraph()
 {
     sender.setMacro( pymodules::Methods::DIFF_3P, pymodules::Modules::DIFFERENTIATION );
     QString expression = leftWidget->getExpressionInput()->text();
-    rightWidget->printDiffGraph( buffer, sender, expression );
+    if( isSession )
+    {
+        rightWidget->printDiffGraph( buffer, sender, expression, &logStack );
+        return;
+    }
+    rightWidget->printDiffGraph( buffer, sender, expression, nullptr );
 }
 
 
 void MainWindow::invokeLagrangeMethod( void )
 {
     sender.setMacro( pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS );
-    rightWidget->buildPolynome( buffer, sender );
+    if( isSession )
+    {
+        rightWidget->buildPolynome( buffer, sender, &logStack );
+        return;
+    }
+    rightWidget->buildPolynome( buffer, sender, nullptr );
 }
 
 void MainWindow::invokeNewtonMethod( void )
 {
     sender.setMacro( pymodules::Methods::NEWTON, pymodules::Modules::POLYNOMIALS );
-    rightWidget->buildPolynome( buffer, sender );
+    if( isSession )
+    {
+        rightWidget->buildPolynome( buffer, sender, &logStack );
+        return;
+    }
+    rightWidget->buildPolynome( buffer, sender, nullptr );
 }
 
 void MainWindow::invokeBerrutaMethod( void )
 {
     sender.setMacro( pymodules::Methods::BERRUTA, pymodules::Modules::POLYNOMIALS );
-    rightWidget->buildPolynome( buffer, sender );
+    if( isSession )
+    {
+        rightWidget->buildPolynome( buffer, sender, &logStack );
+        return;
+    }
+    rightWidget->buildPolynome( buffer, sender, nullptr );
 }
 
 void MainWindow::clearGraph( void )
@@ -89,4 +131,15 @@ void MainWindow::clearGraph( void )
 void MainWindow::resetZoom( void )
 {
     rightWidget->graphBuilder->ZoomB();
+}
+
+void MainWindow::startSession( void )
+{
+    isSession = true;
+    action( tr( "Закончить сессию" ), menu )->setVisible( true );
+}
+
+void MainWindow::endSession()
+{
+    isSession = false;
 }

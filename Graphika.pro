@@ -15,11 +15,13 @@ RESOURCES += ./resources/icons.qrc \
 
 SOURCES += \
     buffer.cpp \
+    compositestatestack.cpp \
     leftwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     menu.cpp \
     pythonconveyor.cpp \
+    reportpdfgenerator.cpp \
     rightwidget.cpp \
     sender.cpp \
     stringparser.cpp \
@@ -34,11 +36,13 @@ INCLUDEPATH += ./python3.11/
 
 HEADERS += \
     buffer.h \
+    compositestatestack.h \
     expressionvalidator.h \
     leftwidget.h \
     mainwindow.h \
     menu.h \
     pythonconveyor.h \
+    reportpdfgenerator.h \
     rightwidget.h \
     sender.h \
     settings.h \

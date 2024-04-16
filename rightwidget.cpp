@@ -15,7 +15,7 @@ RightWidget::RightWidget( QWidget *parent )
     rightLayout->addWidget( graphBuilder );
 }
 
-void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
+void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
 {
     x = buffer.x;
     y = buffer.y;
@@ -26,28 +26,42 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender )
 
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
+
+    if( stack )
+    {
+        emit sendData( model, false );
+        emit sendData( graphBuilder->wGraphic, false );
+    }
 }
 
-void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& sender )
+void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
 {
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, "График производной функции", true, false  );
+    graphBuilder->PaintG( x, y, "График производной функции", true, false );
 
+    if( stack )
+    {
+        emit sendData( graphBuilder->wGraphic, false );
+    }
 }
 
 
-void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const QString& expression )
+void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const QString& expression, const CompositeStateStack* stack )
 {
-    //Временный код для тестирования differentiationSolve
     x = buffer.x;
 
     graphBuilder->wGraphic->replot();
 
     differentiationSolve( expression, x, sender );
+
+    if( stack )
+    {
+        emit sendData( graphBuilder->wGraphic, false );
+    }
 }
 
-void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender )
+void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const CompositeStateStack* stack  )
 {
     x = buffer.x;
     y = buffer.y;
@@ -62,6 +76,12 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender )
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
     emit readyToSendData( model->text(), x[0], x.back() );
+
+    if( stack )
+    {
+        emit sendData( model, false );
+        emit sendData( graphBuilder->wGraphic, false );
+    }
 }
 
 void RightWidget::interpolationSolve( const std::vector<double> &x, const std::vector<double> &y, Sender& sender )
@@ -75,7 +95,7 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
     resultModel = conveyor->getResult().toStdString();
 }
 
-void RightWidget::integrationSolve(const QString &expression, const double &a, const double &b, Sender &sender)
+void RightWidget::integrationSolve( const QString &expression, const double &a, const double &b, Sender &sender )
 {
     conveyor->setFunctionName(sender.functionName);
     conveyor->setPythonFilePath(sender.moduleName);
@@ -88,7 +108,7 @@ void RightWidget::integrationSolve(const QString &expression, const double &a, c
     resultModel = conveyor->getResult().toStdString();
 }
 
-void RightWidget::differentiationSolve(const QString& expression, const QVector<double>& x, Sender& sender)
+void RightWidget::differentiationSolve( const QString& expression, const QVector<double>& x, Sender& sender )
 {
     conveyor->setFunctionName(sender.functionName);
     conveyor->setPythonFilePath(sender.moduleName);
@@ -99,7 +119,7 @@ void RightWidget::differentiationSolve(const QString& expression, const QVector<
     conveyor->sendDataToDifferentiation();
     QVector<double> resultX = QVector<double>::fromStdVector(conveyor->get_Nums_Vector());
     QVector<double> resultY = conveyor->getResultVector();
-    printGraph(resultX, resultY, sender);
+    printGraph( resultX, resultY, sender, nullptr );
 }
 
 void RightWidget::clearGraph( void )

@@ -14,7 +14,7 @@ public:
     { return this; }
 
 private:
-    void createMenu( void );
+    void createMenu( QWidget *parent );
 };
 
 #endif // MENU_H

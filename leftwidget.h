@@ -74,6 +74,7 @@ public slots:
 
 signals:
     void readyToDraw( const std::vector<double> x, const std::vector<double> y );
+    void sendData( QObject* data, bool toRemove );
 };
 
 #endif // LEFTWIDGET_H

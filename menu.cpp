@@ -3,10 +3,10 @@
 Menu::Menu( QWidget *parent )
     : QMainWindow{ parent }
 {
-    createMenu();
+    createMenu( parent );
 }
 
-void Menu::createMenu( void )
+void Menu::createMenu( QWidget *parent )
 {
     QMenuBar* menu = new QMenuBar;
 
@@ -25,8 +25,10 @@ void Menu::createMenu( void )
     QAction* programmAction = aboutMenu->addAction( tr( "О программе" ) );
 
     QMenu* utilsMenu = menu->addMenu( tr( "&Утилиты" ) );
-    QAction* sessionAction = utilsMenu->addAction( tr( "Начать/закончить сессию" ) );
+    QAction* startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
+    QAction* endSessionAction = utilsMenu->addAction( tr( "Закончить сессию" ) );
     QAction* programmatorAction = utilsMenu->addAction( tr( "Программатор" ) );
+    endSessionAction->setDisabled( true );
 
     setMenuBar( menu );
 }
