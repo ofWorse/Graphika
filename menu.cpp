@@ -8,7 +8,7 @@ Menu::Menu( QWidget *parent )
 
 void Menu::createMenu( QWidget *parent )
 {
-    QMenuBar* menu = new QMenuBar;
+    menu = new QMenuBar( parent );
 
     QMenu* fileMenu = menu->addMenu( tr( "&Файл" ) );
     QAction* cleanAction = fileMenu->addAction( tr( "Очистить" ) );
@@ -25,10 +25,10 @@ void Menu::createMenu( QWidget *parent )
     QAction* programmAction = aboutMenu->addAction( tr( "О программе" ) );
 
     QMenu* utilsMenu = menu->addMenu( tr( "&Утилиты" ) );
-    QAction* startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
-    QAction* endSessionAction = utilsMenu->addAction( tr( "Закончить сессию" ) );
+    startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
+    endSessionAction = utilsMenu->addAction( tr( "Закончить сессию" ) );
     QAction* programmatorAction = utilsMenu->addAction( tr( "Программатор" ) );
+    connect( startSessionAction, &QAction::triggered, this, &Menu::sessionStarted );
+    connect( endSessionAction, &QAction::triggered, this, &Menu::sessionStopped );
     endSessionAction->setDisabled( true );
-
-    setMenuBar( menu );
 }

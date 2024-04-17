@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include <QPdfWriter>
 #include <QPainter>
+#include "compositestatestack.h"
 
 class ReportPDFGenerator : public QWidget
 {
@@ -14,7 +15,7 @@ private:
 
 public:
     explicit ReportPDFGenerator( const QString file, const QString dir, const QString ext, QWidget* parent = nullptr );
-    void createPdfReport( void );
+    void createPdfReport( CompositeStateStack& logStack );
 };
 
 #endif // REPORTPDFGENERATOR_H

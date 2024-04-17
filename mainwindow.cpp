@@ -12,8 +12,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     // TODO: Подумать над реализацией соединения
     menu = new Menu( this );
-   //connect( action( tr( "Начать сессию" ), menu ), &QAction::triggered, this, &MainWindow::startSession );
-   //connect( action( tr( "Закончить сессию" ), menu ), &QAction::triggered, this, &MainWindow::endSession );
+    setMenuBar( menu->getMenu() );
+    connect( menu, &Menu::sessionStarted, this, &MainWindow::startSession );
+    connect( menu, &Menu::sessionStopped, this, &MainWindow::endSession );
 
     toolbar = new Toolbar( this );
     toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
@@ -31,7 +32,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setCentralWidget( centralwidget );
     scrollLayout = new QGridLayout( scrollContentWidget );
 
-    scrollLayout->addWidget( menu->get(), 0, 0, 1, 2 );
+    //scrollLayout->addWidget( menu->get(), 0, 0, 1, 2 );
     scrollLayout->addWidget( leftWidget, 1, 0 );
     scrollLayout->addWidget( rightWidget, 1, 1 );
     connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
@@ -52,18 +53,6 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::invokeBerrutaMethod );
     connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::clearGraph );
     connect( toolbar->actions().at( 8 ), &QAction::triggered, this, &MainWindow::resetZoom );
-}
-
-QAction* MainWindow::action( const QString &name, Menu* menu )
-{
-    foreach( QAction* action, menu->actions() )
-    {
-        if( action->text() == name )
-        {
-            return action;
-        }
-    }
-    return nullptr;
 }
 
 void MainWindow::printGraph()
@@ -136,10 +125,21 @@ void MainWindow::resetZoom( void )
 void MainWindow::startSession( void )
 {
     isSession = true;
-    action( tr( "Закончить сессию" ), menu )->setVisible( true );
+    // Временная заглушка
+    QMessageBox mb;
+    mb.setIcon( QMessageBox::Warning );
+    mb.setWindowTitle( "Предупреждение" );
+    mb.setText( "В разработке" );
+    mb.setStandardButtons( QMessageBox::Ok );
+    mb.exec();
+
+    menu->getEndSessionAction()->setEnabled( true );
+    menu->getStartSessionAction()->setEnabled( false );
 }
 
 void MainWindow::endSession()
 {
     isSession = false;
+    menu->getEndSessionAction()->setEnabled( false );
+    menu->getStartSessionAction()->setEnabled( true );
 }

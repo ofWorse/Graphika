@@ -51,7 +51,7 @@ public slots:
 signals:
     void errorOccured( const QString& err );
     void readyToSendData( const QString& expr, const double a, const double b );
-    void sendData( QObject* data, bool toRemove );
+    void sendData( QObject& data, bool toRemove );
 };
 
 #endif // RIGHTWIDGET_H

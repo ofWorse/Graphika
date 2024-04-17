@@ -7,9 +7,10 @@ CompositeStateStack::CompositeStateStack( QWidget *parent )
 void CompositeStateStack::set( QObject* data )
 {
     stack.push( data );
+    qDebug() << " Заряжен: " << data->objectName() << "\n";
 }
 
-void CompositeStateStack::pop( QObject *data )
+void CompositeStateStack::pop( QObject* data )
 {
     int index = stack.indexOf( data );
     if( index != -1 )
@@ -22,12 +23,12 @@ void CompositeStateStack::pop( QObject *data )
     }
 }
 
-void CompositeStateStack::receiveData( QObject *data, bool toRemove )
+void CompositeStateStack::receiveData( QObject& data, bool toRemove )
 {
     if( toRemove )
     {
-        pop( data );
+        pop( &data );
         return;
     }
-    set( data );
+    set( &data );
 }

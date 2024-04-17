@@ -36,8 +36,7 @@ public:
     explicit MainWindow( QWidget* parent = nullptr );
 
 private:
-    void clearLayout( QLayout *layout );
-    QAction* action( const QString& name, Menu* menu );
+    void clearLayout( QLayout* layout );
 
 public slots:
     void printGraph( void );
