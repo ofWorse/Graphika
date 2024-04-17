@@ -14,12 +14,16 @@ private:
 public:
     explicit CompositeStateStack( QWidget *parent = nullptr );
 
+public: QStack<QObject*> getLogStack( void )
+    { return stack; }
+
 private:
     void set( QObject* data );
     void pop( QObject* data );
 
 public slots:
-    void receiveData( QObject* data, bool toRemove );
+    void receiveData( QObject& data, bool toRemove );
 };
+
 
 #endif // COMPOSITESTATESTACK_H

@@ -29,8 +29,8 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
 
     if( stack )
     {
-        emit sendData( model, false );
-        emit sendData( graphBuilder->wGraphic, false );
+        emit sendData( *model, false );
+        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -42,7 +42,7 @@ void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& se
 
     if( stack )
     {
-        emit sendData( graphBuilder->wGraphic, false );
+        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -57,7 +57,7 @@ void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const Q
 
     if( stack )
     {
-        emit sendData( graphBuilder->wGraphic, false );
+        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -79,8 +79,8 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
 
     if( stack )
     {
-        emit sendData( model, false );
-        emit sendData( graphBuilder->wGraphic, false );
+        emit sendData( *model, false );
+        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 

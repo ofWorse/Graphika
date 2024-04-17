@@ -7,18 +7,23 @@ ReportPDFGenerator::ReportPDFGenerator( const QString file, const QString dir, c
     this->file = new QString( fileName );
 }
 
-void ReportPDFGenerator::createPdfReport()
+void ReportPDFGenerator::createPdfReport( CompositeStateStack& logStack )
 {
     if( file->isEmpty() )
     {
         //emit
+        qDebug() << "Нет такого файла или каталога!\n";
         return;
     }
 
     QPdfWriter writer( *file );
     QPainter painter( &writer );
 
-    // ...
+    // TODO: Подумать над решением
+    while( !logStack.getLogStack().empty() )
+    {
+
+    }
 
     painter.end();
 }

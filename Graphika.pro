@@ -37,6 +37,7 @@ INCLUDEPATH += ./python3.11/
 HEADERS += \
     buffer.h \
     compositestatestack.h \
+    drawable.h \
     expressionvalidator.h \
     leftwidget.h \
     mainwindow.h \
