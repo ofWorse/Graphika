@@ -22,7 +22,7 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
 
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false );
+    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "" : sender.functionName, true, false );
 
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
