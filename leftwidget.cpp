@@ -320,6 +320,10 @@ void LeftWidget::acceptData( const QString &expr, const double a, const double b
     {
         x.push_back( i );
     }
+    if( x.back() != b )
+    {
+        x.push_back( b );
+    }
     parser->setDataX( x );
     std::vector<double> y = parser->parseExpression( expr.toStdString().c_str() );
     emit readyToDraw( x, y );
