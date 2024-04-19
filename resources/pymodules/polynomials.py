@@ -72,3 +72,6 @@ def berruta_functions(x_values, y_values, precision=2):
     if contains_float:
         return str(sympy.nsimplify(polynomial.evalf().cancel(), tolerance=10**-precision)).replace("**", "^")
     return str(polynomial.cancel()).replace("**", "^")
+
+
+
