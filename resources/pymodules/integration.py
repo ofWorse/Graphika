@@ -1,46 +1,70 @@
-import sympy
-from sympy import symbols
-
-
-def integral_linear(equation: str, a, b, delta=0.05, precision=4):
-    equation = sympy.sympify(equation)
-    a = a
-    b = b
-    delta = sympy.Rational(delta).limit_denominator(1000)
-    x = symbols("x")
+def integral_linear(x_values, y_values, a=None, b=None, precision=4):
+    if a or b:
+        for i in x_values:
+            if i > b:
+                index = x_values.index(i)
+                x_values = x_values[:index]
+                y_values = y_values[:index]
+                break
+        for i in x_values:
+            if i > a:
+                index = x_values.index(i)
+                x_values = x_values[index:]
+                y_values = y_values[index:]
+                break
+    x_values = x_values
+    y_values = y_values
+    delta = x_values[1] - x_values[0]
     integral = 0
-    x_point = a + delta / 2
-    while x_point <= b:
-        integral += equation.subs(x, x_point) * delta
-        x_point += delta
-    return round(integral, precision)
+    for i in range(len(x_values)-1):
+        integral += y_values[i]
+    return round(integral*delta, precision)
 
 
-def integral_trapezoid(equation: str, a, b, delta=0.05, precision=4):
-    equation = sympy.sympify(equation)
-    a = a
-    b = b
-    delta = sympy.Rational(delta).limit_denominator(1000)
-    x = symbols("x")
-    integral = 0
-    x_point = a
-    while x_point + delta <= b:
-        integral += (equation.subs(x, x_point) + equation.subs(x, x_point + delta)) / 2 * delta
-        x_point += delta
-    return round(integral, precision)
+def integral_trapezoid(x_values, y_values, a=None, b=None, precision=4):
+    if a or b:
+        for i in x_values:
+            if i > b:
+                index = x_values.index(i)
+                x_values = x_values[:index]
+                y_values = y_values[:index]
+                break
+        for i in x_values:
+            if i > a:
+                index = x_values.index(i)
+                x_values = x_values[index:]
+                y_values = y_values[index:]
+                break
+    x_values = x_values
+    y_values = y_values
+    delta = x_values[1] - x_values[0]
+    integral = (y_values[0] + y_values[-1])/2
+    for i in range(1, len(x_values)-1):
+        integral += y_values[i]
+    return round(integral*delta, precision)
 
 
-def integral_parabolic(equation: str, a, b, delta=0.05, precision=4):
-    equation = sympy.sympify(equation)
-    a = a
-    b = b
-    delta = sympy.Rational(delta).limit_denominator(1000)
-    x = symbols("x")
-    integral = 0
-    x_point = a
-    while x_point + delta <= b:
-        integral += ((equation.subs(x, x_point)) +
-                     4 * (equation.subs(x, x_point + delta / 2)) +
-                     equation.subs(x, x_point + delta)) * (delta / 6)
-        x_point += delta
-    return round(integral, precision)
+def integral_parabolic(x_values, y_values, a=None, b=None, precision=4):
+    if a or b:
+        for i in x_values:
+            if i > b:
+                index = x_values.index(i)
+                x_values = x_values[:index]
+                y_values = y_values[:index]
+                break
+        for i in x_values:
+            if i > a:
+                index = x_values.index(i)
+                x_values = x_values[index:]
+                y_values = y_values[index:]
+                break
+    if len(x_values) // 2 != 0:
+        x_values = x_values[0:-1]
+        y_values = y_values[0:-1]
+    y_values_l = y_values[0::2]
+    y_values_r = y_values[1::2]
+    delta = x_values[1] - x_values[0]
+    integral = y_values[0] + y_values[-1]
+    for i in range(len(x_values)//2):
+        integral += (4*y_values_l[i] + 2*y_values_r[i])
+    return round(integral*(delta/3), precision)
