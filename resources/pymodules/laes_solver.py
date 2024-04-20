@@ -59,7 +59,7 @@ def simple_iterations(eq_system, precision=4):
         t_max = sum(abs(element) for element in line)
         q = t_max if t_max > q else q
     if q > 1:
-        return False
+        return list()
     # calculate m, ceil(m) is upper bound for number of iterations
     x_n = beta
     index = 0
