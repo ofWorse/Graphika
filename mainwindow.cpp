@@ -71,13 +71,13 @@ void MainWindow::printDiffGraph()
     pymodules::Methods method = toolbar->getSelectedDiffMethod();
     sender.setMacro( method, pymodules::Modules::DIFFERENTIATION );
     qDebug() << "You choose " << sender.functionName;
-    QString expression = leftWidget->getExpressionInput()->text();
+
     if( isSession )
     {
-        rightWidget->printDiffGraph( buffer, sender, expression, &logStack );
+        rightWidget->printDiffGraph( buffer, sender, &logStack );
         return;
     }
-    rightWidget->printDiffGraph( buffer, sender, expression, nullptr );
+    rightWidget->printDiffGraph( buffer, sender, nullptr );
 }
 
 

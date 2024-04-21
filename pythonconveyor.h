@@ -32,6 +32,12 @@ public:
     void setResultVector(const QVector<double>& resultVector);
     QVector<double> getResultVector() const;
 
+    void setResultDiff_XVector(const QVector<double>& result_XVector);
+    QVector<double> getResultDiff_XVector() const;
+
+    void setResultDiff_YVector(const QVector<double>& result_YVector);
+    QVector<double> getResultDiff_YVector() const;
+
     void setStartNumToIntegration( double startNumToIntegration );
     double getStartNumToIntegration() const;
 
@@ -92,7 +98,9 @@ private:
     PyObject* globals;
     PyObject* result;
 
-    QVector<double> m_resultVector;
+    QVector<double> m_result_Vector;
+    QVector<double> m_resultDiff_XVector;
+    QVector<double> m_resultDiff_YVector;
 
     bool isResourcePath( const QString& path );
 };

@@ -239,16 +239,25 @@ void PythonConveyor::sendDataToIntegration()
     }
 
     // Подготовка аргументов для вызова функции Python
-    PyObject* args = PyTuple_New( 3 );
+    PyObject* args = PyTuple_New( 2 );
 
-    //Установка строки функции в аргументы
-    PyTuple_SetItem( args, 0, Py_BuildValue( "s", m_functionToIntegration.toUtf8().constData() ) );
+    PyObject* xList = PyList_New(m_xVector.size());
 
-    // Установка начального числа интегрирования в аргументы кортежа
-    PyTuple_SetItem(args, 1, Py_BuildValue("d", m_startNumToIntegration));
+    for ( int i = 0; i < m_xVector.size(); ++i )
+    {
+        PyList_SetItem( xList, i, PyFloat_FromDouble( m_xVector[i] ) );
+    }
 
-    // Установка конечного числа интегрирования в аргументы кортежа
-    PyTuple_SetItem(args, 2, Py_BuildValue("d", m_endNumToIntegration));
+    PyObject* yList = PyList_New(m_yVector.size());
+
+    for ( int i = 0; i < m_yVector.size(); ++i )
+    {
+        PyList_SetItem( yList, i, PyFloat_FromDouble( m_yVector[i] ) );
+    }
+
+    PyTuple_SetItem( args, 0, xList );
+
+    PyTuple_SetItem( args, 1, yList);
 
     // Вызов функции Python
     PyObject* pyResult = PyObject_CallObject( function, args );
@@ -290,18 +299,24 @@ void PythonConveyor::sendDataToDifferentiation()
     // Подготовка аргументов для вызова функции Python
     PyObject* args = PyTuple_New( 2 );
 
-    PyObject* numList = PyList_New(m_numVector.size());
+    PyObject* xList = PyList_New(m_xVector.size());
 
-    for ( int i = 0; i < m_numVector.size(); ++i )
+    for ( int i = 0; i < m_xVector.size(); ++i )
     {
-        PyList_SetItem(numList, i, PyFloat_FromDouble(m_numVector[i]));
+        PyList_SetItem( xList, i, PyFloat_FromDouble( m_xVector[i] ) );
+    }
+
+    PyObject* yList = PyList_New(m_yVector.size());
+
+    for ( int i = 0; i < m_yVector.size(); ++i )
+    {
+        PyList_SetItem( yList, i, PyFloat_FromDouble( m_yVector[i] ) );
     }
 
 
-    //Установка строки функции в аргументы
-    PyTuple_SetItem( args, 0, Py_BuildValue( "s", m_functionToDiff.toUtf8().constData() ) );
+    PyTuple_SetItem( args, 0, xList );
 
-    PyTuple_SetItem( args, 1, numList);
+    PyTuple_SetItem( args, 1, yList);
 
     // Вызов функции Python
     PyObject* pyResult = PyObject_CallObject( function, args );
@@ -310,25 +325,44 @@ void PythonConveyor::sendDataToDifferentiation()
         PyErr_Print();
     } else {
         // Преобразование списка в вектор чисел
-        if (PyList_Check(pyResult)) {
-            int size = PyList_Size(pyResult);
-            QVector<double> resultList;
-            QString resultString;
-            for (int i = 0; i < size; ++i) {
-                PyObject* item = PyList_GetItem(pyResult, i);
-                // Получение числового значения элемента списка
-                double value = PyFloat_AsDouble(item);
-                resultList.append(value);
-                // Добавление значения в строку для вывода в консоль
-                resultString += QString::number(value) + " ";
+        if (PyTuple_Check(pyResult) && PyTuple_Size(pyResult) == 2) {
+            PyObject* xResult = PyTuple_GetItem(pyResult, 0);
+            PyObject* yResult = PyTuple_GetItem(pyResult, 1);
+
+            QVector<double> xResultList;
+            QVector<double> yResultList;
+
+            QString xResultString;
+            QString yResultString;
+
+            int xSize = PyList_Size(xResult);
+            int ySize = PyList_Size(yResult);
+
+            for (int i = 0; i < xSize; ++i) {
+                PyObject* xItem = PyList_GetItem(xResult, i);
+                double xValue = PyFloat_AsDouble(xItem);
+                xResultList.append(xValue);
+                xResultString += QString::number(xValue) + " ";
             }
-            // Вывод результата в консоль как строку
-            qDebug() << "Differentiation result: " << resultString;
-            // Установка результирующего вектора чисел в поле класса
-            setResultVector(resultList);
-            setResult(resultString);
+
+            for (int i = 0; i < ySize; ++i) {
+                PyObject* yItem = PyList_GetItem(yResult, i);
+                double yValue = PyFloat_AsDouble(yItem);
+                yResultList.append(yValue);
+                yResultString += QString::number(yValue) + " ";
+            }
+
+            qDebug() << "Differentiation result for x: " << xResultString;
+            qDebug() << "Differentiation result for y: " << yResultString;
+
+            setResult(xResultString);
+            setResultDiff_XVector(xResultList);
+            setResultDiff_YVector(yResultList);
+            Py_DECREF(xResult);
+            Py_DECREF(yResult);
+
         }
-        Py_DECREF( pyResult );
+        Py_DECREF(pyResult);
     }
 
     // Освобождение ресурсов
@@ -342,11 +376,29 @@ void PythonConveyor::sendDataToDifferentiation()
 
 void PythonConveyor::setResultVector(const QVector<double>& resultVector)
 {
-    m_resultVector = resultVector;
+    m_result_Vector = resultVector;
 }
 
 QVector<double> PythonConveyor::getResultVector() const{
-    return m_resultVector;
+    return m_result_Vector;
+}
+
+void PythonConveyor::setResultDiff_XVector( const QVector<double>& result_XVector)
+{
+    m_resultDiff_XVector = result_XVector;
+}
+
+QVector<double> PythonConveyor::getResultDiff_XVector() const{
+    return m_resultDiff_XVector;
+}
+
+void PythonConveyor::setResultDiff_YVector(const QVector<double>& result_YVector)
+{
+    m_resultDiff_YVector = result_YVector;
+}
+
+QVector<double> PythonConveyor::getResultDiff_YVector() const{
+    return m_resultDiff_YVector;
 }
 
 void PythonConveyor::setResultValue(const double resultValue)
