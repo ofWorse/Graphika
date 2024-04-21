@@ -137,8 +137,6 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     i++;
     wGraphic->replot();
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
-    wGraphic->axisRect()->setRangeZoomFactor(Qt::Horizontal,0.85);
-    wGraphic->axisRect()->setRangeZoomFactor(Qt::Vertical,0.85);
 }
 
 
