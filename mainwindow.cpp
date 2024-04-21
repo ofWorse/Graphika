@@ -68,7 +68,9 @@ void MainWindow::printGraph()
 
 void MainWindow::printDiffGraph()
 {
-    sender.setMacro( pymodules::Methods::DIFF_3P, pymodules::Modules::DIFFERENTIATION );
+    pymodules::Methods method = toolbar->getSelectedDiffMethod();
+    sender.setMacro( method, pymodules::Modules::DIFFERENTIATION );
+    qDebug() << "You choose " << sender.functionName;
     QString expression = leftWidget->getExpressionInput()->text();
     if( isSession )
     {
