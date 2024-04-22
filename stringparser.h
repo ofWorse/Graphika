@@ -10,6 +10,7 @@
 #include <iostream>
 #include <optional>
 #include <regex>
+#include <cmath>
 
 struct Expression
 {
