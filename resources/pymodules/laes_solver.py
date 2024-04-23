@@ -54,7 +54,7 @@ def gauss(eq_system, precision=4):
         return list()
     for i in range(n - 1, -1, -1):
         s = 0
-        for k in range(i, n):
+        for k in range(i+1, n):
             s += eq_system[i][k] * x[k]
         x[i] = 0.0 if eq_system[i][n] - s == 0 else round(eq_system[i][n] - s, precision)
     return x
