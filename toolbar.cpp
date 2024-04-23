@@ -1,10 +1,12 @@
 #include "toolbar.h"
 #include <QIcon>
 
-Toolbar::Toolbar(QWidget *parent) : QToolBar(parent)
+Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
 {
-    addAction(QIcon(":/toolbaricons/resources/function.PNG"), "Построить график функции f(x)");
+    addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
     diffAction = addAction(QIcon(":/toolbaricons/resources/diff.PNG"), "Построить график функции f'(x)");
+    addAction( QIcon( ":/toolbaricons/resources/int.PNG" ), "Найти площадь трапеции" );
+    addAction( "sys" );
     addSeparator();
     addAction(QIcon(":/toolbaricons/resources/lagrange.PNG"), "Построить модель полинома Лагранжа");
     addAction(QIcon(":/toolbaricons/resources/newthon.PNG"), "Построить модель полинома Ньютона");
@@ -13,10 +15,11 @@ Toolbar::Toolbar(QWidget *parent) : QToolBar(parent)
     addAction(QIcon(":/toolbaricons/resources/clean.PNG"), "Очистить график");
     addAction(QIcon(":/toolbaricons/resources/home.PNG"), "Вернуть график");
 
+    setCheckable();
     initDiffMenu();
 }
 
-void Toolbar::mousePressEvent(QMouseEvent *event)
+void Toolbar::mousePressEvent( QMouseEvent *event )
 {
     if (event->button() == Qt::RightButton) {
         QAction *action = actionAt(event->pos());
@@ -29,7 +32,7 @@ void Toolbar::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void Toolbar::initDiffMenu()
+void Toolbar::initDiffMenu( void )
 {
     diffMenu = new QMenu(this);
 
@@ -71,6 +74,25 @@ void Toolbar::updateDiffCheckState(QAction *checkedAction)
         // Если действие было снято с выбора, оставляем один из вариантов выбранным
         if (!methodTwoDots->isChecked() && !methodThreeDots->isChecked() && !methodFiveDots->isChecked()) {
             methodThreeDots->setChecked(true);
+        }
+    }
+}
+
+void Toolbar::setCheckable( void )
+{
+    for( auto i = 0; i < actions().count(); ++i )
+    {
+        this->actions().at( i )->setCheckable( true );
+    }
+}
+
+void Toolbar::unsetChecked( void )
+{
+    for( auto i = 0; i < actions().count(); ++i )
+    {
+        if( actions().at( i )->isChecked() )
+        {
+            actions().at( i )->setChecked( false );
         }
     }
 }

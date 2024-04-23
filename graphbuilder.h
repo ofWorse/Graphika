@@ -38,7 +38,5 @@ public slots:
     void on_clearButton_clicked( void );
     void ZoomB();
     void onMousMove(QMouseEvent* event);
-
-
 };
 #endif // GRAPHBUILDER_H

@@ -13,6 +13,7 @@ public:
     QVector<double> x;
     QVector<double> y;
 
+    /*
     void print()
     {
         for( auto& a : x )
@@ -27,6 +28,7 @@ public:
         }
         std::cout << std::endl;
     }
+    */
 };
 
 #endif // BUFFER_H

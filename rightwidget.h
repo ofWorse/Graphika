@@ -10,6 +10,12 @@
 #include "compositestatestack.h"
 #include "settings.h"
 
+struct TablePair
+{
+    double x;
+    double y;
+};
+
 class RightWidget : public QWidget
 {
     Q_OBJECT
@@ -30,6 +36,7 @@ private:
 
 private:
     void clearLayout( QLayout *layout );
+    void buildWidgetForDerivativeOperations( void );
 
 public:
     explicit RightWidget( QWidget *parent = nullptr );
@@ -47,6 +54,7 @@ public:
 
 public slots:
     void drawGraph( const std::vector<double> x, const std::vector<double> y );
+    void rebuildWidgets( pymodules::Modules modules );
 
 signals:
     void errorOccured( const QString& err );
