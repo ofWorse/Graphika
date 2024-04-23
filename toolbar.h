@@ -16,6 +16,7 @@ public:
     explicit Toolbar( QWidget *parent = nullptr );
 
     pymodules::Methods getSelectedDiffMethod() const;
+    void unsetChecked( void );
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -28,9 +29,10 @@ private:
 
     QMenu *diffMenu;
 
-    void initDiffMenu();
-    void updateDiffCheckState(QAction *checkedAction);
-
+private:
+    void initDiffMenu( void );
+    void updateDiffCheckState( QAction* checkedAction );
+    void setCheckable( void );
 };
 
 #endif // TOOLBAR_H

@@ -2,6 +2,13 @@
 #include <qstring.h>
 #include <filesystem>
 
+void RightWidget::buildWidgetForDerivativeOperations( void )
+{
+    graphBuilder->on_clearButton_clicked();
+    graphBuilder->wGraphic->yAxis->setLabel( "y'" );
+}
+
+
 RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
 {
@@ -20,6 +27,11 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     x = buffer.x;
     y = buffer.y;
 
+    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    {
+        graphBuilder->on_clearButton_clicked();
+        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+    }
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false );
@@ -71,6 +83,18 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
         emit errorOccured( "Не больше 10 узлов" );
         return;
     }
+    if( x.back() < x.first() )
+    {
+        emit errorOccured( "Введите значения x по возрастанию" );
+        return;
+    }
+    // TODO: В отдельный метод
+    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    {
+        graphBuilder->on_clearButton_clicked();
+        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+    }
+
     graphBuilder->wGraphic->replot();
     graphBuilder->PaintG( x, y, "Точки интерполяции", false, true );
     interpolationSolve( x.toStdVector(), y.toStdVector(), sender );
@@ -133,4 +157,16 @@ void RightWidget::drawGraph( const std::vector<double> x, const std::vector<doub
     QVector<double> X = QVector<double>::fromStdVector( x );
     QVector<double> Y = QVector<double>::fromStdVector( y );
     graphBuilder->PaintG( X, Y, "График интерполяции", true, false );
+}
+
+void RightWidget::rebuildWidgets( pymodules::Modules modules )
+{
+    switch( modules )
+    {
+    case pymodules::Modules::DIFFERENTIATION:
+    {
+        buildWidgetForDerivativeOperations();
+        break;
+    }
+    };
 }

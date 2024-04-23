@@ -16,7 +16,9 @@ enum class Methods
 
 enum class Modules
 {
-    POLYNOMIALS, DIFFERENTIATION, INTEGRATION, NIL
+    POLYNOMIALS, DIFFERENTIATION, INTEGRATION, EQUATIONS, NIL
 };
-}
+
+} // pymodules
+
 #endif // SETTINGS_H

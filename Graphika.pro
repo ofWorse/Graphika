@@ -19,6 +19,7 @@ SOURCES += \
     leftwidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    mathutils.cpp \
     menu.cpp \
     pythonconveyor.cpp \
     reportpdfgenerator.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     expressionvalidator.h \
     leftwidget.h \
     mainwindow.h \
+    mathutils.h \
     menu.h \
     pythonconveyor.h \
     reportpdfgenerator.h \

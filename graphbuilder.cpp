@@ -40,7 +40,8 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 
 void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
 {
-    if (name.isEmpty()){
+    if ( name.isEmpty() )
+    {
         wGraphic->legend->setVisible( false );
     }
 
@@ -114,7 +115,8 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     }
 
     wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
-    wGraphic->graph( i )->setData( xAxis, yAxis );
+    if( !xAxis.isEmpty() && !yAxis.isEmpty() )
+        wGraphic->graph( i )->setData( xAxis, yAxis );
     if (graphOn == false){
         wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
     }
