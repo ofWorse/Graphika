@@ -48,8 +48,8 @@ std::string StringParser::parseToken()
 
     static const std::vector<std::string> tokens =
         { "+", "-", "*", "/", "^", "abs", "sin",
-          "sinh", "cos", "cosh", "ln", "lg", "tan", "asin",
-          "acos", "atan", "tanh", "sqrt", "cbrt", "ceil",
+          "sh", "cos", "ch", "ln", "lg", "tan", "asin",
+          "acos", "atan", "th", "sqrt", "cbrt", "ceil",
           "floor", "round", "exp", "(", ")" };
     for( auto& t : tokens )
     {
@@ -170,14 +170,6 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
             }
             return pow( a, b );
         }
-        if( expr.token == "%" )
-        {
-            if( b == 0 )
-            {
-                emit errorOccurred( "На ноль делить нельзя" );
-            }
-            return ( int )a % ( int )b;
-        }
         if( expr.token == "/" )
         {
             if( b == 0 )
@@ -197,11 +189,11 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
         if( expr.token == "-"    )     return -a;
         if( expr.token == "abs"  )     return abs( a );
         if( expr.token == "sin"  )     return sin( a );
-        if( expr.token == "sinh" )     return sinh( a );
+        if( expr.token == "sh"   )     return sinh( a );
         if( expr.token == "cos"  )     return cos( a );
-        if( expr.token == "cosh" )     return cosh( a );
+        if( expr.token == "ch"   )     return cosh( a );
         if( expr.token == "tan"  )     return tan( a );
-        if( expr.token == "tanh" )     return tanh( a );
+        if( expr.token == "th"   )     return tanh( a );
         if( expr.token == "asin" || expr.token == "acos" || expr.token == "atan" )
         {
             if( a < -1 || a > 1 )

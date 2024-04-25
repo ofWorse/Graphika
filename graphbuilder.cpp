@@ -49,8 +49,6 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
 {
 
-
-
     for( const auto& yPoints : data )
     {
         if( yPoints == yAxis )
@@ -120,7 +118,8 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     }
 
     wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
-    wGraphic->graph( i )->setData( xAxis, yAxis );
+    if( !xAxis.isEmpty() && !yAxis.isEmpty() )
+        wGraphic->graph( i )->setData( xAxis, yAxis );
     if (graphOn == false){
         wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
     }

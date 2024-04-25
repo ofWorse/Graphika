@@ -4,6 +4,14 @@
 
 
 RightWidget::RightWidget( QWidget *parent)
+void RightWidget::buildWidgetForDerivativeOperations( void )
+{
+    graphBuilder->on_clearButton_clicked();
+    graphBuilder->wGraphic->yAxis->setLabel( "y'" );
+}
+
+
+RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
 {
     graphBuilder = new GraphBuilder(this);
@@ -21,6 +29,11 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     x = buffer.x;
     y = buffer.y;
 
+    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    {
+        graphBuilder->on_clearButton_clicked();
+        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+    }
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false );
@@ -48,13 +61,14 @@ void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& se
 }
 
 
-void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const QString& expression, const CompositeStateStack* stack )
+void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const CompositeStateStack* stack )
 {
     x = buffer.x;
+    y = buffer.y;
 
     graphBuilder->wGraphic->replot();
 
-    differentiationSolve( expression, x, sender );
+    differentiationSolve( x, y, sender );
 
     if( stack )
     {
@@ -71,6 +85,18 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
         emit errorOccured( "Не больше 10 узлов" );
         return;
     }
+    if( x.back() < x.first() )
+    {
+        emit errorOccured( "Введите значения x по возрастанию" );
+        return;
+    }
+    // TODO: В отдельный метод
+    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    {
+        graphBuilder->on_clearButton_clicked();
+        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+    }
+
     graphBuilder->wGraphic->replot();
     graphBuilder->PaintG( x, y, "Точки интерполяции", false, true );
     interpolationSolve( x.toStdVector(), y.toStdVector(), sender );
@@ -96,30 +122,30 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
     resultModel = conveyor->getResult().toStdString();
 }
 
-void RightWidget::integrationSolve( const QString &expression, const double &a, const double &b, Sender &sender )
+void RightWidget::integrationSolve( const QVector<double>& x, const QVector<double>& y, Sender &sender )
 {
     conveyor->setFunctionName(sender.functionName);
     conveyor->setPythonFilePath(sender.moduleName);
 
-    conveyor->setFunctionToIntegration(expression);
-    conveyor->setStartNumToIntegration(a);
-    conveyor->setEndNumToIntegration(b);
+    conveyor->setDataX(x.toStdVector());
+    conveyor->setDataY(y.toStdVector());
 
     conveyor->sendDataToIntegration();
     resultModel = conveyor->getResult().toStdString();
 }
 
-void RightWidget::differentiationSolve( const QString& expression, const QVector<double>& x, Sender& sender )
+void RightWidget::differentiationSolve( const QVector<double>& x, const QVector<double>& y, Sender& sender )
 {
     conveyor->setFunctionName(sender.functionName);
     conveyor->setPythonFilePath(sender.moduleName);
 
-    conveyor->setFunctionToDiff(expression);
-    conveyor->setDataNums(x.toStdVector());
+    //conveyor->setFunctionToDiff(expression);
+    conveyor->setDataX(x.toStdVector());
+    conveyor->setDataY(y.toStdVector());
 
     conveyor->sendDataToDifferentiation();
-    QVector<double> resultX = QVector<double>::fromStdVector(conveyor->get_Nums_Vector());
-    QVector<double> resultY = conveyor->getResultVector();
+    QVector<double> resultX = conveyor->getResultDiff_XVector();
+    QVector<double> resultY = conveyor->getResultDiff_YVector();
     printGraph( resultX, resultY, sender, nullptr );
 }
 
@@ -151,3 +177,14 @@ void RightWidget::stepBack()
 }
 
 
+void RightWidget::rebuildWidgets( pymodules::Modules modules )
+{
+    switch( modules )
+    {
+    case pymodules::Modules::DIFFERENTIATION:
+    {
+        buildWidgetForDerivativeOperations();
+        break;
+    }
+    };
+}

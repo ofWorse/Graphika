@@ -30,6 +30,9 @@ private:
     std::vector<double> x;
     std::vector<double> y;
 
+    pymodules::Modules widgetState = pymodules::Modules::NIL;
+    pymodules::Methods methodOfInterpolation;
+
     bool isSession{ false };
 
 public:
@@ -37,13 +40,21 @@ public:
 
 private:
     void clearLayout( QLayout* layout );
-
-public slots:
-    void printGraph( void );
     void printDiffGraph( void );
+    void buildPolynomeGraph( void );
     void invokeLagrangeMethod( void );
     void invokeNewtonMethod( void );
     void invokeBerrutaMethod( void );
+
+public slots:
+    void openFunctionMenu( void );
+    void printFunctionGraph( void );
+    void openDerivativeMenu( void );
+    void openIntegrationMenu( void );
+    void openEquationSystemMenu( void );
+    void openLagrangeMenu( void );
+    void openNewtonMenu( void );
+    void openBerrutaMenu( void );
 
     void clearGraph( void );
     void resetZoom( void );
@@ -53,6 +64,12 @@ public slots:
 
     void startSession( void );
     void endSession( void );
+
+    void draw( void );
+
+signals:
+    void buildDerivativeWidgets( pymodules::Modules module, SpecialBuffer& buffer );
+    void buildDefaultWidgets( pymodules::Modules module, SpecialBuffer& buffer );
 
 friend RightWidget;
 friend LeftWidget;

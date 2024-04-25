@@ -2,86 +2,12 @@
 
 LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( parent )
 {
-    validator = new ValidateString( this );
-    connect( validator, &ValidateString::validExpression, this, &LeftWidget::onValidateStringValid );
-    connect( validator, &ValidateString::invalidExpression, this, &LeftWidget::onValidateStringInvalid );
-    parser = new StringParser( this );
-
-    QLabel* label = new QLabel( "f(x) = ", this );
-    errLabel = new QLabel( "", this );
-
-    connect( parser, &StringParser::errorOccurred, this, &LeftWidget::handleParserError );
-
-    QLabel* typeOfInput = new QLabel( "Ввод значений x: ", this );
-
-    QComboBox* typeOfVariableInput = new QComboBox( this );
-    typeOfVariableInput->addItems( { "с шагом", "с узлами" } );
-
-    { // Переменные элементы
-        minLabel = new QLabel( "Минимальное значение x:", this );
-        maxLabel = new QLabel( "Максимальное значение x:", this );
-        stepLabel = new QLabel( "Шаг по x:", this );
-
-        nodesLabel = new QLabel( "Кол-во узлов: ", this );
-
-        min = new QDoubleSpinBox( this );
-        max = new QDoubleSpinBox( this );
-        step = new QDoubleSpinBox( this );
-        nodes = new QDoubleSpinBox( this );
-    } // Переменные элементы
-
-    expressionInput = new QLineEdit( this );
-    connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
-
-    manualTableInput = new QPushButton( "Ручной ввод", this );
-    connect( manualTableInput, &QPushButton::clicked, this, &LeftWidget::editTable );
-    solve = new QPushButton( "Решить", this );
-    solve->setStyleSheet( "background-color: tomato;" );
-    solve->setEnabled( false );
-    connect( solve, &QPushButton::clicked, [&buffer, this]()
-        {
-            onSolveButtonClicked( buffer );
-        } );
-
-    QPushButton* clearTable = new QPushButton( "Очистить таблицу", this );
-    connect( clearTable, &QPushButton::clicked, this, &LeftWidget::clearTable );
-
-    tableWidget = new QTableWidget( this );
-    tableWidget->setColumnCount( 2 );
-    QStringList labels;
-    labels << "X" << "Y";
-    tableWidget->setHorizontalHeaderLabels( labels );
-    connect( tableWidget, &QTableWidget::itemChanged, this, [ this, &buffer ]()
-        {
-            updateDataFromTable( buffer );
-        }
-    );
-
+    initLabels();
+    connectLabels( buffer );
     setRange();
-
     layout = new QGridLayout( this );
-    layout->addWidget( label, 0, 0 );
-    layout->addWidget( expressionInput, 0, 1, 1, 10 );
-    layout->addWidget( errLabel, 1, 0 );
-    layout->addWidget( typeOfInput, 2, 0 );
-    layout->addWidget( typeOfVariableInput, 2, 1 );
-    layout->addWidget( minLabel, 3, 0 );
-    layout->addWidget( min, 3, 1 );
-    layout->addWidget( maxLabel, 4, 0 );
-    layout->addWidget( max, 4, 1 );
-    layout->addWidget( stepLabel, 5, 0 );
-    layout->addWidget( step, 5, 1 );
-    layout->addWidget( nodesLabel, 6, 0 );
-    layout->addWidget( nodes, 6, 1 );
-    layout->addWidget( solve, 7, 0 );
-    layout->addWidget( clearTable, 7, 1 );
-    layout->addWidget( manualTableInput, 8, 1 );
-    layout->addWidget( tableWidget, 9, 0, 1, 2 );
-    layout->setColumnStretch( 1, 10 );
-    layout->setColumnStretch( 0, 2 );
-    hideFirstLayer();
-
-    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftWidget::switchLayers );
+    initLayout();
+    hideFirstLayer( false );
 }
 
 void LeftWidget::showTable( const std::vector<double> x, const std::vector<double> y )
@@ -100,6 +26,7 @@ void LeftWidget::showTable( const std::vector<double> x, const std::vector<doubl
         tableWidget->setItem( i, 0, itemX );
         tableWidget->setItem( i, 1, itemY );
     }
+    buildGraph->setEnabled( true );
 }
 
 void LeftWidget::setRange( void )
@@ -139,14 +66,14 @@ void LeftWidget::onInputTextChanged( const QString &text )
 
 void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 {
-    clearTable();
+    clearDataTable();
 
     auto expression = this->expressionInput->text();
     auto min        = this->min->value();
     auto max        = this->max->value();
     auto step       = this->step->value();
 
-    // TODO: Это отдельный метод и подумать над реализацией
+    // TODO: Переместить реализацию в MathUtils
     if( !nodes->isVisible() && manualInput == false )
     {
         for( double i = min; i <= max; i += step )
@@ -170,7 +97,6 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
-    buffer.print();
 
     if( couldBuildTable )
     {
@@ -181,7 +107,7 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
     Y.clear();
 }
 
-void LeftWidget::clearTable()
+void LeftWidget::clearDataTable()
 {
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
@@ -189,6 +115,7 @@ void LeftWidget::clearTable()
     manualInput = false;
     X.clear();
     Y.clear();
+    buildGraph->setEnabled( false );
 }
 
 void LeftWidget::handleClearGraph( RightWidget &right )
@@ -196,13 +123,19 @@ void LeftWidget::handleClearGraph( RightWidget &right )
     right.clearGraph();
 }
 
-void LeftWidget::hideFirstLayer( void )
+void LeftWidget::hideFirstLayer( bool isDerivativeMenu )
 {
     X.clear();
 
     nodes->hide();
     nodesLabel->hide();
-
+    error->hide();
+    if( !isDerivativeMenu )
+    {
+        derivativeLabel->hide();
+        derivativeExpressionInput->hide();
+        solveDerivation->hide();
+    }
     minLabel->show();
     min->show();
     maxLabel->show();
@@ -211,13 +144,19 @@ void LeftWidget::hideFirstLayer( void )
     step->show();
 }
 
-void LeftWidget::hideSecondLayer( void )
+void LeftWidget::hideSecondLayer( bool isDerivativeMenu )
 {
     X.clear();
 
     stepLabel->hide();
     step->hide();
-
+    error->hide();
+    if( !isDerivativeMenu )
+    {
+        derivativeLabel->hide();
+        derivativeExpressionInput->hide();
+        solveDerivation->hide();
+    }
     minLabel->show();
     min->show();
     maxLabel->show();
@@ -226,15 +165,15 @@ void LeftWidget::hideSecondLayer( void )
     nodes->show();
 }
 
+void LeftWidget::changeLayer( int index )
+{
+    switchLayers( index, false );
+}
+
 void LeftWidget::setupNodes( const double node )
 {
     X.clear();
-    auto min = this->min->value();
-    auto max = this->max->value();
-    for( auto delta = min; delta <= max; delta += ( abs( min ) + abs( max ) ) / ( node + 1 ) )
-    {
-        X.push_back( delta );
-    }
+    MathUtils::setupNodes( X, node, this->min->value(), this->max->value() );
 }
 
 std::vector<double> LeftWidget::fillDataFromTable( int column )
@@ -264,22 +203,148 @@ std::vector<double> LeftWidget::fillDataFromTable( int column )
     return data;
 }
 
+void LeftWidget::initLayout()
+{
+    layout->addWidget( label, 0, 0 );
+    layout->addWidget( expressionInput, 0, 1, 1, 10 );
+    layout->addWidget( derivativeLabel, layout->rowCount() - layout->rowCount() + 1, 0, 1, 2 );
+    layout->addWidget( derivativeExpressionInput = new QLineEdit( this ), layout->rowCount() - layout->rowCount() + 1, 1, 1, 10 );
+    layout->addWidget( errLabel, 2, 0 );
+    layout->addWidget( typeOfInput, 3, 0 );
+    layout->addWidget( typeOfVariableInput, 3, 1 );
+    layout->addWidget( minLabel, 4, 0 );
+    layout->addWidget( min, 4, 1 );
+    layout->addWidget( maxLabel, 5, 0 );
+    layout->addWidget( max, 5, 1 );
+    layout->addWidget( stepLabel, 6, 0 );
+    layout->addWidget( step, 6, 1 );
+    layout->addWidget( nodesLabel, 7, 0 );
+    layout->addWidget( nodes, 7, 1 );
+    layout->addWidget( solve, 8, 0 );
+    layout->addWidget( clearTable, 8, 1 );
+    layout->addWidget( buildGraph, 9, 0 );
+    layout->addWidget( manualTableInput, 9, 1 );
+    layout->addWidget( tableWidget, 10, 0, 1, 2 );
+    layout->addWidget( solveDerivation = new QPushButton( "Вычислить f'(x)", this ), layout->rowCount(), 0 );
+    layout->addWidget( averError, layout->rowCount(), 0 );
+    layout->addWidget( error = new QLineEdit( this ), layout->rowCount() - 1, 1 );
+    layout->setColumnStretch( 1, 10 );
+    layout->setColumnStretch( 0, 2 );
+}
 
-void LeftWidget::switchLayers( int index )
+void LeftWidget::buildWidgetForDerivativeOperations( SpecialBuffer& buffer )
+{
+    equationOpened = false;
+    hideAll();
+    deleteAll();
+    initLabels();
+    connectLabels( buffer );
+    setRange();
+    initLayout();
+    hideFirstLayer( true );
+
+    derivativeLabel->setText( "f'(x) = " );
+
+    solveDerivation->show();
+    int currentColumnCount = tableWidget->columnCount();
+    tableWidget->setColumnCount( currentColumnCount + 1 );
+    auto item = new QTableWidgetItem( "Y'" );
+    tableWidget->setHorizontalHeaderItem( currentColumnCount, item );
+
+    averError->setText( "Средняя погрешность: " );
+    averError->show();
+    error->show();
+}
+
+void LeftWidget::buildWidgetForEquationOperations( SpecialBuffer& buffer )
+{
+    if( equationOpened )
+    {
+        return;
+    }
+    equationOpened = true;
+    hideAll();
+    deleteAll();
+
+    oddsInputLabel->setText( QString::asprintf( "Введите через пробел \nкоэффициенты уравнений" ) );
+    QStringList labels;
+    labels << "C1 C2 ... Cn" << "X0";
+    equationsTableWidget->setColumnCount( 2 );
+    equationsTableWidget->setRowCount( 10 );
+    for( int row{}; row < equationsTableWidget->rowCount(); ++row )
+    {
+        QRadioButton* button = new QRadioButton;
+        equationsTableWidget->setCellWidget( row, 2, button );
+    }
+    equationsTableWidget->setHorizontalHeaderLabels( labels );
+    solveEquations->setText( "Решить" );
+    clearEquationsTable->setText( "Очистить Таблицу" );
+    resultOfEquations->setText( "Результат вычислений: " );
+    resultDescription->setText( "Описание: " );
+
+    layout->addWidget( oddsInputLabel, 0, 0 );
+    layout->addWidget( equationsTableWidget, 1, 0, 1, 2 );
+    layout->addWidget( solveEquations, 2, 0 );
+    layout->addWidget( clearEquationsTable, 2, 1 );
+    layout->addWidget( resultOfEquations, 3, 0 );
+    layout->addWidget( eqResult, 4, 0 );
+    layout->addWidget( resultDescription, 5, 0 );
+    layout->addWidget( description, 6, 0 );
+}
+
+void LeftWidget::setWidgetToDefaultStatement( SpecialBuffer& buffer )
+{
+    equationOpened = false;
+    hideAll();
+    deleteAll();
+    initLabels();
+    connectLabels( buffer );
+    setRange();
+    initLayout();
+    hideFirstLayer( false );
+}
+
+void LeftWidget::hideAll( void )
+{
+    for( int i{}; i < layout->count(); ++i )
+    {
+        QLayoutItem* item = layout->itemAt( i );
+        if( item && item->widget() )
+        {
+            item->widget()->hide();
+        }
+    }
+}
+
+void LeftWidget::deleteAll( void )
+{
+    if( layout->count() > 0 )
+    {
+        QLayoutItem* item;
+        while( ( item = layout->takeAt( 0 ) ) != nullptr )
+        {
+            layout->removeItem( item );
+            delete item;
+        }
+    }
+}
+
+
+void LeftWidget::switchLayers( int index, bool isDerivativeMenu )
 {
     if( index == 0 )
     {
-        hideFirstLayer();
+        hideFirstLayer( isDerivativeMenu );
     }
     else if( index == 1 )
     {
-        hideSecondLayer();
+        hideSecondLayer( isDerivativeMenu );
     }
 }
 
 void LeftWidget::editTable()
 {
-    clearTable();
+    clearDataTable();
     tableWidget->setColumnCount( 2 );
     tableWidget->setRowCount( 10 );
     for( int row{}; row < tableWidget->rowCount(); ++row )
@@ -290,6 +355,7 @@ void LeftWidget::editTable()
     manualInput = true;
     solve->setEnabled( true );
     solve->setStyleSheet( "background-color: lightgreen;" );
+    buildGraph->setEnabled( true );
 }
 
 void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
@@ -309,26 +375,116 @@ void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
     }
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
-    buffer.print();
+    //buffer.print();
 }
 
 // МЕТОД ДЛЯ ОТРИСОВКИ ГРАФИКА ПО ДИСКРЕТНО ЗАДАННЫМ ВЕЛИЧИНАМ
 void LeftWidget::acceptData( const QString &expr, const double a, const double b )
 {
-    std::vector<double> x;
-    for( double i = a; i <= b; i += 0.1 )
-    {
-        x.push_back( i );
-    }
-    if( x.back() != b )
-    {
-        x.push_back( b );
-    }
+    auto x = MathUtils::multipyPoints( a, b );
     parser->setDataX( x );
     std::vector<double> y = parser->parseExpression( expr.toStdString().c_str() );
     emit readyToDraw( x, y );
 }
 
-QLineEdit* LeftWidget::getExpressionInput() const {
+void LeftWidget::rebuildWidgets( pymodules::Modules modules, SpecialBuffer& buffer )
+{
+    switch( modules )
+    {
+    case pymodules::Modules::DIFFERENTIATION:
+        buildWidgetForDerivativeOperations( buffer );
+        break;
+    case pymodules::Modules::EQUATIONS:
+        buildWidgetForEquationOperations( buffer );
+        break;
+    case pymodules::Modules::NIL:
+        setWidgetToDefaultStatement( buffer );
+        break;
+    default:
+        break;
+    };
+
+}
+
+QLineEdit* LeftWidget::getExpressionInput() const
+{
     return expressionInput;
+}
+
+void LeftWidget::initLabels( void )
+{
+    validator = new ValidateString( this );
+
+    parser = new StringParser( this );
+
+    label = new QLabel( "f(x) = ", this );
+    errLabel = new QLabel( "", this );
+
+    typeOfInput = new QLabel( "Ввод значений x: ", this );
+
+    typeOfVariableInput = new QComboBox( this );
+    typeOfVariableInput->addItems( { "с шагом", "с узлами" } );
+
+    { // Переменные элементы
+        minLabel = new QLabel( "Минимальное значение x:", this );
+        maxLabel = new QLabel( "Максимальное значение x:", this );
+        stepLabel = new QLabel( "Шаг по x:", this );
+
+        nodesLabel = new QLabel( "Кол-во узлов: ", this );
+
+        min = new QDoubleSpinBox( this );
+        max = new QDoubleSpinBox( this );
+        step = new QDoubleSpinBox( this );
+        nodes = new QDoubleSpinBox( this );
+
+        derivativeLabel = new QLabel();
+        averError = new QLabel();
+
+        oddsInputLabel = new QLabel();
+        equationsTableWidget = new QTableWidget();
+        solveEquations = new QPushButton();
+        clearEquationsTable = new QPushButton();
+        resultOfEquations = new QLabel();
+        eqResult = new QLineEdit();
+        resultDescription = new QLabel();
+        description = new QLineEdit();
+    } // Переменные элементы
+
+    expressionInput = new QLineEdit( this );
+
+    manualTableInput = new QPushButton( "Ручной ввод", this );
+    solve = new QPushButton( "Решить", this );
+    solve->setStyleSheet( "background-color: tomato;" );
+    solve->setEnabled( false );
+
+    clearTable = new QPushButton( "Очистить таблицу", this );
+    buildGraph = new QPushButton( "Построить график", this );
+    buildGraph->setEnabled( false );
+
+    tableWidget = new QTableWidget( this );
+    tableWidget->setColumnCount( 2 );
+    QStringList labels;
+    labels << "X" << "Y";
+    tableWidget->setHorizontalHeaderLabels( labels );
+}
+
+void LeftWidget::connectLabels( SpecialBuffer &buffer )
+{
+    connect( validator, &ValidateString::validExpression, this, &LeftWidget::onValidateStringValid );
+    connect( validator, &ValidateString::invalidExpression, this, &LeftWidget::onValidateStringInvalid );
+    connect( parser, &StringParser::errorOccurred, this, &LeftWidget::handleParserError );
+    connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
+    connect( manualTableInput, &QPushButton::clicked, this, &LeftWidget::editTable );
+    connect( solve, &QPushButton::clicked, [ &buffer, this ]()
+            {
+                onSolveButtonClicked( buffer );
+            }
+    );
+    connect( clearTable, &QPushButton::clicked, this, &LeftWidget::clearDataTable );
+    connect( tableWidget, &QTableWidget::itemChanged, this, [ this, &buffer ]()
+            {
+                updateDataFromTable( buffer );
+            }
+    );
+    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftWidget::changeLayer );
 }

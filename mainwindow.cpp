@@ -1,11 +1,9 @@
 #include "mainwindow.h"
 
 // TODO: Сделать код чище
-//       Подумать над неймингом объектов.
-//       Сделать вертикальное меню
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
-    resize( 1020, 600 );
+    resize( 1150, 660 );
     setMinimumSize( 640, 380 );
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
@@ -18,6 +16,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     toolbar = new Toolbar( this );
     toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
+    toolbar->setIconSize( *new QSize( 40, 40 ) );
     addToolBar( Qt::RightToolBarArea, toolbar );
 
     QScrollArea *scrollArea = new QScrollArea( this );
@@ -25,14 +24,16 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     layout = new QGridLayout( this );
     centralwidget = new QWidget( this );
+
     leftWidget = new LeftWidget( buffer, this );
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+
     rightWidget = new RightWidget( this );
 
     centralwidget->setLayout( layout );
     setCentralWidget( centralwidget );
     scrollLayout = new QGridLayout( scrollContentWidget );
 
-    //scrollLayout->addWidget( menu->get(), 0, 0, 1, 2 );
     scrollLayout->addWidget( leftWidget, 1, 0 );
     scrollLayout->addWidget( rightWidget, 1, 1 );
     connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
@@ -41,24 +42,130 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
     connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
 
+    connect( this, &MainWindow::buildDerivativeWidgets, rightWidget, &RightWidget::rebuildWidgets );
+    connect( this, &MainWindow::buildDerivativeWidgets, leftWidget, &LeftWidget::rebuildWidgets );
+    connect( this, &MainWindow::buildDefaultWidgets, leftWidget, &LeftWidget::rebuildWidgets );
+
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
-    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::printGraph );
-    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::printDiffGraph );
-    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::invokeLagrangeMethod );
-    connect( toolbar->actions().at( 4 ), &QAction::triggered, this, &MainWindow::invokeNewtonMethod );
-    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::invokeBerrutaMethod );
-    connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::clearGraph );
-    connect( toolbar->actions().at( 8 ), &QAction::triggered, this, &MainWindow::resetZoom );
-    connect( toolbar->actions().at( 9 ), &QAction::triggered, this, &MainWindow::moveLegend );
-    connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::seeLegend );
     connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::stepBack );
+    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenu );
+    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openDerivativeMenu );
+    connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openIntegrationMenu );
+    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::openEquationSystemMenu );
+    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::openLagrangeMenu );
+    connect( toolbar->actions().at( 6 ), &QAction::triggered, this, &MainWindow::openNewtonMenu );
+    connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::openBerrutaMenu );
+    connect( toolbar->actions().at( 9 ), &QAction::triggered, this, &MainWindow::clearGraph );
+    connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom );
 }
 
-void MainWindow::printGraph()
+void MainWindow::openFunctionMenu( void )
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 0 )->setChecked( true );
+    widgetState = pymodules::Modules::NIL;
+    emit buildDefaultWidgets( widgetState, buffer );
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+}
+
+void MainWindow::openDerivativeMenu( void )
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 1 )->setChecked( true );
+    widgetState = pymodules::Modules::DIFFERENTIATION;
+    emit buildDerivativeWidgets( widgetState, buffer );
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+}
+
+void MainWindow::openIntegrationMenu()
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 2 )->setChecked( true );
+    widgetState = pymodules::Modules::INTEGRATION;
+    emit buildDerivativeWidgets( widgetState, buffer );
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+}
+
+void MainWindow::openEquationSystemMenu( void )
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 3 )->setChecked( true );
+    widgetState = pymodules::Modules::EQUATIONS;
+    emit buildDerivativeWidgets( widgetState, buffer );
+}
+
+void MainWindow::openLagrangeMenu( void )
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 5 )->setChecked( true );
+    widgetState = pymodules::Modules::NIL;
+    emit buildDefaultWidgets( widgetState, buffer );
+    methodOfInterpolation = pymodules::Methods::LAGRANGE;
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+}
+
+void MainWindow::openNewtonMenu( void )
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 6 )->setChecked( true );
+    widgetState = pymodules::Modules::NIL;
+    emit buildDefaultWidgets( widgetState, buffer );
+    methodOfInterpolation = pymodules::Methods::NEWTON;
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+}
+
+void MainWindow::openBerrutaMenu( void )
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 7 )->setChecked( true );
+    widgetState = pymodules::Modules::NIL;
+    emit buildDefaultWidgets( widgetState, buffer );
+    methodOfInterpolation = pymodules::Methods::BERRUTA;
+    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+}
+
+void MainWindow::draw( void )
+{
+    switch( widgetState )
+    {
+    case pymodules::Modules::NIL:
+        printFunctionGraph();
+        break;
+    case pymodules::Modules::DIFFERENTIATION:
+        printDiffGraph();
+        break;
+    case pymodules::Modules::POLYNOMIALS:
+        buildPolynomeGraph();
+        break;
+    default:
+        qDebug() << "No such method.\n";
+        break;
+    }
+}
+
+void MainWindow::buildPolynomeGraph( void )
+{
+    switch( methodOfInterpolation )
+    {
+    case pymodules::Methods::LAGRANGE:
+        invokeLagrangeMethod();
+        break;
+    case pymodules::Methods::NEWTON:
+        invokeNewtonMethod();
+        break;
+    case pymodules::Methods::BERRUTA:
+        invokeBerrutaMethod();
+        break;
+    default:
+        break;
+    }
+}
+
+void MainWindow::printFunctionGraph( void )
 {
     sender.setMacro( pymodules::Methods::NIL, pymodules::Modules::NIL );
     if( isSession )
@@ -69,23 +176,25 @@ void MainWindow::printGraph()
     rightWidget->printGraph( buffer, sender, nullptr );
 }
 
-void MainWindow::printDiffGraph()
+
+void MainWindow::printDiffGraph( void )
 {
     pymodules::Methods method = toolbar->getSelectedDiffMethod();
     sender.setMacro( method, pymodules::Modules::DIFFERENTIATION );
     qDebug() << "You choose " << sender.functionName;
-    QString expression = leftWidget->getExpressionInput()->text();
+
     if( isSession )
     {
-        rightWidget->printDiffGraph( buffer, sender, expression, &logStack );
+        rightWidget->printDiffGraph( buffer, sender, &logStack );
         return;
     }
-    rightWidget->printDiffGraph( buffer, sender, expression, nullptr );
+    rightWidget->printDiffGraph( buffer, sender, nullptr );
 }
-
 
 void MainWindow::invokeLagrangeMethod( void )
 {
+    emit buildDefaultWidgets( pymodules::Modules::NIL, buffer );
+    widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS );
     if( isSession )
     {
@@ -97,6 +206,8 @@ void MainWindow::invokeLagrangeMethod( void )
 
 void MainWindow::invokeNewtonMethod( void )
 {
+    emit buildDefaultWidgets( pymodules::Modules::NIL, buffer );
+    widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( pymodules::Methods::NEWTON, pymodules::Modules::POLYNOMIALS );
     if( isSession )
     {
@@ -108,6 +219,8 @@ void MainWindow::invokeNewtonMethod( void )
 
 void MainWindow::invokeBerrutaMethod( void )
 {
+    emit buildDefaultWidgets( pymodules::Modules::NIL, buffer );
+    widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( pymodules::Methods::BERRUTA, pymodules::Modules::POLYNOMIALS );
     if( isSession )
     {
@@ -119,11 +232,13 @@ void MainWindow::invokeBerrutaMethod( void )
 
 void MainWindow::clearGraph( void )
 {
+    toolbar->unsetChecked();
     rightWidget->clearGraph();
 }
 
 void MainWindow::resetZoom( void )
 {
+    toolbar->unsetChecked();
     rightWidget->graphBuilder->ZoomB();
 }
 

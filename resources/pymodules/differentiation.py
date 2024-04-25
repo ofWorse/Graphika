@@ -139,13 +139,13 @@ def differentiate_func(x_values, y_values, schema=3, order=1, precision=4):
                 x_for_diff[x_for_diff.index(i)] = round(i, precision)
             return x_for_diff, list(dict.fromkeys(y_for_plot))
         case 3:
-            x_for_diff = x_values[:-1 * order]
+            x_for_diff = x_values[1*order:-1 * order]
             for i in x_for_diff:
                 y_for_plot.append(differential_3p(x_values, y_values, i, order).evalf(n=precision))
                 x_for_diff[x_for_diff.index(i)] = round(i, precision)
             return x_for_diff, list(dict.fromkeys(y_for_plot))
         case 5:
-            x_for_diff = x_values[:-1 * order]
+            x_for_diff = x_values[2 * order:-2 * order]
             for i in x_for_diff:
                 y_for_plot.append(differential_5p(x_values, y_values, i, order).evalf(n=precision))
                 x_for_diff[x_for_diff.index(i)] = round(i, precision)

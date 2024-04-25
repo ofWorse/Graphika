@@ -21,25 +21,48 @@ def split_matrix(matrix):
     return A, B
 
 
+def validate(eq_system):
+    for line in eq_system:
+        counter = 0
+        for element in line:
+            if element == 0:
+                counter += 1
+        if counter >= len(line)-1:
+            return False
+    return True
+
+
 def gauss(eq_system, precision=4):
+    if not validate(eq_system):
+        return list()
     n = len(eq_system[0]) - 1
     x = [0 for _ in range(n)]
-    for k in range(n):
+    column = 0
+    for k in range(0, n):
         if eq_system[k][k] == 0:
             swap_lines(eq_system, k, k, n)
-        for j in range(k + 1, n + 1):
-            eq_system[k][j] = eq_system[k][j] / eq_system[k][k]
-            for i in range(k + 1, n):
+        divider = eq_system[k][k]
+        eq_system[k] = [element/divider for element in eq_system[k]]
+        for j in range(k+1, n+1):
+            eq_system[k][j] = eq_system[k][j]/eq_system[k][k]
+            for i in range(k+1, n):
                 eq_system[i][j] = eq_system[i][j] - eq_system[i][k] * eq_system[k][j]
+        for i in range(k+1, n):
+            eq_system[i][column] = 0
+        column += 1
+    if not validate(eq_system):
+        return list()
     for i in range(n - 1, -1, -1):
         s = 0
-        for k in range(i + 1, n):
+        for k in range(i+1, n):
             s += eq_system[i][k] * x[k]
         x[i] = 0.0 if eq_system[i][n] - s == 0 else round(eq_system[i][n] - s, precision)
     return x
 
 
 def simple_iterations(eq_system, precision=4):
+    if not validate(eq_system):
+        return list()
     # rebuild base matrix
     n = len(eq_system)
     epsilon = 1 / (10 ** precision)
@@ -58,10 +81,12 @@ def simple_iterations(eq_system, precision=4):
     for line in alpha:
         t_max = sum(abs(element) for element in line)
         q = t_max if t_max > q else q
-    if q > 1:
-        return list()
-    # calculate m, ceil(m) is upper bound for number of iterations
     x_n = beta
+    if q >= 1:
+        return list()
+    elif q == 0:
+        return x_n
+    # calculate m, ceil(m) is upper bound for number of iterations
     index = 0
     for line in alpha:
         x_n1[index] = sum([line[i] * x_n[i] for i in range(n)]) + beta[index]

@@ -19,6 +19,7 @@ SOURCES += \
     leftwidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    mathutils.cpp \
     menu.cpp \
     plotlayout.cpp \
     pythonconveyor.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     expressionvalidator.h \
     leftwidget.h \
     mainwindow.h \
+    mathutils.h \
     menu.h \
     plotlayout.h \
     pythonconveyor.h \
