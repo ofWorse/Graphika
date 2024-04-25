@@ -10,6 +10,7 @@
 #include "compositestatestack.h"
 #include "settings.h"
 
+
 class RightWidget : public QWidget
 {
     Q_OBJECT
@@ -44,6 +45,9 @@ public:
     void integrationSolve( const QString& expression, const double& a, const double& b, Sender& sender );
 
     void clearGraph( void );
+    void moveLegend( void );
+    void seeLegend( void );
+    void stepBack( void);
 
 public slots:
     void drawGraph( const std::vector<double> x, const std::vector<double> y );

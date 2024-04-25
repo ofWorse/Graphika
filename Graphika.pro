@@ -20,6 +20,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menu.cpp \
+    plotlayout.cpp \
     pythonconveyor.cpp \
     reportpdfgenerator.cpp \
     rightwidget.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     leftwidget.h \
     mainwindow.h \
     menu.h \
+    plotlayout.h \
     pythonconveyor.h \
     reportpdfgenerator.h \
     rightwidget.h \

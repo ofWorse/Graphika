@@ -47,6 +47,9 @@ public slots:
 
     void clearGraph( void );
     void resetZoom( void );
+    void moveLegend( void );
+    void seeLegend( void );
+    void stepBack( void );
 
     void startSession( void );
     void endSession( void );

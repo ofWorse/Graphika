@@ -2,10 +2,11 @@
 #include <qstring.h>
 #include <filesystem>
 
-RightWidget::RightWidget( QWidget *parent )
+
+RightWidget::RightWidget( QWidget *parent)
     : QWidget{ parent }
 {
-    graphBuilder = new GraphBuilder( this );
+    graphBuilder = new GraphBuilder(this);
     conveyor = new PythonConveyor();
     rightLayout = new QGridLayout( this );
     label = new QLabel( "Полученная модель: ", this );
@@ -133,3 +134,20 @@ void RightWidget::drawGraph( const std::vector<double> x, const std::vector<doub
     QVector<double> Y = QVector<double>::fromStdVector( y );
     graphBuilder->PaintG( X, Y, "График интерполяции", true, false );
 }
+
+void RightWidget::moveLegend(void)
+{
+    graphBuilder->LegendGo();
+}
+
+void RightWidget::seeLegend()
+{
+    graphBuilder->LegentSee();
+}
+
+void RightWidget::stepBack()
+{
+    graphBuilder->GoBack();
+}
+
+

@@ -53,6 +53,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::invokeBerrutaMethod );
     connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::clearGraph );
     connect( toolbar->actions().at( 8 ), &QAction::triggered, this, &MainWindow::resetZoom );
+    connect( toolbar->actions().at( 9 ), &QAction::triggered, this, &MainWindow::moveLegend );
+    connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::seeLegend );
+    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::stepBack );
 }
 
 void MainWindow::printGraph()
@@ -122,6 +125,21 @@ void MainWindow::clearGraph( void )
 void MainWindow::resetZoom( void )
 {
     rightWidget->graphBuilder->ZoomB();
+}
+
+void MainWindow::moveLegend( void )
+{
+    rightWidget->moveLegend();
+}
+
+void MainWindow::seeLegend( void )
+{
+    rightWidget->seeLegend();
+}
+
+void MainWindow::stepBack()
+{
+    rightWidget->stepBack();
 }
 
 void MainWindow::startSession( void )
