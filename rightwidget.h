@@ -51,6 +51,9 @@ public:
     void integrationSolve( const QVector<double>& x, const QVector<double>& y, Sender& sender );
 
     void clearGraph( void );
+    void moveLegend( void );
+    void seeLegend( void );
+    void stepBack( void);
 
 public slots:
     void drawGraph( const std::vector<double> x, const std::vector<double> y );

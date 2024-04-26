@@ -14,6 +14,10 @@ Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
     addSeparator();
     addAction(QIcon(":/toolbaricons/resources/clean.PNG"), "Очистить график");
     addAction(QIcon(":/toolbaricons/resources/home.PNG"), "Вернуть график");
+    addAction("GLeg");
+    addAction("SLeg");
+    addAction("<-");
+    addAction("->");
 
     setCheckable();
     initDiffMenu();

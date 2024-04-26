@@ -19,8 +19,12 @@ private:
     QCPItemTracer* tracer;
     QGridLayout* layout;
     QCPItemText* textItem;
+    QList<QCustomPlot*>* plots;
 
     int i = 0;
+    int l = 0;
+    int currentindex;
+
 
     double xmax = 2.0;
     double xmin = -2.0;
@@ -41,5 +45,10 @@ public slots:
     void on_clearButton_clicked( void );
     void ZoomB();
     void onMousMove(QMouseEvent* event);
+    void LegendGo();
+    void LegentSee();
+    void GoBack();
+    void GoFront();
+
 };
 #endif // GRAPHBUILDER_H

@@ -10,6 +10,9 @@
 #include <QRandomGenerator>
 #include <QColor>
 #include <iostream>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QList>
 
 
 GraphBuilder::GraphBuilder( QWidget* parent )
@@ -17,11 +20,14 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 {
     layout = new QGridLayout( this );
     wGraphic = new QCustomPlot( this );
+    plots = new QList<QCustomPlot*>(  );
 
     textItem = new QCPItemText(wGraphic);
     connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove );
 
     wGraphic->setMinimumSize( 550, 500 );
+
+
 
 
     tracer = new QCPItemTracer( wGraphic );
@@ -35,12 +41,15 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 
     wGraphic->replot();
 
+    //layout->addWidget(new QToolBar(this));
+
     layout->addWidget( wGraphic );
 }
 
 void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
 {
     GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn );
+
 
     if ( std::find_if( graphInfoList.begin(), graphInfoList.end(), [ & ] ( const GraphInfo& info ) {
             return info.name == newGraphInfo.name && info.xAxis == newGraphInfo.xAxis && info.yAxis == newGraphInfo.yAxis;
@@ -127,12 +136,16 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
     }
     wGraphic->graph( i )->setName( name );
-    wGraphic->legend->setVisible( true );
     QPen pen = wGraphic->graph( i )->pen();
     pen.setWidth( 4 );
     wGraphic->graph( i )->setPen( pen );
     i++;
     wGraphic->replot();
+    QCustomPlot* plot = wGraphic;
+    plots->append(plot);
+    qDebug() << plots->size() << "\n";
+    qDebug() << plots->size() << "\n";
+    currentindex = plots->size() - 1;
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
 }
 
@@ -141,12 +154,15 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
 
 void GraphBuilder::on_clearButton_clicked()
 {
-    for( int c{}; c < i; ++c )
-    {
-        wGraphic->graph( c )->data()->clear();
-    }
+    wGraphic->clearGraphs();
     wGraphic->legend->clear();
     wGraphic->legend->setVisible( false );
+    xmax = 2.0;
+    xmin = -2.0;
+    ymax = 2.0;
+    ymin = -2.0;
+    wGraphic->xAxis->setRange( xmin, xmax );
+    wGraphic->yAxis->setRange( ymin, ymax );
     wGraphic->replot();
     wGraphic->update();
     data.clear();
@@ -169,5 +185,72 @@ void GraphBuilder::onMousMove(QMouseEvent *event){
     textItem->setFont(QFont(font().family(), 10));
     customPlot->replot();
 }
+
+void GraphBuilder::LegendGo(){
+    if(l == 0){
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignCenter|Qt::AlignRight);
+        l++;
+        wGraphic->replot();
+    }
+    if(l == 1){
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignBottom|Qt::AlignRight);
+        wGraphic->replot();
+    }
+    if(l == 2){
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignBottom|Qt::AlignVCenter);
+        wGraphic->replot();
+    }
+    if(l == 3){
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignBottom|Qt::AlignLeft);
+        wGraphic->replot();
+    }
+    if(l == 4){
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignCenter|Qt::AlignLeft);
+        wGraphic->replot();
+    }
+    if(l == 5){
+       wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignTop|Qt::AlignLeft);
+       wGraphic->replot();
+    }
+    if(l == 6){
+       wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignTop|Qt::AlignCenter);
+       wGraphic->replot();
+    }
+    if(l == 7){
+       wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignTop|Qt::AlignRight);
+       wGraphic->replot();
+       l = -1;
+    }
+    l++;
+
+}
+
+void GraphBuilder::LegentSee(){
+    if(wGraphic->legend->visible()){
+       wGraphic->legend->setVisible( false );
+       wGraphic->replot();
+    }else {
+       wGraphic->legend->setVisible( true );
+       wGraphic->replot();
+    }
+}
+
+void GraphBuilder::GoBack(){
+    //if (currentindex > 0 && plots->size() > 0) {
+
+      // wGraphic->clearGraphs();
+      // wGraphic = plots[currentindex];
+       //wGraphic->replot();
+       //wGraphic->update();
+    //}
+    //currentindex--;
+
+
+}
+
+void GraphBuilder::GoFront(){
+
+}
+
 
 

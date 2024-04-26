@@ -51,6 +51,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
+    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::stepBack );
     connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenu );
     connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openDerivativeMenu );
     connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openIntegrationMenu );
@@ -239,6 +240,21 @@ void MainWindow::resetZoom( void )
 {
     toolbar->unsetChecked();
     rightWidget->graphBuilder->ZoomB();
+}
+
+void MainWindow::moveLegend( void )
+{
+    rightWidget->moveLegend();
+}
+
+void MainWindow::seeLegend( void )
+{
+    rightWidget->seeLegend();
+}
+
+void MainWindow::stepBack()
+{
+    rightWidget->stepBack();
 }
 
 void MainWindow::startSession( void )
