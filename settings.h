@@ -1,10 +1,14 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+namespace limits
+{
+const int NODES_LIMIT = 10;
+const int SIZE_LIMIT = 1002;
+} // limits
+
 namespace pymodules
 {
-
-const int NODES_LIMIT = 10;
 
 enum class Methods
 {
@@ -20,5 +24,16 @@ enum class Modules
 };
 
 } // pymodules
+
+
+namespace label
+{
+
+enum class TextLine
+{
+    FUNCTION, DERIVATION, EQUATIONS
+};
+
+} // layout
 
 #endif // SETTINGS_H

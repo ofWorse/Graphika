@@ -2,14 +2,11 @@
 #include <qstring.h>
 #include <filesystem>
 
-
-RightWidget::RightWidget( QWidget *parent)
 void RightWidget::buildWidgetForDerivativeOperations( void )
 {
     graphBuilder->on_clearButton_clicked();
     graphBuilder->wGraphic->yAxis->setLabel( "y'" );
 }
-
 
 RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
@@ -43,8 +40,8 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
 
     if( stack )
     {
-        emit sendData( *model, false );
-        emit sendData( *graphBuilder->wGraphic, false );
+       // emit sendData( *model, false );
+       // emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -56,7 +53,7 @@ void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& se
 
     if( stack )
     {
-        emit sendData( *graphBuilder->wGraphic, false );
+       // emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -72,7 +69,21 @@ void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const C
 
     if( stack )
     {
-        emit sendData( *graphBuilder->wGraphic, false );
+       // emit sendData( *graphBuilder->wGraphic, false );
+    }
+}
+
+void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
+{
+    x = buffer.x;
+    y = buffer.y;
+
+    integrationSolve( x, y, sender );
+
+    if( stack )
+    {
+       // emit sendData( x.data(), false );
+       // emit sendData( y.data(), false );
     }
 }
 
@@ -80,7 +91,8 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
 {
     x = buffer.x;
     y = buffer.y;
-    if( x.size() > pymodules::NODES_LIMIT )
+
+    if( x.size() > limits::NODES_LIMIT )
     {
         emit errorOccured( "Не больше 10 узлов" );
         return;
@@ -106,8 +118,8 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
 
     if( stack )
     {
-        emit sendData( *model, false );
-        emit sendData( *graphBuilder->wGraphic, false );
+       // emit sendData( *model, false );
+       // emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -131,7 +143,8 @@ void RightWidget::integrationSolve( const QVector<double>& x, const QVector<doub
     conveyor->setDataY(y.toStdVector());
 
     conveyor->sendDataToIntegration();
-    resultModel = conveyor->getResult().toStdString();
+    area = conveyor->getResult().toStdString();
+    emit readyToSendArea( area );
 }
 
 void RightWidget::differentiationSolve( const QVector<double>& x, const QVector<double>& y, Sender& sender )
@@ -147,6 +160,12 @@ void RightWidget::differentiationSolve( const QVector<double>& x, const QVector<
     QVector<double> resultX = conveyor->getResultDiff_XVector();
     QVector<double> resultY = conveyor->getResultDiff_YVector();
     printGraph( resultX, resultY, sender, nullptr );
+}
+
+void RightWidget::solveLinearEquations( QVector<QVector<double>>& data )
+{
+    // Илья
+    qDebug() << "Accepted!\n";
 }
 
 void RightWidget::clearGraph( void )
@@ -182,9 +201,7 @@ void RightWidget::rebuildWidgets( pymodules::Modules modules )
     switch( modules )
     {
     case pymodules::Modules::DIFFERENTIATION:
-    {
         buildWidgetForDerivativeOperations();
         break;
-    }
     };
 }

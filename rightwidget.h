@@ -31,6 +31,7 @@ public:
 
 private:
     std::string resultModel;
+    std::string area;
     QLineEdit* model;
     QLabel* label;
 
@@ -43,6 +44,8 @@ public:
     void printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
     void printGraph( QVector<double>& x, QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
     void printDiffGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
+
+    void calculateIntegral( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
 
     void buildPolynome( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack  );
     void interpolationSolve( const std::vector<double>& x, const std::vector<double>& y, Sender& sender );
@@ -58,11 +61,13 @@ public:
 public slots:
     void drawGraph( const std::vector<double> x, const std::vector<double> y );
     void rebuildWidgets( pymodules::Modules modules );
+    void solveLinearEquations( QVector<QVector<double>>& data );
 
 signals:
     void errorOccured( const QString& err );
     void readyToSendData( const QString& expr, const double a, const double b );
     void sendData( QObject& data, bool toRemove );
+    void readyToSendArea( std::string& area );
 };
 
 #endif // RIGHTWIDGET_H

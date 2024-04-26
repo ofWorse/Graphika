@@ -40,7 +40,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( leftWidget, &LeftWidget::sendData, &logStack, &CompositeStateStack::receiveData );
     connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
+    connect( rightWidget, &RightWidget::readyToSendArea, leftWidget, &LeftWidget::acceptArea );
     connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
+    connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, rightWidget, &RightWidget::solveLinearEquations );
 
     connect( this, &MainWindow::buildDerivativeWidgets, rightWidget, &RightWidget::rebuildWidgets );
     connect( this, &MainWindow::buildDerivativeWidgets, leftWidget, &LeftWidget::rebuildWidgets );
@@ -51,7 +53,6 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
-    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::stepBack );
     connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenu );
     connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openDerivativeMenu );
     connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openIntegrationMenu );
@@ -61,6 +62,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::openBerrutaMenu );
     connect( toolbar->actions().at( 9 ), &QAction::triggered, this, &MainWindow::clearGraph );
     connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom );
+    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::moveLegend );
+    connect( toolbar->actions().at( 12 ), &QAction::triggered, this, &MainWindow::seeLegend );
 }
 
 void MainWindow::openFunctionMenu( void )
@@ -86,7 +89,7 @@ void MainWindow::openIntegrationMenu()
     toolbar->unsetChecked();
     toolbar->actions().at( 2 )->setChecked( true );
     widgetState = pymodules::Modules::INTEGRATION;
-    emit buildDerivativeWidgets( widgetState, buffer );
+    emit buildDefaultWidgets( widgetState, buffer );
     connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
 }
 
@@ -141,6 +144,8 @@ void MainWindow::draw( void )
     case pymodules::Modules::POLYNOMIALS:
         buildPolynomeGraph();
         break;
+    case pymodules::Modules::INTEGRATION:
+        calculateIntegral();
     default:
         qDebug() << "No such method.\n";
         break;
@@ -181,14 +186,24 @@ void MainWindow::printDiffGraph( void )
 {
     pymodules::Methods method = toolbar->getSelectedDiffMethod();
     sender.setMacro( method, pymodules::Modules::DIFFERENTIATION );
-    qDebug() << "You choose " << sender.functionName;
-
     if( isSession )
     {
         rightWidget->printDiffGraph( buffer, sender, &logStack );
         return;
     }
     rightWidget->printDiffGraph( buffer, sender, nullptr );
+}
+
+void MainWindow::calculateIntegral( void )
+{
+    pymodules::Methods method = toolbar->getSelectedIntegralMethod();
+    sender.setMacro( method, pymodules::Modules::INTEGRATION );
+    if( isSession )
+    {
+        rightWidget->calculateIntegral( buffer, sender, &logStack );
+        return;
+    }
+    rightWidget->calculateIntegral( buffer, sender, nullptr );
 }
 
 void MainWindow::invokeLagrangeMethod( void )

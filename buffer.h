@@ -12,6 +12,7 @@ public:
     SpecialBuffer( void );
     QVector<double> x;
     QVector<double> y;
+    QVector<double> dy;
 
     /*
     void print()

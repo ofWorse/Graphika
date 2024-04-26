@@ -4,23 +4,27 @@
 Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
 {
     addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
-    diffAction = addAction(QIcon(":/toolbaricons/resources/diff.PNG"), "Построить график функции f'(x)");
-    addAction( QIcon( ":/toolbaricons/resources/int.PNG" ), "Найти площадь трапеции" );
+    diffAction = addAction( QIcon(":/toolbaricons/resources/diff.PNG"), "Построить график функции f'(x)" );
+    integralAction = addAction( QIcon( ":/toolbaricons/resources/int.PNG" ), "Найти площадь трапеции" );
     addAction( "sys" );
     addSeparator();
-    addAction(QIcon(":/toolbaricons/resources/lagrange.PNG"), "Построить модель полинома Лагранжа");
-    addAction(QIcon(":/toolbaricons/resources/newthon.PNG"), "Построить модель полинома Ньютона");
-    addAction(QIcon(":/toolbaricons/resources/berruta.PNG"), "Построить модель полинома Берута");
+    addAction( QIcon(":/toolbaricons/resources/lagrange.PNG"), "Построить модель полинома Лагранжа");
+    addAction( QIcon(":/toolbaricons/resources/newthon.PNG"), "Построить модель полинома Ньютона");
+    addAction( QIcon(":/toolbaricons/resources/berruta.PNG"), "Построить модель полинома Берута");
     addSeparator();
-    addAction(QIcon(":/toolbaricons/resources/clean.PNG"), "Очистить график");
-    addAction(QIcon(":/toolbaricons/resources/home.PNG"), "Вернуть график");
-    addAction("GLeg");
-    addAction("SLeg");
-    addAction("<-");
-    addAction("->");
+    addAction( QIcon(":/toolbaricons/resources/clearPlot.PNG"), "Очистить график");
+    addAction( QIcon(":/toolbaricons/resources/home.PNG"), "Вернуть график");
+    addAction( "GLeg" );
+    addAction( "SLeg" );
+    addAction( QIcon(":/toolbaricons/resources/back.PNG"), "Шаг назад" );
+    addAction( QIcon(":/toolbaricons/resources/forward.PNG"), "Шаг вперед" );
+    addAction( QIcon(":/toolbaricons/resources/decreasePlot.PNG"), "Увеличить график" );
+    addAction( QIcon(":/toolbaricons/resources/increasePlot.PNG"), "Уменьшить график" );
+    addAction( QIcon(":/toolbaricons/resources/unpinPlot.PNG"), "Отделить график от окна" );
 
     setCheckable();
     initDiffMenu();
+    initIntegralMenu();
 }
 
 void Toolbar::mousePressEvent( QMouseEvent *event )
@@ -30,6 +34,10 @@ void Toolbar::mousePressEvent( QMouseEvent *event )
         if (action == diffAction)
         {
             diffMenu->popup(event->globalPos());
+        }
+        if( action == integralAction )
+        {
+            integralMenu->popup( event->globalPos() );
         }
     } else {
         QToolBar::mousePressEvent(event);
@@ -61,6 +69,31 @@ void Toolbar::initDiffMenu( void )
     });
 }
 
+void Toolbar::initIntegralMenu()
+{
+    integralMenu = new QMenu( this );
+
+    linearMethod = integralMenu->addAction("Линейный метод");
+    trapezoidMethod = integralMenu->addAction("Метод трапеций");
+    parabolicMethod = integralMenu->addAction("Метод Симпсона (парабол)");
+
+    linearMethod->setCheckable(true);
+    trapezoidMethod->setCheckable(true);
+    parabolicMethod->setCheckable(true);
+
+    linearMethod->setChecked(true);
+
+    connect(linearMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState(linearMethod);
+    });
+    connect(trapezoidMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState(trapezoidMethod);
+    });
+    connect(parabolicMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState(parabolicMethod);
+    });
+}
+
 void Toolbar::updateDiffCheckState(QAction *checkedAction)
 {
     if (checkedAction->isChecked()) {
@@ -78,6 +111,27 @@ void Toolbar::updateDiffCheckState(QAction *checkedAction)
         // Если действие было снято с выбора, оставляем один из вариантов выбранным
         if (!methodTwoDots->isChecked() && !methodThreeDots->isChecked() && !methodFiveDots->isChecked()) {
             methodThreeDots->setChecked(true);
+        }
+    }
+}
+
+void Toolbar::updateIntegralCheckState(QAction *checkedAction)
+{
+    if (checkedAction->isChecked()) {
+        if (checkedAction == linearMethod) {
+            trapezoidMethod->setChecked(false);
+            parabolicMethod->setChecked(false);
+        } else if (checkedAction == trapezoidMethod) {
+            linearMethod->setChecked(false);
+            parabolicMethod->setChecked(false);
+        } else if (checkedAction == parabolicMethod) {
+            linearMethod->setChecked(false);
+            trapezoidMethod->setChecked(false);
+        }
+    } else {
+        // Если действие было снято с выбора, оставляем один из вариантов выбранным
+        if (!linearMethod->isChecked() && !trapezoidMethod->isChecked() && !parabolicMethod->isChecked()) {
+            linearMethod->setChecked(true);
         }
     }
 }
@@ -101,7 +155,7 @@ void Toolbar::unsetChecked( void )
     }
 }
 
-pymodules::Methods Toolbar::getSelectedDiffMethod() const
+pymodules::Methods Toolbar::getSelectedDiffMethod( void ) const
 {
     if ( methodTwoDots->isChecked() )
     {
@@ -115,9 +169,22 @@ pymodules::Methods Toolbar::getSelectedDiffMethod() const
     {
         return pymodules::Methods::DIFF_5P;
     }
-    else
+    return pymodules::Methods::DIFF_3P;
+}
+
+pymodules::Methods Toolbar::getSelectedIntegralMethod( void ) const
+{
+    if ( linearMethod->isChecked() )
     {
-        // Если ни один вариант не выбран, возвращаем значение по умолчанию
-        return pymodules::Methods::DIFF_3P;
+        return pymodules::Methods::INTEG_LINEAR;
     }
+    else if ( trapezoidMethod->isChecked() )
+    {
+        return pymodules::Methods::INTEG_TRAP;
+    }
+    else if ( parabolicMethod->isChecked() )
+    {
+        return pymodules::Methods::INTEG_PARAB;
+    }
+    return pymodules::Methods::INTEG_LINEAR;
 }
