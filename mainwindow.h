@@ -41,6 +41,7 @@ public:
 private:
     void clearLayout( QLayout* layout );
     void printDiffGraph( void );
+    void calculateIntegral( void );
     void buildPolynomeGraph( void );
     void invokeLagrangeMethod( void );
     void invokeNewtonMethod( void );

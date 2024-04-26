@@ -38,3 +38,36 @@ double MathUtils::calculateAverageError( std::vector<double> &X1, std::vector<do
     error /= X1.size();
     return error;
 }
+
+QVector<QVector<double>> MathUtils::formTheSystemOfEquations( const QTableWidget& table )
+{
+    QVector<QVector<double>> result;
+
+    for( int row = 0; row < table.rowCount(); ++row )
+    {
+        QVector<double> rowValues;
+
+        QTableWidgetItem* firstColumnItem = table.item( row, 0 );
+        QTableWidgetItem* secondColumnItem = table.item( row, 1 );
+
+        if( firstColumnItem == nullptr || secondColumnItem == nullptr )
+        {
+            continue;
+        }
+
+        QString firstColumnData = firstColumnItem->text();
+        QStringList firstColumnValues = firstColumnData.split( " " );
+
+        foreach( const QString& value, firstColumnValues )
+        {
+            rowValues.append( value.toDouble() );
+        }
+
+        QString secondColumnData = secondColumnItem->text();
+        rowValues.append( secondColumnData.toDouble() );
+
+        result.append( rowValues );
+    }
+
+    return result;
+}

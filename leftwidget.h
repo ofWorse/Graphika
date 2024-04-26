@@ -7,6 +7,9 @@
 #include "stringparser.h"
 #include "buffer.h"
 #include "mathutils.h"
+#include "settings.h"
+
+
 
 class LeftWidget : public QWidget
 {
@@ -39,7 +42,6 @@ private:
 
     QLabel* averError;
     QLineEdit* error;
-    QPushButton* solveDerivation;
 
     QLabel* oddsInputLabel;
     QTableWidget* equationsTableWidget;
@@ -52,19 +54,24 @@ private:
     /* временная заглушка */
     bool equationOpened = false;
 
+    QLabel* calculatedArea;
+    QLineEdit* area;
+
     QList<QSpinBox*> spinBoxes;
 
+    bool derivativeLabelActive = false;
     bool manualInput = false;
     bool couldBuildTable = true;
     std::vector<double> X;
     std::vector<double> Y;
+    std::vector<double> dY;
 
 public:
     QPushButton* buildGraph;
 
 public:
     explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
-    void showTable( const std::vector<double> x, const std::vector<double> y );
+    void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY );
     QLineEdit* getExpressionInput() const;
 
 private:
@@ -80,6 +87,7 @@ private:
 
     void initLayout( void );
     void buildWidgetForDerivativeOperations( SpecialBuffer& buffer );
+    void buildWidgetForIntegrationOperations( SpecialBuffer& buffer );
     void buildWidgetForEquationOperations( SpecialBuffer& buffer );
     void setWidgetToDefaultStatement( SpecialBuffer& buffer );
     void hideAll( void );
@@ -94,6 +102,7 @@ public slots:
     void onInputTextChanged( const QString& text );
 
     void onSolveButtonClicked( SpecialBuffer& buffer );
+    void onSolveEquationButtonClicked( void );
 
     void clearDataTable( void );
     void handleClearGraph( RightWidget& right );
@@ -108,12 +117,14 @@ public slots:
     void updateDataFromTable( SpecialBuffer& buffer );
 
     void acceptData( const QString& expr, const double a, const double b );
+    void acceptArea( std::string& area );
 
     void rebuildWidgets( pymodules::Modules modules, SpecialBuffer& buffer );
 
 signals:
     void readyToDraw( const std::vector<double> x, const std::vector<double> y );
     void sendData( QObject& data, bool toRemove );
+    void readyToSendLinearEquationsData( QVector<QVector<double>>& data );
 };
 
 #endif // LEFTWIDGET_H

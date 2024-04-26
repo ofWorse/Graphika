@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "expressionvalidator.h"
+#include "settings.h"
 
 class ValidateString : public QObject
 {
@@ -12,8 +13,8 @@ public:
     explicit ValidateString( QObject *parent = nullptr );
 
 signals:
-    void validExpression();
-    void invalidExpression();
+    void validExpression( void );
+    void invalidExpression( void );
 
 public slots:
     void validateExpression( const QString& expr );

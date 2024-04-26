@@ -10,13 +10,17 @@ LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( pare
     hideFirstLayer( false );
 }
 
-void LeftWidget::showTable( const std::vector<double> x, const std::vector<double> y )
+void LeftWidget::showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY )
 {
     tableWidget->clear();
     tableWidget->setRowCount( x.size() );
     QStringList labels;
     // TODO: Избавиться от данного повтора кода!
     labels << "X" << "Y";
+    if( !dY.empty() )
+    {
+        labels << "Y'";
+    }
     tableWidget->setHorizontalHeaderLabels( labels );
 
     for( std::size_t i{}; i < x.size(); ++i )
@@ -25,6 +29,12 @@ void LeftWidget::showTable( const std::vector<double> x, const std::vector<doubl
         QTableWidgetItem* itemY = new QTableWidgetItem( QString::number( y[i] ) );
         tableWidget->setItem( i, 0, itemX );
         tableWidget->setItem( i, 1, itemY );
+
+        if( !dY.empty() )
+        {
+            QTableWidgetItem* itemDY = new QTableWidgetItem( QString::number( dY[i] ) );
+            tableWidget->setItem( i, 2, itemDY );
+        }
     }
     buildGraph->setEnabled( true );
 }
@@ -37,7 +47,7 @@ void LeftWidget::setRange( void )
     max->setSingleStep( 0.1 );
     step->setRange( 0.01, 10.0 );
     step->setSingleStep( 0.1 );
-    nodes->setRange( 0.0, 5000.0 );
+    nodes->setRange( 0.0, 1000.0 );
 }
 
 void LeftWidget::onValidateStringValid( void )
@@ -66,6 +76,15 @@ void LeftWidget::onInputTextChanged( const QString &text )
 
 void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
 {
+    if( derivativeLabelActive &&
+        ( derivativeExpressionInput->text().isEmpty() ||
+          expressionInput->text().isEmpty() )
+    )
+    {
+        emit handleParserError( "Заполните все поля" );
+        return;
+    }
+
     clearDataTable();
 
     auto expression = this->expressionInput->text();
@@ -95,26 +114,68 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
         Y = fillDataFromTable( 1 );
     }
 
+    if( X.size() > limits::SIZE_LIMIT )
+    {
+        emit handleParserError( "Предел: 1000 узлов" );
+        return;
+    }
+
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
+    if( derivativeLabelActive )
+    {
+        dY = parser->parseExpression( derivativeExpressionInput->text().toStdString().c_str() );
+        buffer.dy = QVector<double>( dY.begin(), dY.end() );
+    }
 
     if( couldBuildTable )
     {
-        showTable( X, Y );
+        showTable( X, Y, dY );
     }
     couldBuildTable = true;
     X.clear();
     Y.clear();
+    dY.clear();
+}
+
+void LeftWidget::onSolveEquationButtonClicked()
+{
+    // TODO: в отдельный метод
+    for( int row{}; row < equationsTableWidget->rowCount(); ++row )
+    {
+        QTableWidgetItem* firstColumnItem = equationsTableWidget->item( row, 0 );
+        QTableWidgetItem* secondColumnItem = equationsTableWidget->item( row, 1 );
+
+        if( firstColumnItem == nullptr || secondColumnItem == nullptr )
+        {
+            qDebug() << "There is some blank labels\n";
+            continue;
+        }
+
+        QString firstCol = firstColumnItem->text();
+        QString secondCol = secondColumnItem->text();
+
+        if( !ExpressionValidator::validateTableRow( firstCol, secondCol ) )
+        {
+            qDebug() << "ERROR OF TYPING\n";
+            return;
+        }
+    }
+
+    auto data = MathUtils::formTheSystemOfEquations( *equationsTableWidget );
+    emit readyToSendLinearEquationsData( data );
 }
 
 void LeftWidget::clearDataTable()
 {
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
+    equationsTableWidget->clearContents();
     errLabel->clear();
     manualInput = false;
     X.clear();
     Y.clear();
+    dY.clear();
     buildGraph->setEnabled( false );
 }
 
@@ -130,11 +191,12 @@ void LeftWidget::hideFirstLayer( bool isDerivativeMenu )
     nodes->hide();
     nodesLabel->hide();
     error->hide();
-    if( !isDerivativeMenu )
+    calculatedArea->hide();
+    area->hide();
+    if( isDerivativeMenu == false )
     {
         derivativeLabel->hide();
         derivativeExpressionInput->hide();
-        solveDerivation->hide();
     }
     minLabel->show();
     min->show();
@@ -151,11 +213,12 @@ void LeftWidget::hideSecondLayer( bool isDerivativeMenu )
     stepLabel->hide();
     step->hide();
     error->hide();
-    if( !isDerivativeMenu )
+    calculatedArea->hide();
+    area->hide();
+    if( isDerivativeMenu == false )
     {
         derivativeLabel->hide();
         derivativeExpressionInput->hide();
-        solveDerivation->hide();
     }
     minLabel->show();
     min->show();
@@ -207,8 +270,8 @@ void LeftWidget::initLayout()
 {
     layout->addWidget( label, 0, 0 );
     layout->addWidget( expressionInput, 0, 1, 1, 10 );
-    layout->addWidget( derivativeLabel, layout->rowCount() - layout->rowCount() + 1, 0, 1, 2 );
-    layout->addWidget( derivativeExpressionInput = new QLineEdit( this ), layout->rowCount() - layout->rowCount() + 1, 1, 1, 10 );
+    layout->addWidget( derivativeLabel, layout->rowCount() - layout->rowCount() + 1, 0 );
+    layout->addWidget( derivativeExpressionInput, layout->rowCount() - layout->rowCount() + 1, 1, 1, 10 );
     layout->addWidget( errLabel, 2, 0 );
     layout->addWidget( typeOfInput, 3, 0 );
     layout->addWidget( typeOfVariableInput, 3, 1 );
@@ -225,9 +288,11 @@ void LeftWidget::initLayout()
     layout->addWidget( buildGraph, 9, 0 );
     layout->addWidget( manualTableInput, 9, 1 );
     layout->addWidget( tableWidget, 10, 0, 1, 2 );
-    layout->addWidget( solveDerivation = new QPushButton( "Вычислить f'(x)", this ), layout->rowCount(), 0 );
     layout->addWidget( averError, layout->rowCount(), 0 );
     layout->addWidget( error = new QLineEdit( this ), layout->rowCount() - 1, 1 );
+    layout->addWidget( calculatedArea = new QLabel( "Вычисленная площадь: ", this ), layout->rowCount(), 0 );
+    layout->addWidget( area = new QLineEdit( this ), layout->rowCount() - 1, 1 );
+
     layout->setColumnStretch( 1, 10 );
     layout->setColumnStretch( 0, 2 );
 }
@@ -245,7 +310,6 @@ void LeftWidget::buildWidgetForDerivativeOperations( SpecialBuffer& buffer )
 
     derivativeLabel->setText( "f'(x) = " );
 
-    solveDerivation->show();
     int currentColumnCount = tableWidget->columnCount();
     tableWidget->setColumnCount( currentColumnCount + 1 );
     auto item = new QTableWidgetItem( "Y'" );
@@ -254,6 +318,22 @@ void LeftWidget::buildWidgetForDerivativeOperations( SpecialBuffer& buffer )
     averError->setText( "Средняя погрешность: " );
     averError->show();
     error->show();
+}
+
+void LeftWidget::buildWidgetForIntegrationOperations( SpecialBuffer &buffer )
+{
+    equationOpened = false;
+    hideAll();
+    deleteAll();
+    initLabels();
+    connectLabels( buffer );
+    setRange();
+    initLayout();
+    hideFirstLayer( false );
+
+    calculatedArea->show();
+    area->show();
+    buildGraph->setText( "Вычислить площадь" );
 }
 
 void LeftWidget::buildWidgetForEquationOperations( SpecialBuffer& buffer )
@@ -290,6 +370,9 @@ void LeftWidget::buildWidgetForEquationOperations( SpecialBuffer& buffer )
     layout->addWidget( eqResult, 4, 0 );
     layout->addWidget( resultDescription, 5, 0 );
     layout->addWidget( description, 6, 0 );
+
+    connect( solveEquations, &QPushButton::clicked, this, &LeftWidget::onSolveEquationButtonClicked );
+    connect( clearEquationsTable, &QPushButton::clicked, this, &LeftWidget::clearDataTable );
 }
 
 void LeftWidget::setWidgetToDefaultStatement( SpecialBuffer& buffer )
@@ -329,7 +412,6 @@ void LeftWidget::deleteAll( void )
     }
 }
 
-
 void LeftWidget::switchLayers( int index, bool isDerivativeMenu )
 {
     if( index == 0 )
@@ -362,6 +444,7 @@ void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
 {
     X.clear();
     Y.clear();
+    dY.clear();
     for( int row{}; row < tableWidget->rowCount(); ++row )
     {
         QTableWidgetItem* itemX = tableWidget->item( row, 0 );
@@ -375,7 +458,6 @@ void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
     }
     buffer.x = QVector<double>( X.begin(), X.end() );
     buffer.y = QVector<double>( Y.begin(), Y.end() );
-    //buffer.print();
 }
 
 // МЕТОД ДЛЯ ОТРИСОВКИ ГРАФИКА ПО ДИСКРЕТНО ЗАДАННЫМ ВЕЛИЧИНАМ
@@ -387,23 +469,34 @@ void LeftWidget::acceptData( const QString &expr, const double a, const double b
     emit readyToDraw( x, y );
 }
 
+void LeftWidget::acceptArea( std::string& area )
+{
+    this->area->setText( QString::fromStdString( area ) );
+}
+
 void LeftWidget::rebuildWidgets( pymodules::Modules modules, SpecialBuffer& buffer )
 {
     switch( modules )
     {
     case pymodules::Modules::DIFFERENTIATION:
+        derivativeLabelActive = true;
         buildWidgetForDerivativeOperations( buffer );
         break;
+    case pymodules::Modules::INTEGRATION:
+        derivativeLabelActive = false;
+        buildWidgetForIntegrationOperations( buffer );
+        break;
     case pymodules::Modules::EQUATIONS:
+        derivativeLabelActive = false;
         buildWidgetForEquationOperations( buffer );
         break;
     case pymodules::Modules::NIL:
+        derivativeLabelActive = false;
         setWidgetToDefaultStatement( buffer );
         break;
     default:
         break;
     };
-
 }
 
 QLineEdit* LeftWidget::getExpressionInput() const
@@ -450,6 +543,7 @@ void LeftWidget::initLabels( void )
         description = new QLineEdit();
     } // Переменные элементы
 
+    derivativeExpressionInput = new QLineEdit( this );
     expressionInput = new QLineEdit( this );
 
     manualTableInput = new QPushButton( "Ручной ввод", this );
@@ -474,6 +568,7 @@ void LeftWidget::connectLabels( SpecialBuffer &buffer )
     connect( validator, &ValidateString::invalidExpression, this, &LeftWidget::onValidateStringInvalid );
     connect( parser, &StringParser::errorOccurred, this, &LeftWidget::handleParserError );
     connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
+    connect( derivativeExpressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
     connect( manualTableInput, &QPushButton::clicked, this, &LeftWidget::editTable );
     connect( solve, &QPushButton::clicked, [ &buffer, this ]()
             {
@@ -481,7 +576,7 @@ void LeftWidget::connectLabels( SpecialBuffer &buffer )
             }
     );
     connect( clearTable, &QPushButton::clicked, this, &LeftWidget::clearDataTable );
-    connect( tableWidget, &QTableWidget::itemChanged, this, [ this, &buffer ]()
+    connect( tableWidget, &QTableWidget::itemChanged, this, [ &buffer, this ]()
             {
                 updateDataFromTable( buffer );
             }

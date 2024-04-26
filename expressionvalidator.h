@@ -6,12 +6,14 @@
 #include <stack>
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
-
+#include <QTableWidget>
+#include <QItemDelegate>
 /*
  * TODO:
  * Реализовать алгоритм проверки чтобы после x не было иных символов кроме задуманных
 */
-class ExpressionValidator {
+class ExpressionValidator
+{
 
 public:
     static bool validateExpression( const QString& expression)
@@ -28,6 +30,11 @@ public:
         }
 
         return true;
+    }
+
+    static bool validateTableRow( const QString& firstColumnValue, const QString& secondColumnValue )
+    {
+        return validateFirstColumn( firstColumnValue ) && validateSecondColumn( secondColumnValue );
     }
 
 private:
@@ -61,6 +68,22 @@ private:
             }
         }
         return parenthesesStack.empty();
+    }
+
+    static bool validateFirstColumn(const QString& value)
+    {
+        QRegularExpression regex( R"(-?\d+(?:\.\d+)?(?:\s+-?\d+(?:\.\d+)?)*)",
+                                 QRegularExpression::UseUnicodePropertiesOption );
+        QRegularExpressionMatch match = regex.match( value );
+        return match.hasMatch();
+    }
+
+    static bool validateSecondColumn( const QString& value )
+    {
+        QRegularExpression regex( R"(-?\d+(?:\.\d+)?)",
+                                 QRegularExpression::UseUnicodePropertiesOption );
+        QRegularExpressionMatch match = regex.match( value );
+        return match.hasMatch() && match.capturedLength() == value.length();
     }
 };
 

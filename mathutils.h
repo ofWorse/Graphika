@@ -2,6 +2,7 @@
 #define MATHUTILS_H
 
 #include <QWidget>
+#include <QTableWidget>
 #include <vector>
 #include <cmath>
 
@@ -12,6 +13,7 @@ public:
     static std::vector<double> multipyPoints( const double a, const double b ) noexcept;
     static void setupNodes( std::vector<double>& X, const double node, const double min, const double max ) noexcept;
     static double calculateAverageError( std::vector<double>& X1, std::vector<double>& X2 ) noexcept;
+    static QVector<QVector<double>> formTheSystemOfEquations( const QTableWidget& table );
 };
 
 #endif // MATHUTILS_H

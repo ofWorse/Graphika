@@ -65,5 +65,4 @@ signals:
 };
 
 
-
 #endif // STRINGPARSER_H

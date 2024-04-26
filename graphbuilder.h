@@ -25,7 +25,6 @@ private:
     int l = 0;
     int currentindex;
 
-
     double xmax = 2.0;
     double xmin = -2.0;
     double ymax = 2.0;

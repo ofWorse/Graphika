@@ -20,14 +20,11 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 {
     layout = new QGridLayout( this );
     wGraphic = new QCustomPlot( this );
-    plots = new QList<QCustomPlot*>(  );
 
     textItem = new QCPItemText(wGraphic);
     connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove );
 
     wGraphic->setMinimumSize( 550, 500 );
-
-
 
 
     tracer = new QCPItemTracer( wGraphic );
@@ -40,8 +37,6 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     wGraphic->yAxis->setRange( ymin, ymax );
 
     wGraphic->replot();
-
-    //layout->addWidget(new QToolBar(this));
 
     layout->addWidget( wGraphic );
 }
@@ -141,11 +136,6 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->graph( i )->setPen( pen );
     i++;
     wGraphic->replot();
-    QCustomPlot* plot = wGraphic;
-    plots->append(plot);
-    qDebug() << plots->size() << "\n";
-    qDebug() << plots->size() << "\n";
-    currentindex = plots->size() - 1;
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
 }
 
@@ -222,7 +212,6 @@ void GraphBuilder::LegendGo(){
        l = -1;
     }
     l++;
-
 }
 
 void GraphBuilder::LegentSee(){
@@ -236,21 +225,7 @@ void GraphBuilder::LegentSee(){
 }
 
 void GraphBuilder::GoBack(){
-    //if (currentindex > 0 && plots->size() > 0) {
-
-      // wGraphic->clearGraphs();
-      // wGraphic = plots[currentindex];
-       //wGraphic->replot();
-       //wGraphic->update();
-    //}
-    //currentindex--;
-
-
 }
 
 void GraphBuilder::GoFront(){
-
 }
-
-
-
