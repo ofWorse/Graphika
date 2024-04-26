@@ -41,6 +41,7 @@ HEADERS += \
     compositestatestack.h \
     drawable.h \
     expressionvalidator.h \
+    graphInfo.h \
     leftwidget.h \
     mainwindow.h \
     mathutils.h \

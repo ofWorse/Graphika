@@ -48,16 +48,17 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 
 void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
 {
+    GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn );
 
-    for( const auto& yPoints : data )
+
+    if ( std::find_if( graphInfoList.begin(), graphInfoList.end(), [ & ] ( const GraphInfo& info ) {
+            return info.name == newGraphInfo.name && info.xAxis == newGraphInfo.xAxis && info.yAxis == newGraphInfo.yAxis;
+        } ) != graphInfoList.end() )
     {
-        if( yPoints == yAxis )
-        {
-            return;
-        }
+        return;
     }
 
-    this->data.push_back( yAxis );
+    graphInfoList.append( newGraphInfo );
 
     auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
     auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
@@ -165,6 +166,7 @@ void GraphBuilder::on_clearButton_clicked()
     wGraphic->replot();
     wGraphic->update();
     data.clear();
+    graphInfoList.clear();
 }
 
 void GraphBuilder::ZoomB(){

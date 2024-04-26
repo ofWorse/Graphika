@@ -6,8 +6,10 @@
 #include <QDebug>
 #include <string>
 #include <QString>
+#include <QVector>
 #include <QWidget>
 #include <QList>
+#include "graphInfo.h"
 
 class GraphBuilder : public QWidget
 {
@@ -30,6 +32,7 @@ private:
     double ymin = -2.0;
 
     std::vector<QVector<double>> data;
+    QList<GraphInfo> graphInfoList;
 
 public:
     QCustomPlot* wGraphic;
