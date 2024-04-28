@@ -42,7 +42,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
     connect( rightWidget, &RightWidget::readyToSendArea, leftWidget, &LeftWidget::acceptArea );
     connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
-    connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, rightWidget, &RightWidget::solveLinearEquations );
+    //connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, rightWidget, &RightWidget::solveLinearEquations );
 
     connect( this, &MainWindow::buildDerivativeWidgets, rightWidget, &RightWidget::rebuildWidgets );
     connect( this, &MainWindow::buildDerivativeWidgets, leftWidget, &LeftWidget::rebuildWidgets );
@@ -99,6 +99,8 @@ void MainWindow::openEquationSystemMenu( void )
     toolbar->actions().at( 3 )->setChecked( true );
     widgetState = pymodules::Modules::EQUATIONS;
     emit buildDerivativeWidgets( widgetState, buffer );
+    connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, this, &MainWindow::calculateSys);
+    connect( rightWidget, &RightWidget::readyToSendSysResult, leftWidget, &LeftWidget::setEqResult);
 }
 
 void MainWindow::openLagrangeMenu( void )
@@ -204,6 +206,12 @@ void MainWindow::calculateIntegral( void )
         return;
     }
     rightWidget->calculateIntegral( buffer, sender, nullptr );
+}
+
+void MainWindow::calculateSys(QVector<QVector<double>>& data)
+{
+    sender.setMacro(pymodules::Methods::GAUSS, pymodules::Modules::EQUATIONS);
+    rightWidget->sysSolve(data, sender);
 }
 
 void MainWindow::invokeLagrangeMethod( void )

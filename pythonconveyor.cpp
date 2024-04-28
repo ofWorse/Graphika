@@ -374,6 +374,66 @@ void PythonConveyor::sendDataToDifferentiation()
     Py_Finalize();
 }
 
+void PythonConveyor::sendDataToSolveSys()
+{
+    initPythonInterpreter();
+
+    PyObject* function = getPythonFunction(m_functionName);
+    if (!function)
+    {
+        return;
+    }
+
+    PyObject* args = PyTuple_New( 1 );
+    PyObject* dataList = PyList_New( m_sys.size() );
+
+    for ( int i = 0; i < m_sys.size(); ++i )
+    {
+        PyObject* sublist = PyList_New(m_sys[i].size());
+        for ( int j = 0; j < m_sys[i].size(); ++j)
+        {
+            PyList_SetItem( sublist, j, PyFloat_FromDouble( m_sys[i][j] ) );
+        }
+        PyList_SetItem( dataList, i, sublist );
+    }
+
+    PyTuple_SetItem( args, 0, dataList );
+
+    PyObject* pyResult = PyObject_CallObject(function, args);
+    if (!pyResult) {
+        qDebug() << "Failed to call function" << m_functionName;
+        PyErr_Print();
+        setResult("Решение не найдено");
+    }
+    else
+    {
+        if (PyList_Check( pyResult ) )
+        {
+            QVector<double> resultList;
+            QString resultString;
+
+            int size = PyList_Size( pyResult );
+
+            for (int i = 0; i < size; ++i)
+            {
+                PyObject* item = PyList_GetItem( pyResult, i);
+                double value = PyFloat_AsDouble( item );
+                resultList.append( value );
+                resultString += QString::number( value ) + " ";
+            }
+            qDebug() << "Result of sys: " << resultString;
+            setResultSysVector(resultList);
+            setResult(resultString);
+        }
+        Py_DECREF(pyResult);
+    }
+
+    Py_DECREF(args);
+    Py_DECREF(function);
+
+    Py_Finalize();
+}
+
 void PythonConveyor::setResultVector(const QVector<double>& resultVector)
 {
     m_result_Vector = resultVector;
@@ -409,6 +469,26 @@ void PythonConveyor::setResultValue(const double resultValue)
 double PythonConveyor::getResultValue() const
 {
     return m_resultValue;
+}
+
+void PythonConveyor::setSys( QVector<QVector<double> > sys )
+{
+    m_sys = sys;
+}
+
+QVector<QVector<double>> PythonConveyor::getSys() const
+{
+    return m_sys;
+}
+
+void PythonConveyor::setResultSysVector(QVector<double> resultSysVector)
+{
+    m_resultSys_Vector = resultSysVector;
+}
+
+QVector<double> PythonConveyor::getResultSysVector() const
+{
+    return m_resultSys_Vector;
 }
 
 void PythonConveyor::initPythonInterpreter()

@@ -52,6 +52,7 @@ public:
 
     void differentiationSolve( const QVector<double>& x, const QVector<double>& y, Sender& sender );
     void integrationSolve( const QVector<double>& x, const QVector<double>& y, Sender& sender );
+    void sysSolve( QVector<QVector<double>>& data, Sender& sender );
 
     void clearGraph( void );
     void moveLegend( void );
@@ -68,6 +69,7 @@ signals:
     void readyToSendData( const QString& expr, const double a, const double b );
     void sendData( QObject& data, bool toRemove );
     void readyToSendArea( std::string& area );
+    void readyToSendSysResult( const QString &result );
 };
 
 #endif // RIGHTWIDGET_H

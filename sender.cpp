@@ -36,6 +36,12 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
     case pymodules::Methods::INTEG_PARAB:
         functionName = "integral_parabolic";
         break;
+    case pymodules::Methods::GAUSS:
+        functionName = "gauss";
+        break;
+    case pymodules::Methods::SIMPLE_ITER:
+        functionName = "simple_iterations";
+        break;
     default:
         break;
     }
@@ -52,6 +58,10 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
         break;
     case pymodules::Modules::INTEGRATION:
         moduleName = ":/pyFiles/resources/pymodules/integration.py";
+        break;
+    case pymodules::Modules::EQUATIONS:
+        moduleName = ":/pyFiles/resources/pymodules/laes_solver.py";
+        break;
     default:
         break;
     }

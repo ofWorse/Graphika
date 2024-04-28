@@ -73,6 +73,7 @@ public:
     explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY );
     QLineEdit* getExpressionInput() const;
+    void setEqResult( const QString& eqResult);
 
 private:
 

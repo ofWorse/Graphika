@@ -162,6 +162,20 @@ void RightWidget::differentiationSolve( const QVector<double>& x, const QVector<
     printGraph( resultX, resultY, sender, nullptr );
 }
 
+void RightWidget::sysSolve( QVector<QVector<double>>& data, Sender &sender )
+{
+    conveyor->setFunctionName(sender.functionName);
+    conveyor->setPythonFilePath(sender.moduleName);
+
+    conveyor->setSys(data);
+
+    conveyor->sendDataToSolveSys();
+    QVector<double> resultSysVector = conveyor->getResultSysVector();
+    QString resultSysStr = conveyor->getResult();
+    emit readyToSendSysResult(resultSysStr);
+    qDebug() << resultSysStr;
+}
+
 void RightWidget::solveLinearEquations( QVector<QVector<double>>& data )
 {
     // Илья
