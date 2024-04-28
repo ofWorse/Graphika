@@ -6,7 +6,7 @@ Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
     addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
     diffAction = addAction( QIcon(":/toolbaricons/resources/diff.PNG"), "Построить график функции f'(x)" );
     integralAction = addAction( QIcon( ":/toolbaricons/resources/int.PNG" ), "Найти площадь трапеции" );
-    addAction( "sys" );
+    sysAction = addAction( "sys" );
     addSeparator();
     addAction( QIcon(":/toolbaricons/resources/lagrange.PNG"), "Построить модель полинома Лагранжа");
     addAction( QIcon(":/toolbaricons/resources/newthon.PNG"), "Построить модель полинома Ньютона");
@@ -25,6 +25,7 @@ Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
     setCheckable();
     initDiffMenu();
     initIntegralMenu();
+    initSysMenu();
 }
 
 void Toolbar::mousePressEvent( QMouseEvent *event )
@@ -38,6 +39,10 @@ void Toolbar::mousePressEvent( QMouseEvent *event )
         if( action == integralAction )
         {
             integralMenu->popup( event->globalPos() );
+        }
+        if( action == sysAction )
+        {
+            sysMenu->popup( event->globalPos() );
         }
     } else {
         QToolBar::mousePressEvent(event);
@@ -94,6 +99,27 @@ void Toolbar::initIntegralMenu()
     });
 }
 
+void Toolbar::initSysMenu()
+{
+    sysMenu = new QMenu( this );
+
+    gaussMethod = sysMenu->addAction( "Метод Гаусса" );
+    simpleIterMethod = sysMenu->addAction( "Метод простых итераций" );
+
+    gaussMethod->setCheckable( true );
+    simpleIterMethod->setCheckable( true );
+    simpleIterMethod->setDisabled( true );
+
+    gaussMethod->setChecked( true );
+
+    connect( gaussMethod, &QAction::triggered, this, [=]() {
+        updateSysCheckState(gaussMethod);
+    });
+    connect( simpleIterMethod, &QAction::triggered, this, [=]() {
+        updateSysCheckState( simpleIterMethod );
+    });
+}
+
 void Toolbar::updateDiffCheckState(QAction *checkedAction)
 {
     if (checkedAction->isChecked()) {
@@ -132,6 +158,22 @@ void Toolbar::updateIntegralCheckState(QAction *checkedAction)
         // Если действие было снято с выбора, оставляем один из вариантов выбранным
         if (!linearMethod->isChecked() && !trapezoidMethod->isChecked() && !parabolicMethod->isChecked()) {
             linearMethod->setChecked(true);
+        }
+    }
+}
+
+void Toolbar::updateSysCheckState(QAction *checkedAction)
+{
+    if (checkedAction->isChecked()) {
+        if (checkedAction == gaussMethod) {
+            simpleIterMethod->setChecked(false);
+        } else if (checkedAction == simpleIterMethod) {
+            gaussMethod->setChecked(false);
+        }
+    } else {
+        // Если действие было снято с выбора, оставляем один из вариантов выбранным
+        if (!gaussMethod->isChecked() && !simpleIterMethod->isChecked()) {
+            gaussMethod->setChecked(true);
         }
     }
 }
@@ -187,4 +229,17 @@ pymodules::Methods Toolbar::getSelectedIntegralMethod( void ) const
         return pymodules::Methods::INTEG_PARAB;
     }
     return pymodules::Methods::INTEG_LINEAR;
+}
+
+pymodules::Methods Toolbar::getSelectedSysMethod( void ) const
+{
+    if ( gaussMethod->isChecked() )
+    {
+        return pymodules::Methods::GAUSS;
+    }
+    else if ( simpleIterMethod->isChecked() )
+    {
+        return pymodules::Methods::SIMPLE_ITER;
+    }
+    return pymodules::Methods::GAUSS;
 }
