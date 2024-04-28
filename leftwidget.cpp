@@ -171,6 +171,7 @@ void LeftWidget::clearDataTable()
     tableWidget->clearContents();
     tableWidget->setRowCount( 0 );
     equationsTableWidget->clearContents();
+    eqResult->clear();
     errLabel->clear();
     manualInput = false;
     X.clear();
@@ -582,4 +583,9 @@ void LeftWidget::connectLabels( SpecialBuffer &buffer )
             }
     );
     connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftWidget::changeLayer );
+}
+
+void LeftWidget::setEqResult( const QString &eqResult )
+{
+    this->eqResult->setText(eqResult);
 }

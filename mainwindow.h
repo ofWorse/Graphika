@@ -56,6 +56,8 @@ public slots:
     void openLagrangeMenu( void );
     void openNewtonMenu( void );
     void openBerrutaMenu( void );
+    void calculateSys( QVector<QVector<double>>& data );
+
 
     void clearGraph( void );
     void resetZoom( void );

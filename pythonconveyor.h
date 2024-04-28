@@ -72,9 +72,16 @@ public:
 
     void sendDataToDifferentiation();
     void sendDataToIntegration();
+    void sendDataToSolveSys();
 
     void initPythonInterpreter();
     PyObject* getPythonFunction(const QString& functionName);
+
+    void setSys(QVector<QVector<double>> sys);
+    QVector<QVector<double>> getSys() const;
+
+    void setResultSysVector(QVector<double> resultSysVector);
+    QVector<double> getResultSysVector() const;
 
 private:
     QString m_pythonFilePath;
@@ -101,6 +108,9 @@ private:
     QVector<double> m_result_Vector;
     QVector<double> m_resultDiff_XVector;
     QVector<double> m_resultDiff_YVector;
+    QVector<double> m_resultSys_Vector;
+
+    QVector<QVector<double>> m_sys;
 
     bool isResourcePath( const QString& path );
 };
