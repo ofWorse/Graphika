@@ -421,7 +421,7 @@ void PythonConveyor::sendDataToSolveSys()
                 resultList.append( value );
                 resultString += QString::number( value ) + " ";
             }
-            qDebug() << "Result of sys: " << resultString;
+            qDebug() << "Result of sys using "<< m_functionName << " :" << resultString;
             setResultSysVector(resultList);
             setResult(resultString);
         }

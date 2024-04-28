@@ -210,7 +210,8 @@ void MainWindow::calculateIntegral( void )
 
 void MainWindow::calculateSys(QVector<QVector<double>>& data)
 {
-    sender.setMacro(pymodules::Methods::GAUSS, pymodules::Modules::EQUATIONS);
+    pymodules::Methods method = toolbar->getSelectedSysMethod();
+    sender.setMacro(method, pymodules::Modules::EQUATIONS);
     rightWidget->sysSolve(data, sender);
 }
 
