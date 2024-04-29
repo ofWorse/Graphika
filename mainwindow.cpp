@@ -10,6 +10,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setMinimumSize( 640, 380 );
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
+    // TODO: переместить лого в каталог :/otherIcons/...
+    setWindowIcon( QIcon( ":/toolbaricons/resources/logo.png" ) );
 
     // TODO: Подумать над реализацией соединения
     menu = new Menu( this );
