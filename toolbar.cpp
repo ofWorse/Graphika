@@ -4,23 +4,23 @@
 Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
 {
     addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
-    diffAction = addAction( QIcon(":/toolbaricons/resources/diff.PNG"), "Построить график функции f'(x)" );
-    integralAction = addAction( QIcon( ":/toolbaricons/resources/int.PNG" ), "Найти площадь трапеции" );
-    sysAction = addAction( "sys" );
+    diffAction = addAction( QIcon( ":/toolbaricons/resources/derivation.PNG" ), "Построить график функции f'(x)" );
+    integralAction = addAction( QIcon( ":/toolbaricons/resources/integral.PNG" ), "Найти площадь трапеции" );
+    sysAction = addAction( QIcon( ":/toolbaricons/resources/sysfunctions.PNG" ), "sys" );
     addSeparator();
-    addAction( QIcon(":/toolbaricons/resources/lagrange.PNG"), "Построить модель полинома Лагранжа");
-    addAction( QIcon(":/toolbaricons/resources/newthon.PNG"), "Построить модель полинома Ньютона");
-    addAction( QIcon(":/toolbaricons/resources/berruta.PNG"), "Построить модель полинома Берута");
+    addAction( QIcon( ":/toolbaricons/resources/lagrange.PNG" ), "Построить модель полинома Лагранжа" );
+    addAction( QIcon( ":/toolbaricons/resources/newthon.PNG" ), "Построить модель полинома Ньютона" );
+    addAction( QIcon( ":/toolbaricons/resources/berruta.PNG" ), "Построить модель полинома Берута" );
     addSeparator();
-    addAction( QIcon(":/toolbaricons/resources/clearPlot.PNG"), "Очистить график");
-    addAction( QIcon(":/toolbaricons/resources/home.PNG"), "Вернуть график");
-    addAction( "GLeg" );
-    addAction( "SLeg" );
-    addAction( QIcon(":/toolbaricons/resources/back.PNG"), "Шаг назад" );
-    addAction( QIcon(":/toolbaricons/resources/forward.PNG"), "Шаг вперед" );
-    addAction( QIcon(":/toolbaricons/resources/decreasePlot.PNG"), "Увеличить график" );
-    addAction( QIcon(":/toolbaricons/resources/increasePlot.PNG"), "Уменьшить график" );
-    addAction( QIcon(":/toolbaricons/resources/unpinPlot.PNG"), "Отделить график от окна" );
+    addAction( QIcon( ":/toolbaricons/resources/clearPlot.PNG" ), "Очистить график" );
+    addAction( QIcon( ":/toolbaricons/resources/home.PNG" ), "Вернуть график" );
+    addAction( QIcon( ":/toolbaricons/resources/moveLegend.PNG" ), "Переместить легенду" );
+    addAction( QIcon( ":/toolbaricons/resources/showLegend.PNG" ), "Показать/скрыть легенду" );
+    addAction( QIcon( ":/toolbaricons/resources/back.PNG" ), "Шаг назад" );
+    addAction( QIcon( ":/toolbaricons/resources/forward.PNG" ), "Шаг вперед" );
+    addAction( QIcon( ":/toolbaricons/resources/decreasePlot.PNG" ), "Увеличить график" );
+    addAction( QIcon( ":/toolbaricons/resources/increasePlot.PNG" ), "Уменьшить график" );
+    addAction( QIcon( ":/toolbaricons/resources/unpinPlot.PNG" ), "Отделить график от окна" );
 
     setCheckable();
     initDiffMenu();

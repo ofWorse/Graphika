@@ -42,7 +42,6 @@ private:
 public:
     explicit RightWidget( QWidget *parent = nullptr );
     void printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
-    void printGraph( QVector<double>& x, QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
     void printDiffGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
 
     void calculateIntegral( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
@@ -56,13 +55,19 @@ public:
 
     void clearGraph( void );
     void moveLegend( void );
-    void seeLegend( void );
-    void stepBack( void);
+    void showLegend( void );
+    void hideLegend( void );
+    void stepBack( void );
+    void stepForward( void );
+    void zoomIn();
+    void zoomOut();
 
 public slots:
-    void drawGraph( const std::vector<double> x, const std::vector<double> y );
+    void drawInterpolationGraph( const std::vector<double> x, const std::vector<double> y );
     void rebuildWidgets( pymodules::Modules modules );
     void solveLinearEquations( QVector<QVector<double>>& data );
+    void printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
+    void printFunctionGraph( std::vector<double>& x, std::vector<double>& y );
 
 signals:
     void errorOccured( const QString& err );

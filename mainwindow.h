@@ -34,6 +34,8 @@ private:
     pymodules::Methods methodOfInterpolation;
 
     bool isSession{ false };
+    bool unpinned{ false };
+    bool legendEnabled{ false };
 
 public:
     explicit MainWindow( QWidget* parent = nullptr );
@@ -62,8 +64,12 @@ public slots:
     void clearGraph( void );
     void resetZoom( void );
     void moveLegend( void );
-    void seeLegend( void );
+    void showLegend( void );
     void stepBack( void );
+    void stepForward( void );
+    void zoomIn( void );
+    void zoomOut( void );
+    void unpinGraph( void );
 
     void startSession( void );
     void endSession( void );

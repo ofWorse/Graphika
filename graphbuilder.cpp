@@ -41,10 +41,53 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     layout->addWidget( wGraphic );
 }
 
-void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
+
+void GraphBuilder::updateGraphState( const GraphState& state )
+{
+    auto graphInfoList = state.graphInfoList;
+    auto name = state.name;
+    auto xAxis = state.xAxis;
+    auto yAxis = state.yAxis;
+    auto scatterOn = state.scatterOn;
+    auto graphOn = state.graphOn;
+
+    wGraphic->clearGraphs();
+    for( const GraphInfo& info : currentState->graphInfoList )
+    {
+        wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
+        if( !xAxis.isEmpty() && !yAxis.isEmpty() )
+            wGraphic->graph()->setData( info.xAxis, info.yAxis );
+
+        QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 255 ),
+                                       QRandomGenerator::global()->bounded( 255 ),
+                                       QRandomGenerator::global()->bounded( 255 ) );
+        QPen pin( color );
+        wGraphic->graph()->setPen( pin );
+        if (scatterOn == false){
+            //wGraphic->graph(i)->setScatterStyle();
+        }else {
+            wGraphic->graph()->setScatterStyle( QCPScatterStyle::ssCircle );
+        }
+        QPen pen = wGraphic->graph()->pen();
+        pen.setWidth( 4 );
+        wGraphic->graph()->setPen( pen );
+        wGraphic->graph()->setName( info.name );
+        wGraphic->graph()->setVisible( info.graphOn );
+        wGraphic->graph()->setScatterStyle( info.scatterOn ? QCPScatterStyle::ssCircle : QCPScatterStyle::ssNone );
+    }
+    if( wGraphic->graphCount() > 0 )
+    {
+        tracer->setGraph( wGraphic->graph( 0 ) );
+    }
+
+    PaintG( xAxis, yAxis, name, graphOn, scatterOn );
+
+}
+
+
+void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
 {
     GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn );
-
 
     if ( std::find_if( graphInfoList.begin(), graphInfoList.end(), [ & ] ( const GraphInfo& info ) {
             return info.name == newGraphInfo.name && info.xAxis == newGraphInfo.xAxis && info.yAxis == newGraphInfo.yAxis;
@@ -54,6 +97,17 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     }
 
     graphInfoList.append( newGraphInfo );
+
+    GraphState newState;
+    newState.graphInfoList = graphInfoList;
+    newState.name = name;
+    newState.xAxis = xAxis;
+    newState.yAxis = yAxis;
+    newState.graphOn = graphOn;
+    newState.scatterOn = scatterOn;
+
+    graphStates.push_back( newState );
+    currentState = graphStates.end() - 1;
 
     auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
     auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
@@ -85,8 +139,6 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
         wGraphic->update();
 
     }
-
-
     if ( ymax < *maxYElement )
     {
         if( ymin > *minYElement )
@@ -112,7 +164,6 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
         wGraphic->replot();
         wGraphic->update();
     }
-
     wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
     if( !xAxis.isEmpty() && !yAxis.isEmpty() )
         wGraphic->graph( i )->setData( xAxis, yAxis );
@@ -139,12 +190,12 @@ void GraphBuilder::PaintG( QVector<double>& xAxis, QVector<double>& yAxis, const
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
 }
 
-
-
-
 void GraphBuilder::on_clearButton_clicked()
 {
-    wGraphic->clearGraphs();
+    for( int g{}; g < i; ++g )
+    {
+        wGraphic->graph( g )->data()->clear();
+    }
     wGraphic->legend->clear();
     wGraphic->legend->setVisible( false );
     xmax = 2.0;
@@ -155,7 +206,6 @@ void GraphBuilder::on_clearButton_clicked()
     wGraphic->yAxis->setRange( ymin, ymax );
     wGraphic->replot();
     wGraphic->update();
-    data.clear();
     graphInfoList.clear();
 }
 
@@ -214,18 +264,77 @@ void GraphBuilder::LegendGo(){
     l++;
 }
 
-void GraphBuilder::LegentSee(){
-    if(wGraphic->legend->visible()){
-       wGraphic->legend->setVisible( false );
-       wGraphic->replot();
-    }else {
+void GraphBuilder::showLegend(){
+    if(!wGraphic->legend->visible()){
        wGraphic->legend->setVisible( true );
        wGraphic->replot();
     }
 }
 
-void GraphBuilder::GoBack(){
+void GraphBuilder::hideLegend()
+{
+    if(wGraphic->legend->visible()){
+       wGraphic->legend->setVisible( false );
+       wGraphic->replot();
+    }
 }
 
-void GraphBuilder::GoFront(){
+
+void GraphBuilder::GoBack()
+{
+    if( graphStates.empty() )
+    {
+       return;
+    }
+    if( currentState != graphStates.begin() )
+    {
+       --currentState;
+       updateGraphState( *currentState );
+    }
 }
+
+void GraphBuilder::GoFront()
+{
+    if( graphStates.empty() )
+    {
+       return;
+    }
+    if( currentState != graphStates.end() - 1 )
+    {
+       ++currentState;
+       updateGraphState( *currentState );
+    }
+}
+
+void GraphBuilder::zoomIn()
+{
+    QCPRange xRange = wGraphic->xAxis->range();
+    QCPRange yRange = wGraphic->yAxis->range();
+
+    double xCenter = xRange.center();
+    double yCenter = yRange.center();
+
+    double xWidth = xRange.size() / 2;
+    double yWidth = yRange.size() / 2;
+
+    wGraphic->xAxis->setRange(xCenter - xWidth / 2, xCenter + xWidth / 2);
+    wGraphic->yAxis->setRange(yCenter - yWidth / 2, yCenter + yWidth / 2);
+    wGraphic->replot();
+}
+
+void GraphBuilder::zoomOut()
+{
+    QCPRange xRange = wGraphic->xAxis->range();
+    QCPRange yRange = wGraphic->yAxis->range();
+
+    double xCenter = xRange.center();
+    double yCenter = yRange.center();
+
+    double xWidth = xRange.size() * 2;
+    double yWidth = yRange.size() * 2;
+
+    wGraphic->xAxis->setRange(xCenter - xWidth / 2, xCenter + xWidth / 2);
+    wGraphic->yAxis->setRange(yCenter - yWidth / 2, yCenter + yWidth / 2);
+    wGraphic->replot();
+}
+

@@ -1,9 +1,12 @@
 #include "mainwindow.h"
+#include "errorhandler.h"
 
 // TODO: Сделать код чище
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
-    resize( 1150, 660 );
+    signal( SIGSEGV, signalHandler );
+
+    resize( 1100, 720 );
     setMinimumSize( 640, 380 );
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
@@ -17,7 +20,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     toolbar = new Toolbar( this );
     toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
     toolbar->setIconSize( *new QSize( 40, 40 ) );
-    addToolBar( Qt::RightToolBarArea, toolbar );
+    addToolBar( Qt::TopToolBarArea, toolbar );
 
     QScrollArea *scrollArea = new QScrollArea( this );
     QWidget *scrollContentWidget = new QWidget;
@@ -41,7 +44,22 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
     connect( rightWidget, &RightWidget::readyToSendArea, leftWidget, &LeftWidget::acceptArea );
-    connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawGraph );
+    connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
+    connect( leftWidget, &LeftWidget::readyToDrawFunctionGraph, rightWidget, &RightWidget::printFunctionGraph );
+    connect( leftWidget, &LeftWidget::readyToDrawApproximatedGraph, [ this ]()
+            {
+                buffer.x = QVector<double>::fromStdVector( leftWidget->getX() );
+                buffer.y = QVector<double>::fromStdVector( leftWidget->getY() );
+                rightWidget->buildPolynome( buffer, sender, &logStack );
+            }
+    );
+    connect( leftWidget, &LeftWidget::readyToDrawDerivativeGraph, [ this ]()
+            {
+                rightWidget->printDerivationGraph( QVector<double>::fromStdVector( leftWidget->getX() ),
+                                           QVector<double>::fromStdVector( leftWidget->getY() ),
+                                           sender, &logStack );
+            }
+    );
     //connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, rightWidget, &RightWidget::solveLinearEquations );
 
     connect( this, &MainWindow::buildDerivativeWidgets, rightWidget, &RightWidget::rebuildWidgets );
@@ -53,6 +71,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
+    openFunctionMenu();
+
     connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenu );
     connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openDerivativeMenu );
     connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openIntegrationMenu );
@@ -63,7 +83,12 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 9 ), &QAction::triggered, this, &MainWindow::clearGraph );
     connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom );
     connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::moveLegend );
-    connect( toolbar->actions().at( 12 ), &QAction::triggered, this, &MainWindow::seeLegend );
+    connect( toolbar->actions().at( 12 ), &QAction::triggered, this, &MainWindow::showLegend );
+    connect( toolbar->actions().at( 13 ), &QAction::triggered, this, &MainWindow::stepBack );
+    connect( toolbar->actions().at( 14 ), &QAction::triggered, this, &MainWindow::stepForward );
+    connect( toolbar->actions().at( 15 ), &QAction::triggered, this, &MainWindow::zoomOut );
+    connect( toolbar->actions().at( 16 ), &QAction::triggered, this, &MainWindow::zoomIn );
+    connect( toolbar->actions().at( 17 ), &QAction::triggered, this, &MainWindow::unpinGraph );
 }
 
 void MainWindow::openFunctionMenu( void )
@@ -107,7 +132,7 @@ void MainWindow::openLagrangeMenu( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 5 )->setChecked( true );
-    widgetState = pymodules::Modules::NIL;
+    widgetState = pymodules::Modules::POLYNOMIALS;
     emit buildDefaultWidgets( widgetState, buffer );
     methodOfInterpolation = pymodules::Methods::LAGRANGE;
     connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
@@ -117,7 +142,7 @@ void MainWindow::openNewtonMenu( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 6 )->setChecked( true );
-    widgetState = pymodules::Modules::NIL;
+    widgetState = pymodules::Modules::POLYNOMIALS;
     emit buildDefaultWidgets( widgetState, buffer );
     methodOfInterpolation = pymodules::Methods::NEWTON;
     connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
@@ -127,7 +152,7 @@ void MainWindow::openBerrutaMenu( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 7 )->setChecked( true );
-    widgetState = pymodules::Modules::NIL;
+    widgetState = pymodules::Modules::POLYNOMIALS;
     emit buildDefaultWidgets( widgetState, buffer );
     methodOfInterpolation = pymodules::Methods::BERRUTA;
     connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
@@ -217,7 +242,7 @@ void MainWindow::calculateSys(QVector<QVector<double>>& data)
 
 void MainWindow::invokeLagrangeMethod( void )
 {
-    emit buildDefaultWidgets( pymodules::Modules::NIL, buffer );
+    emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
     widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS );
     if( isSession )
@@ -230,7 +255,7 @@ void MainWindow::invokeLagrangeMethod( void )
 
 void MainWindow::invokeNewtonMethod( void )
 {
-    emit buildDefaultWidgets( pymodules::Modules::NIL, buffer );
+    emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
     widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( pymodules::Methods::NEWTON, pymodules::Modules::POLYNOMIALS );
     if( isSession )
@@ -243,7 +268,7 @@ void MainWindow::invokeNewtonMethod( void )
 
 void MainWindow::invokeBerrutaMethod( void )
 {
-    emit buildDefaultWidgets( pymodules::Modules::NIL, buffer );
+    emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
     widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( pymodules::Methods::BERRUTA, pymodules::Modules::POLYNOMIALS );
     if( isSession )
@@ -268,17 +293,90 @@ void MainWindow::resetZoom( void )
 
 void MainWindow::moveLegend( void )
 {
+    toolbar->unsetChecked();
     rightWidget->moveLegend();
 }
 
-void MainWindow::seeLegend( void )
+void MainWindow::showLegend( void )
 {
-    rightWidget->seeLegend();
+    toolbar->unsetChecked();
+    if( !legendEnabled )
+    {
+        toolbar->actions().at( 12 )->setIcon( QIcon( ":/toolbaricons/resources/hideLegend.PNG" ) );
+        rightWidget->showLegend();
+        legendEnabled = true;
+        return;
+    }
+    toolbar->actions().at( 12 )->setIcon( QIcon( ":/toolbaricons/resources/showLegend.PNG" ) );
+    rightWidget->hideLegend();
+    legendEnabled = false;
 }
 
 void MainWindow::stepBack()
 {
+    toolbar->unsetChecked();
+    toolbar->actions().at( 13 )->setChecked( true );
     rightWidget->stepBack();
+    toolbar->actions().at( 13 )->setChecked( false );
+}
+
+void MainWindow::stepForward()
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 14 )->setChecked( true );
+    rightWidget->stepForward();
+    toolbar->actions().at( 14 )->setChecked( false );
+}
+
+void MainWindow::zoomIn()
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 16 )->setChecked( true );
+    rightWidget->zoomIn();
+    toolbar->actions().at( 16 )->setChecked( false );
+}
+
+void MainWindow::zoomOut()
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 15 )->setChecked( true );
+    rightWidget->zoomOut();
+    toolbar->actions().at( 15 )->setChecked( false );
+}
+
+void MainWindow::unpinGraph()
+{
+    toolbar->unsetChecked();
+    toolbar->actions().at( 17 )->setChecked( true );
+
+
+    // TODO: в отдельный метод
+    if( unpinned )
+    {
+        toolbar->actions().at( 17 )->setChecked( false );
+        return;
+    }
+    QDialog* dialog = new QDialog( this );
+    QVBoxLayout* layout = new QVBoxLayout( dialog );
+    QCustomPlot* plot = rightWidget->graphBuilder->wGraphic;
+
+    layout->addWidget( this->toolbar );
+    layout->addWidget( plot );
+    dialog->setLayout( layout );
+
+    connect( dialog, &QDialog::finished, this, [=]( int result )
+        {
+            Q_UNUSED(result);
+            rightWidget->rightLayout->addWidget( plot );
+            this->addToolBar( this->toolbar );
+            dialog->deleteLater();
+            unpinned = false;
+        }
+    );
+
+    dialog->show();
+    unpinned = true;
+    toolbar->actions().at( 17 )->setChecked( false );
 }
 
 void MainWindow::startSession( void )

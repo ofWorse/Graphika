@@ -108,6 +108,7 @@ void LeftWidget::onSolveButtonClicked( SpecialBuffer& buffer )
         parser->setDataX( X );
         Y = parser->parseExpression( expression.toStdString().c_str() );
     }
+    // TODO: deprecated методы. Заменить логику на более новую.
     else if( manualInput )
     {
         X = fillDataFromTable( 0 );
@@ -229,6 +230,32 @@ void LeftWidget::hideSecondLayer( bool isDerivativeMenu )
     nodes->show();
 }
 
+void LeftWidget::buildGraphFromManualFilledTable( void )
+{
+    if( manualInput )
+    {
+        X = fillDataFromTable( 0 );
+        Y = fillDataFromTable( 1 );
+
+        if( derivativeLabelActive )
+        {
+            auto x = MathUtils::multipyPoints( X[0], X.back() );
+            auto y = MathUtils::multipyPoints( Y[0], Y.back() );
+            X = x;
+            Y = y;
+            emit readyToDrawDerivativeGraph( X, Y );
+        }
+        else if( polynomialsLabelsActive )
+        {
+            emit readyToDrawApproximatedGraph( X, Y );
+        }
+        else
+        {
+            emit readyToDrawFunctionGraph( X, Y );
+        }
+    }
+}
+
 void LeftWidget::changeLayer( int index )
 {
     switchLayers( index, false );
@@ -319,6 +346,11 @@ void LeftWidget::buildWidgetForDerivativeOperations( SpecialBuffer& buffer )
     averError->setText( "Средняя погрешность: " );
     averError->show();
     error->show();
+    // УБРАТЬ ПРИ АКТИВАЦИИ
+    {
+        error->setDisabled( true );
+        averError->setDisabled( true );
+    }
 }
 
 void LeftWidget::buildWidgetForIntegrationOperations( SpecialBuffer &buffer )
@@ -347,7 +379,7 @@ void LeftWidget::buildWidgetForEquationOperations( SpecialBuffer& buffer )
     hideAll();
     deleteAll();
 
-    oddsInputLabel->setText( QString::asprintf( "Введите через пробел \nкоэффициенты уравнений" ) );
+    oddsInputLabel->setText( QString::asprintf( "Введите через пробел коэффициенты \n линейных уравнений и свободный член" ) );
     QStringList labels;
     labels << "C1 C2 ... Cn" << "X0";
     equationsTableWidget->setColumnCount( 2 );
@@ -371,6 +403,12 @@ void LeftWidget::buildWidgetForEquationOperations( SpecialBuffer& buffer )
     layout->addWidget( eqResult, 4, 0 );
     layout->addWidget( resultDescription, 5, 0 );
     layout->addWidget( description, 6, 0 );
+
+    // ВРЕМЕННО ЗАКРОЕМ ДОСТУП К ДАННЫМ ПУНКТАМ
+    {
+        resultDescription->setDisabled( true );
+        description->setDisabled( true );
+    }
 
     connect( solveEquations, &QPushButton::clicked, this, &LeftWidget::onSolveEquationButtonClicked );
     connect( clearEquationsTable, &QPushButton::clicked, this, &LeftWidget::clearDataTable );
@@ -436,8 +474,8 @@ void LeftWidget::editTable()
         tableWidget->setCellWidget( row, 2, button );
     }
     manualInput = true;
-    solve->setEnabled( true );
-    solve->setStyleSheet( "background-color: lightgreen;" );
+    solve->setEnabled( false );
+    solve->setStyleSheet( "background-color: tomato;" );
     buildGraph->setEnabled( true );
 }
 
@@ -481,21 +519,28 @@ void LeftWidget::rebuildWidgets( pymodules::Modules modules, SpecialBuffer& buff
     {
     case pymodules::Modules::DIFFERENTIATION:
         derivativeLabelActive = true;
+        polynomialsLabelsActive = false;
         buildWidgetForDerivativeOperations( buffer );
         break;
     case pymodules::Modules::INTEGRATION:
         derivativeLabelActive = false;
+        polynomialsLabelsActive = false;
         buildWidgetForIntegrationOperations( buffer );
         break;
     case pymodules::Modules::EQUATIONS:
         derivativeLabelActive = false;
+        polynomialsLabelsActive = false;
         buildWidgetForEquationOperations( buffer );
         break;
     case pymodules::Modules::NIL:
         derivativeLabelActive = false;
+        polynomialsLabelsActive = false;
         setWidgetToDefaultStatement( buffer );
         break;
-    default:
+    case pymodules::Modules::POLYNOMIALS:
+        derivativeLabelActive = false;
+        polynomialsLabelsActive = true;
+        setWidgetToDefaultStatement( buffer );
         break;
     };
 }
@@ -571,6 +616,7 @@ void LeftWidget::connectLabels( SpecialBuffer &buffer )
     connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
     connect( derivativeExpressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
     connect( manualTableInput, &QPushButton::clicked, this, &LeftWidget::editTable );
+    connect( buildGraph, &QPushButton::clicked, this, &LeftWidget::buildGraphFromManualFilledTable );
     connect( solve, &QPushButton::clicked, [ &buffer, this ]()
             {
                 onSolveButtonClicked( buffer );
