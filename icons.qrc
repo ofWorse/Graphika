@@ -21,5 +21,6 @@
         <file>resources/integral.PNG</file>
         <file>resources/sysfunctions.PNG</file>
         <file>resources/unpinPlot.PNG</file>
+        <file>resources/logo.png</file>
     </qresource>
 </RCC>
