@@ -45,7 +45,21 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     }
 }
 
-void RightWidget::printGraph( QVector<double>& x, QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
+void RightWidget::printFunctionGraph( std::vector<double>& x, std::vector<double>& y )
+{
+    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    {
+        graphBuilder->on_clearButton_clicked();
+        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+    }
+    graphBuilder->wGraphic->replot();
+    // TODO: исправить заглушку
+    auto placeholder = QVector<double>::fromStdVector(x);
+    auto placeholder1 = QVector<double>::fromStdVector(y);
+    graphBuilder->PaintG(placeholder, placeholder1, "График заданной функции", true, false);
+}
+
+void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
 {
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
@@ -159,7 +173,7 @@ void RightWidget::differentiationSolve( const QVector<double>& x, const QVector<
     conveyor->sendDataToDifferentiation();
     QVector<double> resultX = conveyor->getResultDiff_XVector();
     QVector<double> resultY = conveyor->getResultDiff_YVector();
-    printGraph( resultX, resultY, sender, nullptr );
+    printDerivationGraph( resultX, resultY, sender, nullptr );
 }
 
 void RightWidget::sysSolve( QVector<QVector<double>>& data, Sender &sender )
@@ -187,7 +201,7 @@ void RightWidget::clearGraph( void )
     graphBuilder->on_clearButton_clicked();
 }
 
-void RightWidget::drawGraph( const std::vector<double> x, const std::vector<double> y )
+void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std::vector<double> y )
 {
     QVector<double> X = QVector<double>::fromStdVector( x );
     QVector<double> Y = QVector<double>::fromStdVector( y );
@@ -199,9 +213,14 @@ void RightWidget::moveLegend(void)
     graphBuilder->LegendGo();
 }
 
-void RightWidget::seeLegend()
+void RightWidget::showLegend()
 {
-    graphBuilder->LegentSee();
+    graphBuilder->showLegend();
+}
+
+void RightWidget::hideLegend()
+{
+    graphBuilder->hideLegend();
 }
 
 void RightWidget::stepBack()
@@ -209,6 +228,20 @@ void RightWidget::stepBack()
     graphBuilder->GoBack();
 }
 
+void RightWidget::stepForward()
+{
+    graphBuilder->GoFront();
+}
+
+void RightWidget::zoomIn()
+{
+    graphBuilder->zoomIn();
+}
+
+void RightWidget::zoomOut()
+{
+    graphBuilder->zoomOut();
+}
 
 void RightWidget::rebuildWidgets( pymodules::Modules modules )
 {

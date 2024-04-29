@@ -3,12 +3,14 @@
 
 #include <QString>
 #include <QVector>
+#include <QColor>
 
 class GraphInfo {
 public:
     QString name;
     QVector<double> xAxis;
     QVector<double> yAxis;
+    QColor color;
     bool graphOn;
     bool scatterOn;
 

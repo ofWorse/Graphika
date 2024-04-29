@@ -39,6 +39,7 @@ HEADERS += \
     buffer.h \
     compositestatestack.h \
     drawable.h \
+    errorhandler.h \
     expressionvalidator.h \
     graphInfo.h \
     leftwidget.h \

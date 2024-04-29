@@ -60,6 +60,7 @@ private:
     QList<QSpinBox*> spinBoxes;
 
     bool derivativeLabelActive = false;
+    bool polynomialsLabelsActive = false;
     bool manualInput = false;
     bool couldBuildTable = true;
     std::vector<double> X;
@@ -73,7 +74,10 @@ public:
     explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
     void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY );
     QLineEdit* getExpressionInput() const;
-    void setEqResult( const QString& eqResult);
+    void setEqResult( const QString& eqResult );
+
+    std::vector<double> getX( void ) { return X; }
+    std::vector<double> getY( void ) { return Y; }
 
 private:
 
@@ -111,6 +115,8 @@ public slots:
     void hideFirstLayer( bool isDerivativeMenu );
     void hideSecondLayer( bool isDerivativeMenu );
 
+    void buildGraphFromManualFilledTable( void );
+
     void changeLayer( int index );
     void switchLayers( int index, bool isDerivativeMenu );
 
@@ -123,7 +129,11 @@ public slots:
     void rebuildWidgets( pymodules::Modules modules, SpecialBuffer& buffer );
 
 signals:
+    // TODO: паттерны
     void readyToDraw( const std::vector<double> x, const std::vector<double> y );
+    void readyToDrawFunctionGraph( std::vector<double>& x, std::vector<double>& y );
+    void readyToDrawApproximatedGraph( const std::vector<double> x, const std::vector<double> y );
+    void readyToDrawDerivativeGraph( const std::vector<double> x, const std::vector<double> y );
     void sendData( QObject& data, bool toRemove );
     void readyToSendLinearEquationsData( QVector<QVector<double>>& data );
 };

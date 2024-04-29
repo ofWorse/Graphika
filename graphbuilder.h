@@ -9,7 +9,18 @@
 #include <QVector>
 #include <QWidget>
 #include <QList>
+#include <QVBoxLayout>
 #include "graphInfo.h"
+
+struct GraphState
+{
+    QVector<GraphInfo> graphInfoList;
+    QString name;
+    QVector<double> xAxis;
+    QVector<double> yAxis;
+    bool graphOn;
+    bool scatterOn;
+};
 
 class GraphBuilder : public QWidget
 {
@@ -30,8 +41,12 @@ private:
     double ymax = 2.0;
     double ymin = -2.0;
 
-    std::vector<QVector<double>> data;
-    QList<GraphInfo> graphInfoList;
+    QVector<GraphInfo> graphInfoList;
+
+    std::vector<GraphState> graphStates;
+    std::vector<GraphState>::iterator currentState;
+
+    bool unpinned = false;
 
 public:
     QCustomPlot* wGraphic;
@@ -39,15 +54,21 @@ public:
 public:
     explicit GraphBuilder( QWidget *parent = nullptr );
 
+private:
+    void updateGraphState( const GraphState& state );
+
 public slots:
-    void PaintG( QVector<double>& x, QVector<double>& y, const QString& name, bool graphOn, bool scatterOn);
+    void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn );
     void on_clearButton_clicked( void );
     void ZoomB();
     void onMousMove(QMouseEvent* event);
     void LegendGo();
-    void LegentSee();
+    void showLegend();
+    void hideLegend();
     void GoBack();
     void GoFront();
-
+    void zoomIn();
+    void zoomOut();
 };
+
 #endif // GRAPHBUILDER_H

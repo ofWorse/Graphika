@@ -49,7 +49,7 @@ std::string StringParser::parseToken()
     static const std::vector<std::string> tokens =
         { "+", "-", "*", "/", "^", "abs", "sin",
           "sh", "cos", "ch", "ln", "lg", "tan", "asin",
-          "acos", "atan", "th", "sqrt", "cbrt", "ceil",
+          "acos", "atan", "cot", "th", "sqrt", "cbrt", "ceil",
           "floor", "round", "exp", "(", ")" };
     for( auto& t : tokens )
     {
@@ -193,6 +193,7 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
         if( expr.token == "cos"  )     return cos( a );
         if( expr.token == "ch"   )     return cosh( a );
         if( expr.token == "tan"  )     return tan( a );
+        if( expr.token == "cot"  )     return cos( a ) / sin( a );
         if( expr.token == "th"   )     return tanh( a );
         if( expr.token == "asin" || expr.token == "acos" || expr.token == "atan" )
         {
