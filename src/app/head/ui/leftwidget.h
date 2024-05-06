@@ -9,8 +9,6 @@
 #include "mathutils.h"
 #include "settings.h"
 
-
-
 class LeftWidget : public QWidget
 {
     Q_OBJECT

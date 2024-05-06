@@ -1,4 +1,4 @@
-#include "toolbar.h"
+#include_next "toolbar.h"
 #include <QIcon>
 
 Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)

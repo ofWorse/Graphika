@@ -1,4 +1,4 @@
-#include "menu.h"
+#include_next "menu.h"
 
 Menu::Menu( QWidget *parent )
     : QMainWindow{ parent }

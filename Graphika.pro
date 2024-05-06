@@ -1,9 +1,13 @@
 QT += core gui
-QT +=printsupport
+QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17 compat
+
+SRCDIR = $$PWD/src/app
+HEADDIR = $$SRCDIR/head
+IMPLDIR = $$SRCDIR/impl
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -13,49 +17,52 @@ RESOURCES += ./resources/icons.qrc \
     pymodules.qrc \
     ./resources/pymodules/pymodules.qrc
 
-SOURCES += \
-    buffer.cpp \
-    compositestatestack.cpp \
-    leftwidget.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    mathutils.cpp \
-    menu.cpp \
-    pythonconveyor.cpp \
-    reportpdfgenerator.cpp \
-    rightwidget.cpp \
-    sender.cpp \
-    stringparser.cpp \
-    toolbar.cpp \
-    validatestring.cpp \
-    graphbuilder.cpp \
-    ./qcustomplot/qcustomplot.cpp
+INCLUDEPATH += ./python3.11 $${HEADDIR} $${HEADDIR}/algs \
+    $${HEADDIR}/ui $${HEADDIR}/settings $${HEADDIR}/utils
 
 LIBS += -lpython3.11
 
-INCLUDEPATH += ./python3.11/
+VPATH += $$IMPLDIR $$IMPLDIR/algs \
+    $$IMPLDIR/ui $$IMPLDIR/utils
+
+SOURCES += \
+    $$IMPLDIR/algs/compositestatestack.cpp \
+    $$IMPLDIR/algs/graphbuilder.cpp \
+    $$IMPLDIR/algs/pythonconveyor.cpp \
+    $$IMPLDIR/algs/reportpdfgenerator.cpp \
+    $$IMPLDIR/algs/stringparser.cpp \
+    $$IMPLDIR/utils/mathutils.cpp \
+    $$IMPLDIR/ui/leftwidget.cpp \
+    $$IMPLDIR/ui/mainwindow.cpp \
+    $$IMPLDIR/ui/menu.cpp \
+    $$IMPLDIR/ui/rightwidget.cpp \
+    $$IMPLDIR/ui/toolbar.cpp \
+    $$IMPLDIR/utils/buffer.cpp \
+    $$IMPLDIR/utils/sender.cpp \
+    $$IMPLDIR/utils/validatestring.cpp \
+    $$IMPLDIR/main.cpp \
+    qcustomplot/qcustomplot.cpp
 
 HEADERS += \
-    buffer.h \
-    compositestatestack.h \
-    drawable.h \
-    errorhandler.h \
-    expressionvalidator.h \
-    graphInfo.h \
-    leftwidget.h \
-    mainwindow.h \
-    mathutils.h \
-    menu.h \
-    pythonconveyor.h \
-    reportpdfgenerator.h \
-    rightwidget.h \
-    sender.h \
-    settings.h \
-    stringparser.h \
-    toolbar.h \
-    validatestring.h \
-    graphbuilder.h \
-    ./qcustomplot/qcustomplot.h
+    $$HEADDIR/algs/compositestatestack.h \
+    $$HEADDIR/algs/expressionvalidator.h \
+    $$HEADDIR/algs/graphbuilder.h \
+    $$HEADDIR/algs/pythonconveyor.h \
+    $$HEADDIR/algs/reportpdfgenerator.h \
+    $$HEADDIR/algs/stringparser.h \
+    $$HEADDIR/settings/settings.h \
+    $$HEADDIR/ui/leftwidget.h \
+    $$HEADDIR/ui/mainwindow.h \
+    $$HEADDIR/ui/menu.h \
+    $$HEADDIR/ui/rightwidget.h \
+    $$HEADDIR/ui/toolbar.h \
+    $$HEADDIR/utils/buffer.h \
+    $$HEADDIR/utils/errorhandler.h \
+    $$HEADDIR/utils/graphInfo.h \
+    $$HEADDIR/utils/sender.h \
+    $$HEADDIR/utils/mathutils.h \
+    $$HEADDIR/utils/validatestring.h \
+    qcustomplot/qcustomplot.h
 
 FORMS += \
     mainwindow.ui

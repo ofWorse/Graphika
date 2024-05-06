@@ -10,7 +10,7 @@
 #include <QWidget>
 #include <QList>
 #include <QVBoxLayout>
-#include "graphInfo.h"
+#include_next "graphInfo.h"
 
 struct GraphState
 {

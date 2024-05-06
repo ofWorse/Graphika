@@ -1,4 +1,4 @@
-#include "rightwidget.h"
+#include_next "rightwidget.h"
 #include <qstring.h>
 #include <filesystem>
 
