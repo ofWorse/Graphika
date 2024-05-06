@@ -4,7 +4,6 @@
 #include "toolbar.h"
 #include "leftwidget.h"
 #include "rightwidget.h"
-#include "layoutfactory.h"
 #include "sender.h"
 #include "compositestatestack.h"
 #include "menu.h"

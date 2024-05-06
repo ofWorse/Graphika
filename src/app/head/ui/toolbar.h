@@ -6,7 +6,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QMouseEvent>
-#include "sender.h"
+#include "../utils/sender.h"
 #include "qapplication.h"
 
 class Toolbar : public QToolBar

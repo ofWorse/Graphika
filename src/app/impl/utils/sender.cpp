@@ -1,5 +1,5 @@
-#include "sender.h"
-#include "settings.h"
+#include_next "sender.h"
+#include_next "settings.h"
 
 Sender::Sender() {}
 

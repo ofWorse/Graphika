@@ -1,14 +1,14 @@
 #ifndef SENDER_H
 #define SENDER_H
 
-#include "pythonconveyor.h"
-#include "settings.h"
+#include "../algs/pythonconveyor.h"
+#include "../settings/settings.h"
 #include <QString>
 
 class Sender {
 public:
     Sender();
-    void setMacro(pymodules::Methods method, pymodules::Modules module);
+    void setMacro( pymodules::Methods method, pymodules::Modules module );
 
 public:
     QString moduleName;

@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "errorhandler.h"
+#include_next "errorhandler.h"
 
 // TODO: Сделать код чище
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )

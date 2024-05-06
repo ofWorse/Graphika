@@ -1,4 +1,4 @@
-#include "stringparser.h"
+#include_next "stringparser.h"
 
 StringParser::StringParser( QObject *parent ) : QObject( parent ) {}
 

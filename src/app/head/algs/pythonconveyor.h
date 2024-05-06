@@ -1,7 +1,7 @@
 #ifndef PYTHONCONVEYOR_H
 #define PYTHONCONVEYOR_H
 
-#include<Python.h>
+#include <Python.h>
 #include <QObject>
 #include <QString>
 #include <vector>

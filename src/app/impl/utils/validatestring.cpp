@@ -1,4 +1,4 @@
-#include "validatestring.h"
+#include_next "validatestring.h"
 
 ValidateString::ValidateString( QObject *parent )
     : QObject{ parent }
