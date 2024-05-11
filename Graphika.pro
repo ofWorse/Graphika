@@ -17,13 +17,13 @@ RESOURCES += ./resources/icons.qrc \
     pymodules.qrc \
     ./resources/pymodules/pymodules.qrc
 
-INCLUDEPATH += ./python3.11 $${HEADDIR} $${HEADDIR}/algs \
-    $${HEADDIR}/ui $${HEADDIR}/settings $${HEADDIR}/utils
+INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
+    $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/oper $$HEADDIR/settings $$HEADDIR/utils
 
 LIBS += -lpython3.11
 
 VPATH += $$IMPLDIR $$IMPLDIR/algs \
-    $$IMPLDIR/ui $$IMPLDIR/utils
+    $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/oper $$IMPLDIR/utils
 
 SOURCES += \
     $$IMPLDIR/algs/compositestatestack.cpp \
@@ -32,10 +32,11 @@ SOURCES += \
     $$IMPLDIR/algs/reportpdfgenerator.cpp \
     $$IMPLDIR/algs/stringparser.cpp \
     $$IMPLDIR/utils/mathutils.cpp \
-    $$IMPLDIR/ui/leftwidget.cpp \
+    $$IMPLDIR/ui/wgts/leftwidget.cpp \
+    $$IMPLDIR/ui/wgts/oper/operationstrategy.cpp \
     $$IMPLDIR/ui/mainwindow.cpp \
     $$IMPLDIR/ui/menu.cpp \
-    $$IMPLDIR/ui/rightwidget.cpp \
+    $$IMPLDIR/ui/wgts/rightwidget.cpp \
     $$IMPLDIR/ui/toolbar.cpp \
     $$IMPLDIR/utils/buffer.cpp \
     $$IMPLDIR/utils/sender.cpp \
@@ -51,10 +52,11 @@ HEADERS += \
     $$HEADDIR/algs/reportpdfgenerator.h \
     $$HEADDIR/algs/stringparser.h \
     $$HEADDIR/settings/settings.h \
-    $$HEADDIR/ui/leftwidget.h \
+    $$HEADDIR/ui/wgts/leftwidget.h \
+    $$HEADDIR/ui/wgts/oper/operationstrategy.h \
     $$HEADDIR/ui/mainwindow.h \
     $$HEADDIR/ui/menu.h \
-    $$HEADDIR/ui/rightwidget.h \
+    $$HEADDIR/ui/wgts/rightwidget.h \
     $$HEADDIR/ui/toolbar.h \
     $$HEADDIR/utils/buffer.h \
     $$HEADDIR/utils/errorhandler.h \

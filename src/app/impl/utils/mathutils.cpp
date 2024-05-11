@@ -1,4 +1,4 @@
-#include_next "mathutils.h"
+#include "mathutils.h"
 
 
 std::vector<double> MathUtils::multipyPoints( const double a, const double b ) noexcept

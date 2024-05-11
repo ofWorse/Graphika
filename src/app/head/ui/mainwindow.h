@@ -32,6 +32,8 @@ private:
     pymodules::Modules widgetState = pymodules::Modules::NIL;
     pymodules::Methods methodOfInterpolation;
 
+    QMap<QAction*, std::function<void()>> menuSlots;
+
     bool isSession{ false };
     bool unpinned{ false };
     bool legendEnabled{ false };
@@ -41,24 +43,16 @@ public:
 
 private:
     void clearLayout( QLayout* layout );
+    void buildSpecificWidget( int index );
     void printDiffGraph( void );
     void calculateIntegral( void );
     void buildPolynomeGraph( void );
-    void invokeLagrangeMethod( void );
-    void invokeNewtonMethod( void );
-    void invokeBerrutaMethod( void );
+    void invokePolynomeMethod( pymodules::Methods method );
 
 public slots:
-    void openFunctionMenu( void );
+    void openMenu( int index, pymodules::Modules module );
     void printFunctionGraph( void );
-    void openDerivativeMenu( void );
-    void openIntegrationMenu( void );
-    void openEquationSystemMenu( void );
-    void openLagrangeMenu( void );
-    void openNewtonMenu( void );
-    void openBerrutaMenu( void );
     void calculateSys( QVector<QVector<double>>& data );
-
 
     void clearGraph( void );
     void resetZoom( void );
