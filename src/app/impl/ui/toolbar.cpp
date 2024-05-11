@@ -1,4 +1,4 @@
-#include_next "toolbar.h"
+#include "toolbar.h"
 #include <QIcon>
 
 Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
@@ -51,43 +51,73 @@ void Toolbar::mousePressEvent( QMouseEvent *event )
 
 void Toolbar::initDiffMenu( void )
 {
-    QStringList diffItems = { "Дифференцировать по 2 точкам", "Дифференцировать по 3 точкам", "Дифференцировать по 5 точкам" };
-    initMenu( diffMenu, diffItems, &Toolbar::updateDiffCheckState );
+    diffMenu = new QMenu(this);
+
+    methodTwoDots = diffMenu->addAction("Дифференцировать по 2 точкам");
+    methodThreeDots = diffMenu->addAction("Дифференцировать по 3 точкам");
+    methodFiveDots = diffMenu->addAction("Дифференцировать по 5 точкам");
+
+    methodTwoDots->setCheckable(true);
+    methodThreeDots->setCheckable(true);
+    methodFiveDots->setCheckable(true);
+
+    methodThreeDots->setChecked(true);
+
+    connect(methodTwoDots, &QAction::triggered, this, [=]() {
+        updateDiffCheckState(methodTwoDots);
+    });
+    connect(methodThreeDots, &QAction::triggered, this, [=]() {
+        updateDiffCheckState(methodThreeDots);
+    });
+    connect(methodFiveDots, &QAction::triggered, this, [=]() {
+        updateDiffCheckState(methodFiveDots);
+    });
 }
 
 void Toolbar::initIntegralMenu()
 {
-    QStringList integralItems = { "Линейный метод", "Метод трапеций", "Метод Симпсона (парабол)" };
-    initMenu( integralMenu, integralItems, &Toolbar::updateIntegralCheckState );
+    integralMenu = new QMenu( this );
+
+    linearMethod = integralMenu->addAction("Линейный метод");
+    trapezoidMethod = integralMenu->addAction("Метод трапеций");
+    parabolicMethod = integralMenu->addAction("Метод Симпсона (парабол)");
+
+    linearMethod->setCheckable(true);
+    trapezoidMethod->setCheckable(true);
+    parabolicMethod->setCheckable(true);
+
+    linearMethod->setChecked(true);
+
+    connect(linearMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState(linearMethod);
+    });
+    connect(trapezoidMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState(trapezoidMethod);
+    });
+    connect(parabolicMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState(parabolicMethod);
+    });
 }
 
 void Toolbar::initSysMenu()
 {
-    QStringList sysItems = { "Метод Гаусса", "Метод простых итераций" };
-    initMenu( sysMenu, sysItems, &Toolbar::updateSysCheckState );
-}
+    sysMenu = new QMenu( this );
 
-void Toolbar::initMenu( QMenu*& menu, const QStringList& items, void ( Toolbar::*updateCheckState )( QAction* ) )
-{
-    menu = new QMenu( this );
+    gaussMethod = sysMenu->addAction( "Метод Гаусса" );
+    simpleIterMethod = sysMenu->addAction( "Метод простых итераций" );
 
-    QList<QAction*> actions;
-    for( const QString& item : items )
-    {
-        QAction* action = menu->addAction( item );
-        action->setCheckable( true );
-        actions.append( action );
-    }
+    gaussMethod->setCheckable( true );
+    simpleIterMethod->setCheckable( true );
+    simpleIterMethod->setDisabled( true );
 
-    actions.first()->setChecked( true );
+    gaussMethod->setChecked( true );
 
-    for( QAction* action : qAsConst( actions ) )
-    {
-        connect( action, &QAction::triggered, this, [ = ]()
-        {
-            (this->*updateCheckState)(action);
-        });
-    }
+    connect( gaussMethod, &QAction::triggered, this, [=]() {
+        updateSysCheckState(gaussMethod);
+    });
+    connect( simpleIterMethod, &QAction::triggered, this, [=]() {
+        updateSysCheckState( simpleIterMethod );
+    });
 }
 
 void Toolbar::updateDiffCheckState(QAction *checkedAction)

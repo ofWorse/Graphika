@@ -6,7 +6,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QMouseEvent>
-#include "../utils/sender.h"
+#include "sender.h"
 #include "qapplication.h"
 
 class Toolbar : public QToolBar
@@ -47,10 +47,11 @@ private:
     void initDiffMenu( void );
     void initIntegralMenu( void );
     void initSysMenu( void );
-    void initMenu( QMenu*& menu, const QStringList& items, void ( Toolbar::*updateCheckState )( QAction* ) );
+    void initMenu( QMenu*& menu, const QStringList& items );
     void updateDiffCheckState( QAction* checkedAction );
     void updateIntegralCheckState( QAction* checkedAction );
     void updateSysCheckState( QAction* checkedAction );
+    void updateCheckState( QAction* checkedAction, QList<QAction*> actions );
     void setCheckable( void );
 };
 
