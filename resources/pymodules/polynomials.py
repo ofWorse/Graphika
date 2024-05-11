@@ -14,7 +14,7 @@ def cast_to_number(x, y):
     return x_act, y_act, contains_float
 
 
-def newton_polynomial(x_values, y_values, precision=2):
+def newton_polynomial(x_values, y_values, precision=3):
     x_values, y_values, contains_float = cast_to_number(x_values, y_values)
     n = len(x_values)
     polynomial = y_values[0]
@@ -37,7 +37,7 @@ def divided_difference(n, x_values, y_values):
                                divided_difference(n - 1, x_values[:n], y_values[:n])), (x_values[n] - x_values[0]))
 
 
-def lagrange_polynomial(x_values, y_values, precision=2):
+def lagrange_polynomial(x_values, y_values, precision=3):
     x_values, y_values, contains_float = cast_to_number(x_values, y_values)
     polynomial = sympy.sympify(0)
     n = len(x_values)
@@ -54,7 +54,7 @@ def lagrange_polynomial(x_values, y_values, precision=2):
     return str(sympy.cancel(polynomial, x)).replace("**", "^")
 
 
-def berruta_functions(x_values, y_values, precision=2):
+def berruta_functions(x_values, y_values, precision=3):
     x_values, y_values, contains_float = cast_to_number(x_values, y_values)
     numerator = 0
     denominator = 0
