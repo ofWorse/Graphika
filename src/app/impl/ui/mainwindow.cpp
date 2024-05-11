@@ -1,7 +1,6 @@
 #include "mainwindow.h"
-#include_next "errorhandler.h"
+#include "errorhandler.h"
 
-// TODO: Сделать код чище
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
     signal( SIGSEGV, signalHandler );
@@ -62,8 +61,6 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
                                            sender, &logStack );
             }
     );
-    //connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, rightWidget, &RightWidget::solveLinearEquations );
-
     connect( this, &MainWindow::buildDerivativeWidgets, rightWidget, &RightWidget::rebuildWidgets );
     connect( this, &MainWindow::buildDerivativeWidgets, leftWidget, &LeftWidget::rebuildWidgets );
     connect( this, &MainWindow::buildDefaultWidgets, leftWidget, &LeftWidget::rebuildWidgets );
@@ -73,91 +70,82 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
-    openFunctionMenu();
-
-    connect( toolbar->actions().at( 0 ), &QAction::triggered, this, &MainWindow::openFunctionMenu );
-    connect( toolbar->actions().at( 1 ), &QAction::triggered, this, &MainWindow::openDerivativeMenu );
-    connect( toolbar->actions().at( 2 ), &QAction::triggered, this, &MainWindow::openIntegrationMenu );
-    connect( toolbar->actions().at( 3 ), &QAction::triggered, this, &MainWindow::openEquationSystemMenu );
-    connect( toolbar->actions().at( 5 ), &QAction::triggered, this, &MainWindow::openLagrangeMenu );
-    connect( toolbar->actions().at( 6 ), &QAction::triggered, this, &MainWindow::openNewtonMenu );
-    connect( toolbar->actions().at( 7 ), &QAction::triggered, this, &MainWindow::openBerrutaMenu );
-    connect( toolbar->actions().at( 9 ), &QAction::triggered, this, &MainWindow::clearGraph );
-    connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom );
-    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::moveLegend );
-    connect( toolbar->actions().at( 12 ), &QAction::triggered, this, &MainWindow::showLegend );
-    connect( toolbar->actions().at( 13 ), &QAction::triggered, this, &MainWindow::stepBack );
+    connect( toolbar->actions().at( 9 ),  &QAction::triggered, this, &MainWindow::clearGraph  );
+    connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom   );
+    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::moveLegend  );
+    connect( toolbar->actions().at( 12 ), &QAction::triggered, this, &MainWindow::showLegend  );
+    connect( toolbar->actions().at( 13 ), &QAction::triggered, this, &MainWindow::stepBack    );
     connect( toolbar->actions().at( 14 ), &QAction::triggered, this, &MainWindow::stepForward );
-    connect( toolbar->actions().at( 15 ), &QAction::triggered, this, &MainWindow::zoomOut );
-    connect( toolbar->actions().at( 16 ), &QAction::triggered, this, &MainWindow::zoomIn );
-    connect( toolbar->actions().at( 17 ), &QAction::triggered, this, &MainWindow::unpinGraph );
+    connect( toolbar->actions().at( 15 ), &QAction::triggered, this, &MainWindow::zoomOut     );
+    connect( toolbar->actions().at( 16 ), &QAction::triggered, this, &MainWindow::zoomIn      );
+    connect( toolbar->actions().at( 17 ), &QAction::triggered, this, &MainWindow::unpinGraph  );
+
+    menuSlots.insert( toolbar->actions().at( 0 ), [ this ]()
+                     { openMenu( 0, pymodules::Modules::NIL ); } );
+    menuSlots.insert( toolbar->actions().at( 1 ), [ this ]()
+                     { openMenu( 1, pymodules::Modules::DIFFERENTIATION ); } );
+    menuSlots.insert( toolbar->actions().at( 2 ), [ this ]()
+                     { openMenu( 2, pymodules::Modules::INTEGRATION ); } );
+    menuSlots.insert( toolbar->actions().at( 3 ), [ this ]()
+                     { openMenu( 3, pymodules::Modules::EQUATIONS ); } );
+    menuSlots.insert( toolbar->actions().at( 5 ), [ this ]()
+                     { openMenu( 5, pymodules::Modules::POLYNOMIALS ); } );
+    menuSlots.insert( toolbar->actions().at( 6 ), [ this ]()
+                     { openMenu( 6, pymodules::Modules::POLYNOMIALS ); } );
+    menuSlots.insert( toolbar->actions().at( 7 ), [ this ]()
+                     { openMenu( 7, pymodules::Modules::POLYNOMIALS ); } );
+    for( auto act = menuSlots.constBegin(); act != menuSlots.constEnd(); ++act )
+    {
+        connect( act.key(), &QAction::triggered, this, act.value() );
+    }
+
 }
 
-void MainWindow::openFunctionMenu( void )
+void MainWindow::openMenu( int index, pymodules::Modules module )
 {
     toolbar->unsetChecked();
-    toolbar->actions().at( 0 )->setChecked( true );
-    widgetState = pymodules::Modules::NIL;
-    emit buildDefaultWidgets( widgetState, buffer );
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+    toolbar->actions().at( index )->setChecked( true );
+    widgetState = module;
+    buildSpecificWidget( index );
 }
 
-void MainWindow::openDerivativeMenu( void )
+void MainWindow::buildSpecificWidget( int index )
 {
-    toolbar->unsetChecked();
-    toolbar->actions().at( 1 )->setChecked( true );
-    widgetState = pymodules::Modules::DIFFERENTIATION;
-    emit buildDerivativeWidgets( widgetState, buffer );
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
-}
-
-void MainWindow::openIntegrationMenu()
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 2 )->setChecked( true );
-    widgetState = pymodules::Modules::INTEGRATION;
-    emit buildDefaultWidgets( widgetState, buffer );
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
-}
-
-void MainWindow::openEquationSystemMenu( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 3 )->setChecked( true );
-    widgetState = pymodules::Modules::EQUATIONS;
-    emit buildDerivativeWidgets( widgetState, buffer );
-    connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, this, &MainWindow::calculateSys);
-    connect( rightWidget, &RightWidget::readyToSendSysResult, leftWidget, &LeftWidget::setEqResult);
-}
-
-void MainWindow::openLagrangeMenu( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 5 )->setChecked( true );
-    widgetState = pymodules::Modules::POLYNOMIALS;
-    emit buildDefaultWidgets( widgetState, buffer );
-    methodOfInterpolation = pymodules::Methods::LAGRANGE;
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
-}
-
-void MainWindow::openNewtonMenu( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 6 )->setChecked( true );
-    widgetState = pymodules::Modules::POLYNOMIALS;
-    emit buildDefaultWidgets( widgetState, buffer );
-    methodOfInterpolation = pymodules::Methods::NEWTON;
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
-}
-
-void MainWindow::openBerrutaMenu( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 7 )->setChecked( true );
-    widgetState = pymodules::Modules::POLYNOMIALS;
-    emit buildDefaultWidgets( widgetState, buffer );
-    methodOfInterpolation = pymodules::Methods::BERRUTA;
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+    switch( index )
+    {
+    case 0:
+        emit buildDefaultWidgets( widgetState, buffer );
+        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+        break;
+    case 1:
+        emit buildDerivativeWidgets( widgetState, buffer );
+        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+        break;
+    case 2:
+        emit buildDefaultWidgets( widgetState, buffer );
+        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+        break;
+    case 3:
+        emit buildDerivativeWidgets( widgetState, buffer );
+        connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, this, &MainWindow::calculateSys );
+        connect( rightWidget, &RightWidget::readyToSendSysResult, leftWidget, &LeftWidget::setEqResult );
+        break;
+    case 5:
+        emit buildDefaultWidgets( widgetState, buffer );
+        methodOfInterpolation = pymodules::Methods::LAGRANGE;
+        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+        break;
+    case 6:
+        emit buildDefaultWidgets( widgetState, buffer );
+        methodOfInterpolation = pymodules::Methods::NEWTON;
+        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+        break;
+    case 7:
+        emit buildDefaultWidgets( widgetState, buffer );
+        methodOfInterpolation = pymodules::Methods::BERRUTA;
+        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+        break;
+    }
 }
 
 void MainWindow::draw( void )
@@ -186,13 +174,13 @@ void MainWindow::buildPolynomeGraph( void )
     switch( methodOfInterpolation )
     {
     case pymodules::Methods::LAGRANGE:
-        invokeLagrangeMethod();
+        invokePolynomeMethod( pymodules::Methods::LAGRANGE );
         break;
     case pymodules::Methods::NEWTON:
-        invokeNewtonMethod();
+        invokePolynomeMethod( pymodules::Methods::NEWTON );
         break;
     case pymodules::Methods::BERRUTA:
-        invokeBerrutaMethod();
+        invokePolynomeMethod( pymodules::Methods::BERRUTA );
         break;
     default:
         break;
@@ -235,44 +223,18 @@ void MainWindow::calculateIntegral( void )
     rightWidget->calculateIntegral( buffer, sender, nullptr );
 }
 
-void MainWindow::calculateSys(QVector<QVector<double>>& data)
+void MainWindow::calculateSys( QVector<QVector<double>>& data )
 {
     pymodules::Methods method = toolbar->getSelectedSysMethod();
-    sender.setMacro(method, pymodules::Modules::EQUATIONS);
-    rightWidget->sysSolve(data, sender);
+    sender.setMacro( method, pymodules::Modules::EQUATIONS );
+    rightWidget->sysSolve( data, sender );
 }
 
-void MainWindow::invokeLagrangeMethod( void )
+void MainWindow::invokePolynomeMethod( pymodules::Methods method )
 {
     emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
     widgetState = pymodules::Modules::POLYNOMIALS;
-    sender.setMacro( pymodules::Methods::LAGRANGE, pymodules::Modules::POLYNOMIALS );
-    if( isSession )
-    {
-        rightWidget->buildPolynome( buffer, sender, &logStack );
-        return;
-    }
-    rightWidget->buildPolynome( buffer, sender, nullptr );
-}
-
-void MainWindow::invokeNewtonMethod( void )
-{
-    emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
-    widgetState = pymodules::Modules::POLYNOMIALS;
-    sender.setMacro( pymodules::Methods::NEWTON, pymodules::Modules::POLYNOMIALS );
-    if( isSession )
-    {
-        rightWidget->buildPolynome( buffer, sender, &logStack );
-        return;
-    }
-    rightWidget->buildPolynome( buffer, sender, nullptr );
-}
-
-void MainWindow::invokeBerrutaMethod( void )
-{
-    emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
-    widgetState = pymodules::Modules::POLYNOMIALS;
-    sender.setMacro( pymodules::Methods::BERRUTA, pymodules::Modules::POLYNOMIALS );
+    sender.setMacro( method, pymodules::Modules::POLYNOMIALS );
     if( isSession )
     {
         rightWidget->buildPolynome( buffer, sender, &logStack );

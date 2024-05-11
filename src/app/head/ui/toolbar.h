@@ -47,6 +47,7 @@ private:
     void initDiffMenu( void );
     void initIntegralMenu( void );
     void initSysMenu( void );
+    void initMenu( QMenu*& menu, const QStringList& items, void ( Toolbar::*updateCheckState )( QAction* ) );
     void updateDiffCheckState( QAction* checkedAction );
     void updateIntegralCheckState( QAction* checkedAction );
     void updateSysCheckState( QAction* checkedAction );
