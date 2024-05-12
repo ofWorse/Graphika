@@ -1,3 +1,9 @@
+r"""
+author: Konak Vladimir Evgen'evich
+last edited: 05.12.2024
+organisation: Dnevnie mechaniki
+"""
+
 import sympy
 from sympy import symbols
 
