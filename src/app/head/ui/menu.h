@@ -12,6 +12,7 @@ private:
     QWidget* parent;
     QAction* startSessionAction;
     QAction* endSessionAction;
+    QAction* authorsAction;
     QMenuBar* menu;
 
 public:
@@ -28,6 +29,9 @@ private:
 signals:
     void sessionStarted( void );
     void sessionStopped( void );
+    void licenseMenuOppened( void );
+    void authorsMenuOppened( void );
+    void aboutMenuOppened( void );
 };
 
 #endif // MENU_H

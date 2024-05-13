@@ -15,15 +15,18 @@ IMPLDIR = $$SRCDIR/impl
 
 RESOURCES += ./resources/icons.qrc \
     pymodules.qrc \
-    ./resources/pymodules/pymodules.qrc
+    ./resources/pymodules/pymodules.qrc \
+    referenceinfo.qrc
 
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
-    $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/oper $$HEADDIR/settings $$HEADDIR/utils
+    $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/oper $$HEADDIR/settings $$HEADDIR/utils \
+    $$HEADDIR/ui/menu
 
 LIBS += -lpython3.11
 
 VPATH += $$IMPLDIR $$IMPLDIR/algs \
-    $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/oper $$IMPLDIR/utils
+    $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/oper $$IMPLDIR/utils \
+    $IMPLDIR/ui/menu
 
 SOURCES += \
     $$IMPLDIR/algs/compositestatestack.cpp \
@@ -38,6 +41,7 @@ SOURCES += \
     $$IMPLDIR/ui/menu.cpp \
     $$IMPLDIR/ui/wgts/rightwidget.cpp \
     $$IMPLDIR/ui/toolbar.cpp \
+    $$IMPLDIR/ui/menu/sheetmenu.cpp \
     $$IMPLDIR/utils/buffer.cpp \
     $$IMPLDIR/utils/sender.cpp \
     $$IMPLDIR/utils/validatestring.cpp \
@@ -58,6 +62,7 @@ HEADERS += \
     $$HEADDIR/ui/menu.h \
     $$HEADDIR/ui/wgts/rightwidget.h \
     $$HEADDIR/ui/toolbar.h \
+    $$HEADDIR/ui/menu/sheetmenu.h \
     $$HEADDIR/utils/buffer.h \
     $$HEADDIR/utils/errorhandler.h \
     $$HEADDIR/utils/graphInfo.h \

@@ -7,6 +7,7 @@
 #include "sender.h"
 #include "compositestatestack.h"
 #include "menu.h"
+#include "sheetmenu.h"
 
 class MainWindow : public QMainWindow
 {
@@ -33,6 +34,7 @@ private:
     pymodules::Methods methodOfInterpolation;
 
     QMap<QAction*, std::function<void()>> menuSlots;
+    QList<QWidget*> widgets;
 
     bool isSession{ false };
     bool unpinned{ false };
@@ -66,8 +68,11 @@ public slots:
 
     void startSession( void );
     void endSession( void );
+    void openAboutMenu( void );
+    void openLicenseMenu( void );
 
     void draw( void );
+    void deleteWidgets( void );
 
 signals:
     void buildDerivativeWidgets( pymodules::Modules module, SpecialBuffer& buffer );

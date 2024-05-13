@@ -17,6 +17,10 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setMenuBar( menu->getMenu() );
     connect( menu, &Menu::sessionStarted, this, &MainWindow::startSession );
     connect( menu, &Menu::sessionStopped, this, &MainWindow::endSession );
+    connect( menu, &Menu::licenseMenuOppened, this, &MainWindow::openLicenseMenu );
+    connect( menu, &Menu::aboutMenuOppened, this, &MainWindow::openAboutMenu );
+
+    connect( qApp, &QApplication::aboutToQuit, this, &MainWindow::deleteWidgets );
 
     toolbar = new Toolbar( this );
     toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
@@ -98,7 +102,6 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     {
         connect( act.key(), &QAction::triggered, this, act.value() );
     }
-
 }
 
 void MainWindow::openMenu( int index, pymodules::Modules module )
@@ -167,6 +170,12 @@ void MainWindow::draw( void )
         qDebug() << "No such method.\n";
         break;
     }
+}
+
+void MainWindow::deleteWidgets( void )
+{
+    SheetMenu::cleanupWidgets( widgets );
+    widgets.clear();
 }
 
 void MainWindow::buildPolynomeGraph( void )
@@ -313,7 +322,6 @@ void MainWindow::unpinGraph()
     toolbar->unsetChecked();
     toolbar->actions().at( 17 )->setChecked( true );
 
-
     // TODO: в отдельный метод
     if( unpinned )
     {
@@ -341,6 +349,16 @@ void MainWindow::unpinGraph()
     dialog->show();
     unpinned = true;
     toolbar->actions().at( 17 )->setChecked( false );
+}
+
+void MainWindow::openAboutMenu( void )
+{
+    widgets.append( SheetMenu::invokeAboutWidget() );
+}
+
+void MainWindow::openLicenseMenu( void )
+{
+    widgets.append( SheetMenu::invokeLicenseWidget() );
 }
 
 void MainWindow::startSession( void )

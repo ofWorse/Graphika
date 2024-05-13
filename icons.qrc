@@ -4,7 +4,6 @@
         <file>resources/lagrange.PNG</file>
         <file>resources/function.PNG</file>
         <file>resources/berruta.PNG</file>
-        <file>resources/about.PNG</file>
         <file>resources/home.PNG</file>
         <file>resources/diff.PNG</file>
         <file>resources/int.PNG</file>
@@ -22,5 +21,7 @@
         <file>resources/sysfunctions.PNG</file>
         <file>resources/unpinPlot.PNG</file>
         <file>resources/logo.png</file>
+        <file>resources/authors.PNG</file>
+        <file>resources/about.PNG</file>
     </qresource>
 </RCC>
