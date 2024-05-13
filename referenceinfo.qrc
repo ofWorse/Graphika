@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/references">
+        <file>resources/aboutSheet.bin</file>
+        <file>resources/fdl-1.3.txt</file>
+    </qresource>
+</RCC>

@@ -1,4 +1,4 @@
-#include_next "menu.h"
+#include "menu.h"
 
 Menu::Menu( QWidget *parent )
     : QMainWindow{ parent }
@@ -23,6 +23,8 @@ void Menu::createMenu( QWidget *parent )
     QAction* licenceAction = aboutMenu->addAction( tr( "Лицензия" ) );
     QAction* authorsAction = aboutMenu->addAction( tr( "Об авторах" ) );
     QAction* programmAction = aboutMenu->addAction( tr( "О программе" ) );
+    connect( programmAction, &QAction::triggered, this, &Menu::aboutMenuOppened );
+    connect( licenceAction, &QAction::triggered, this, &Menu::licenseMenuOppened );
 
     QMenu* utilsMenu = menu->addMenu( tr( "&Утилиты" ) );
     startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
