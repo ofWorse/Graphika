@@ -13,7 +13,7 @@ void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
         functionName = "lagrange_polynomial";
         break;
     case pymodules::Methods::BERRUTA:
-        functionName = "berruta_functions";
+        functionName = "beirut_functions";
         break;
     case pymodules::Methods::NIL:
         functionName = nullptr;
