@@ -72,6 +72,7 @@ private:
     QVector<QVector<double>> sys;
 
     bool isResourcePath( const QString& path );
+    friend class RightWidget;
 };
 
 #endif // PYTHONCONVEYOR_H
