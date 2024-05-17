@@ -1,3 +1,13 @@
+/*!
+ * \class PythonConveyor.
+ *
+ * \brief The PythonConveyor class for interacting with Python From C++.
+ *
+ * \author Korshunov Ilya Dmitrievich, Dnevnie Mechaniki.
+ *
+ * \date last update: 17.05.2024.
+ */
+
 #include "pythonconveyor.h"
 #include <Python.h>
 #include <QCoreApplication>
@@ -10,11 +20,20 @@
 #include <QTemporaryDir>
 #include <QFileDialog>
 
+
 PythonConveyor::PythonConveyor( QObject* parent ) : QObject( parent ) {}
 
 PythonConveyor::PythonConveyor( const QString& pythonFilePath, const QString& functionName, QObject* parent )
     : QObject( parent ), pythonFilePath( pythonFilePath ), functionName( functionName ) {}
 
+
+/*!
+ * \brief PythonConveyor::convertVectorToStringList: Converts a vector of doubles to a QStringList.
+ *
+ * \param inputVector - the input vector of doubles.
+ *
+ * \return QStringList containing the string representations of the vector elements.
+ */
 QStringList PythonConveyor::convertVectorToStringList( const std::vector< double >& inputVector )
 {
     QStringList stringList;
@@ -25,11 +44,25 @@ QStringList PythonConveyor::convertVectorToStringList( const std::vector< double
     return stringList;
 }
 
+/*!
+ * \brief PythonConveyor::isResourcePath: Checks if a given path is a Qt resource path.
+ *
+ * \param path - the path to check.
+ *
+ * \return True if the path is resource path, false otherwise.
+ */
 bool PythonConveyor::isResourcePath( const QString& path )
 {
     return path.startsWith( ":/" );
 }
 
+/*!
+ * \brief PythonConveyor::getResourceFilePath: Retrieves the absolute file path for a given resource path.
+ *
+ * \param resourcePath - the resource path.
+ *
+ * \return The absolute file path, or an empty QString if the resource does not exist.
+ */
 QString PythonConveyor::getResourceFilePath( const QString& resourcePath )
 {
     if ( !QFile::exists( resourcePath ) ) {
@@ -42,6 +75,14 @@ QString PythonConveyor::getResourceFilePath( const QString& resourcePath )
     return absoluteFilePath;
 }
 
+/*!
+ * \brief PythonConveyor::callPythonFunction: Calls a python function with the specified arguments.
+ *
+ * \param function - the python function to call.
+ * \param args - the arguments to pass to the python function.
+ *
+ * \return The result of the python function call, or nullptr if the call failed.
+ */
 PyObject* PythonConveyor::callPythonFunction(PyObject* function, PyObject* args)
 {
     PyObject* result = PyObject_CallObject(function, args);
@@ -52,6 +93,13 @@ PyObject* PythonConveyor::callPythonFunction(PyObject* function, PyObject* args)
     return result;
 }
 
+/*!
+ * \brief PythonConveyor::buildPyListFromQStringList: Builds a python list from QStringList.
+ *
+ * \param stringList - the input QStringList.
+ *
+ * \return A python list containing the elements of the QStringList.
+ */
 PyObject* PythonConveyor::buildPyListFromQStringList(const QStringList &stringList)
 {
     PyObject* pyList = PyList_New(stringList.size());
@@ -61,6 +109,13 @@ PyObject* PythonConveyor::buildPyListFromQStringList(const QStringList &stringLi
     return pyList;
 }
 
+/*!
+ * \brief PythonConveyor::buildPyListFromStdVector: Builds a python list from a std::vector of doubles.
+ *
+ * \param vector - the input vector of doubles.
+ *
+ * \return A python list containing the elements of the vector.
+ */
 PyObject* PythonConveyor::buildPyListFromStdVector(const std::vector< double >& vector)
 {
     PyObject* pyList = PyList_New(vector.size());
@@ -70,6 +125,13 @@ PyObject* PythonConveyor::buildPyListFromStdVector(const std::vector< double >& 
     return pyList;
 }
 
+/*!
+ * \brief PythonConveyor::convertPyObjectToQVector: Converts a python list to a QVector of doubles.
+ *
+ * \param pyList - the python list to convert.
+ *
+ * \return A QVector containing the elements of the python list.
+ */
 QVector<double> PythonConveyor::convertPyObjectToQVector(PyObject* pyList)
 {
     QVector<double> result;
@@ -82,6 +144,13 @@ QVector<double> PythonConveyor::convertPyObjectToQVector(PyObject* pyList)
     return result;
 }
 
+/*!
+ * \brief PythonConveyor::convertVectorToQString: Converts a QVector of doubles to a QString.
+ *
+ * \param vector - the input QVector of doubles.
+ *
+ * \return A QString containing the string representations of the vector elements.
+ */
 QString PythonConveyor::convertVectorToQString(const QVector<double>& vector)
 {
     QString result;
@@ -91,6 +160,9 @@ QString PythonConveyor::convertVectorToQString(const QVector<double>& vector)
     return result;
 }
 
+/*!
+ * \brief PythonConveyor::sendArraysToPythonFunction: Sends x and y data arrays to a python function.
+ */
 void PythonConveyor::sendArraysToPythonFunction()
 {
     initPythonInterpreter();
@@ -126,6 +198,9 @@ void PythonConveyor::sendArraysToPythonFunction()
     Py_Finalize();
 }
 
+/*!
+ * \brief PythonConveyor::sendDataToIntegration: Sends data for integration to a python function.
+ */
 void PythonConveyor::sendDataToIntegration()
 {
     initPythonInterpreter();
@@ -163,6 +238,9 @@ void PythonConveyor::sendDataToIntegration()
     Py_Finalize();
 }
 
+/*!
+ * \brief PythonConveyor::sendDataToDifferentiation: Sends data for differentiation to a python function.
+ */
 void PythonConveyor::sendDataToDifferentiation()
 {
     initPythonInterpreter();
@@ -214,6 +292,9 @@ void PythonConveyor::sendDataToDifferentiation()
     Py_Finalize();
 }
 
+/*!
+ * \brief PythonConveyor::sendDataToSolveSys: Sends data to solve a system of equations to a python function.
+ */
 void PythonConveyor::sendDataToSolveSys()
 {
     initPythonInterpreter();
@@ -274,6 +355,9 @@ void PythonConveyor::sendDataToSolveSys()
     Py_Finalize();
 }
 
+/*!
+ * \brief PythonConveyor::initPythonInterpreter: Initializes the Python interpreter and executes the Python script.
+ */
 void PythonConveyor::initPythonInterpreter()
 {
     Py_Initialize();
@@ -309,6 +393,13 @@ void PythonConveyor::initPythonInterpreter()
     Py_DECREF(resultPyObj);
 }
 
+/*!
+ * \brief PythonConveyor::getPythonFunction: Retrieves a python function by name.
+ *
+ * \param functionName - the name of the python function to retrieve.
+ *
+ * \return A PyObject representing the Python function, or nullptr if the function does not exist or is not callable.
+ */
 PyObject* PythonConveyor::getPythonFunction(const QString &functionName)
 {
     PyObject* function = PyObject_GetAttrString(module, functionName.toStdString().c_str());
