@@ -62,6 +62,7 @@ public slots:
     void on_clearButton_clicked( void );
     void ZoomB();
     void onMousMove(QMouseEvent* event);
+    void textVisible(QMouseEvent* event);
     void LegendGo();
     void showLegend();
     void hideLegend();
