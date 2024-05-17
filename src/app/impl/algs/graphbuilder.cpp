@@ -14,9 +14,11 @@
 #include <QPushButton>
 #include <QList>
 #include <QMouseEvent>
-#include <QAbstractItemModel>
-#include <QAbstractItemDelegate>
-#include <QAbstractItemView>
+#include <QPixmap>
+#include <QFileDialog>
+#include <QDateTime>
+#include <QImageWriter>
+#include <QInputDialog>
 
 
 GraphBuilder::GraphBuilder( QWidget* parent )
@@ -178,9 +180,9 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
         wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
     }
     //wGraphic->graph(i)->setInterpolation(trou);
-    QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 255 ),
-                                    QRandomGenerator::global()->bounded( 255 ),
-                                    QRandomGenerator::global()->bounded( 255 ) );
+    QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 172 ),
+                                    QRandomGenerator::global()->bounded( 172 ),
+                                    QRandomGenerator::global()->bounded( 172 ) );
     QPen pin( color );
     wGraphic->graph( i )->setPen( pin );
     if (scatterOn == false){
@@ -195,6 +197,7 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
     i++;
     wGraphic->replot();
     wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
+    emit couldSavePlotAsImage(true);
 }
 
 void GraphBuilder::on_clearButton_clicked()
@@ -214,6 +217,7 @@ void GraphBuilder::on_clearButton_clicked()
     wGraphic->replot();
     wGraphic->update();
     graphInfoList.clear();
+    emit couldSavePlotAsImage(false);
 }
 
 void GraphBuilder::ZoomB(){
@@ -354,5 +358,24 @@ void GraphBuilder::zoomOut()
     wGraphic->xAxis->setRange(xCenter - xWidth / 2, xCenter + xWidth / 2);
     wGraphic->yAxis->setRange(yCenter - yWidth / 2, yCenter + yWidth / 2);
     wGraphic->replot();
+}
+
+void GraphBuilder::saveG()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Сохранить график", QDir::currentPath(),"PNG Files (*.png);;JPEG Files (*.jpg)");
+    if (!fileName.isEmpty())
+    {
+       QPixmap pixmap(this->size());
+       this->render(&pixmap);
+       if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg")){
+       QStringList imageFormats = QStringList() << "PNG" << "JPG";
+       QString selectedFormat = QInputDialog::getItem(this, "Сохранить график", "Выберите формат изображения:", imageFormats, 0, false);
+       pixmap.save(fileName + "." + selectedFormat.toLower());
+       }
+       else
+       {
+       pixmap.save(fileName);
+       }
+    }
 }
 

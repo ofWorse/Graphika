@@ -245,6 +245,11 @@ void RightWidget::zoomOut()
     graphBuilder->zoomOut();
 }
 
+void RightWidget::saveG()
+{
+    graphBuilder->saveG();
+}
+
 void RightWidget::rebuildWidgets( pymodules::Modules modules )
 {
     switch( modules )

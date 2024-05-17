@@ -1,3 +1,15 @@
+/*!
+ * \class GraphBuilder
+ *
+ * \brief The GraphBuilder class for painting graphics
+ *
+ * \company Dnevnie Mechaniki
+ *
+ * \author Vilenskiy Kirill Romanovich
+ *
+ * \date last update: 17.05.2024
+ */
+
 #ifndef GRAPHBUILDER_H
 #define GRAPHBUILDER_H
 
@@ -70,6 +82,13 @@ public slots:
     void GoFront();
     void zoomIn();
     void zoomOut();
+    void saveG();
+
+signals:
+    void couldSavePlotAsImage( bool couldSave );
+
+
+
 };
 
 #endif // GRAPHBUILDER_H
