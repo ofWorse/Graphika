@@ -21,6 +21,7 @@ Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
     addAction( QIcon( ":/toolbaricons/resources/decreasePlot.PNG" ), "Увеличить график" );
     addAction( QIcon( ":/toolbaricons/resources/increasePlot.PNG" ), "Уменьшить график" );
     addAction( QIcon( ":/toolbaricons/resources/unpinPlot.PNG" ), "Отделить график от окна" );
+    addAction("Сохр.");
 
     setCheckable();
     initDiffMenu();

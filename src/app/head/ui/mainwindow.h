@@ -64,6 +64,7 @@ public slots:
     void stepForward( void );
     void zoomIn( void );
     void zoomOut( void );
+    void savePlotAsImage( void );
     void unpinGraph( void );
 
     void startSession( void );
@@ -73,6 +74,7 @@ public slots:
 
     void draw( void );
     void deleteWidgets( void );
+    void couldSavePlotAsImage( bool couldSave );
 
 signals:
     void buildDerivativeWidgets( pymodules::Modules module, SpecialBuffer& buffer );

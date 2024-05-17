@@ -83,6 +83,10 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 15 ), &QAction::triggered, this, &MainWindow::zoomOut     );
     connect( toolbar->actions().at( 16 ), &QAction::triggered, this, &MainWindow::zoomIn      );
     connect( toolbar->actions().at( 17 ), &QAction::triggered, this, &MainWindow::unpinGraph  );
+    connect( toolbar->actions().at( 18 ), &QAction::triggered, this, &MainWindow::savePlotAsImage);
+    connect( rightWidget->graphBuilder, &GraphBuilder::couldSavePlotAsImage, this, &MainWindow::couldSavePlotAsImage);
+
+    toolbar->actions().at( 18 )->setEnabled(false);
 
     menuSlots.insert( toolbar->actions().at( 0 ), [ this ]()
                      { openMenu( 0, pymodules::Modules::NIL ); } );
@@ -176,6 +180,11 @@ void MainWindow::deleteWidgets( void )
 {
     SheetMenu::cleanupWidgets( widgets );
     widgets.clear();
+}
+
+void MainWindow::couldSavePlotAsImage( bool couldSave )
+{
+    toolbar->actions().at( 18 )->setEnabled(couldSave);
 }
 
 void MainWindow::buildPolynomeGraph( void )
@@ -315,6 +324,12 @@ void MainWindow::zoomOut()
     toolbar->actions().at( 15 )->setChecked( true );
     rightWidget->zoomOut();
     toolbar->actions().at( 15 )->setChecked( false );
+}
+
+void MainWindow::savePlotAsImage()
+{
+    toolbar->unsetChecked();
+    rightWidget->saveG();
 }
 
 void MainWindow::unpinGraph()
