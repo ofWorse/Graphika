@@ -13,6 +13,10 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QList>
+#include <QMouseEvent>
+#include <QAbstractItemModel>
+#include <QAbstractItemDelegate>
+#include <QAbstractItemView>
 
 
 GraphBuilder::GraphBuilder( QWidget* parent )
@@ -22,7 +26,10 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     wGraphic = new QCustomPlot( this );
 
     textItem = new QCPItemText(wGraphic);
+    textItem->setVisible(false);
     connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove );
+    connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::textVisible);
+
 
     wGraphic->setMinimumSize( 550, 500 );
 
@@ -223,7 +230,19 @@ void GraphBuilder::onMousMove(QMouseEvent *event){
     textItem->setText(QString("(%1, %2)").arg(x).arg(y));
     textItem->position->setCoords(QPointF(x,y));
     textItem->setFont(QFont(font().family(), 10));
+    //textItem->setVisible(true);
     customPlot->replot();
+}
+
+void GraphBuilder::textVisible(QMouseEvent *event){
+    QPoint pos = event->pos();
+    QCPAbstractPlottable* plottable = wGraphic-> plottableAt(pos,false);
+    if (plottable){
+        textItem->setVisible(true);
+    }
+    else{
+        textItem->setVisible(false);
+    }
 }
 
 void GraphBuilder::LegendGo(){
