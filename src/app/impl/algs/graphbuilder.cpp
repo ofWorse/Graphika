@@ -229,7 +229,6 @@ void GraphBuilder::onMousMove(QMouseEvent *event){
 void GraphBuilder::LegendGo(){
     if(l == 0){
         wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignCenter|Qt::AlignRight);
-        l++;
         wGraphic->replot();
     }
     if(l == 1){
