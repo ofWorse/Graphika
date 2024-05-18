@@ -7,7 +7,7 @@
  *
  * \author Vilenskiy Kirill Romanovich
  *
- * \date last update: 17.05.2024
+ * \date last update: 18.05.2024
  */
 
 #ifndef GRAPHBUILDER_H
