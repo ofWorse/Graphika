@@ -19,6 +19,9 @@
 #include <QDateTime>
 #include <QImageWriter>
 #include <QInputDialog>
+#include <bits/stdc++.h>
+#include <QUrl>
+#include <QDesktopServices>
 
 
 GraphBuilder::GraphBuilder( QWidget* parent )
@@ -362,12 +365,20 @@ void GraphBuilder::zoomOut()
 
 void GraphBuilder::saveG()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Сохранить график", QDir::currentPath(),"PNG Files (*.png);;JPEG Files (*.jpg)");
-    if (!fileName.isEmpty())
-    {
+
+    QFileDialog fileDialog(nullptr, "Save Plot",  QDir::homePath(), "PNG Files (*.png);;JPEG Files (*.jpg);;All Files (*)");
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setOption(QFileDialog::DontConfirmOverwrite, false);
+    fileDialog.setDirectory("/home");
+
+    if (fileDialog.exec() == QFileDialog::Accepted) {
+       QString fileName = fileDialog.selectedFiles().first();
+
+
        QPixmap pixmap(this->size());
        this->render(&pixmap);
-       if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg")){
+       if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg"))
+       {
        QStringList imageFormats = QStringList() << "PNG" << "JPG";
        QString selectedFormat = QInputDialog::getItem(this, "Сохранить график", "Выберите формат изображения:", imageFormats, 0, false);
        pixmap.save(fileName + "." + selectedFormat.toLower());
@@ -377,5 +388,6 @@ void GraphBuilder::saveG()
        pixmap.save(fileName);
        }
     }
+
 }
 
