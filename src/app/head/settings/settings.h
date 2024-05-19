@@ -1,40 +1,57 @@
+/*!
+ * \attention In development.
+ *
+ * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
+ *
+ * \date last update: 18.05.2024.
+ */
+
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
 namespace limits
 {
-const int NODES_LIMIT = 10;
-const int SIZE_LIMIT = 1002;
+const int NODES_LIMIT = 10; ///< limit on the number of interpolation nodes.
+const int SIZE_LIMIT = 1002; ///< limit of nodes for plotting.
 } // limits
 
 namespace pymodules
 {
-
+/*!
+ * \class Methods
+ *
+ * \brief The Methods enum
+ */
 enum class Methods
 {
-    NEWTON, LAGRANGE, BERRUTA,
-    DIFF_2P, DIFF_3P, DIFF_5P,
-    INTEG_LINEAR, INTEG_TRAP, INTEG_PARAB,
-    GAUSS, SIMPLE_ITER,
-    NIL
+    NEWTON, ///< Newton method of interpolation.
+    LAGRANGE, ///< Lagrange method of interpolation.
+    BEIRUT, ///< Beirut method of interpolation.
+    DIFF_2P, ///< two-point differentiation.
+    DIFF_3P, ///< three-point differentiation.
+    DIFF_5P, ///< five-point differentiation.
+    INTEG_LINEAR, ///< Linear method of integration.
+    INTEG_TRAP, ///< Trapezoid method of integration.
+    INTEG_PARAB, ///< Parabolic method of integration.
+    GAUSS, ///< solving a system of equations using the Gaussian method.
+    SIMPLE_ITER, ///< solving a system of equations using the simple iterations method.
+    NIL ///< no methods given.
 };
 
+/*!
+ * \class Modules
+ *
+ * \brief The Python Modules enum
+ */
 enum class Modules
 {
-    POLYNOMIALS, DIFFERENTIATION, INTEGRATION, EQUATIONS, NIL
+    POLYNOMIALS, ///< polynomials.py file to invoke.
+    DIFFERENTIATION, ///< differentiation.py file to invoke.
+    INTEGRATION, ///< integration.py file to invoke.
+    EQUATIONS, ///< equations.py file to invoke.
+    NIL ///< no methods given.
 };
 
 } // pymodules
-
-
-namespace label
-{
-
-enum class TextLine
-{
-    FUNCTION, DERIVATION, EQUATIONS
-};
-
-} // layout
 
 #endif // SETTINGS_H

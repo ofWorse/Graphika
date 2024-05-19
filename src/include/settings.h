@@ -12,7 +12,7 @@ namespace pymodules
 
 enum class Methods
 {
-    NEWTON, LAGRANGE, BERRUTA,
+    NEWTON, LAGRANGE, BEIRUT,
     DIFF_2P, DIFF_3P, DIFF_5P,
     INTEG_LINEAR, INTEG_TRAP, INTEG_PARAB,
     GAUSS, SIMPLE_ITER,

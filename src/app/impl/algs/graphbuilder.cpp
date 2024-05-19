@@ -381,7 +381,6 @@ void GraphBuilder::zoomOut()
 
 void GraphBuilder::savePlotAsImage()
 {
-
     QFileDialog fileDialog( nullptr, "Save Plot",  QDir::homePath(), "PNG Files (*.png);;JPEG Files (*.jpg);;All Files (*)" );
     fileDialog.setAcceptMode( QFileDialog::AcceptSave );
     fileDialog.setOption( QFileDialog::DontConfirmOverwrite, false );
@@ -400,9 +399,8 @@ void GraphBuilder::savePlotAsImage()
         }
         else
         {
-                pixmap.save(fileName);
+            pixmap.save(fileName);
         }
     }
-
 }
 

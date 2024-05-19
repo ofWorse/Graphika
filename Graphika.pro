@@ -19,13 +19,15 @@ RESOURCES += ./resources/icons.qrc \
     referenceinfo.qrc
 
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
-    $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/oper $$HEADDIR/settings $$HEADDIR/utils \
+    $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
+    $$HEADDIR/ui/wgts/rwgt $$HEADDIR/settings $$HEADDIR/utils \
     $$HEADDIR/ui/menu
 
 LIBS += -lpython3.11
 
 VPATH += $$IMPLDIR $$IMPLDIR/algs \
-    $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/oper $$IMPLDIR/utils \
+    $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/lwgt \
+    $$IMPLDIR/utils $$IMPLDIR/ui/wgts/rwgt \
     $IMPLDIR/ui/menu
 
 SOURCES += \
@@ -36,7 +38,13 @@ SOURCES += \
     $$IMPLDIR/algs/stringparser.cpp \
     $$IMPLDIR/utils/mathutils.cpp \
     $$IMPLDIR/ui/wgts/leftwidget.cpp \
-    $$IMPLDIR/ui/wgts/oper/operationstrategy.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/functionlayout.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/derivationlayout.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/integrationlayout.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/equationslayout.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/polynomialslayout.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/layoutInitializer.cpp \
+    $$IMPLDIR/ui/wgts/lwgt/datamodel.cpp \
     $$IMPLDIR/ui/mainwindow.cpp \
     $$IMPLDIR/ui/menu.cpp \
     $$IMPLDIR/ui/wgts/rightwidget.cpp \
@@ -57,7 +65,13 @@ HEADERS += \
     $$HEADDIR/algs/stringparser.h \
     $$HEADDIR/settings/settings.h \
     $$HEADDIR/ui/wgts/leftwidget.h \
-    $$HEADDIR/ui/wgts/oper/operationstrategy.h \
+    $$HEADDIR/ui/wgts/lwgt/functionlayout.h \
+    $$HEADDIR/ui/wgts/lwgt/derivationlayout.h \
+    $$HEADDIR/ui/wgts/lwgt/integrationlayout.h \
+    $$HEADDIR/ui/wgts/lwgt/equationslayout.h \
+    $$HEADDIR/ui/wgts/lwgt/polynomialslayout.h \
+    $$HEADDIR/ui/wgts/lwgt/layoutInitializer.h \
+    $$HEADDIR/ui/wgts/lwgt/datamodel.h \
     $$HEADDIR/ui/mainwindow.h \
     $$HEADDIR/ui/menu.h \
     $$HEADDIR/ui/wgts/rightwidget.h \
@@ -69,7 +83,8 @@ HEADERS += \
     $$HEADDIR/utils/sender.h \
     $$HEADDIR/utils/mathutils.h \
     $$HEADDIR/utils/validatestring.h \
-    qcustomplot/qcustomplot.h
+    qcustomplot/qcustomplot.h \
+    src/app/head/ui/wgts/lwgt/widgets.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -43,7 +43,7 @@ QWidget* SheetMenu::invokeAboutWidget( void ) noexcept
     QVBoxLayout* layout = new QVBoxLayout( wgt );
 
     QLabel* imgLabel = new QLabel;
-    QPixmap pixmap = QPixmap( ":/references/resources/aboutSheet.bin" );
+    QPixmap pixmap = QPixmap( ":/references/resources/aboutSheet.jpg" );
     imgLabel->setPixmap( pixmap );
 
     QScrollArea* scrollArea = new QScrollArea;
