@@ -14,11 +14,12 @@ RightWidget::RightWidget( QWidget *parent )
     graphBuilder = new GraphBuilder( this );
     conveyor = new PythonConveyor();
     rightLayout = new QGridLayout( this );
-    label = new QLabel( "Полученная модель: ", this );
+    modelLabel = new QLabel( "Полученная модель: ", this );
     model = new QLineEdit( this );
-    rightLayout->addWidget( label );
+    rightLayout->addWidget( modelLabel );
     rightLayout->addWidget( model );
     rightLayout->addWidget( graphBuilder );
+
 }
 
 void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
@@ -77,6 +78,7 @@ void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const C
     x = buffer.x;
     y = buffer.y;
 
+    buildWidgetForDerivativeOperations();
     graphBuilder->wGraphic->replot();
 
     differentiationSolve( x, y, sender );
@@ -190,12 +192,6 @@ void RightWidget::sysSolve( QVector<QVector<double>>& data, Sender &sender )
     QString resultSysStr = conveyor->getData( &PythonConveyor::resultString );
     emit readyToSendSysResult( resultSysStr );
     qDebug() << resultSysStr;
-}
-
-void RightWidget::solveLinearEquations( QVector<QVector<double>>& data )
-{
-    // Илья
-    qDebug() << "Accepted!\n";
 }
 
 void RightWidget::clearGraph( void )

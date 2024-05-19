@@ -1,86 +1,111 @@
+/*!
+ * \attention In development.
+ *
+ * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
+ *
+ * \date last update: 18.05.2024.
+ */
+
 #ifndef LEFTWIDGET_H
 #define LEFTWIDGET_H
 
 #include <QWidget>
+#include "functionlayout.h"
+#include "derivationlayout.h"
+#include "integrationlayout.h"
+#include "equationslayout.h"
+#include "polynomialslayout.h"
 #include "rightwidget.h"
 #include "validatestring.h"
 #include "stringparser.h"
+#include "datamodel.h"
 #include "buffer.h"
 #include "mathutils.h"
 #include "settings.h"
+#include <QDoubleSpinBox>
+#include <QDebug>
 
+/*!
+ * \class LeftWidget
+ *
+ * \brief The LeftWidget class, the main link for managing the state of widgets on the left side of the window.
+ */
 class LeftWidget : public QWidget
 {
     Q_OBJECT
 private:
-    ValidateString* validator;
-    StringParser* parser;
-    QLabel* label;
-    QLabel* errLabel;
-    QLabel* xIs;
-    QSpinBox* xVariables;
-    QLabel* typeOfInput;
-    QComboBox* typeOfVariableInput;
-    QPushButton* clearTable;
-    QLabel* minLabel;
-    QLabel* maxLabel;
-    QLabel* stepLabel;
-    QLabel* nodesLabel;
-    QDoubleSpinBox* nodes;
-    QDoubleSpinBox* min;
-    QDoubleSpinBox* max;
-    QDoubleSpinBox* step;
-    QLineEdit* expressionInput;
-    QLabel* derivativeLabel;
-    QLineEdit* derivativeExpressionInput;
-    QPushButton* solve;
-    QPushButton* manualTableInput;
-    QTableWidget* tableWidget;
-    QGridLayout* layout;
+    FunctionLayout* functionLayout; ///< contains all widgets for function module need.
+    DerivationLayout* derivationLayout; ///< contains all widgets for derivation module need.
+    IntegrationLayout* integrationLayout; ///< contains all widgets for integration module need.
+    EquationsLayout* equationsLayout; ///< contains all widgets for equations module need.
+    PolynomialsLayout* polynomialsLayout; ///< contains all widgets for polynomials module need.
 
-    QLabel* averError;
-    QLineEdit* error;
+    DataModel* dataModel; // ???
 
-    QLabel* oddsInputLabel;
-    QTableWidget* equationsTableWidget;
-    QPushButton* solveEquations;
-    QPushButton* clearEquationsTable;
-    QLabel* resultOfEquations;
-    QLineEdit* eqResult;
-    QLabel* resultDescription;
-    QLineEdit* description;
-    /* временная заглушка */
-    bool equationOpened = false;
-
-    QLabel* calculatedArea;
-    QLineEdit* area;
-
-    QList<QSpinBox*> spinBoxes;
-
-    bool derivativeLabelActive = false;
-    bool polynomialsLabelsActive = false;
-    bool manualInput = false;
-    bool couldBuildTable = true;
-    std::vector<double> X;
-    std::vector<double> Y;
-    std::vector<double> dY;
+    Widgets* widgets; ///< a class that stores all widgets for editing members of the LeftWidget class, descendants of LayoutInitializer.
+    QGridLayout* layout; ///< main left-widget layout.
 
 public:
-    QPushButton* buildGraph;
+    LayoutInitializer* currentLayout; ///< layout that contains up-to-date information about the state of widgets.
+
+private:
+    // ???
+    void clearLayout( QGridLayout* layout );
+
+    /*!
+     * \brief hideAllWidgets: goes through the list of widgets and makes them invisible.
+     *
+     * \param layout: object with widgets container.
+     */
+    void hideAllWidgets( QLayout* layout );
+
+    /*!
+     * \brief connectLabels: method to connect all slots and signals of members of this class.
+     *
+     * \param buffer: x & y data buffer to transfer.
+     */
+    void connectLabels( SpecialBuffer& buffer );
 
 public:
+    /*!
+     * \brief LeftWidget:base constructor.
+     *
+     * \param buffer: x & y data buffer to transfer.
+     * \param parent: pointer to the parent object.
+     */
     explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
+
+public slots:
+    /*!
+     * \brief initLayout: method for initializing and saving the state of a layout to a class named layout.
+     *
+     * \param buffer: x & y data buffer to transfer.
+     * \param module: specific module for layout generation.
+     */
+    void initLayout( SpecialBuffer& buffer, pymodules::Modules module );
+
+    //???
+    void saveData( pymodules::Modules module );
+
+    //???
+    void restoreData(pymodules::Modules module );
+
+
+
+/*
+public:
     void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY );
     QLineEdit* getExpressionInput() const;
     void setEqResult( const QString& eqResult );
 
-    std::vector<double> getX( void ) { return X; }
-    std::vector<double> getY( void ) { return Y; }
+   // std::vector<double> getX( void ) { return X; }
+   // std::vector<double> getY( void ) { return Y; }
 
 private:
-
-    void initLabels( void );
-    void connectLabels( SpecialBuffer& buffer );
+*/
+    //void initLabels( void );
+    /*
+  void connectLabels( SpecialBuffer& buffer );
     void setRange( void );
 
     void setupNodes( const double node );
@@ -134,6 +159,7 @@ signals:
     void readyToDrawDerivativeGraph( const std::vector<double> x, const std::vector<double> y );
     void sendData( QObject& data, bool toRemove );
     void readyToSendLinearEquationsData( QVector<QVector<double>>& data );
+*/
 };
 
 #endif // LEFTWIDGET_H

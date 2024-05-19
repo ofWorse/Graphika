@@ -1,7 +1,7 @@
 #include "mathutils.h"
 
 
-std::vector<double> MathUtils::multipyPoints( const double a, const double b ) noexcept
+std::vector<double> MathUtils::multiplyPoints( const double a, const double b ) noexcept
 {
     std::vector<double> x;
     for( double i = a; i <= b; i += 0.1 )

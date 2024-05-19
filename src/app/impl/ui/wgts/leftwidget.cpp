@@ -1,15 +1,139 @@
 #include "leftwidget.h"
+#include <QLineEdit>
+#include <QString>
 
 LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( parent )
 {
-    initLabels();
-    connectLabels( buffer );
-    setRange();
     layout = new QGridLayout( this );
-    initLayout();
-    hideFirstLayer( false );
+    widgets = new Widgets( this );
+    functionLayout = new FunctionLayout;
+    derivationLayout = new DerivationLayout;
+    integrationLayout = new IntegrationLayout;
+    equationsLayout = new EquationsLayout;
+    polynomialsLayout = new PolynomialsLayout;
 }
 
+
+void LeftWidget::initLayout( SpecialBuffer& buffer, pymodules::Modules module )
+{
+    switch( module )
+    {
+    case pymodules::Modules::NIL:
+        currentLayout = functionLayout;
+        break;
+    case pymodules::Modules::DIFFERENTIATION:
+        currentLayout = derivationLayout;
+        break;
+    case pymodules::Modules::INTEGRATION:
+        currentLayout = integrationLayout;
+        break;
+    case pymodules::Modules::EQUATIONS:
+        currentLayout = equationsLayout;
+        break;
+    case pymodules::Modules::POLYNOMIALS:
+        currentLayout = polynomialsLayout;
+        break;
+    }
+
+    hideAllWidgets( layout );
+    widgets->initWidgets();
+    currentLayout->generateWidgets( *widgets );
+    connectLabels( buffer );
+    layout->addLayout( currentLayout->get(), 0, 0 );
+}
+
+void LeftWidget::saveData(pymodules::Modules module)
+{
+    QVector<QVector<QString>> tableData;
+    QString inputData = widgets->expressionInput->text();
+
+    dataModel->saveData(module, tableData, inputData);
+}
+
+void LeftWidget::restoreData(pymodules::Modules module)
+{
+    QVector<QVector<QString>> tableData;
+    QString stringData;
+    dataModel->restoreData(module, tableData, stringData );
+    widgets->expressionInput->text() = stringData;
+}
+
+void LeftWidget::hideAllWidgets( QLayout* layout )
+{
+    if ( !layout )
+    {
+        return;
+    }
+
+    if ( QGridLayout* gridLayout = qobject_cast<QGridLayout*>( layout ) )
+    {
+        for( int i = 0; i < gridLayout->count(); ++i )
+        {
+            QLayoutItem* item = gridLayout->itemAt( i );
+            if ( item->widget() )
+            {
+                item->widget()->hide();
+            }
+            else if ( item->layout() )
+            {
+                hideAllWidgets( item->layout() );
+            }
+        }
+    }
+}
+
+void LeftWidget::connectLabels( SpecialBuffer& buffer )
+{
+    connect( currentLayout->widgets->validator, &ValidateString::validExpression, currentLayout, &LayoutInitializer::onValidateDataValid );
+    connect( currentLayout->widgets->validator, &ValidateString::invalidExpression, currentLayout, &LayoutInitializer::onValidateDataInvalid );
+    connect( currentLayout->widgets->expressionInput, &QLineEdit::textChanged, currentLayout, &LayoutInitializer::onInputTextChanged );
+    connect( currentLayout->widgets->derivativeExpressionInput, &QLineEdit::textChanged, currentLayout, &LayoutInitializer::onInputTextChanged );
+    connect( currentLayout->widgets->parser, &StringParser::errorOccurred, currentLayout, &LayoutInitializer::handleParserError );
+    connect( currentLayout->widgets->manualTableInput, &QPushButton::clicked, currentLayout, &LayoutInitializer::editTable );
+    connect( currentLayout->widgets->buildGraph, &QPushButton::clicked, currentLayout, &LayoutInitializer::buildGraphFromManualFilledTable );
+    connect( currentLayout->widgets->clearTable, &QPushButton::clicked, currentLayout, &LayoutInitializer::clearDataTable );
+    connect( currentLayout->widgets->typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), currentLayout, &LayoutInitializer::changeLayer );
+    connect( currentLayout->widgets->solve, &QPushButton::clicked, [ &buffer, this ]()
+            {
+                currentLayout->onSolveButtonClicked( buffer );
+            }
+    );
+    connect( currentLayout->widgets->solveEquations, &QPushButton::clicked, currentLayout, &LayoutInitializer::onSolveEquationsButtonClicked );
+    connect( currentLayout->widgets->clearEquationsTable, &QPushButton::clicked, currentLayout, &LayoutInitializer::clearDataTable );
+    connect( currentLayout->widgets->tableWidget, &QTableWidget::itemChanged, this, [ &buffer, this ]()
+            {
+                currentLayout->updateDataFromTable( buffer );
+            }
+    );
+}
+
+/*
+void LeftWidget::rebuildWidgets( pymodules::Modules module )
+{
+    LeftWidgetStrategy* strategy = nullptr;
+    switch( module )
+    {
+    case pymodules::Modules::NIL:
+        strategy = new FunctionWidgetStrategy();
+        break;
+    case pymodules::Modules::DIFFERENTIATION:
+        strategy = new DerivationWidgetStrategy();
+        break;
+    case pymodules::Modules::INTEGRATION:
+        strategy = new IntegrationWidgetStrategy();
+        break;
+    case pymodules::Modules::EQUATIONS:
+        strategy = new EquationsWidgetStrategy();
+        break;
+    case pymodules::Modules::POLYNOMIALS:
+        strategy = new PolynomialsWidgetStrategy();
+        break;
+    }
+    setStrategy( strategy );
+}
+*/
+
+/*
 void LeftWidget::showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY )
 {
     tableWidget->clear();
@@ -38,7 +162,8 @@ void LeftWidget::showTable( const std::vector<double> x, const std::vector<doubl
     }
     buildGraph->setEnabled( true );
 }
-
+*/
+/*
 void LeftWidget::setRange( void )
 {
     min->setRange( -100.0, 100.0 );
@@ -239,8 +364,8 @@ void LeftWidget::buildGraphFromManualFilledTable( void )
 
         if( derivativeLabelActive )
         {
-            auto x = MathUtils::multipyPoints( X[0], X.back() );
-            auto y = MathUtils::multipyPoints( Y[0], Y.back() );
+            auto x = MathUtils::multiplyPoints( X[0], X.back() );
+            auto y = MathUtils::multiplyPoints( Y[0], Y.back() );
             X = x;
             Y = y;
             emit readyToDrawDerivativeGraph( X, Y );
@@ -502,7 +627,7 @@ void LeftWidget::updateDataFromTable( SpecialBuffer& buffer )
 // МЕТОД ДЛЯ ОТРИСОВКИ ГРАФИКА ПО ДИСКРЕТНО ЗАДАННЫМ ВЕЛИЧИНАМ
 void LeftWidget::acceptData( const QString &expr, const double a, const double b )
 {
-    auto x = MathUtils::multipyPoints( a, b );
+    auto x = MathUtils::multiplyPoints( a, b );
     parser->setDataX( x );
     std::vector<double> y = parser->parseExpression( expr.toStdString().c_str() );
     emit readyToDraw( x, y );
@@ -608,30 +733,8 @@ void LeftWidget::initLabels( void )
     tableWidget->setHorizontalHeaderLabels( labels );
 }
 
-void LeftWidget::connectLabels( SpecialBuffer &buffer )
-{
-    connect( validator, &ValidateString::validExpression, this, &LeftWidget::onValidateStringValid );
-    connect( validator, &ValidateString::invalidExpression, this, &LeftWidget::onValidateStringInvalid );
-    connect( parser, &StringParser::errorOccurred, this, &LeftWidget::handleParserError );
-    connect( expressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
-    connect( derivativeExpressionInput, &QLineEdit::textChanged, this, &LeftWidget::onInputTextChanged );
-    connect( manualTableInput, &QPushButton::clicked, this, &LeftWidget::editTable );
-    connect( buildGraph, &QPushButton::clicked, this, &LeftWidget::buildGraphFromManualFilledTable );
-    connect( solve, &QPushButton::clicked, [ &buffer, this ]()
-            {
-                onSolveButtonClicked( buffer );
-            }
-    );
-    connect( clearTable, &QPushButton::clicked, this, &LeftWidget::clearDataTable );
-    connect( tableWidget, &QTableWidget::itemChanged, this, [ &buffer, this ]()
-            {
-                updateDataFromTable( buffer );
-            }
-    );
-    connect( typeOfVariableInput, QOverload<int>::of( &QComboBox::currentIndexChanged ), this, &LeftWidget::changeLayer );
-}
-
 void LeftWidget::setEqResult( const QString &eqResult )
 {
     this->eqResult->setText( eqResult );
 }
+*/

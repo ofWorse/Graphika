@@ -1,3 +1,28 @@
+/*!
+               -=*#%@@@@@%#*=:
+            -#@@@@@@@@@@@@@@@@@%
+          :%@@@@@@@@@@@@@@@@@@@@
+         =@@@@@@@@@@@@@@@@@@@@%:
+        :@@@@@@@@@%-.    .:++:
+        #@@@@@@@@*    ::::::::::.
+        @@@@@@@@@.   =@@@@@@@@@@@
+        @@@@@@@@@    =@@@@@@@@@@@
+        #@@@@@@@@*   -@@@@@@@@@@@
+        :@@@@@@@@@%+=----%@@@@@@@
+         :@@@@@@@@@@@@@@@@@@@@@@@
+           +@@@@@@@@@@@@@@@@@@@@@
+             =#@@@@@@@@@@@@@@@@#-
+
+        Project: Graphika,
+        by: "Dnevnie Mechaniki".
+
+        \authors
+        Malaniya Mark Timurovich,
+        Korshunov Ilya Dmitrievich,
+        Vilenskiy Kirill Romanovich,
+        Konak Vladimir Evgen'evich.
+*/
+
 #include "mainwindow.h"
 #include <QApplication>
 #include <iostream>

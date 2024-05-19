@@ -14,7 +14,6 @@
         <file>resources/back.PNG</file>
         <file>resources/forward.PNG</file>
         <file>resources/derivation.PNG</file>
-        <file>resources/moveLegend.PNG</file>
         <file>resources/polynome.PNG</file>
         <file>resources/hideLegend.PNG</file>
         <file>resources/integral.PNG</file>
@@ -22,6 +21,8 @@
         <file>resources/unpinPlot.PNG</file>
         <file>resources/logo.png</file>
         <file>resources/authors.PNG</file>
+        <file>resources/rotateLegend.PNG</file>
+        <file>resources/savePlotAsImage.png</file>
         <file>resources/about.PNG</file>
     </qresource>
 </RCC>

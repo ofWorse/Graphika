@@ -9,10 +9,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setMinimumSize( 640, 380 );
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
-    // TODO: переместить лого в каталог :/otherIcons/...
     setWindowIcon( QIcon( ":/toolbaricons/resources/logo.png" ) );
 
-    // TODO: Подумать над реализацией соединения
     menu = new Menu( this );
     setMenuBar( menu->getMenu() );
     connect( menu, &Menu::sessionStarted, this, &MainWindow::startSession );
@@ -34,7 +32,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     layout = new QGridLayout( centralwidget );
 
     leftWidget = new LeftWidget( buffer, this );
-    connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+    leftWidget->initLayout( buffer, pymodules::Modules::NIL );
+    toolbar->actions().at( 0 )->setChecked( true );
+    connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
 
     rightWidget = new RightWidget( this );
 
@@ -50,29 +50,17 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidgetResizable(true);
 
     connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
-    connect( leftWidget, &LeftWidget::sendData, &logStack, &CompositeStateStack::receiveData );
-    connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );
-    connect( rightWidget, &RightWidget::readyToSendData, leftWidget, &LeftWidget::acceptData );
-    connect( rightWidget, &RightWidget::readyToSendArea, leftWidget, &LeftWidget::acceptArea );
-    connect( leftWidget, &LeftWidget::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
-    connect( leftWidget, &LeftWidget::readyToDrawFunctionGraph, rightWidget, &RightWidget::printFunctionGraph );
-    connect( leftWidget, &LeftWidget::readyToDrawApproximatedGraph, [ this ]()
-            {
-                buffer.x = QVector<double>::fromStdVector( leftWidget->getX() );
-                buffer.y = QVector<double>::fromStdVector( leftWidget->getY() );
-                rightWidget->buildPolynome( buffer, sender, &logStack );
-            }
-    );
-    connect( leftWidget, &LeftWidget::readyToDrawDerivativeGraph, [ this ]()
-            {
-                rightWidget->printDerivationGraph( QVector<double>::fromStdVector( leftWidget->getX() ),
-                                           QVector<double>::fromStdVector( leftWidget->getY() ),
-                                           sender, &logStack );
-            }
-    );
-    connect( this, &MainWindow::buildDerivativeWidgets, rightWidget, &RightWidget::rebuildWidgets );
-    connect( this, &MainWindow::buildDerivativeWidgets, leftWidget, &LeftWidget::rebuildWidgets );
-    connect( this, &MainWindow::buildDefaultWidgets, leftWidget, &LeftWidget::rebuildWidgets );
+    connect( rightWidget, &RightWidget::errorOccured, leftWidget->currentLayout, &LayoutInitializer::handleParserError );
+    connect( rightWidget, &RightWidget::readyToSendData, leftWidget->currentLayout, &LayoutInitializer::acceptData );
+    connect( rightWidget, &RightWidget::readyToSendArea, leftWidget->currentLayout, &LayoutInitializer::acceptArea );
+    connect( leftWidget->currentLayout, &LayoutInitializer::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
+    scrollLayout->addWidget( leftWidget, 1, 0 );
+    scrollLayout->addWidget( rightWidget, 1, 1 );
+    connect( rightWidget, &RightWidget::errorOccured, leftWidget->currentLayout, &LayoutInitializer::handleParserError );
+    connect( rightWidget, &RightWidget::readyToSendData, leftWidget->currentLayout, &LayoutInitializer::acceptData );
+    connect( rightWidget, &RightWidget::readyToSendArea, leftWidget->currentLayout, &LayoutInitializer::acceptArea );
+    connect( leftWidget->currentLayout, &LayoutInitializer::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
+    connect( this, &MainWindow::rebuildWidgets, leftWidget, &LeftWidget::initLayout );
 
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
@@ -126,36 +114,36 @@ void MainWindow::buildSpecificWidget( int index )
     switch( index )
     {
     case 0:
-        emit buildDefaultWidgets( widgetState, buffer );
-        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+        emit rebuildWidgets( buffer, widgetState );
+        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
         break;
     case 1:
-        emit buildDerivativeWidgets( widgetState, buffer );
-        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+        emit rebuildWidgets( buffer, widgetState );
+        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
         break;
     case 2:
-        emit buildDefaultWidgets( widgetState, buffer );
-        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
+        emit rebuildWidgets( buffer, widgetState );
+        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
         break;
     case 3:
-        emit buildDerivativeWidgets( widgetState, buffer );
-        connect( leftWidget, &LeftWidget::readyToSendLinearEquationsData, this, &MainWindow::calculateSys );
-        connect( rightWidget, &RightWidget::readyToSendSysResult, leftWidget, &LeftWidget::setEqResult );
+        emit rebuildWidgets( buffer, widgetState );
+        connect( leftWidget->currentLayout, &LayoutInitializer::readyToSendEquationsData, this, &MainWindow::calculateSys );
+        connect( rightWidget, &RightWidget::readyToSendSysResult, leftWidget->currentLayout, &LayoutInitializer::setEquationsResult );
         break;
     case 5:
-        emit buildDefaultWidgets( widgetState, buffer );
+        emit rebuildWidgets( buffer, widgetState );
         methodOfInterpolation = pymodules::Methods::LAGRANGE;
-        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
         break;
     case 6:
-        emit buildDefaultWidgets( widgetState, buffer );
+        emit rebuildWidgets( buffer, widgetState );
         methodOfInterpolation = pymodules::Methods::NEWTON;
-        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
         break;
     case 7:
-        emit buildDefaultWidgets( widgetState, buffer );
-        methodOfInterpolation = pymodules::Methods::BERRUTA;
-        connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
+        emit rebuildWidgets( buffer, widgetState );
+        methodOfInterpolation = pymodules::Methods::BEIRUT;
+        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::buildPolynomeGraph );
         break;
     }
 }
@@ -202,8 +190,8 @@ void MainWindow::buildPolynomeGraph( void )
     case pymodules::Methods::NEWTON:
         invokePolynomeMethod( pymodules::Methods::NEWTON );
         break;
-    case pymodules::Methods::BERRUTA:
-        invokePolynomeMethod( pymodules::Methods::BERRUTA );
+    case pymodules::Methods::BEIRUT:
+        invokePolynomeMethod( pymodules::Methods::BEIRUT );
         break;
     default:
         break;
@@ -255,7 +243,6 @@ void MainWindow::calculateSys( QVector<QVector<double>>& data )
 
 void MainWindow::invokePolynomeMethod( pymodules::Methods method )
 {
-    emit buildDefaultWidgets( pymodules::Modules::POLYNOMIALS, buffer );
     widgetState = pymodules::Modules::POLYNOMIALS;
     sender.setMacro( method, pymodules::Modules::POLYNOMIALS );
     if( isSession )
@@ -299,7 +286,7 @@ void MainWindow::showLegend( void )
     legendEnabled = false;
 }
 
-void MainWindow::stepBack()
+void MainWindow::stepBack( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 13 )->setChecked( true );
@@ -307,7 +294,7 @@ void MainWindow::stepBack()
     toolbar->actions().at( 13 )->setChecked( false );
 }
 
-void MainWindow::stepForward()
+void MainWindow::stepForward( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 14 )->setChecked( true );
@@ -315,7 +302,7 @@ void MainWindow::stepForward()
     toolbar->actions().at( 14 )->setChecked( false );
 }
 
-void MainWindow::zoomIn()
+void MainWindow::zoomIn( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 16 )->setChecked( true );
@@ -323,7 +310,7 @@ void MainWindow::zoomIn()
     toolbar->actions().at( 16 )->setChecked( false );
 }
 
-void MainWindow::zoomOut()
+void MainWindow::zoomOut( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 15 )->setChecked( true );
@@ -331,23 +318,23 @@ void MainWindow::zoomOut()
     toolbar->actions().at( 15 )->setChecked( false );
 }
 
-void MainWindow::savePlotAsImage()
+void MainWindow::savePlotAsImage( void )
 {
     toolbar->unsetChecked();
     rightWidget->savePlotAsImage();
 }
 
-void MainWindow::unpinGraph()
+void MainWindow::unpinGraph( void )
 {
     toolbar->unsetChecked();
     toolbar->actions().at( 17 )->setChecked( true );
 
-    // TODO: в отдельный метод
     if( unpinned )
     {
         toolbar->actions().at( 17 )->setChecked( false );
         return;
     }
+    toolbar->actions().at( 17 )->setEnabled( false );
     QDialog* dialog = new QDialog( this );
     QVBoxLayout* layout = new QVBoxLayout( dialog );
     QCustomPlot* plot = rightWidget->graphBuilder->wGraphic;
@@ -360,6 +347,7 @@ void MainWindow::unpinGraph()
         {
             Q_UNUSED(result);
             rightWidget->rightLayout->addWidget( plot );
+            toolbar->actions().at( 17 )->setEnabled( true );
             this->addToolBar( this->toolbar );
             dialog->deleteLater();
             unpinned = false;
@@ -384,7 +372,6 @@ void MainWindow::openLicenseMenu( void )
 void MainWindow::startSession( void )
 {
     isSession = true;
-    // Временная заглушка
     QMessageBox mb;
     mb.setIcon( QMessageBox::Warning );
     mb.setWindowTitle( "Предупреждение" );

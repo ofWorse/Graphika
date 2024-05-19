@@ -1,3 +1,11 @@
+/*!
+ * \attention In development.
+ *
+ * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
+ *
+ * \date last update: 18.05.2024.
+ */
+
 #ifndef ERRORHANDLER_H
 #define ERRORHANDLER_H
 
@@ -6,6 +14,11 @@
 #include <cstring>
 #include <QMessageBox>
 
+/*!
+ * \brief signalHandler: returns a window with error or warning message.
+ *
+ * \param signal: type of system response signal.
+ */
 void signalHandler( int signal )
 {
     QMessageBox mb;

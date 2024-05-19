@@ -84,7 +84,6 @@ std::optional<Expression> StringParser::parseSimpleExpression()
         return result;
     }
 
-    // TODO: Убрать повтор
     if ( std::isdigit( token[0] ) )
     {
         return Expression( token ) ;
