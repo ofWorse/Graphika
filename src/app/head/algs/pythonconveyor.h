@@ -5,7 +5,7 @@
  *
  * \author Korshunov Ilya Dmitrievich, Dnevnie Mechaniki.
  *
- * \date last update: 17.05.2024.
+ * \date last update: 20.05.2024.
  */
 
 #ifndef PYTHONCONVEYOR_H
