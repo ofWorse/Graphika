@@ -212,7 +212,7 @@ void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std
 
 void RightWidget::moveLegend(void)
 {
-    graphBuilder->LegendGo();
+    graphBuilder->moveLegend();
 }
 
 void RightWidget::showLegend()
@@ -245,9 +245,9 @@ void RightWidget::zoomOut()
     graphBuilder->zoomOut();
 }
 
-void RightWidget::saveG()
+void RightWidget::savePlotAsImage()
 {
-    graphBuilder->saveG();
+    graphBuilder->savePlotAsImage();
 }
 
 void RightWidget::rebuildWidgets( pymodules::Modules modules )
