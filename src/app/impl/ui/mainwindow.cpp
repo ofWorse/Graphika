@@ -270,7 +270,7 @@ void MainWindow::clearGraph( void )
 void MainWindow::resetZoom( void )
 {
     toolbar->unsetChecked();
-    rightWidget->graphBuilder->ZoomB();
+    rightWidget->graphBuilder->resetZoom();
 }
 
 void MainWindow::moveLegend( void )
@@ -329,7 +329,7 @@ void MainWindow::zoomOut()
 void MainWindow::savePlotAsImage()
 {
     toolbar->unsetChecked();
-    rightWidget->saveG();
+    rightWidget->savePlotAsImage();
 }
 
 void MainWindow::unpinGraph()

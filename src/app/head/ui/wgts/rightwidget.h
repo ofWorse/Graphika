@@ -61,7 +61,7 @@ public:
     void stepForward( void );
     void zoomIn();
     void zoomOut();
-    void saveG();
+    void savePlotAsImage();
 
 public slots:
     void drawInterpolationGraph( const std::vector<double> x, const std::vector<double> y );

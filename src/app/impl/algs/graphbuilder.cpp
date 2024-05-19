@@ -70,9 +70,9 @@ void GraphBuilder::updateGraphState( const GraphState& state )
         if( !xAxis.isEmpty() && !yAxis.isEmpty() )
             wGraphic->graph()->setData( info.xAxis, info.yAxis );
 
-        QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 255 ),
-                                       QRandomGenerator::global()->bounded( 255 ),
-                                       QRandomGenerator::global()->bounded( 255 ) );
+        QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 172 ),
+                                       QRandomGenerator::global()->bounded( 172 ),
+                                       QRandomGenerator::global()->bounded( 172 ) );
         QPen pin( color );
         wGraphic->graph()->setPen( pin );
         if (scatterOn == false){
@@ -223,7 +223,7 @@ void GraphBuilder::on_clearButton_clicked()
     emit couldSavePlotAsImage(false);
 }
 
-void GraphBuilder::ZoomB(){
+void GraphBuilder::resetZoom(){
     wGraphic->xAxis->setRange( xmin, xmax );
     wGraphic->yAxis->setRange( ymin, ymax );
     wGraphic->replot();
@@ -252,7 +252,7 @@ void GraphBuilder::textVisible(QMouseEvent *event){
     }
 }
 
-void GraphBuilder::LegendGo(){
+void GraphBuilder::moveLegend(){
     if(l == 0){
         wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignCenter|Qt::AlignRight);
         wGraphic->replot();
@@ -363,7 +363,7 @@ void GraphBuilder::zoomOut()
     wGraphic->replot();
 }
 
-void GraphBuilder::saveG()
+void GraphBuilder::savePlotAsImage()
 {
 
     QFileDialog fileDialog(nullptr, "Save Plot",  QDir::homePath(), "PNG Files (*.png);;JPEG Files (*.jpg);;All Files (*)");
@@ -371,22 +371,21 @@ void GraphBuilder::saveG()
     fileDialog.setOption(QFileDialog::DontConfirmOverwrite, false);
     fileDialog.setDirectory("/home");
 
-    if (fileDialog.exec() == QFileDialog::Accepted) {
-       QString fileName = fileDialog.selectedFiles().first();
-
-
-       QPixmap pixmap(this->size());
-       this->render(&pixmap);
-       if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg"))
-       {
-       QStringList imageFormats = QStringList() << "PNG" << "JPG";
-       QString selectedFormat = QInputDialog::getItem(this, "Сохранить график", "Выберите формат изображения:", imageFormats, 0, false);
-       pixmap.save(fileName + "." + selectedFormat.toLower());
-       }
-       else
-       {
-       pixmap.save(fileName);
-       }
+    if (fileDialog.exec() == QFileDialog::Accepted)
+    {
+        QString fileName = fileDialog.selectedFiles().first();
+        QPixmap pixmap(this->size());
+        this->render(&pixmap);
+        if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg"))
+        {
+            QStringList imageFormats = QStringList() << "PNG" << "JPG";
+            QString selectedFormat = QInputDialog::getItem(this, "Сохранить график", "Выберите формат изображения:", imageFormats, 0, false);
+            pixmap.save(fileName + "." + selectedFormat.toLower());
+        }
+        else
+        {
+                pixmap.save(fileName);
+        }
     }
 
 }
