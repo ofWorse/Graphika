@@ -70,7 +70,7 @@ private:
         return parenthesesStack.empty();
     }
 
-    static bool validateFirstColumn(const QString& value)
+    static bool validateFirstColumn( const QString& value )
     {
         QRegularExpression regex( R"(-?\d+(?:\.\d+)?(?:\s+-?\d+(?:\.\d+)?)*)",
                                  QRegularExpression::UseUnicodePropertiesOption );

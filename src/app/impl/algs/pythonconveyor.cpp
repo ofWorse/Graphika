@@ -5,7 +5,7 @@
  *
  * \author Korshunov Ilya Dmitrievich, Dnevnie Mechaniki.
  *
- * \date last update: 17.05.2024.
+ * \date last update: 20.05.2024.
  */
 
 #include "pythonconveyor.h"
@@ -83,10 +83,11 @@ QString PythonConveyor::getResourceFilePath( const QString& resourcePath )
  *
  * \return The result of the python function call, or nullptr if the call failed.
  */
-PyObject* PythonConveyor::callPythonFunction(PyObject* function, PyObject* args)
+PyObject* PythonConveyor::callPythonFunction( PyObject* function, PyObject* args )
 {
-    PyObject* result = PyObject_CallObject(function, args);
-    if (!result) {
+    PyObject* result = PyObject_CallObject( function, args );
+    if ( !result )
+    {
         qDebug() << "Failed to call function" << functionName;
         PyErr_Print();
     }
@@ -100,11 +101,12 @@ PyObject* PythonConveyor::callPythonFunction(PyObject* function, PyObject* args)
  *
  * \return A python list containing the elements of the QStringList.
  */
-PyObject* PythonConveyor::buildPyListFromQStringList(const QStringList &stringList)
+PyObject* PythonConveyor::buildPyListFromQStringList( const QStringList &stringList )
 {
-    PyObject* pyList = PyList_New(stringList.size());
-    for (int i = 0; i < stringList.size(); ++i) {
-        PyList_SetItem(pyList, i, Py_BuildValue("s", stringList[i].toStdString().c_str()));
+    PyObject* pyList = PyList_New( stringList.size() );
+    for ( int i = 0; i < stringList.size(); ++i )
+    {
+        PyList_SetItem( pyList, i, Py_BuildValue( "s", stringList[i].toStdString().c_str() ) );
     }
     return pyList;
 }
@@ -116,11 +118,12 @@ PyObject* PythonConveyor::buildPyListFromQStringList(const QStringList &stringLi
  *
  * \return A python list containing the elements of the vector.
  */
-PyObject* PythonConveyor::buildPyListFromStdVector(const std::vector< double >& vector)
+PyObject* PythonConveyor::buildPyListFromStdVector( const std::vector< double >& vector )
 {
-    PyObject* pyList = PyList_New(vector.size());
-    for (int i = 0; i < vector.size(); ++i) {
-        PyList_SetItem(pyList, i, PyFloat_FromDouble(vector[i]));
+    PyObject* pyList = PyList_New( vector.size() );
+    for ( int i = 0; i < vector.size(); ++i )
+    {
+        PyList_SetItem( pyList, i, PyFloat_FromDouble( vector[i] ) );
     }
     return pyList;
 }
@@ -132,14 +135,15 @@ PyObject* PythonConveyor::buildPyListFromStdVector(const std::vector< double >& 
  *
  * \return A QVector containing the elements of the python list.
  */
-QVector<double> PythonConveyor::convertPyObjectToQVector(PyObject* pyList)
+QVector<double> PythonConveyor::convertPyObjectToQVector( PyObject* pyList )
 {
     QVector<double> result;
-    int size = PyList_Size(pyList);
-    for (int i = 0; i < size; ++i) {
-        PyObject* item = PyList_GetItem(pyList, i);
-        double value = PyFloat_AsDouble(item);
-        result.append(value);
+    int size = PyList_Size( pyList );
+    for ( int i = 0; i < size; ++i )
+    {
+        PyObject* item = PyList_GetItem( pyList, i );
+        double value = PyFloat_AsDouble( item );
+        result.append( value );
     }
     return result;
 }
@@ -151,11 +155,12 @@ QVector<double> PythonConveyor::convertPyObjectToQVector(PyObject* pyList)
  *
  * \return A QString containing the string representations of the vector elements.
  */
-QString PythonConveyor::convertVectorToQString(const QVector<double>& vector)
+QString PythonConveyor::convertVectorToQString( const QVector<double>& vector )
 {
     QString result;
-    for (double value : vector) {
-        result += QString::number(value) + " ";
+    for ( double value : vector )
+    {
+        result += QString::number( value ) + " ";
     }
     return result;
 }
@@ -167,33 +172,33 @@ void PythonConveyor::sendArraysToPythonFunction()
 {
     initPythonInterpreter();
 
-    PyObject* function = getPythonFunction(functionName);
-    if (!function)
+    PyObject* function = getPythonFunction( functionName );
+    if ( !function )
     {
         return;
     }
 
-    PyObject* args = PyTuple_New(2);
+    PyObject* args = PyTuple_New( 2 );
 
-    QStringList xStringList = convertVectorToStringList(xVector);
-    QStringList yStringList = convertVectorToStringList(yVector);
+    QStringList xStringList = convertVectorToStringList( xVector );
+    QStringList yStringList = convertVectorToStringList( yVector );
 
-    PyObject* xList = buildPyListFromQStringList(xStringList);
-    PyObject* yList = buildPyListFromQStringList(yStringList);
+    PyObject* xList = buildPyListFromQStringList( xStringList );
+    PyObject* yList = buildPyListFromQStringList( yStringList );
 
-    PyTuple_SetItem(args, 0, xList);
-    PyTuple_SetItem(args, 1, yList);
+    PyTuple_SetItem( args, 0, xList );
+    PyTuple_SetItem( args, 1, yList );
 
-    PyObject* pyResult = callPythonFunction(function, args);
-    if (pyResult) {
-        QString resultString = PyUnicode_AsUTF8(pyResult);
-        setData(&PythonConveyor::resultString, resultString);
-        Py_DECREF(pyResult);
+    PyObject* pyResult = callPythonFunction( function, args );
+    if ( pyResult )
+    {
+        QString resultString = PyUnicode_AsUTF8( pyResult );
+        setData( &PythonConveyor::resultString, resultString );
+        Py_DECREF( pyResult );
     }
 
-    Py_DECREF(args);
-    Py_DECREF(function);
-    Py_DECREF(resultPyObj);
+    Py_DECREF( args );
+    Py_DECREF( function );
 
     Py_Finalize();
 }
@@ -205,8 +210,8 @@ void PythonConveyor::sendDataToIntegration()
 {
     initPythonInterpreter();
 
-    PyObject* function = getPythonFunction(functionName);
-    if (!function)
+    PyObject* function = getPythonFunction( functionName );
+    if ( !function )
     {
         return;
     }
@@ -220,11 +225,12 @@ void PythonConveyor::sendDataToIntegration()
     PyTuple_SetItem( args, 1, yList);
 
     PyObject* pyResult = callPythonFunction( function, args );
-    if ( pyResult ) {
-        double resultValue = PyFloat_AsDouble(pyResult);
+    if ( pyResult )
+    {
+        double resultValue = PyFloat_AsDouble( pyResult );
         setData( &PythonConveyor::resultValue, resultValue );
 
-        QString resultString = QString::number(resultValue);
+        QString resultString = QString::number( resultValue );
         qDebug() << "Integration result: " << resultString;
         setData( &PythonConveyor::resultString, resultString );
 
@@ -233,7 +239,6 @@ void PythonConveyor::sendDataToIntegration()
 
     Py_DECREF( args );
     Py_DECREF( function );
-    Py_DECREF( resultPyObj );
 
     Py_Finalize();
 }
@@ -245,8 +250,8 @@ void PythonConveyor::sendDataToDifferentiation()
 {
     initPythonInterpreter();
 
-    PyObject* function = getPythonFunction(functionName);
-    if (!function)
+    PyObject* function = getPythonFunction( functionName );
+    if ( !function )
     {
         return;
     }
@@ -260,10 +265,12 @@ void PythonConveyor::sendDataToDifferentiation()
     PyTuple_SetItem( args, 1, yList);
 
     PyObject* pyResult = callPythonFunction( function, args );
-    if ( pyResult ) {
-        if (PyTuple_Check(pyResult) && PyTuple_Size(pyResult) == 2) {
-            PyObject* xResult = PyTuple_GetItem(pyResult, 0);
-            PyObject* yResult = PyTuple_GetItem(pyResult, 1);
+    if ( pyResult )
+    {
+        if (PyTuple_Check(pyResult) && PyTuple_Size(pyResult) == 2)
+        {
+            PyObject* xResult = PyTuple_GetItem( pyResult, 0 );
+            PyObject* yResult = PyTuple_GetItem( pyResult, 1 );
 
             QVector<double> xResultList = convertPyObjectToQVector( xResult );
             QVector<double> yResultList = convertPyObjectToQVector( yResult );
@@ -278,16 +285,15 @@ void PythonConveyor::sendDataToDifferentiation()
             setData( &PythonConveyor::resultDiff_XVector, xResultList );
             setData( &PythonConveyor::resultDiff_YVector, yResultList );
 
-            Py_DECREF(xResult);
-            Py_DECREF(yResult);
+            Py_DECREF( xResult );
+            Py_DECREF( yResult );
 
         }
-        Py_DECREF(pyResult);
+        Py_DECREF( pyResult );
     }
 
     Py_DECREF( args );
     Py_DECREF( function );
-    Py_DECREF( resultPyObj );
 
     Py_Finalize();
 }
@@ -299,8 +305,8 @@ void PythonConveyor::sendDataToSolveSys()
 {
     initPythonInterpreter();
 
-    PyObject* function = getPythonFunction(functionName);
-    if (!function)
+    PyObject* function = getPythonFunction( functionName );
+    if ( !function )
     {
         return;
     }
@@ -310,8 +316,8 @@ void PythonConveyor::sendDataToSolveSys()
 
     for ( int i = 0; i < sys.size(); ++i )
     {
-        PyObject* sublist = PyList_New(sys[i].size());
-        for ( int j = 0; j < sys[i].size(); ++j)
+        PyObject* sublist = PyList_New( sys[i].size() );
+        for ( int j = 0; j < sys[i].size(); ++j )
         {
             PyList_SetItem( sublist, j, PyFloat_FromDouble( sys[i][j] ) );
         }
@@ -320,22 +326,23 @@ void PythonConveyor::sendDataToSolveSys()
 
     PyTuple_SetItem( args, 0, dataList );
 
-    PyObject* pyResult = PyObject_CallObject(function, args);
-    if (!pyResult) {
+    PyObject* pyResult = PyObject_CallObject( function, args );
+    if ( !pyResult )
+    {
         qDebug() << "Failed to call function" << functionName;
         PyErr_Print();
         resultString = "Решение не найдено";
     }
     else
     {
-        if (PyList_Check( pyResult ) )
+        if ( PyList_Check( pyResult ) )
         {
             QVector<double> resultList;
             QString resultString;
 
             int size = PyList_Size( pyResult );
 
-            for (int i = 0; i < size; ++i)
+            for ( int i = 0; i < size; ++i )
             {
                 PyObject* item = PyList_GetItem( pyResult, i);
                 double value = PyFloat_AsDouble( item );
@@ -346,11 +353,11 @@ void PythonConveyor::sendDataToSolveSys()
             setData( &PythonConveyor::resultSys_Vector, resultList );
             setData( &PythonConveyor::resultString, resultString );
         }
-        Py_DECREF(pyResult);
+        Py_DECREF( pyResult );
     }
 
-    Py_DECREF(args);
-    Py_DECREF(function);
+    Py_DECREF( args );
+    Py_DECREF( function );
 
     Py_Finalize();
 }
@@ -360,18 +367,23 @@ void PythonConveyor::sendDataToSolveSys()
  */
 void PythonConveyor::initPythonInterpreter()
 {
-    Py_Initialize();
+    if ( !Py_IsInitialized() )
+    {
+        Py_Initialize();
+    }
 
     QString absoluteFilePath = isResourcePath( pythonFilePath ) ? getResourceFilePath( pythonFilePath ) : pythonFilePath;
 
     QFile file( absoluteFilePath );
-    if ( !file.exists() ) {
+    if ( !file.exists() )
+    {
         qDebug() << "Python file does not exist: " << absoluteFilePath;
         Py_Finalize();
         return;
     }
 
-    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
+    {
         qDebug() << "Failed to open Python file: " << absoluteFilePath;
         Py_Finalize();
         return;
@@ -381,7 +393,8 @@ void PythonConveyor::initPythonInterpreter()
     module = PyImport_AddModule( "__main__" );
     globals = PyModule_GetDict( module );
     resultPyObj = PyRun_String( byteArray.constData(), Py_file_input, globals, globals );
-    if ( !resultPyObj ) {
+    if ( !resultPyObj )
+    {
         qDebug() << "Failed to execute Python script: " << absoluteFilePath;
         PyErr_Print();
         file.close();
@@ -390,7 +403,6 @@ void PythonConveyor::initPythonInterpreter()
     }
 
     file.close();
-    Py_DECREF(resultPyObj);
 }
 
 /*!
@@ -402,10 +414,10 @@ void PythonConveyor::initPythonInterpreter()
  */
 PyObject* PythonConveyor::getPythonFunction(const QString &functionName)
 {
-    PyObject* function = PyObject_GetAttrString(module, functionName.toStdString().c_str());
-    if (!function || !PyCallable_Check(function)) {
+    PyObject* function = PyObject_GetAttrString( module, functionName.toStdString().c_str() );
+    if ( !function || !PyCallable_Check( function ) )
+    {
         qDebug() << "Function" << functionName << "is not callable or does not exist";
-        Py_DECREF(resultPyObj);
         Py_Finalize();
         return nullptr;
     }

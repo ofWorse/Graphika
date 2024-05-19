@@ -31,11 +31,11 @@ Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
 
 void Toolbar::mousePressEvent( QMouseEvent *event )
 {
-    if (event->button() == Qt::RightButton) {
-        QAction *action = actionAt(event->pos());
-        if (action == diffAction)
+    if ( event->button() == Qt::RightButton ) {
+        QAction *action = actionAt( event->pos() );
+        if ( action == diffAction )
         {
-            diffMenu->popup(event->globalPos());
+            diffMenu->popup( event->globalPos() );
         }
         if( action == integralAction )
         {
@@ -45,59 +45,61 @@ void Toolbar::mousePressEvent( QMouseEvent *event )
         {
             sysMenu->popup( event->globalPos() );
         }
-    } else {
-        QToolBar::mousePressEvent(event);
+    }
+    else
+    {
+        QToolBar::mousePressEvent( event );
     }
 }
 
 void Toolbar::initDiffMenu( void )
 {
-    diffMenu = new QMenu(this);
+    diffMenu = new QMenu( this );
 
-    methodTwoDots = diffMenu->addAction("Дифференцировать по 2 точкам");
-    methodThreeDots = diffMenu->addAction("Дифференцировать по 3 точкам");
-    methodFiveDots = diffMenu->addAction("Дифференцировать по 5 точкам");
+    methodTwoDots = diffMenu->addAction( "Дифференцировать по 2 точкам" );
+    methodThreeDots = diffMenu->addAction( "Дифференцировать по 3 точкам" );
+    methodFiveDots = diffMenu->addAction( "Дифференцировать по 5 точкам" );
 
-    methodTwoDots->setCheckable(true);
-    methodThreeDots->setCheckable(true);
-    methodFiveDots->setCheckable(true);
+    methodTwoDots->setCheckable( true );
+    methodThreeDots->setCheckable( true );
+    methodFiveDots->setCheckable( true );
 
-    methodThreeDots->setChecked(true);
+    methodThreeDots->setChecked( true );
 
-    connect(methodTwoDots, &QAction::triggered, this, [=]() {
-        updateDiffCheckState(methodTwoDots);
-    });
-    connect(methodThreeDots, &QAction::triggered, this, [=]() {
-        updateDiffCheckState(methodThreeDots);
-    });
+    connect( methodTwoDots, &QAction::triggered, this, [=]() {
+        updateDiffCheckState( methodTwoDots );
+    } );
+    connect( methodThreeDots, &QAction::triggered, this, [=]() {
+        updateDiffCheckState( methodThreeDots );
+    } );
     connect(methodFiveDots, &QAction::triggered, this, [=]() {
-        updateDiffCheckState(methodFiveDots);
-    });
+        updateDiffCheckState( methodFiveDots );
+    } );
 }
 
 void Toolbar::initIntegralMenu()
 {
     integralMenu = new QMenu( this );
 
-    linearMethod = integralMenu->addAction("Линейный метод");
-    trapezoidMethod = integralMenu->addAction("Метод трапеций");
-    parabolicMethod = integralMenu->addAction("Метод Симпсона (парабол)");
+    linearMethod = integralMenu->addAction( "Линейный метод" );
+    trapezoidMethod = integralMenu->addAction( "Метод трапеций" );
+    parabolicMethod = integralMenu->addAction( "Метод Симпсона (парабол)" );
 
-    linearMethod->setCheckable(true);
-    trapezoidMethod->setCheckable(true);
-    parabolicMethod->setCheckable(true);
+    linearMethod->setCheckable( true );
+    trapezoidMethod->setCheckable( true );
+    parabolicMethod->setCheckable( true );
 
-    linearMethod->setChecked(true);
+    linearMethod->setChecked( true );
 
-    connect(linearMethod, &QAction::triggered, this, [=]() {
-        updateIntegralCheckState(linearMethod);
-    });
-    connect(trapezoidMethod, &QAction::triggered, this, [=]() {
-        updateIntegralCheckState(trapezoidMethod);
-    });
-    connect(parabolicMethod, &QAction::triggered, this, [=]() {
-        updateIntegralCheckState(parabolicMethod);
-    });
+    connect( linearMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState( linearMethod );
+    } );
+    connect( trapezoidMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState( trapezoidMethod );
+    } );
+    connect( parabolicMethod, &QAction::triggered, this, [=]() {
+        updateIntegralCheckState( parabolicMethod );
+    } );
 }
 
 void Toolbar::initSysMenu()
@@ -114,67 +116,92 @@ void Toolbar::initSysMenu()
     gaussMethod->setChecked( true );
 
     connect( gaussMethod, &QAction::triggered, this, [=]() {
-        updateSysCheckState(gaussMethod);
+        updateSysCheckState( gaussMethod );
     });
     connect( simpleIterMethod, &QAction::triggered, this, [=]() {
         updateSysCheckState( simpleIterMethod );
     });
 }
 
-void Toolbar::updateDiffCheckState(QAction *checkedAction)
+void Toolbar::updateDiffCheckState( QAction *checkedAction )
 {
-    if (checkedAction->isChecked()) {
-        if (checkedAction == methodTwoDots) {
-            methodThreeDots->setChecked(false);
-            methodFiveDots->setChecked(false);
-        } else if (checkedAction == methodThreeDots) {
-            methodTwoDots->setChecked(false);
-            methodFiveDots->setChecked(false);
-        } else if (checkedAction == methodFiveDots) {
-            methodTwoDots->setChecked(false);
-            methodThreeDots->setChecked(false);
+    if ( checkedAction->isChecked() )
+    {
+        if ( checkedAction == methodTwoDots )
+        {
+            methodThreeDots->setChecked( false );
+            methodFiveDots->setChecked( false );
         }
-    } else {
+        else if ( checkedAction == methodThreeDots )
+        {
+            methodTwoDots->setChecked( false );
+            methodFiveDots->setChecked( false );
+        }
+        else if ( checkedAction == methodFiveDots )
+        {
+            methodTwoDots->setChecked( false );
+            methodThreeDots->setChecked( false );
+        }
+    }
+    else
+    {
         // Если действие было снято с выбора, оставляем один из вариантов выбранным
-        if (!methodTwoDots->isChecked() && !methodThreeDots->isChecked() && !methodFiveDots->isChecked()) {
-            methodThreeDots->setChecked(true);
+        if ( !methodTwoDots->isChecked() && !methodThreeDots->isChecked() && !methodFiveDots->isChecked() )
+        {
+            methodThreeDots->setChecked( true );
         }
     }
 }
 
-void Toolbar::updateIntegralCheckState(QAction *checkedAction)
+void Toolbar::updateIntegralCheckState( QAction *checkedAction )
 {
-    if (checkedAction->isChecked()) {
-        if (checkedAction == linearMethod) {
-            trapezoidMethod->setChecked(false);
-            parabolicMethod->setChecked(false);
-        } else if (checkedAction == trapezoidMethod) {
-            linearMethod->setChecked(false);
-            parabolicMethod->setChecked(false);
-        } else if (checkedAction == parabolicMethod) {
-            linearMethod->setChecked(false);
-            trapezoidMethod->setChecked(false);
+    if ( checkedAction->isChecked() )
+    {
+        if ( checkedAction == linearMethod )
+        {
+            trapezoidMethod->setChecked( false );
+            parabolicMethod->setChecked( false );
         }
-    } else {
+        else if ( checkedAction == trapezoidMethod )
+        {
+            linearMethod->setChecked( false );
+            parabolicMethod->setChecked( false );
+        }
+        else if ( checkedAction == parabolicMethod )
+        {
+            linearMethod->setChecked( false );
+            trapezoidMethod->setChecked( false );
+        }
+    }
+    else
+    {
         // Если действие было снято с выбора, оставляем один из вариантов выбранным
-        if (!linearMethod->isChecked() && !trapezoidMethod->isChecked() && !parabolicMethod->isChecked()) {
-            linearMethod->setChecked(true);
+        if ( !linearMethod->isChecked() && !trapezoidMethod->isChecked() && !parabolicMethod->isChecked() )
+        {
+            linearMethod->setChecked( true );
         }
     }
 }
 
-void Toolbar::updateSysCheckState(QAction *checkedAction)
+void Toolbar::updateSysCheckState( QAction *checkedAction )
 {
-    if (checkedAction->isChecked()) {
-        if (checkedAction == gaussMethod) {
-            simpleIterMethod->setChecked(false);
-        } else if (checkedAction == simpleIterMethod) {
-            gaussMethod->setChecked(false);
+    if ( checkedAction->isChecked() )
+    {
+        if ( checkedAction == gaussMethod )
+        {
+            simpleIterMethod->setChecked( false );
         }
-    } else {
+        else if ( checkedAction == simpleIterMethod )
+        {
+            gaussMethod->setChecked( false );
+        }
+    }
+    else
+    {
         // Если действие было снято с выбора, оставляем один из вариантов выбранным
-        if (!gaussMethod->isChecked() && !simpleIterMethod->isChecked()) {
-            gaussMethod->setChecked(true);
+        if ( !gaussMethod->isChecked() && !simpleIterMethod->isChecked() )
+        {
+            gaussMethod->setChecked( true );
         }
     }
 }

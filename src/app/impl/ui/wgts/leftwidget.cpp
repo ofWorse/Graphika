@@ -633,5 +633,5 @@ void LeftWidget::connectLabels( SpecialBuffer &buffer )
 
 void LeftWidget::setEqResult( const QString &eqResult )
 {
-    this->eqResult->setText(eqResult);
+    this->eqResult->setText( eqResult );
 }
