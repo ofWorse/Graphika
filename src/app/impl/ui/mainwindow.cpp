@@ -30,8 +30,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     QScrollArea *scrollArea = new QScrollArea( this );
     QWidget *scrollContentWidget = new QWidget;
 
-    layout = new QGridLayout( this );
     centralwidget = new QWidget( this );
+    layout = new QGridLayout( centralwidget );
 
     leftWidget = new LeftWidget( buffer, this );
     connect( leftWidget->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
@@ -42,8 +42,13 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     setCentralWidget( centralwidget );
     scrollLayout = new QGridLayout( scrollContentWidget );
 
-    scrollLayout->addWidget( leftWidget, 1, 0 );
-    scrollLayout->addWidget( rightWidget, 1, 1 );
+    scrollLayout->addWidget( leftWidget, 0, 0 );
+    scrollLayout->addWidget( rightWidget, 0, 1 );
+    scrollContentWidget->setLayout(scrollLayout);
+
+    scrollArea->setWidget(scrollContentWidget);
+    scrollArea->setWidgetResizable(true);
+
     connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
     connect( leftWidget, &LeftWidget::sendData, &logStack, &CompositeStateStack::receiveData );
     connect( rightWidget, &RightWidget::errorOccured, leftWidget, &LeftWidget::handleParserError );

@@ -5,7 +5,8 @@
 #include <QVector>
 #include <QColor>
 
-class GraphInfo {
+class GraphInfo
+{
 public:
     QString name;
     QVector<double> xAxis;
@@ -14,7 +15,7 @@ public:
     bool graphOn;
     bool scatterOn;
 
-    GraphInfo(const QString& name, const QVector<double>& xAxis, const QVector<double>& yAxis, bool graphOn, bool scatterOn)
+    GraphInfo( const QString& name, const QVector<double>& xAxis, const QVector<double>& yAxis, bool graphOn, bool scatterOn )
         : name(name), xAxis(xAxis), yAxis(yAxis), graphOn(graphOn), scatterOn(scatterOn) {}
 };
 

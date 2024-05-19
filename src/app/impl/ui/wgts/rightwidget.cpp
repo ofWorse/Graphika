@@ -11,7 +11,7 @@ void RightWidget::buildWidgetForDerivativeOperations( void )
 RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
 {
-    graphBuilder = new GraphBuilder(this);
+    graphBuilder = new GraphBuilder( this );
     conveyor = new PythonConveyor();
     rightLayout = new QGridLayout( this );
     label = new QLabel( "Полученная модель: ", this );
@@ -54,9 +54,9 @@ void RightWidget::printFunctionGraph( std::vector<double>& x, std::vector<double
     }
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    auto placeholder = QVector<double>::fromStdVector(x);
-    auto placeholder1 = QVector<double>::fromStdVector(y);
-    graphBuilder->PaintG(placeholder, placeholder1, "График заданной функции", true, false);
+    auto placeholder = QVector<double>::fromStdVector( x );
+    auto placeholder1 = QVector<double>::fromStdVector( y );
+    graphBuilder->PaintG( placeholder, placeholder1, "График заданной функции", true, false );
 }
 
 void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
@@ -188,7 +188,7 @@ void RightWidget::sysSolve( QVector<QVector<double>>& data, Sender &sender )
     conveyor->sendDataToSolveSys();
     QVector<double> resultSysVector = conveyor->getData( &PythonConveyor::resultSys_Vector );
     QString resultSysStr = conveyor->getData( &PythonConveyor::resultString );
-    emit readyToSendSysResult(resultSysStr);
+    emit readyToSendSysResult( resultSysStr );
     qDebug() << resultSysStr;
 }
 

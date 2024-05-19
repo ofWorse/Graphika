@@ -5,7 +5,7 @@
  *
  * \author Korshunov Ilya Dmitrievich, Dnevnie Mechaniki.
  *
- * \date last update: 17.05.2024.
+ * \date last update: 20.05.2024.
  */
 
 #ifndef PYTHONCONVEYOR_H
@@ -145,7 +145,8 @@ public:
      * \param value - value to set.
      */
     template<typename T>
-    void setData(T PythonConveyor::* member, const T& value) {
+    void setData( T PythonConveyor::* member, const T& value )
+    {
         this->*member = value;
     }
 
@@ -157,7 +158,8 @@ public:
      * \return Value of a class member.
      */
     template<typename T>
-    T getData(T PythonConveyor::* member) const {
+    T getData( T PythonConveyor::* member ) const
+    {
         return this->*member;
     }
 
@@ -174,9 +176,9 @@ private:
     double endNumToDiff; ///< Final value for differentiation.
     double resultValue; ///< Result in double format.
 
-    std::vector< double > xVector; ///< Vector of x values of points.
-    std::vector< double > yVector; ///< Vector of y values of points.
-    std::vector< double > numVector; ///< Vector of nums.
+    std::vector<double> xVector; ///< Vector of x values of points.
+    std::vector<double> yVector; ///< Vector of y values of points.
+    std::vector<double> numVector; ///< Vector of nums.
 
     PyObject* module; ///< Pointer to python file.
     PyObject* globals; ///< Pointer to global context needed for python initialization.

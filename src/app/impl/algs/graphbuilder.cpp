@@ -30,10 +30,10 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     layout = new QGridLayout( this );
     wGraphic = new QCustomPlot( this );
 
-    textItem = new QCPItemText(wGraphic);
-    textItem->setVisible(false);
+    textItem = new QCPItemText( wGraphic );
+    textItem->setVisible( false );
     connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove );
-    connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::textVisible);
+    connect( wGraphic, &QCustomPlot::mouseMove, this, &GraphBuilder::textVisible );
 
 
     wGraphic->setMinimumSize( 550, 500 );
@@ -63,12 +63,17 @@ void GraphBuilder::updateGraphState( const GraphState& state )
     auto scatterOn = state.scatterOn;
     auto graphOn = state.graphOn;
 
+
     wGraphic->clearGraphs();
+    i = 0;
     for( const GraphInfo& info : currentState->graphInfoList )
     {
-        wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
-        if( !xAxis.isEmpty() && !yAxis.isEmpty() )
-            wGraphic->graph()->setData( info.xAxis, info.yAxis );
+        if ( i >= wGraphic->graphCount() )
+        {
+            wGraphic->addGraph();
+        }
+        wGraphic->graph( i )->setData( info.xAxis, info.yAxis );
+
 
         QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 172 ),
                                        QRandomGenerator::global()->bounded( 172 ),
@@ -82,18 +87,23 @@ void GraphBuilder::updateGraphState( const GraphState& state )
         }
         QPen pen = wGraphic->graph()->pen();
         pen.setWidth( 4 );
-        wGraphic->graph()->setPen( pen );
-        wGraphic->graph()->setName( info.name );
-        wGraphic->graph()->setVisible( info.graphOn );
-        wGraphic->graph()->setScatterStyle( info.scatterOn ? QCPScatterStyle::ssCircle : QCPScatterStyle::ssNone );
+        wGraphic->graph( i )->setPen( pen );
+
+        // Устанавливаем стили линий и точек
+        wGraphic->graph( i )->setLineStyle( info.graphOn ? QCPGraph::lsLine : QCPGraph::lsNone );
+        wGraphic->graph( i )->setScatterStyle( info.scatterOn ? QCPScatterStyle::ssCircle : QCPScatterStyle::ssNone );
+
+        // Устанавливаем видимость графика
+        wGraphic->graph( i )->setVisible( info.graphOn || info.scatterOn );
+
+        wGraphic->graph( i )->setName( info.name );
+        ++i;
     }
     if( wGraphic->graphCount() > 0 )
     {
         tracer->setGraph( wGraphic->graph( 0 ) );
     }
-
-    PaintG( xAxis, yAxis, name, graphOn, scatterOn );
-
+    wGraphic->replot();
 }
 
 
@@ -112,14 +122,9 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
 
     GraphState newState;
     newState.graphInfoList = graphInfoList;
-    newState.name = name;
-    newState.xAxis = xAxis;
-    newState.yAxis = yAxis;
-    newState.graphOn = graphOn;
-    newState.scatterOn = scatterOn;
 
     graphStates.push_back( newState );
-    currentState = graphStates.end() - 1;
+    currentState = std::prev( graphStates.end() );
 
     auto maxXElement = std::max_element( xAxis.begin(), xAxis.end() );
     auto minXElement = std::min_element( xAxis.begin(), xAxis.end() );
@@ -176,31 +181,28 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
         wGraphic->replot();
         wGraphic->update();
     }
-    wGraphic->addGraph( wGraphic->xAxis, wGraphic->yAxis );
-    if( !xAxis.isEmpty() && !yAxis.isEmpty() )
-        wGraphic->graph( i )->setData( xAxis, yAxis );
-    if (graphOn == false){
-        wGraphic->graph(i)->setLineStyle(QCPGraph::lsNone);
+
+    if ( i >= wGraphic->graphCount() )
+    {
+        wGraphic->addGraph();
     }
-    //wGraphic->graph(i)->setInterpolation(trou);
+    wGraphic->graph( i )->setData( xAxis, yAxis );
+    wGraphic->graph( i )->setLineStyle( graphOn ? QCPGraph::lsLine : QCPGraph::lsNone );
     QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 172 ),
-                                    QRandomGenerator::global()->bounded( 172 ),
-                                    QRandomGenerator::global()->bounded( 172 ) );
+                                   QRandomGenerator::global()->bounded( 172 ),
+                                   QRandomGenerator::global()->bounded( 172 ) );
     QPen pin( color );
     wGraphic->graph( i )->setPen( pin );
-    if (scatterOn == false){
-        //wGraphic->graph(i)->setScatterStyle();
-    }else {
-    wGraphic->graph( i )->setScatterStyle( QCPScatterStyle::ssCircle );
-    }
-    wGraphic->graph( i )->setName( name );
+    wGraphic->graph( i )->setScatterStyle( scatterOn ? QCPScatterStyle::ssCircle : QCPScatterStyle::ssNone );
     QPen pen = wGraphic->graph( i )->pen();
     pen.setWidth( 4 );
     wGraphic->graph( i )->setPen( pen );
-    i++;
+    wGraphic->graph( i )->setName( name );
+    wGraphic->graph( i )->setVisible( graphOn || scatterOn );
     wGraphic->replot();
-    wGraphic->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables);
-    emit couldSavePlotAsImage(true);
+    ++i;
+    wGraphic->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables );
+    emit couldSavePlotAsImage( true );
 }
 
 void GraphBuilder::on_clearButton_clicked()
@@ -220,7 +222,7 @@ void GraphBuilder::on_clearButton_clicked()
     wGraphic->replot();
     wGraphic->update();
     graphInfoList.clear();
-    emit couldSavePlotAsImage(false);
+    emit couldSavePlotAsImage( false );
 }
 
 void GraphBuilder::resetZoom(){
@@ -230,25 +232,29 @@ void GraphBuilder::resetZoom(){
     wGraphic->update();
 }
 
-void GraphBuilder::onMousMove(QMouseEvent *event){
-    QCustomPlot* customPlot = qobject_cast<QCustomPlot*>(sender());
-    double x = customPlot->xAxis->pixelToCoord(event->pos().x());
-    double y = customPlot->yAxis->pixelToCoord(event->pos().y());
-    textItem->setText(QString("(%1, %2)").arg(x).arg(y));
-    textItem->position->setCoords(QPointF(x,y));
-    textItem->setFont(QFont(font().family(), 10));
+void GraphBuilder::onMousMove( QMouseEvent *event )
+{
+    QCustomPlot* customPlot = qobject_cast<QCustomPlot*>( sender() );
+    double x = customPlot->xAxis->pixelToCoord( event->pos().x() );
+    double y = customPlot->yAxis->pixelToCoord( event->pos().y() );
+    textItem->setText( QString( "(%1, %2)" ).arg( x ).arg( y ) );
+    textItem->position->setCoords( QPointF( x,y ) );
+    textItem->setFont( QFont( font().family(), 10 ) );
     //textItem->setVisible(true);
     customPlot->replot();
 }
 
-void GraphBuilder::textVisible(QMouseEvent *event){
+void GraphBuilder::textVisible( QMouseEvent *event )
+{
     QPoint pos = event->pos();
-    QCPAbstractPlottable* plottable = wGraphic-> plottableAt(pos,false);
-    if (plottable){
-        textItem->setVisible(true);
+    QCPAbstractPlottable* plottable = wGraphic-> plottableAt( pos,false );
+    if ( plottable )
+    {
+        textItem->setVisible( true );
     }
-    else{
-        textItem->setVisible(false);
+    else
+    {
+        textItem->setVisible( false );
     }
 }
 
@@ -257,40 +263,49 @@ void GraphBuilder::moveLegend(){
         wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignCenter|Qt::AlignRight);
         wGraphic->replot();
     }
-    if(l == 1){
-        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignBottom|Qt::AlignRight);
+    if( l == 1 )
+    {
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignBottom|Qt::AlignRight );
         wGraphic->replot();
     }
-    if(l == 2){
-        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignBottom|Qt::AlignVCenter);
+    if( l == 2 )
+    {
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignBottom|Qt::AlignVCenter );
         wGraphic->replot();
     }
-    if(l == 3){
-        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignBottom|Qt::AlignLeft);
+    if( l == 3 )
+    {
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignBottom|Qt::AlignLeft );
         wGraphic->replot();
     }
-    if(l == 4){
-        wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignCenter|Qt::AlignLeft);
+    if( l == 4 )
+    {
+        wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignCenter|Qt::AlignLeft );
         wGraphic->replot();
     }
-    if(l == 5){
-       wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignTop|Qt::AlignLeft);
+    if( l == 5 )
+    {
+       wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignTop|Qt::AlignLeft );
        wGraphic->replot();
     }
-    if(l == 6){
-       wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignTop|Qt::AlignCenter);
+    if( l == 6 )
+    {
+       wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignTop|Qt::AlignCenter );
        wGraphic->replot();
     }
-    if(l == 7){
-       wGraphic->axisRect()->insetLayout()->setInsetAlignment(0,Qt::AlignTop|Qt::AlignRight);
+    if( l == 7 )
+    {
+       wGraphic->axisRect()->insetLayout()->setInsetAlignment( 0,Qt::AlignTop|Qt::AlignRight );
        wGraphic->replot();
        l = -1;
     }
     l++;
 }
 
-void GraphBuilder::showLegend(){
-    if(!wGraphic->legend->visible()){
+void GraphBuilder::showLegend()
+{
+    if( !wGraphic->legend->visible() )
+    {
        wGraphic->legend->setVisible( true );
        wGraphic->replot();
     }
@@ -298,7 +313,8 @@ void GraphBuilder::showLegend(){
 
 void GraphBuilder::hideLegend()
 {
-    if(wGraphic->legend->visible()){
+    if( wGraphic->legend->visible() )
+    {
        wGraphic->legend->setVisible( false );
        wGraphic->replot();
     }
@@ -342,8 +358,8 @@ void GraphBuilder::zoomIn()
     double xWidth = xRange.size() / 2;
     double yWidth = yRange.size() / 2;
 
-    wGraphic->xAxis->setRange(xCenter - xWidth / 2, xCenter + xWidth / 2);
-    wGraphic->yAxis->setRange(yCenter - yWidth / 2, yCenter + yWidth / 2);
+    wGraphic->xAxis->setRange( xCenter - xWidth / 2, xCenter + xWidth / 2 );
+    wGraphic->yAxis->setRange( yCenter - yWidth / 2, yCenter + yWidth / 2 );
     wGraphic->replot();
 }
 
@@ -358,18 +374,18 @@ void GraphBuilder::zoomOut()
     double xWidth = xRange.size() * 2;
     double yWidth = yRange.size() * 2;
 
-    wGraphic->xAxis->setRange(xCenter - xWidth / 2, xCenter + xWidth / 2);
-    wGraphic->yAxis->setRange(yCenter - yWidth / 2, yCenter + yWidth / 2);
+    wGraphic->xAxis->setRange( xCenter - xWidth / 2, xCenter + xWidth / 2 );
+    wGraphic->yAxis->setRange( yCenter - yWidth / 2, yCenter + yWidth / 2 );
     wGraphic->replot();
 }
 
 void GraphBuilder::savePlotAsImage()
 {
 
-    QFileDialog fileDialog(nullptr, "Save Plot",  QDir::homePath(), "PNG Files (*.png);;JPEG Files (*.jpg);;All Files (*)");
-    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    fileDialog.setOption(QFileDialog::DontConfirmOverwrite, false);
-    fileDialog.setDirectory("/home");
+    QFileDialog fileDialog( nullptr, "Save Plot",  QDir::homePath(), "PNG Files (*.png);;JPEG Files (*.jpg);;All Files (*)" );
+    fileDialog.setAcceptMode( QFileDialog::AcceptSave );
+    fileDialog.setOption( QFileDialog::DontConfirmOverwrite, false );
+    fileDialog.setDirectory( "/home" );
 
     if (fileDialog.exec() == QFileDialog::Accepted)
     {
