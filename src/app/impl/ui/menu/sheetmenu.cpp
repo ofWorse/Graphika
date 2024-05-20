@@ -27,7 +27,7 @@ QWidget* SheetMenu::invokeLicenseWidget( void ) noexcept
     wgt->resize( textEdit->width(), textEdit->width() );
     wgt->setWindowTitle( "Лицензия" );
     wgt->setFixedSize( wgt->size() );
-    wgt->setWindowIcon( QIcon( ":/toolbaricons/resources/about.PNG" ) );
+    wgt->setWindowIcon( QIcon( ":/toolbaricons/resources/logo.png" ) );
     wgt->show();
     return wgt;
 }
@@ -56,7 +56,7 @@ QWidget* SheetMenu::invokeAboutWidget( void ) noexcept
     wgt->setWindowTitle( "Руководство пользователя" );
     wgt->resize( pixmap.width(), pixmap.width() / 1.5 );
     wgt->setFixedSize( wgt->size() );
-    wgt->setWindowIcon( QIcon( ":/toolbaricons/resources/about.PNG" ) );
+    wgt->setWindowIcon( QIcon( ":/toolbaricons/resources/logo.png" ) );
     wgt->show();
     return wgt;
 }

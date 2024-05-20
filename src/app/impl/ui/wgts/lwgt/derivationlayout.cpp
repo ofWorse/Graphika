@@ -57,15 +57,3 @@ QGridLayout *DerivationLayout::get()
 {
     return layout;
 }
-
-void DerivationLayout::saveData( void )
-{
-
-
-}
-
-void DerivationLayout::loadData( void )
-{
-
-
-}

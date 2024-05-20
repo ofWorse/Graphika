@@ -50,7 +50,6 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidgetResizable(true);
 
     connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
-    connect( rightWidget, &RightWidget::errorOccured, leftWidget->currentLayout, &LayoutInitializer::handleParserError );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget->currentLayout, &LayoutInitializer::acceptData );
     connect( rightWidget, &RightWidget::readyToSendArea, leftWidget->currentLayout, &LayoutInitializer::acceptArea );
     connect( leftWidget->currentLayout, &LayoutInitializer::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
@@ -335,9 +334,10 @@ void MainWindow::unpinGraph( void )
         return;
     }
     toolbar->actions().at( 17 )->setEnabled( false );
+
+
     QDialog* dialog = new QDialog( this );
     QVBoxLayout* layout = new QVBoxLayout( dialog );
-
 
     layout->addWidget( this->toolbar );
     layout->addWidget( rightWidget->graphBuilder->wGraphic );
@@ -345,7 +345,7 @@ void MainWindow::unpinGraph( void )
 
     connect( dialog, &QDialog::finished, this, [=]( int result )
         {
-            Q_UNUSED(result);
+            Q_UNUSED( result );
             rightWidget->rightLayout->addWidget( rightWidget->graphBuilder->wGraphic );
             toolbar->actions().at( 17 )->setEnabled( true );
             this->addToolBar( this->toolbar );

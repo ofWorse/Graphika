@@ -48,14 +48,3 @@ QGridLayout *IntegrationLayout::get()
 {
     return layout;
 }
-
-void IntegrationLayout::saveData( void )
-{
-
-}
-
-void IntegrationLayout::loadData( void )
-{
-
-
-}
