@@ -34,7 +34,21 @@ QWidget* SheetMenu::invokeLicenseWidget( void ) noexcept
 
 QWidget* SheetMenu::invokeAuthorsWidget( void ) noexcept
 {
+    QWidget* wgt = new QWidget;
+    QVBoxLayout* layout = new QVBoxLayout( wgt );
 
+    QLabel* imgLabel = new QLabel;
+    QPixmap pixmap = QPixmap( ":/references/resources/authors.svg" );
+    imgLabel->setPixmap( pixmap );
+
+    layout->addWidget( imgLabel );
+
+    wgt->setLayout( layout );
+    wgt->setWindowTitle( "Разработчики" );
+    wgt->setFixedSize( pixmap.size() );
+    wgt->setWindowIcon( QIcon( ":/toolbaricons/resources/logo.png" ) );
+    wgt->show();
+    return wgt;
 }
 
 QWidget* SheetMenu::invokeAboutWidget( void ) noexcept

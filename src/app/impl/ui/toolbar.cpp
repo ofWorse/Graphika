@@ -1,16 +1,29 @@
 #include "toolbar.h"
 #include <QIcon>
 
-Toolbar::Toolbar( QWidget *parent ) : QToolBar(parent)
+Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
 {
+    QPixmap lagrange( ":/toolbaricons/resources/lagrange.PNG" );
+    QPixmap scaledlagrange = lagrange.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    QPixmap newthon( ":/toolbaricons/resources/newthon.PNG" );
+    QPixmap scaledNewthon = newthon.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    QPixmap beirut( ":/toolbaricons/resources/beirut.PNG" );
+    QPixmap scaledBeirut = beirut.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+
     addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
     diffAction = addAction( QIcon( ":/toolbaricons/resources/derivation.PNG" ), "Построить график функции f'(x)" );
     integralAction = addAction( QIcon( ":/toolbaricons/resources/integral.PNG" ), "Найти площадь трапеции" );
     sysAction = addAction( QIcon( ":/toolbaricons/resources/sysfunctions.PNG" ), "Решить систему линейных/нелинейных уравнений" );
     addSeparator();
-    addAction( QIcon( ":/toolbaricons/resources/lagrange.PNG" ), "Построить модель полинома Лагранжа" );
-    addAction( QIcon( ":/toolbaricons/resources/newthon.PNG" ), "Построить модель полинома Ньютона" );
-    addAction( QIcon( ":/toolbaricons/resources/berruta.PNG" ), "Построить модель полинома Берута" );
+    addAction( QIcon( QPixmap( ":/toolbaricons/resources/lagrange.PNG" )
+                        .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
+                        "Построить модель полинома Лагранжа" );
+    addAction( QIcon( QPixmap( ":/toolbaricons/resources/newthon.PNG" )
+                        .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
+                        "Построить модель полинома Ньютона" );
+    addAction( QIcon( QPixmap( ":/toolbaricons/resources/beirut.PNG" )
+                        .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
+                        "Построить модель полинома Беррута" );
     addSeparator();
     addAction( QIcon( ":/toolbaricons/resources/clearPlot.PNG" ), "Очистить график" );
     addAction( QIcon( ":/toolbaricons/resources/home.PNG" ), "Вернуть график" );
