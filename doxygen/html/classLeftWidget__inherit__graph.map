@@ -1,5 +1,0 @@
-<map id="LeftWidget" name="LeftWidget">
-<area shape="rect" id="Node000001" title="The LeftWidget class, the main link for managing the state of widgets on the left side of the window." alt="" coords="5,79,97,104"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="12,5,91,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,44,54,79,49,79,49,44"/>
-</map>

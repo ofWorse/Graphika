@@ -1,9 +1,0 @@
-<map id="/home/ilya/Graphika/src/app/head/utils/graphInfo.h" name="/home/ilya/Graphika/src/app/head/utils/graphInfo.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="60,5,213,60"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,76,133"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,62,66,101,62,97,106,58"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="100,108,173,133"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="139,60,139,94,134,94,134,60"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="198,108,265,133"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="167,58,210,97,207,101,164,62"/>
-</map>
