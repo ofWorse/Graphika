@@ -103,9 +103,9 @@ public slots:
     void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn );
 
     /*!
-     * \brief on_clearButton_clicked: Erases all graphics.
+     * \brief onClearButtonClicked: Erases all graphics.
      */
-    void on_clearButton_clicked( void );
+    void onClearButtonClicked( void );
 
     /*!
      * \brief resetZoom: Returns the graph window to its original position.

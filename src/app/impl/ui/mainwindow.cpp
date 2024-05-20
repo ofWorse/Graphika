@@ -337,16 +337,16 @@ void MainWindow::unpinGraph( void )
     toolbar->actions().at( 17 )->setEnabled( false );
     QDialog* dialog = new QDialog( this );
     QVBoxLayout* layout = new QVBoxLayout( dialog );
-    QCustomPlot* plot = rightWidget->graphBuilder->wGraphic;
+
 
     layout->addWidget( this->toolbar );
-    layout->addWidget( plot );
+    layout->addWidget( rightWidget->graphBuilder->wGraphic );
     dialog->setLayout( layout );
 
     connect( dialog, &QDialog::finished, this, [=]( int result )
         {
             Q_UNUSED(result);
-            rightWidget->rightLayout->addWidget( plot );
+            rightWidget->rightLayout->addWidget( rightWidget->graphBuilder->wGraphic );
             toolbar->actions().at( 17 )->setEnabled( true );
             this->addToolBar( this->toolbar );
             dialog->deleteLater();

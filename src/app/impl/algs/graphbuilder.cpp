@@ -205,7 +205,7 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
     emit couldSavePlotAsImage( true );
 }
 
-void GraphBuilder::on_clearButton_clicked()
+void GraphBuilder::onClearButtonClicked()
 {
     for( int g{}; g < i; ++g )
     {
@@ -389,8 +389,8 @@ void GraphBuilder::savePlotAsImage()
     if (fileDialog.exec() == QFileDialog::Accepted)
     {
         QString fileName = fileDialog.selectedFiles().first();
-        QPixmap pixmap(this->size());
-        this->render(&pixmap);
+        QPixmap pixmap(wGraphic->size());
+        wGraphic->render(&pixmap);
         if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg"))
         {
             QStringList imageFormats = QStringList() << "PNG" << "JPG";
