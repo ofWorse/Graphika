@@ -40,14 +40,3 @@ QGridLayout *EquationsLayout::get()
 {
     return layout;
 }
-
-void EquationsLayout::saveData( void )
-{
-
-}
-
-void EquationsLayout::loadData( void )
-{
-
-
-}

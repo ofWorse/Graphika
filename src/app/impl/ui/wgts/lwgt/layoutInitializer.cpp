@@ -1,18 +1,18 @@
 #include "layoutInitializer.h"
 #include <QDebug>
 
-void LayoutInitializer::onInputTextChanged(const QString &text)
+void LayoutInitializer::onInputTextChanged( const QString& text )
 {
     widgets->validator->validateExpression( text );
 }
 
-void LayoutInitializer::onValidateDataValid()
+void LayoutInitializer::onValidateDataValid( void )
 {
     widgets->solve->setEnabled( true );
     widgets->solve->setStyleSheet( "background-color: lightgreen;" );
 }
 
-void LayoutInitializer::onValidateDataInvalid()
+void LayoutInitializer::onValidateDataInvalid( void )
 {
     couldBuildTable = false;
     widgets->solve->setEnabled( false );
@@ -37,31 +37,6 @@ void LayoutInitializer::editTable( void )
     widgets->solve->setEnabled( false );
     widgets->solve->setStyleSheet( "background-color: tomato;" );
     widgets->buildGraph->setEnabled( true );
-}
-
-void LayoutInitializer::buildGraphFromManualFilledTable( void )
-{
-    /*
-    widgets->X = fillDataFromTable( 0 );
-    widgets->Y = fillDataFromTable( 1 );
-
-    if( derivativeLabelActive )
-    {
-        auto x = MathUtils::multiplyPoints( X[0], X.back() );
-        auto y = MathUtils::multiplyPoints( Y[0], Y.back() );
-        X = x;
-        Y = y;
-        emit readyToDrawDerivativeGraph( X, Y );
-    }
-    else if( polynomialsLabelsActive )
-    {
-        emit readyToDrawApproximatedGraph( X, Y );
-    }
-    else
-    {
-        emit readyToDrawFunctionGraph( X, Y );
-    }
-    */
 }
 
 void LayoutInitializer::clearDataTable( void )
@@ -214,10 +189,10 @@ void LayoutInitializer::onSolveButtonClicked( SpecialBuffer& buffer )
     {
         showTable( widgets->X, widgets->Y, widgets->dY );
     }
+    couldBuildTable = true;
     widgets->X.clear();
     widgets->Y.clear();
     widgets->dY.clear();
-    couldBuildTable = true;
 }
 
 void LayoutInitializer::updateDataFromTable( SpecialBuffer& buffer )
@@ -245,7 +220,6 @@ void LayoutInitializer::showTable( const std::vector<double> x, const std::vecto
     widgets->tableWidget->clear();
     widgets->tableWidget->setRowCount( x.size() );
     QStringList labels;
-    // TODO: Избавиться от данного повтора кода!
     labels << "X" << "Y";
     if( !dY.empty() )
     {
@@ -271,6 +245,7 @@ void LayoutInitializer::showTable( const std::vector<double> x, const std::vecto
 
 void LayoutInitializer::handleParserError( const QString& err )
 {
+    couldBuildTable = false;
     widgets->errLabel->setStyleSheet( "QLabel { color : red; }" );
     widgets->errLabel->setText( err + "!" );
 }
@@ -305,7 +280,6 @@ void LayoutInitializer::onSolveEquationsButtonClicked( void )
             return;
         }
     }
-
     auto data = MathUtils::formTheSystemOfEquations( *widgets->equationsTableWidget );
     emit readyToSendEquationsData( data );
 }

@@ -41,16 +41,6 @@ public:
      * \return private class member layout.
      */
     QGridLayout* get( void ) override;
-
-    /*!
-     * \brief saveData: a method which saves data from widgets to special buffer.
-     */
-    void saveData( void ) override;
-
-    /*!
-     * \brief loadData: a method which load data and setting it up to local widgets class.
-     */
-    void loadData( void ) override;
 };
 
 #endif

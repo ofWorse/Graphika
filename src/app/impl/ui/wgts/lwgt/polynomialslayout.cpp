@@ -42,14 +42,3 @@ QGridLayout *PolynomialsLayout::get()
 {
     return layout;
 }
-
-void PolynomialsLayout::saveData( void )
-{
-
-}
-
-void PolynomialsLayout::loadData( void )
-{
-
-
-}
