@@ -1,0 +1,34 @@
+\doxysection{validatestring.\+h}
+\hypertarget{validatestring_8h_source}{}\label{validatestring_8h_source}\index{/home/ilya/Graphika/src/app/head/utils/validatestring.h@{/home/ilya/Graphika/src/app/head/utils/validatestring.h}}
+\mbox{\hyperlink{validatestring_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ VALIDATESTRING\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ VALIDATESTRING\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <QObject>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{expressionvalidator_8h}{expressionvalidator.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{settings_8h}{settings.h}}"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classValidateString}{ValidateString}}\ :\ \textcolor{keyword}{public}\ QObject}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classValidateString_ae55030eb9a99f6c8cdffb3315ade9f49}{ValidateString}}(\ QObject\ *parent\ =\ \textcolor{keyword}{nullptr}\ );}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ signals:}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classValidateString_a9f52384b98001ee4fabd02e8e9c10549}{validExpression}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classValidateString_aa7edf79a367c12e9b5b6e23f52b004c3}{invalidExpression}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{public}\ slots:}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classValidateString_ad5c8c3b4aa53efed1cdc0ebc63520c4c}{validateExpression}}(\ \textcolor{keyword}{const}\ QString\&\ expr\ );}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ isValidExpression(\ \textcolor{keyword}{const}\ QString\&\ expr\ );}
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VALIDATESTRING\_H}}
+
+\end{DoxyCode}

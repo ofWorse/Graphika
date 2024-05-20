@@ -1,0 +1,78 @@
+\doxysection{Expression\+Validator Class Reference}
+\hypertarget{classExpressionValidator}{}\label{classExpressionValidator}\index{ExpressionValidator@{ExpressionValidator}}
+
+
+A class that checks the string given to it for the correctness of a mathematical expression.  
+
+
+
+
+{\ttfamily \#include $<$expressionvalidator.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{classExpressionValidator_a6fc744152a76ecd6b9ffa3fad3507cd8}{validate\+Expression}} (const QString \&expression)
+\begin{DoxyCompactList}\small\item\em validate\+Expression\+: a method that produces the result of parsing a string of mathematical expression given to it \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{classExpressionValidator_a017a7f7cff0664bca63609173cc8c647}{validate\+Table\+Row}} (const QString \&first\+Column\+Value, const QString \&second\+Column\+Value)
+\begin{DoxyCompactList}\small\item\em validate\+Table\+Row\+: a method which validates rows from table widget data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class that checks the string given to it for the correctness of a mathematical expression. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classExpressionValidator_a6fc744152a76ecd6b9ffa3fad3507cd8}\label{classExpressionValidator_a6fc744152a76ecd6b9ffa3fad3507cd8} 
+\index{ExpressionValidator@{ExpressionValidator}!validateExpression@{validateExpression}}
+\index{validateExpression@{validateExpression}!ExpressionValidator@{ExpressionValidator}}
+\doxysubsubsection{\texorpdfstring{validateExpression()}{validateExpression()}}
+{\footnotesize\ttfamily static bool Expression\+Validator\+::validate\+Expression (\begin{DoxyParamCaption}\item[{const QString \&}]{expression }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+validate\+Expression\+: a method that produces the result of parsing a string of mathematical expression given to it 
+
+
+\begin{DoxyParams}{Parameters}
+{\em expression} & a string which contains math expression.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean operator. 
+\end{DoxyReturn}
+\Hypertarget{classExpressionValidator_a017a7f7cff0664bca63609173cc8c647}\label{classExpressionValidator_a017a7f7cff0664bca63609173cc8c647} 
+\index{ExpressionValidator@{ExpressionValidator}!validateTableRow@{validateTableRow}}
+\index{validateTableRow@{validateTableRow}!ExpressionValidator@{ExpressionValidator}}
+\doxysubsubsection{\texorpdfstring{validateTableRow()}{validateTableRow()}}
+{\footnotesize\ttfamily static bool Expression\+Validator\+::validate\+Table\+Row (\begin{DoxyParamCaption}\item[{const QString \&}]{first\+Column\+Value,  }\item[{const QString \&}]{second\+Column\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+validate\+Table\+Row\+: a method which validates rows from table widget data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first\+Column\+Value} & a string data from the first column ( odds ). \\
+\hline
+{\em second\+Column\+Value} & a string data from the second column ( free terms of the equation ).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean operator. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/algs/\mbox{\hyperlink{expressionvalidator_8h}{expressionvalidator.\+h}}\end{DoxyCompactItemize}

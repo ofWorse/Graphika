@@ -1,0 +1,75 @@
+\doxysection{toolbar.\+h}
+\hypertarget{toolbar_8h_source}{}\label{toolbar_8h_source}\index{/home/ilya/Graphika/src/app/head/ui/toolbar.h@{/home/ilya/Graphika/src/app/head/ui/toolbar.h}}
+\mbox{\hyperlink{toolbar_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ TOOLBAR\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ TOOLBAR\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <QMainWindow>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <QToolBar>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <QAction>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <QMenu>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <QMouseEvent>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{sender_8h}{sender.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}qapplication.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classToolbar}{Toolbar}}\ :\ \textcolor{keyword}{public}\ QToolBar}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classToolbar_a0de2d55d4beb1807858a62e35aecd543}{Toolbar}}(\ QWidget\ *parent\ =\ \textcolor{keyword}{nullptr}\ );}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{namespacepymodules_ab628187a834e15739be9aa6211979046}{pymodules::Methods}}\ \mbox{\hyperlink{classToolbar_a03ac0c5733e808ee014081ba2668db17}{getSelectedDiffMethod}}(\ \textcolor{keywordtype}{void}\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{namespacepymodules_ab628187a834e15739be9aa6211979046}{pymodules::Methods}}\ \mbox{\hyperlink{classToolbar_a915f2f58e08154e2e7146d7d827f400c}{getSelectedIntegralMethod}}(\ \textcolor{keywordtype}{void}\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{namespacepymodules_ab628187a834e15739be9aa6211979046}{pymodules::Methods}}\ \mbox{\hyperlink{classToolbar_a3acaa99309c545823fcdf5bc16f65bcd}{getSelectedSysMethod}}(\ \textcolor{keywordtype}{void}\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classToolbar_af83d2c4e6b2d8ee064675183a3abfc07}{unsetChecked}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classToolbar_a01bb1b13fca435fe4c46648cf2e51b0e}{mousePressEvent}}(\ QMouseEvent\ *event\ )\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00067\ \ \ \ \ QAction*\ diffAction;\ }
+\DoxyCodeLine{00068\ \ \ \ \ QAction*\ methodTwoDots;\ }
+\DoxyCodeLine{00069\ \ \ \ \ QAction*\ methodThreeDots;\ }
+\DoxyCodeLine{00070\ \ \ \ \ QAction*\ methodFiveDots;\ }
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ QAction*\ integralAction;\ }
+\DoxyCodeLine{00073\ \ \ \ \ QAction*\ linearMethod;\ }
+\DoxyCodeLine{00074\ \ \ \ \ QAction*\ trapezoidMethod;\ }
+\DoxyCodeLine{00075\ \ \ \ \ QAction*\ parabolicMethod;\ }
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ QAction*\ sysAction;\ }
+\DoxyCodeLine{00078\ \ \ \ \ QAction*\ gaussMethod;\ }
+\DoxyCodeLine{00079\ \ \ \ \ QAction*\ simpleIterMethod;\ }
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ QMenu*\ diffMenu;\ }
+\DoxyCodeLine{00082\ \ \ \ \ QMenu*\ integralMenu;\ }
+\DoxyCodeLine{00083\ \ \ \ \ QMenu*\ sysMenu;\ }
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ initDiffMenu(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{void}\ initIntegralMenu(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ initSysMenu(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ initMenu(\ QMenu*\&\ menu,\ \textcolor{keyword}{const}\ QStringList\&\ items\ );}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ updateDiffCheckState(\ QAction*\ checkedAction\ );}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ updateIntegralCheckState(\ QAction*\ checkedAction\ );}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{void}\ updateSysCheckState(\ QAction*\ checkedAction\ );}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{void}\ updateCheckState(\ QAction*\ checkedAction,\ QList<QAction*>\ actions\ );}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ setCheckable(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00142\ \};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TOOLBAR\_H}}
+
+\end{DoxyCode}

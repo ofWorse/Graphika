@@ -1,0 +1,594 @@
+\doxysection{Widgets Class Reference}
+\hypertarget{classWidgets}{}\label{classWidgets}\index{Widgets@{Widgets}}
+
+
+The \doxylink{classWidgets}{Widgets} class which contains all labels and other left-\/widget control systems.  
+
+
+
+
+{\ttfamily \#include $<$widgets.\+h$>$}
+
+
+
+Inheritance diagram for Widgets\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=139pt]{classWidgets__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Widgets\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{classWidgets__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classWidgets_a43e05b56d660718467d820abfeebdf1f}{expression\+Input\+Changed}} (const QString \&text)
+\begin{DoxyCompactList}\small\item\em expression\+Input\+Changed\+: signal indicating a change in the state of a expression line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classWidgets_aea5ee7ba936d6120bf57e9bbc3b9cf51}{Widgets}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classWidgets}{Widgets}\+: constructor with standard heir argument. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classWidgets_a89a94c05c643276a81a59f96512d18c3}{init\+Widgets}} (void)
+\begin{DoxyCompactList}\small\item\em init\+Widgets\+: widget initialization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classValidateString}{Validate\+String}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a580f47ac3993b070a750df3c62dd1631}{validator}}
+\begin{DoxyCompactList}\small\item\em entered expression validator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classStringParser}{String\+Parser}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ad960fd313c0cd9c8706a86f6707317f6}{parser}}
+\begin{DoxyCompactList}\small\item\em expression validator-\/calculator. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a4617f6b67d6395d6119a255b428992cb}{label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying information. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a45456526ad1c18e1d0a6c01f13d5d34b}{err\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying error messages. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ab4395bcfec17a2da59686bbde69e83f7}{x\+Is}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the variable \textquotesingle{}x\textquotesingle{}. \end{DoxyCompactList}\item 
+QSpin\+Box \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a9deae403bc4ee830002ea87770bbff69}{x\+Variables}}
+\begin{DoxyCompactList}\small\item\em Spin box for selecting the number of \textquotesingle{}x\textquotesingle{} variables. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a3d132f25aff0cdae8259737933fe30b3}{type\+Of\+Input}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the type of input. \end{DoxyCompactList}\item 
+QCombo\+Box \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_adb47717e4fdd8f401667934835eda0ed}{type\+Of\+Variable\+Input}}
+\begin{DoxyCompactList}\small\item\em Combo box for selecting the type of variable input. \end{DoxyCompactList}\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_acf965d64e66d616b2d364ce69024dc92}{clear\+Table}}
+\begin{DoxyCompactList}\small\item\em Button for clearing the table. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a7158587740b3777c0297b325706bf095}{min\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the minimum value. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a55c3c6b231b5b9ecd89c18b7aa53d76b}{max\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the maximum value. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a831faff7876087fff29a03ab52b66fa8}{step\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the step value. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a9a2918bba81d917cfb744e08c73a8cc7}{nodes\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the number of nodes. \end{DoxyCompactList}\item 
+QDouble\+Spin\+Box \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a0cb96612af165f9248533a18df3a95da}{nodes}}
+\begin{DoxyCompactList}\small\item\em Spin box for setting the number of nodes. \end{DoxyCompactList}\item 
+QDouble\+Spin\+Box \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_aa01cef6315c4969bcc0b0da1de803d35}{min}}
+\begin{DoxyCompactList}\small\item\em Spin box for setting the minimum value. \end{DoxyCompactList}\item 
+QDouble\+Spin\+Box \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a4011621521b52e0fc071ecb362136346}{max}}
+\begin{DoxyCompactList}\small\item\em Spin box for setting the maximum value. \end{DoxyCompactList}\item 
+QDouble\+Spin\+Box \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_aa2317c2573ce46b489e69d79b90d6e79}{step}}
+\begin{DoxyCompactList}\small\item\em Spin box for setting the step value. \end{DoxyCompactList}\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a6ef2bd9e9082dba54c93b6cf28b8798f}{expression\+Input}}
+\begin{DoxyCompactList}\small\item\em Line edit for entering the expression. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a26eae00d6d767a7fff93f185ca00576e}{derivative\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the derivative. \end{DoxyCompactList}\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a6ed366746c9ae26c552ad9b313181d9a}{derivative\+Expression\+Input}}
+\begin{DoxyCompactList}\small\item\em Line edit for entering the derivative expression. \end{DoxyCompactList}\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_abde42e5c37946b4fd15d1c15c376a635}{solve}}
+\begin{DoxyCompactList}\small\item\em Button for solving the expression. \end{DoxyCompactList}\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a867c0d3ff292037876721d7bf25f0594}{manual\+Table\+Input}}
+\begin{DoxyCompactList}\small\item\em Button for manual table input. \end{DoxyCompactList}\item 
+QTable\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d}{table\+Widget}}
+\begin{DoxyCompactList}\small\item\em Table widget for displaying data. \end{DoxyCompactList}\item 
+QGrid\+Layout \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ab884057a3ce4d52bbecad9557a7cf647}{layout}}
+\begin{DoxyCompactList}\small\item\em Grid layout for arranging UI elements. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a7553da052b5b6033f30924340308f8a0}{aver\+Error}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the average error. \end{DoxyCompactList}\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a33b78bde516b7c09ae2e6c6597497a6c}{error}}
+\begin{DoxyCompactList}\small\item\em Line edit for displaying the error. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a9111d72cbd9d68e2feac705d590e24dd}{odds\+Input\+Label}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the odds input. \end{DoxyCompactList}\item 
+QTable\+Widget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ab45b8ad5422311890dd9b298112a4451}{equations\+Table\+Widget}}
+\begin{DoxyCompactList}\small\item\em Table widget for displaying equations. \end{DoxyCompactList}\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a583c17bbc47319932b273160ecc1cc8d}{solve\+Equations}}
+\begin{DoxyCompactList}\small\item\em Button for solving equations. \end{DoxyCompactList}\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_afb4dfab213c2224a2cc053e7e095aae6}{clear\+Equations\+Table}}
+\begin{DoxyCompactList}\small\item\em Button for clearing the equations table. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a228792899979baf69a861a41aef79f26}{result\+Of\+Equations}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the result of equations. \end{DoxyCompactList}\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_aa0ba4d64e11947db05d8de1d8aa43ec6}{eq\+Result}}
+\begin{DoxyCompactList}\small\item\em Line edit for displaying the equation result. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ab2d737bb7f03fca4cbd316a2a51017bc}{result\+Description}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the result description. \end{DoxyCompactList}\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ab690053f30c0eba45f9c555dac722e5c}{description}}
+\begin{DoxyCompactList}\small\item\em Line edit for displaying the description. \end{DoxyCompactList}\item 
+QLabel \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_a34f40a40eb5858eabda1b651c1538f0c}{calculated\+Area}}
+\begin{DoxyCompactList}\small\item\em Label for displaying the calculated area. \end{DoxyCompactList}\item 
+QLine\+Edit \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_afb1139f1e10a3d4327b53a55099492d0}{area}}
+\begin{DoxyCompactList}\small\item\em Line edit for displaying the area. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classWidgets_aa5e2be82937552b246589d5f01f73eaf}{X}}
+\begin{DoxyCompactList}\small\item\em Vector for storing \textquotesingle{}x\textquotesingle{} values. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classWidgets_a0314785f021a9ede86a90d56689f50ae}{Y}}
+\begin{DoxyCompactList}\small\item\em Vector for storing \textquotesingle{}y\textquotesingle{} values. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classWidgets_a289c80f036adb06f090f0e5ea23c63c8}{dY}}
+\begin{DoxyCompactList}\small\item\em Vector for storing derivative values. \end{DoxyCompactList}\item 
+QPush\+Button \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classWidgets_ad0dfc48297c6c255bf35b1747ec3368f}{build\+Graph}}
+\begin{DoxyCompactList}\small\item\em Button for building the graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classWidgets}{Widgets} class which contains all labels and other left-\/widget control systems. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024.
+\end{DoxyDate}
+\textbackslash{}clas \doxylink{classWidgets}{Widgets} 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classWidgets_aea5ee7ba936d6120bf57e9bbc3b9cf51}\label{classWidgets_aea5ee7ba936d6120bf57e9bbc3b9cf51} 
+\index{Widgets@{Widgets}!Widgets@{Widgets}}
+\index{Widgets@{Widgets}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{Widgets()}{Widgets()}}
+{\footnotesize\ttfamily Widgets\+::\+Widgets (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+\doxylink{classWidgets}{Widgets}\+: constructor with standard heir argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paren} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classWidgets_a43e05b56d660718467d820abfeebdf1f}\label{classWidgets_a43e05b56d660718467d820abfeebdf1f} 
+\index{Widgets@{Widgets}!expressionInputChanged@{expressionInputChanged}}
+\index{expressionInputChanged@{expressionInputChanged}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{expressionInputChanged}{expressionInputChanged}}
+{\footnotesize\ttfamily void Widgets\+::expression\+Input\+Changed (\begin{DoxyParamCaption}\item[{const QString \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+expression\+Input\+Changed\+: signal indicating a change in the state of a expression line. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & input data. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classWidgets_a89a94c05c643276a81a59f96512d18c3}\label{classWidgets_a89a94c05c643276a81a59f96512d18c3} 
+\index{Widgets@{Widgets}!initWidgets@{initWidgets}}
+\index{initWidgets@{initWidgets}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{initWidgets()}{initWidgets()}}
+{\footnotesize\ttfamily void Widgets\+::init\+Widgets (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+init\+Widgets\+: widget initialization method. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classWidgets_afb1139f1e10a3d4327b53a55099492d0}\label{classWidgets_afb1139f1e10a3d4327b53a55099492d0} 
+\index{Widgets@{Widgets}!area@{area}}
+\index{area@{area}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{area}{area}}
+{\footnotesize\ttfamily QLine\+Edit\texorpdfstring{$\ast$}{*} Widgets\+::area}
+
+
+
+Line edit for displaying the area. 
+
+\Hypertarget{classWidgets_a7553da052b5b6033f30924340308f8a0}\label{classWidgets_a7553da052b5b6033f30924340308f8a0} 
+\index{Widgets@{Widgets}!averError@{averError}}
+\index{averError@{averError}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{averError}{averError}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::aver\+Error}
+
+
+
+Label for displaying the average error. 
+
+\Hypertarget{classWidgets_ad0dfc48297c6c255bf35b1747ec3368f}\label{classWidgets_ad0dfc48297c6c255bf35b1747ec3368f} 
+\index{Widgets@{Widgets}!buildGraph@{buildGraph}}
+\index{buildGraph@{buildGraph}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{buildGraph}{buildGraph}}
+{\footnotesize\ttfamily QPush\+Button\texorpdfstring{$\ast$}{*} Widgets\+::build\+Graph}
+
+
+
+Button for building the graph. 
+
+\Hypertarget{classWidgets_a34f40a40eb5858eabda1b651c1538f0c}\label{classWidgets_a34f40a40eb5858eabda1b651c1538f0c} 
+\index{Widgets@{Widgets}!calculatedArea@{calculatedArea}}
+\index{calculatedArea@{calculatedArea}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{calculatedArea}{calculatedArea}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::calculated\+Area}
+
+
+
+Label for displaying the calculated area. 
+
+\Hypertarget{classWidgets_afb4dfab213c2224a2cc053e7e095aae6}\label{classWidgets_afb4dfab213c2224a2cc053e7e095aae6} 
+\index{Widgets@{Widgets}!clearEquationsTable@{clearEquationsTable}}
+\index{clearEquationsTable@{clearEquationsTable}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{clearEquationsTable}{clearEquationsTable}}
+{\footnotesize\ttfamily QPush\+Button\texorpdfstring{$\ast$}{*} Widgets\+::clear\+Equations\+Table}
+
+
+
+Button for clearing the equations table. 
+
+\Hypertarget{classWidgets_acf965d64e66d616b2d364ce69024dc92}\label{classWidgets_acf965d64e66d616b2d364ce69024dc92} 
+\index{Widgets@{Widgets}!clearTable@{clearTable}}
+\index{clearTable@{clearTable}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{clearTable}{clearTable}}
+{\footnotesize\ttfamily QPush\+Button\texorpdfstring{$\ast$}{*} Widgets\+::clear\+Table}
+
+
+
+Button for clearing the table. 
+
+\Hypertarget{classWidgets_a6ed366746c9ae26c552ad9b313181d9a}\label{classWidgets_a6ed366746c9ae26c552ad9b313181d9a} 
+\index{Widgets@{Widgets}!derivativeExpressionInput@{derivativeExpressionInput}}
+\index{derivativeExpressionInput@{derivativeExpressionInput}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{derivativeExpressionInput}{derivativeExpressionInput}}
+{\footnotesize\ttfamily QLine\+Edit\texorpdfstring{$\ast$}{*} Widgets\+::derivative\+Expression\+Input}
+
+
+
+Line edit for entering the derivative expression. 
+
+\Hypertarget{classWidgets_a26eae00d6d767a7fff93f185ca00576e}\label{classWidgets_a26eae00d6d767a7fff93f185ca00576e} 
+\index{Widgets@{Widgets}!derivativeLabel@{derivativeLabel}}
+\index{derivativeLabel@{derivativeLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{derivativeLabel}{derivativeLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::derivative\+Label}
+
+
+
+Label for displaying the derivative. 
+
+\Hypertarget{classWidgets_ab690053f30c0eba45f9c555dac722e5c}\label{classWidgets_ab690053f30c0eba45f9c555dac722e5c} 
+\index{Widgets@{Widgets}!description@{description}}
+\index{description@{description}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{description}{description}}
+{\footnotesize\ttfamily QLine\+Edit\texorpdfstring{$\ast$}{*} Widgets\+::description}
+
+
+
+Line edit for displaying the description. 
+
+\Hypertarget{classWidgets_a289c80f036adb06f090f0e5ea23c63c8}\label{classWidgets_a289c80f036adb06f090f0e5ea23c63c8} 
+\index{Widgets@{Widgets}!dY@{dY}}
+\index{dY@{dY}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{dY}{dY}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Widgets\+::dY}
+
+
+
+Vector for storing derivative values. 
+
+\Hypertarget{classWidgets_aa0ba4d64e11947db05d8de1d8aa43ec6}\label{classWidgets_aa0ba4d64e11947db05d8de1d8aa43ec6} 
+\index{Widgets@{Widgets}!eqResult@{eqResult}}
+\index{eqResult@{eqResult}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{eqResult}{eqResult}}
+{\footnotesize\ttfamily QLine\+Edit\texorpdfstring{$\ast$}{*} Widgets\+::eq\+Result}
+
+
+
+Line edit for displaying the equation result. 
+
+\Hypertarget{classWidgets_ab45b8ad5422311890dd9b298112a4451}\label{classWidgets_ab45b8ad5422311890dd9b298112a4451} 
+\index{Widgets@{Widgets}!equationsTableWidget@{equationsTableWidget}}
+\index{equationsTableWidget@{equationsTableWidget}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{equationsTableWidget}{equationsTableWidget}}
+{\footnotesize\ttfamily QTable\+Widget\texorpdfstring{$\ast$}{*} Widgets\+::equations\+Table\+Widget}
+
+
+
+Table widget for displaying equations. 
+
+\Hypertarget{classWidgets_a45456526ad1c18e1d0a6c01f13d5d34b}\label{classWidgets_a45456526ad1c18e1d0a6c01f13d5d34b} 
+\index{Widgets@{Widgets}!errLabel@{errLabel}}
+\index{errLabel@{errLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{errLabel}{errLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::err\+Label}
+
+
+
+Label for displaying error messages. 
+
+\Hypertarget{classWidgets_a33b78bde516b7c09ae2e6c6597497a6c}\label{classWidgets_a33b78bde516b7c09ae2e6c6597497a6c} 
+\index{Widgets@{Widgets}!error@{error}}
+\index{error@{error}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{error}{error}}
+{\footnotesize\ttfamily QLine\+Edit\texorpdfstring{$\ast$}{*} Widgets\+::error}
+
+
+
+Line edit for displaying the error. 
+
+\Hypertarget{classWidgets_a6ef2bd9e9082dba54c93b6cf28b8798f}\label{classWidgets_a6ef2bd9e9082dba54c93b6cf28b8798f} 
+\index{Widgets@{Widgets}!expressionInput@{expressionInput}}
+\index{expressionInput@{expressionInput}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{expressionInput}{expressionInput}}
+{\footnotesize\ttfamily QLine\+Edit\texorpdfstring{$\ast$}{*} Widgets\+::expression\+Input}
+
+
+
+Line edit for entering the expression. 
+
+\Hypertarget{classWidgets_a4617f6b67d6395d6119a255b428992cb}\label{classWidgets_a4617f6b67d6395d6119a255b428992cb} 
+\index{Widgets@{Widgets}!label@{label}}
+\index{label@{label}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{label}{label}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::label}
+
+
+
+Label for displaying information. 
+
+\Hypertarget{classWidgets_ab884057a3ce4d52bbecad9557a7cf647}\label{classWidgets_ab884057a3ce4d52bbecad9557a7cf647} 
+\index{Widgets@{Widgets}!layout@{layout}}
+\index{layout@{layout}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{layout}{layout}}
+{\footnotesize\ttfamily QGrid\+Layout\texorpdfstring{$\ast$}{*} Widgets\+::layout}
+
+
+
+Grid layout for arranging UI elements. 
+
+\Hypertarget{classWidgets_a867c0d3ff292037876721d7bf25f0594}\label{classWidgets_a867c0d3ff292037876721d7bf25f0594} 
+\index{Widgets@{Widgets}!manualTableInput@{manualTableInput}}
+\index{manualTableInput@{manualTableInput}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{manualTableInput}{manualTableInput}}
+{\footnotesize\ttfamily QPush\+Button\texorpdfstring{$\ast$}{*} Widgets\+::manual\+Table\+Input}
+
+
+
+Button for manual table input. 
+
+\Hypertarget{classWidgets_a4011621521b52e0fc071ecb362136346}\label{classWidgets_a4011621521b52e0fc071ecb362136346} 
+\index{Widgets@{Widgets}!max@{max}}
+\index{max@{max}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{max}{max}}
+{\footnotesize\ttfamily QDouble\+Spin\+Box\texorpdfstring{$\ast$}{*} Widgets\+::max}
+
+
+
+Spin box for setting the maximum value. 
+
+\Hypertarget{classWidgets_a55c3c6b231b5b9ecd89c18b7aa53d76b}\label{classWidgets_a55c3c6b231b5b9ecd89c18b7aa53d76b} 
+\index{Widgets@{Widgets}!maxLabel@{maxLabel}}
+\index{maxLabel@{maxLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{maxLabel}{maxLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::max\+Label}
+
+
+
+Label for displaying the maximum value. 
+
+\Hypertarget{classWidgets_aa01cef6315c4969bcc0b0da1de803d35}\label{classWidgets_aa01cef6315c4969bcc0b0da1de803d35} 
+\index{Widgets@{Widgets}!min@{min}}
+\index{min@{min}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{min}{min}}
+{\footnotesize\ttfamily QDouble\+Spin\+Box\texorpdfstring{$\ast$}{*} Widgets\+::min}
+
+
+
+Spin box for setting the minimum value. 
+
+\Hypertarget{classWidgets_a7158587740b3777c0297b325706bf095}\label{classWidgets_a7158587740b3777c0297b325706bf095} 
+\index{Widgets@{Widgets}!minLabel@{minLabel}}
+\index{minLabel@{minLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{minLabel}{minLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::min\+Label}
+
+
+
+Label for displaying the minimum value. 
+
+\Hypertarget{classWidgets_a0cb96612af165f9248533a18df3a95da}\label{classWidgets_a0cb96612af165f9248533a18df3a95da} 
+\index{Widgets@{Widgets}!nodes@{nodes}}
+\index{nodes@{nodes}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{nodes}{nodes}}
+{\footnotesize\ttfamily QDouble\+Spin\+Box\texorpdfstring{$\ast$}{*} Widgets\+::nodes}
+
+
+
+Spin box for setting the number of nodes. 
+
+\Hypertarget{classWidgets_a9a2918bba81d917cfb744e08c73a8cc7}\label{classWidgets_a9a2918bba81d917cfb744e08c73a8cc7} 
+\index{Widgets@{Widgets}!nodesLabel@{nodesLabel}}
+\index{nodesLabel@{nodesLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{nodesLabel}{nodesLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::nodes\+Label}
+
+
+
+Label for displaying the number of nodes. 
+
+\Hypertarget{classWidgets_a9111d72cbd9d68e2feac705d590e24dd}\label{classWidgets_a9111d72cbd9d68e2feac705d590e24dd} 
+\index{Widgets@{Widgets}!oddsInputLabel@{oddsInputLabel}}
+\index{oddsInputLabel@{oddsInputLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{oddsInputLabel}{oddsInputLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::odds\+Input\+Label}
+
+
+
+Label for displaying the odds input. 
+
+\Hypertarget{classWidgets_ad960fd313c0cd9c8706a86f6707317f6}\label{classWidgets_ad960fd313c0cd9c8706a86f6707317f6} 
+\index{Widgets@{Widgets}!parser@{parser}}
+\index{parser@{parser}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{parser}{parser}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classStringParser}{String\+Parser}}\texorpdfstring{$\ast$}{*} Widgets\+::parser}
+
+
+
+expression validator-\/calculator. 
+
+\Hypertarget{classWidgets_ab2d737bb7f03fca4cbd316a2a51017bc}\label{classWidgets_ab2d737bb7f03fca4cbd316a2a51017bc} 
+\index{Widgets@{Widgets}!resultDescription@{resultDescription}}
+\index{resultDescription@{resultDescription}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{resultDescription}{resultDescription}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::result\+Description}
+
+
+
+Label for displaying the result description. 
+
+\Hypertarget{classWidgets_a228792899979baf69a861a41aef79f26}\label{classWidgets_a228792899979baf69a861a41aef79f26} 
+\index{Widgets@{Widgets}!resultOfEquations@{resultOfEquations}}
+\index{resultOfEquations@{resultOfEquations}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{resultOfEquations}{resultOfEquations}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::result\+Of\+Equations}
+
+
+
+Label for displaying the result of equations. 
+
+\Hypertarget{classWidgets_abde42e5c37946b4fd15d1c15c376a635}\label{classWidgets_abde42e5c37946b4fd15d1c15c376a635} 
+\index{Widgets@{Widgets}!solve@{solve}}
+\index{solve@{solve}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{solve}{solve}}
+{\footnotesize\ttfamily QPush\+Button\texorpdfstring{$\ast$}{*} Widgets\+::solve}
+
+
+
+Button for solving the expression. 
+
+\Hypertarget{classWidgets_a583c17bbc47319932b273160ecc1cc8d}\label{classWidgets_a583c17bbc47319932b273160ecc1cc8d} 
+\index{Widgets@{Widgets}!solveEquations@{solveEquations}}
+\index{solveEquations@{solveEquations}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{solveEquations}{solveEquations}}
+{\footnotesize\ttfamily QPush\+Button\texorpdfstring{$\ast$}{*} Widgets\+::solve\+Equations}
+
+
+
+Button for solving equations. 
+
+\Hypertarget{classWidgets_aa2317c2573ce46b489e69d79b90d6e79}\label{classWidgets_aa2317c2573ce46b489e69d79b90d6e79} 
+\index{Widgets@{Widgets}!step@{step}}
+\index{step@{step}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{step}{step}}
+{\footnotesize\ttfamily QDouble\+Spin\+Box\texorpdfstring{$\ast$}{*} Widgets\+::step}
+
+
+
+Spin box for setting the step value. 
+
+\Hypertarget{classWidgets_a831faff7876087fff29a03ab52b66fa8}\label{classWidgets_a831faff7876087fff29a03ab52b66fa8} 
+\index{Widgets@{Widgets}!stepLabel@{stepLabel}}
+\index{stepLabel@{stepLabel}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{stepLabel}{stepLabel}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::step\+Label}
+
+
+
+Label for displaying the step value. 
+
+\Hypertarget{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d}\label{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d} 
+\index{Widgets@{Widgets}!tableWidget@{tableWidget}}
+\index{tableWidget@{tableWidget}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{tableWidget}{tableWidget}}
+{\footnotesize\ttfamily QTable\+Widget\texorpdfstring{$\ast$}{*} Widgets\+::table\+Widget}
+
+
+
+Table widget for displaying data. 
+
+\Hypertarget{classWidgets_a3d132f25aff0cdae8259737933fe30b3}\label{classWidgets_a3d132f25aff0cdae8259737933fe30b3} 
+\index{Widgets@{Widgets}!typeOfInput@{typeOfInput}}
+\index{typeOfInput@{typeOfInput}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{typeOfInput}{typeOfInput}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::type\+Of\+Input}
+
+
+
+Label for displaying the type of input. 
+
+\Hypertarget{classWidgets_adb47717e4fdd8f401667934835eda0ed}\label{classWidgets_adb47717e4fdd8f401667934835eda0ed} 
+\index{Widgets@{Widgets}!typeOfVariableInput@{typeOfVariableInput}}
+\index{typeOfVariableInput@{typeOfVariableInput}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{typeOfVariableInput}{typeOfVariableInput}}
+{\footnotesize\ttfamily QCombo\+Box\texorpdfstring{$\ast$}{*} Widgets\+::type\+Of\+Variable\+Input}
+
+
+
+Combo box for selecting the type of variable input. 
+
+\Hypertarget{classWidgets_a580f47ac3993b070a750df3c62dd1631}\label{classWidgets_a580f47ac3993b070a750df3c62dd1631} 
+\index{Widgets@{Widgets}!validator@{validator}}
+\index{validator@{validator}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{validator}{validator}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classValidateString}{Validate\+String}}\texorpdfstring{$\ast$}{*} Widgets\+::validator}
+
+
+
+entered expression validator. 
+
+\Hypertarget{classWidgets_aa5e2be82937552b246589d5f01f73eaf}\label{classWidgets_aa5e2be82937552b246589d5f01f73eaf} 
+\index{Widgets@{Widgets}!X@{X}}
+\index{X@{X}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{X}{X}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Widgets\+::X}
+
+
+
+Vector for storing \textquotesingle{}x\textquotesingle{} values. 
+
+\Hypertarget{classWidgets_ab4395bcfec17a2da59686bbde69e83f7}\label{classWidgets_ab4395bcfec17a2da59686bbde69e83f7} 
+\index{Widgets@{Widgets}!xIs@{xIs}}
+\index{xIs@{xIs}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{xIs}{xIs}}
+{\footnotesize\ttfamily QLabel\texorpdfstring{$\ast$}{*} Widgets\+::x\+Is}
+
+
+
+Label for displaying the variable \textquotesingle{}x\textquotesingle{}. 
+
+\Hypertarget{classWidgets_a9deae403bc4ee830002ea87770bbff69}\label{classWidgets_a9deae403bc4ee830002ea87770bbff69} 
+\index{Widgets@{Widgets}!xVariables@{xVariables}}
+\index{xVariables@{xVariables}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{xVariables}{xVariables}}
+{\footnotesize\ttfamily QSpin\+Box\texorpdfstring{$\ast$}{*} Widgets\+::x\+Variables}
+
+
+
+Spin box for selecting the number of \textquotesingle{}x\textquotesingle{} variables. 
+
+\Hypertarget{classWidgets_a0314785f021a9ede86a90d56689f50ae}\label{classWidgets_a0314785f021a9ede86a90d56689f50ae} 
+\index{Widgets@{Widgets}!Y@{Y}}
+\index{Y@{Y}!Widgets@{Widgets}}
+\doxysubsubsection{\texorpdfstring{Y}{Y}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Widgets\+::Y}
+
+
+
+Vector for storing \textquotesingle{}y\textquotesingle{} values. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/ui/wgts/lwgt/\mbox{\hyperlink{widgets_8h}{widgets.\+h}}\end{DoxyCompactItemize}

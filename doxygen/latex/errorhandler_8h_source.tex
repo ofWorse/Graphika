@@ -1,0 +1,30 @@
+\doxysection{errorhandler.\+h}
+\hypertarget{errorhandler_8h_source}{}\label{errorhandler_8h_source}\index{/home/ilya/Graphika/src/app/head/utils/errorhandler.h@{/home/ilya/Graphika/src/app/head/utils/errorhandler.h}}
+\mbox{\hyperlink{errorhandler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ ERRORHANDLER\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ ERRORHANDLER\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <csignal>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <QMessageBox>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{errorhandler_8h_ad2e59c7203b3bddc1bc9a2224b52e8e7}{signalHandler}}(\ \textcolor{keywordtype}{int}\ signal\ )}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ QMessageBox\ mb;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{if}(\ signal\ ==\ SIGSEGV\ )}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ mb.setIcon(\ QMessageBox::Warning\ );}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ mb.setWindowTitle(\ \textcolor{stringliteral}{"{}Ошибка"{}}\ );}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ mb.setText(\ \textcolor{stringliteral}{"{}Ошибка\ сегментации!"{}}\ );}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ mb.setStandardButtons(\ QMessageBox::Ok\ );}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ mb.exec();}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ exit(\ signal\ );}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ERRORHANDLER\_H}}
+
+\end{DoxyCode}

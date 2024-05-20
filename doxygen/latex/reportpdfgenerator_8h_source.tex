@@ -1,0 +1,29 @@
+\doxysection{reportpdfgenerator.\+h}
+\hypertarget{reportpdfgenerator_8h_source}{}\label{reportpdfgenerator_8h_source}\index{/home/ilya/Graphika/src/app/head/algs/reportpdfgenerator.h@{/home/ilya/Graphika/src/app/head/algs/reportpdfgenerator.h}}
+\mbox{\hyperlink{reportpdfgenerator_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ REPORTPDFGENERATOR\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ REPORTPDFGENERATOR\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <QApplication>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <QtWidgets>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <QPdfWriter>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <QPainter>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{compositestatestack_8h}{compositestatestack.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classReportPDFGenerator}{ReportPDFGenerator}}\ :\ \textcolor{keyword}{public}\ QWidget}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{const}\ QString*\ file;\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classReportPDFGenerator_a522253b8d4ee5bd82d328a775c803884}{ReportPDFGenerator}}(\ \textcolor{keyword}{const}\ QString\ file,\ \textcolor{keyword}{const}\ QString\ dir,\ \textcolor{keyword}{const}\ QString\ ext,\ QWidget*\ parent\ =\ \textcolor{keyword}{nullptr}\ );}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classReportPDFGenerator_a39c8a65fd5bf04893800a06a2ce920f6}{createPdfReport}}(\ \mbox{\hyperlink{classCompositeStateStack}{CompositeStateStack}}\&\ logStack\ );}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ REPORTPDFGENERATOR\_H}}
+
+\end{DoxyCode}

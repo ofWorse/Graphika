@@ -1,0 +1,154 @@
+\doxysection{widgets.\+h}
+\hypertarget{widgets_8h_source}{}\label{widgets_8h_source}\index{/home/ilya/Graphika/src/app/head/ui/wgts/lwgt/widgets.h@{/home/ilya/Graphika/src/app/head/ui/wgts/lwgt/widgets.h}}
+\mbox{\hyperlink{widgets_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ WIDGETS\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ WIDGETS\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{validatestring_8h}{validatestring.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <QLineEdit>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <QWidget>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <QLabel>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <QSpinBox>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <QComboBox>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <QPushButton>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <QGridLayout>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <QTableWidget>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <QLineEdit>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{stringparser_8h}{stringparser.h}}>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classWidgets}{Widgets}}\ :\ \textcolor{keyword}{public}\ QWidget}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00032\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classValidateString}{ValidateString}}*\ \mbox{\hyperlink{classWidgets_a580f47ac3993b070a750df3c62dd1631}{validator}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classStringParser}{StringParser}}*\ \mbox{\hyperlink{classWidgets_ad960fd313c0cd9c8706a86f6707317f6}{parser}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a4617f6b67d6395d6119a255b428992cb}{label}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a45456526ad1c18e1d0a6c01f13d5d34b}{errLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_ab4395bcfec17a2da59686bbde69e83f7}{xIs}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ QSpinBox*\ \mbox{\hyperlink{classWidgets_a9deae403bc4ee830002ea87770bbff69}{xVariables}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a3d132f25aff0cdae8259737933fe30b3}{typeOfInput}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ QComboBox*\ \mbox{\hyperlink{classWidgets_adb47717e4fdd8f401667934835eda0ed}{typeOfVariableInput}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ QPushButton*\ \mbox{\hyperlink{classWidgets_acf965d64e66d616b2d364ce69024dc92}{clearTable}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a7158587740b3777c0297b325706bf095}{minLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a55c3c6b231b5b9ecd89c18b7aa53d76b}{maxLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a831faff7876087fff29a03ab52b66fa8}{stepLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a9a2918bba81d917cfb744e08c73a8cc7}{nodesLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ QDoubleSpinBox*\ \mbox{\hyperlink{classWidgets_a0cb96612af165f9248533a18df3a95da}{nodes}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ QDoubleSpinBox*\ \mbox{\hyperlink{classWidgets_aa01cef6315c4969bcc0b0da1de803d35}{min}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ QDoubleSpinBox*\ \mbox{\hyperlink{classWidgets_a4011621521b52e0fc071ecb362136346}{max}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ QDoubleSpinBox*\ \mbox{\hyperlink{classWidgets_aa2317c2573ce46b489e69d79b90d6e79}{step}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{classWidgets_a6ef2bd9e9082dba54c93b6cf28b8798f}{expressionInput}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a26eae00d6d767a7fff93f185ca00576e}{derivativeLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{classWidgets_a6ed366746c9ae26c552ad9b313181d9a}{derivativeExpressionInput}};\ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ QPushButton*\ \mbox{\hyperlink{classWidgets_abde42e5c37946b4fd15d1c15c376a635}{solve}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ QPushButton*\ \mbox{\hyperlink{classWidgets_a867c0d3ff292037876721d7bf25f0594}{manualTableInput}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ QTableWidget*\ \mbox{\hyperlink{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d}{tableWidget}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ QGridLayout*\ \mbox{\hyperlink{classWidgets_ab884057a3ce4d52bbecad9557a7cf647}{layout}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a7553da052b5b6033f30924340308f8a0}{averError}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{classWidgets_a33b78bde516b7c09ae2e6c6597497a6c}{error}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a9111d72cbd9d68e2feac705d590e24dd}{oddsInputLabel}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ QTableWidget*\ \mbox{\hyperlink{classWidgets_ab45b8ad5422311890dd9b298112a4451}{equationsTableWidget}};\ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ QPushButton*\ \mbox{\hyperlink{classWidgets_a583c17bbc47319932b273160ecc1cc8d}{solveEquations}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ QPushButton*\ \mbox{\hyperlink{classWidgets_afb4dfab213c2224a2cc053e7e095aae6}{clearEquationsTable}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a228792899979baf69a861a41aef79f26}{resultOfEquations}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{classWidgets_aa0ba4d64e11947db05d8de1d8aa43ec6}{eqResult}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00068\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_ab2d737bb7f03fca4cbd316a2a51017bc}{resultDescription}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00069\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{classWidgets_ab690053f30c0eba45f9c555dac722e5c}{description}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ QLabel*\ \mbox{\hyperlink{classWidgets_a34f40a40eb5858eabda1b651c1538f0c}{calculatedArea}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00072\ \ \ \ \ QLineEdit*\ \mbox{\hyperlink{classWidgets_afb1139f1e10a3d4327b53a55099492d0}{area}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ std::vector<double>\ \mbox{\hyperlink{classWidgets_aa5e2be82937552b246589d5f01f73eaf}{X}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ std::vector<double>\ \mbox{\hyperlink{classWidgets_a0314785f021a9ede86a90d56689f50ae}{Y}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00076\ \ \ \ \ std::vector<double>\ \mbox{\hyperlink{classWidgets_a289c80f036adb06f090f0e5ea23c63c8}{dY}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ QPushButton*\ \mbox{\hyperlink{classWidgets_ad0dfc48297c6c255bf35b1747ec3368f}{buildGraph}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classWidgets_aea5ee7ba936d6120bf57e9bbc3b9cf51}{Widgets}}(\ QWidget*\ parent\ =\ \textcolor{keyword}{nullptr}\ )\ :\ QWidget(\ parent\ )\ \{\}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWidgets_a89a94c05c643276a81a59f96512d18c3}{initWidgets}}(\ \textcolor{keywordtype}{void}\ )}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a580f47ac3993b070a750df3c62dd1631}{validator}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classValidateString}{ValidateString}}(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_ad960fd313c0cd9c8706a86f6707317f6}{parser}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classStringParser}{StringParser}}(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a4617f6b67d6395d6119a255b428992cb}{label}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}f(x)\ =\ "{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a45456526ad1c18e1d0a6c01f13d5d34b}{errLabel}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a3d132f25aff0cdae8259737933fe30b3}{typeOfInput}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}Ввод\ значений\ x:\ "{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_adb47717e4fdd8f401667934835eda0ed}{typeOfVariableInput}}\ =\ \textcolor{keyword}{new}\ QComboBox(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_adb47717e4fdd8f401667934835eda0ed}{typeOfVariableInput}}-\/>addItems(\ \{\ \textcolor{stringliteral}{"{}с\ шагом"{}},\ \textcolor{stringliteral}{"{}с\ узлами"{}}\ \}\ );}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \{\ \ \textcolor{comment}{//\ Переменные\ элементы}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a7158587740b3777c0297b325706bf095}{minLabel}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}Минимальное\ значение\ x:"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a55c3c6b231b5b9ecd89c18b7aa53d76b}{maxLabel}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}Максимальное\ значение\ x:"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a831faff7876087fff29a03ab52b66fa8}{stepLabel}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}Шаг\ по\ x:"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a9a2918bba81d917cfb744e08c73a8cc7}{nodesLabel}}\ =\ \textcolor{keyword}{new}\ QLabel(\ \textcolor{stringliteral}{"{}Кол-\/во\ узлов:\ "{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa01cef6315c4969bcc0b0da1de803d35}{min}}\ =\ \textcolor{keyword}{new}\ QDoubleSpinBox(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a4011621521b52e0fc071ecb362136346}{max}}\ =\ \textcolor{keyword}{new}\ QDoubleSpinBox(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa2317c2573ce46b489e69d79b90d6e79}{step}}\ =\ \textcolor{keyword}{new}\ QDoubleSpinBox(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a0cb96612af165f9248533a18df3a95da}{nodes}}\ =\ \textcolor{keyword}{new}\ QDoubleSpinBox(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a26eae00d6d767a7fff93f185ca00576e}{derivativeLabel}}\ =\ \textcolor{keyword}{new}\ QLabel();}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a7553da052b5b6033f30924340308f8a0}{averError}}\ =\ \textcolor{keyword}{new}\ QLabel();}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a9111d72cbd9d68e2feac705d590e24dd}{oddsInputLabel}}\ =\ \textcolor{keyword}{new}\ QLabel();}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_ab45b8ad5422311890dd9b298112a4451}{equationsTableWidget}}\ =\ \textcolor{keyword}{new}\ QTableWidget();}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a583c17bbc47319932b273160ecc1cc8d}{solveEquations}}\ =\ \textcolor{keyword}{new}\ QPushButton();}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_afb4dfab213c2224a2cc053e7e095aae6}{clearEquationsTable}}\ =\ \textcolor{keyword}{new}\ QPushButton();}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a228792899979baf69a861a41aef79f26}{resultOfEquations}}\ =\ \textcolor{keyword}{new}\ QLabel();}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa0ba4d64e11947db05d8de1d8aa43ec6}{eqResult}}\ =\ \textcolor{keyword}{new}\ QLineEdit();}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_ab2d737bb7f03fca4cbd316a2a51017bc}{resultDescription}}\ =\ \textcolor{keyword}{new}\ QLabel();}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_ab690053f30c0eba45f9c555dac722e5c}{description}}\ =\ \textcolor{keyword}{new}\ QLineEdit();}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \}\ \textcolor{comment}{//\ Переменные\ элементы}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a6ed366746c9ae26c552ad9b313181d9a}{derivativeExpressionInput}}\ =\ \textcolor{keyword}{new}\ QLineEdit(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a6ef2bd9e9082dba54c93b6cf28b8798f}{expressionInput}}\ =\ \textcolor{keyword}{new}\ QLineEdit(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ connect(\ \mbox{\hyperlink{classWidgets_a6ef2bd9e9082dba54c93b6cf28b8798f}{expressionInput}},\ \&QLineEdit::textChanged,\ \textcolor{keyword}{this},\ \&\mbox{\hyperlink{classWidgets_a43e05b56d660718467d820abfeebdf1f}{Widgets::expressionInputChanged}}\ );}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a867c0d3ff292037876721d7bf25f0594}{manualTableInput}}\ =\ \textcolor{keyword}{new}\ QPushButton(\ \textcolor{stringliteral}{"{}Ручной\ ввод"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_abde42e5c37946b4fd15d1c15c376a635}{solve}}\ =\ \textcolor{keyword}{new}\ QPushButton(\ \textcolor{stringliteral}{"{}Решить"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_abde42e5c37946b4fd15d1c15c376a635}{solve}}-\/>setStyleSheet(\ \textcolor{stringliteral}{"{}background-\/color:\ tomato;"{}}\ );}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_abde42e5c37946b4fd15d1c15c376a635}{solve}}-\/>setEnabled(\ \textcolor{keyword}{false}\ );}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_acf965d64e66d616b2d364ce69024dc92}{clearTable}}\ =\ \textcolor{keyword}{new}\ QPushButton(\ \textcolor{stringliteral}{"{}Очистить\ таблицу"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_ad0dfc48297c6c255bf35b1747ec3368f}{buildGraph}}\ =\ \textcolor{keyword}{new}\ QPushButton(\ \textcolor{stringliteral}{"{}Построить\ график"{}},\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_ad0dfc48297c6c255bf35b1747ec3368f}{buildGraph}}-\/>setEnabled(\ \textcolor{keyword}{false}\ );}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d}{tableWidget}}\ =\ \textcolor{keyword}{new}\ QTableWidget(\ \textcolor{keyword}{this}\ );}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d}{tableWidget}}-\/>setColumnCount(\ 2\ );}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ QStringList\ labels;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ labels\ <<\ \textcolor{stringliteral}{"{}X"{}}\ <<\ \textcolor{stringliteral}{"{}Y"{}};}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a976696c0b1d6179951cbce7b5cf91e4d}{tableWidget}}-\/>setHorizontalHeaderLabels(\ labels\ );}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ setRange();}
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{void}\ setRange(\ \textcolor{keywordtype}{void}\ )}
+\DoxyCodeLine{00156\ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa01cef6315c4969bcc0b0da1de803d35}{min}}-\/>setRange(\ -\/100.0,\ 100.0\ );}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa01cef6315c4969bcc0b0da1de803d35}{min}}-\/>setSingleStep(\ 0.1\ );}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a4011621521b52e0fc071ecb362136346}{max}}-\/>setRange(\ -\/100.0,\ 100.0\ );}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a4011621521b52e0fc071ecb362136346}{max}}-\/>setSingleStep(\ 0.1\ );}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa2317c2573ce46b489e69d79b90d6e79}{step}}-\/>setRange(\ 0.01,\ 10.0\ );}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_aa2317c2573ce46b489e69d79b90d6e79}{step}}-\/>setSingleStep(\ 0.1\ );}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classWidgets_a0cb96612af165f9248533a18df3a95da}{nodes}}-\/>setRange(\ 0.0,\ 1000.0\ );}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ signals:}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWidgets_a43e05b56d660718467d820abfeebdf1f}{expressionInputChanged}}(\ \textcolor{keyword}{const}\ QString\&\ text\ );}
+\DoxyCodeLine{00173\ \};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WIDGETS\_H}}
+
+\end{DoxyCode}

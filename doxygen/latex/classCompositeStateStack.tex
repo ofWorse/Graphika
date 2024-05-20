@@ -1,0 +1,113 @@
+\doxysection{Composite\+State\+Stack Class Reference}
+\hypertarget{classCompositeStateStack}{}\label{classCompositeStateStack}\index{CompositeStateStack@{CompositeStateStack}}
+
+
+Simple stack for saving actions and logging into a pdf report.  
+
+
+
+
+{\ttfamily \#include $<$compositestatestack.\+h$>$}
+
+
+
+Inheritance diagram for Composite\+State\+Stack\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classCompositeStateStack__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Composite\+State\+Stack\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classCompositeStateStack__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classCompositeStateStack_a9acafb82527a5c2018511fd0781b9ab7}{receive\+Data}} (QObject \&data, bool to\+Remove)
+\begin{DoxyCompactList}\small\item\em receive\+Data\+: a slot that accepts data to be removed or stored on the stack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classCompositeStateStack_a39aec3e4d3752e965ebe3f7eb97d3fad}{Composite\+State\+Stack}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classCompositeStateStack}{Composite\+State\+Stack}\+: constructor with standard heir argument. \end{DoxyCompactList}\item 
+QStack$<$ QObject \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{classCompositeStateStack_a80a3af8479a87c49d19dc5ec21370db7}{get\+Log\+Stack}} (void)
+\begin{DoxyCompactList}\small\item\em get\+Log\+Stack\+: a standard getter method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Simple stack for saving actions and logging into a pdf report. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classCompositeStateStack_a39aec3e4d3752e965ebe3f7eb97d3fad}\label{classCompositeStateStack_a39aec3e4d3752e965ebe3f7eb97d3fad} 
+\index{CompositeStateStack@{CompositeStateStack}!CompositeStateStack@{CompositeStateStack}}
+\index{CompositeStateStack@{CompositeStateStack}!CompositeStateStack@{CompositeStateStack}}
+\doxysubsubsection{\texorpdfstring{CompositeStateStack()}{CompositeStateStack()}}
+{\footnotesize\ttfamily Composite\+State\+Stack\+::\+Composite\+State\+Stack (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{classCompositeStateStack}{Composite\+State\+Stack}\+: constructor with standard heir argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classCompositeStateStack_a80a3af8479a87c49d19dc5ec21370db7}\label{classCompositeStateStack_a80a3af8479a87c49d19dc5ec21370db7} 
+\index{CompositeStateStack@{CompositeStateStack}!getLogStack@{getLogStack}}
+\index{getLogStack@{getLogStack}!CompositeStateStack@{CompositeStateStack}}
+\doxysubsubsection{\texorpdfstring{getLogStack()}{getLogStack()}}
+{\footnotesize\ttfamily QStack$<$ QObject \texorpdfstring{$\ast$}{*} $>$ Composite\+State\+Stack\+::get\+Log\+Stack (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get\+Log\+Stack\+: a standard getter method. 
+
+\begin{DoxyReturn}{Returns}
+a stack of QObject\textquotesingle{}s. 
+\end{DoxyReturn}
+\Hypertarget{classCompositeStateStack_a9acafb82527a5c2018511fd0781b9ab7}\label{classCompositeStateStack_a9acafb82527a5c2018511fd0781b9ab7} 
+\index{CompositeStateStack@{CompositeStateStack}!receiveData@{receiveData}}
+\index{receiveData@{receiveData}!CompositeStateStack@{CompositeStateStack}}
+\doxysubsubsection{\texorpdfstring{receiveData}{receiveData}}
+{\footnotesize\ttfamily void Composite\+State\+Stack\+::receive\+Data (\begin{DoxyParamCaption}\item[{QObject \&}]{data,  }\item[{bool}]{to\+Remove }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+receive\+Data\+: a slot that accepts data to be removed or stored on the stack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & a class that heirs QObject. \\
+\hline
+{\em to\+Remove} & remove or save data to stack. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/algs/\mbox{\hyperlink{compositestatestack_8h}{compositestatestack.\+h}}\end{DoxyCompactItemize}

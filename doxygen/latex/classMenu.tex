@@ -1,0 +1,184 @@
+\doxysection{Menu Class Reference}
+\hypertarget{classMenu}{}\label{classMenu}\index{Menu@{Menu}}
+
+
+The \doxylink{classMenu}{Menu} class. Contains a list of additional services.  
+
+
+
+
+{\ttfamily \#include $<$menu.\+h$>$}
+
+
+
+Inheritance diagram for Menu\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{classMenu__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Menu\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{classMenu__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classMenu_aae46280dceac07c869a454aa15569b70}{session\+Started}} (void)
+\begin{DoxyCompactList}\small\item\em session\+Started\+: A signal emitted when a session is started. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMenu_a55d2273bda4b0a2c47ca34bde712b87a}{session\+Stopped}} (void)
+\begin{DoxyCompactList}\small\item\em session\+Stopped\+: A signal emitted when a session is stopped. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMenu_abc2efe006bcab789a9c8a43a4ff0908d}{license\+Menu\+Oppened}} (void)
+\begin{DoxyCompactList}\small\item\em license\+Menu\+Oppened\+: A signal emitted when the license menu is opened. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMenu_a96cf114e075cf4493fe1fbdc8c5fb148}{authors\+Menu\+Oppened}} (void)
+\begin{DoxyCompactList}\small\item\em authors\+Menu\+Oppened\+: A signal emitted when the authors menu is opened. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMenu_a3e9ca88609df2112a47211c76daf0903}{about\+Menu\+Oppened}} (void)
+\begin{DoxyCompactList}\small\item\em about\+Menu\+Oppened\+: A signal emitted when the about menu is opened. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMenu_a81e517b62384dc184425757e6dba87d3}{Menu}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classMenu}{Menu}\+: standard constructor. \end{DoxyCompactList}\item 
+QMenu\+Bar \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classMenu_a537483b3be82d346449c9030fc67cdee}{get\+Menu}} (void)
+\begin{DoxyCompactList}\small\item\em get\+Menu\+: standard getter. \end{DoxyCompactList}\item 
+QAction \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classMenu_a363a784c944c9e10058224f71706cdae}{get\+Start\+Session\+Action}} (void) const
+\begin{DoxyCompactList}\small\item\em get\+Start\+Session\+Action\+: standard getter. \end{DoxyCompactList}\item 
+QAction \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classMenu_a2f9123dacedbd79729ea4d422f6b6896}{get\+End\+Session\+Action}} (void) const
+\begin{DoxyCompactList}\small\item\em get\+Start\+Session\+Action\+: standard getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classMenu}{Menu} class. Contains a list of additional services. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classMenu_a81e517b62384dc184425757e6dba87d3}\label{classMenu_a81e517b62384dc184425757e6dba87d3} 
+\index{Menu@{Menu}!Menu@{Menu}}
+\index{Menu@{Menu}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{Menu()}{Menu()}}
+{\footnotesize\ttfamily Menu\+::\+Menu (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{classMenu}{Menu}\+: standard constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMenu_a3e9ca88609df2112a47211c76daf0903}\label{classMenu_a3e9ca88609df2112a47211c76daf0903} 
+\index{Menu@{Menu}!aboutMenuOppened@{aboutMenuOppened}}
+\index{aboutMenuOppened@{aboutMenuOppened}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{aboutMenuOppened}{aboutMenuOppened}}
+{\footnotesize\ttfamily void Menu\+::about\+Menu\+Oppened (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+about\+Menu\+Oppened\+: A signal emitted when the about menu is opened. 
+
+\Hypertarget{classMenu_a96cf114e075cf4493fe1fbdc8c5fb148}\label{classMenu_a96cf114e075cf4493fe1fbdc8c5fb148} 
+\index{Menu@{Menu}!authorsMenuOppened@{authorsMenuOppened}}
+\index{authorsMenuOppened@{authorsMenuOppened}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{authorsMenuOppened}{authorsMenuOppened}}
+{\footnotesize\ttfamily void Menu\+::authors\+Menu\+Oppened (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+authors\+Menu\+Oppened\+: A signal emitted when the authors menu is opened. 
+
+\Hypertarget{classMenu_a2f9123dacedbd79729ea4d422f6b6896}\label{classMenu_a2f9123dacedbd79729ea4d422f6b6896} 
+\index{Menu@{Menu}!getEndSessionAction@{getEndSessionAction}}
+\index{getEndSessionAction@{getEndSessionAction}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{getEndSessionAction()}{getEndSessionAction()}}
+{\footnotesize\ttfamily QAction \texorpdfstring{$\ast$}{*} Menu\+::get\+End\+Session\+Action (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get\+Start\+Session\+Action\+: standard getter. 
+
+\begin{DoxyReturn}{Returns}
+end\+Session\+Action. 
+\end{DoxyReturn}
+\Hypertarget{classMenu_a537483b3be82d346449c9030fc67cdee}\label{classMenu_a537483b3be82d346449c9030fc67cdee} 
+\index{Menu@{Menu}!getMenu@{getMenu}}
+\index{getMenu@{getMenu}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{getMenu()}{getMenu()}}
+{\footnotesize\ttfamily QMenu\+Bar \texorpdfstring{$\ast$}{*} Menu\+::get\+Menu (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get\+Menu\+: standard getter. 
+
+\begin{DoxyReturn}{Returns}
+menu 
+\end{DoxyReturn}
+\Hypertarget{classMenu_a363a784c944c9e10058224f71706cdae}\label{classMenu_a363a784c944c9e10058224f71706cdae} 
+\index{Menu@{Menu}!getStartSessionAction@{getStartSessionAction}}
+\index{getStartSessionAction@{getStartSessionAction}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{getStartSessionAction()}{getStartSessionAction()}}
+{\footnotesize\ttfamily QAction \texorpdfstring{$\ast$}{*} Menu\+::get\+Start\+Session\+Action (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get\+Start\+Session\+Action\+: standard getter. 
+
+\begin{DoxyReturn}{Returns}
+start\+Session\+Action. 
+\end{DoxyReturn}
+\Hypertarget{classMenu_abc2efe006bcab789a9c8a43a4ff0908d}\label{classMenu_abc2efe006bcab789a9c8a43a4ff0908d} 
+\index{Menu@{Menu}!licenseMenuOppened@{licenseMenuOppened}}
+\index{licenseMenuOppened@{licenseMenuOppened}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{licenseMenuOppened}{licenseMenuOppened}}
+{\footnotesize\ttfamily void Menu\+::license\+Menu\+Oppened (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+license\+Menu\+Oppened\+: A signal emitted when the license menu is opened. 
+
+\Hypertarget{classMenu_aae46280dceac07c869a454aa15569b70}\label{classMenu_aae46280dceac07c869a454aa15569b70} 
+\index{Menu@{Menu}!sessionStarted@{sessionStarted}}
+\index{sessionStarted@{sessionStarted}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{sessionStarted}{sessionStarted}}
+{\footnotesize\ttfamily void Menu\+::session\+Started (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+session\+Started\+: A signal emitted when a session is started. 
+
+\Hypertarget{classMenu_a55d2273bda4b0a2c47ca34bde712b87a}\label{classMenu_a55d2273bda4b0a2c47ca34bde712b87a} 
+\index{Menu@{Menu}!sessionStopped@{sessionStopped}}
+\index{sessionStopped@{sessionStopped}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{sessionStopped}{sessionStopped}}
+{\footnotesize\ttfamily void Menu\+::session\+Stopped (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+session\+Stopped\+: A signal emitted when a session is stopped. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/ui/\mbox{\hyperlink{menu_8h}{menu.\+h}}\end{DoxyCompactItemize}

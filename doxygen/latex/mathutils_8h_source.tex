@@ -1,0 +1,30 @@
+\doxysection{mathutils.\+h}
+\hypertarget{mathutils_8h_source}{}\label{mathutils_8h_source}\index{/home/ilya/Graphika/src/app/head/utils/mathutils.h@{/home/ilya/Graphika/src/app/head/utils/mathutils.h}}
+\mbox{\hyperlink{mathutils_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ MATHUTILS\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ MATHUTILS\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <QWidget>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <QTableWidget>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMathUtils}{MathUtils}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classMathUtils_a3feb4a0240604b57f5efc1056cf99d33}{MathUtils}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<double>\ \mbox{\hyperlink{classMathUtils_aa4f7c8c5808f400c1cdd38e9e30186e7}{multiplyPoints}}(\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ a,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ b\ )\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMathUtils_a0930afd3ff9973b1245d067e28c84ee1}{setupNodes}}(\ std::vector<double>\&\ X,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ node,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ min,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ max\ )\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classMathUtils_a9af1e739a13d3738db0c0c0d5bca0466}{calculateAverageError}}(\ std::vector<double>\&\ X1,\ std::vector<double>\&\ X2\ )\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{static}\ QVector<QVector<double>>\ \mbox{\hyperlink{classMathUtils_ad2642bef83c5d6d1dae120cc7769dd21}{formTheSystemOfEquations}}(\ \textcolor{keyword}{const}\ QTableWidget\&\ table\ );}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MATHUTILS\_H}}
+
+\end{DoxyCode}

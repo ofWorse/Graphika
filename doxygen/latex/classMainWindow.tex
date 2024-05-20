@@ -1,0 +1,373 @@
+\doxysection{Main\+Window Class Reference}
+\hypertarget{classMainWindow}{}\label{classMainWindow}\index{MainWindow@{MainWindow}}
+
+
+{\ttfamily \#include $<$mainwindow.\+h$>$}
+
+
+
+Inheritance diagram for Main\+Window\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{classMainWindow__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Main\+Window\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{classMainWindow__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classMainWindow_adc48d3433f6c13198f551468fdf66afa}{open\+Menu}} (int index, \mbox{\hyperlink{namespacepymodules_a33d51ba59146bca6b4bf3dcf1882db9b}{pymodules\+::\+Modules}} module)
+\begin{DoxyCompactList}\small\item\em open\+Menu\+: determines the index of the widget and calls the build\+Specific\+Widget method to build. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_ae37f5923565a85896bfdcad417dac209}{print\+Function\+Graph}} (void)
+\begin{DoxyCompactList}\small\item\em print\+Function\+Graph\+: invokes method from right widget for simple graph build. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a46c9f0b1badeeb90f518b2965feadec3}{calculate\+Sys}} (QVector$<$ QVector$<$ double $>$ $>$ \&data)
+\begin{DoxyCompactList}\small\item\em calculate\+Sys\+: invokes method from right widget for equations system calculation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a3f91c09b928d866b0bbf846e4aa1c9b8}{clear\+Graph}} (void)
+\begin{DoxyCompactList}\small\item\em clear\+Graph\+: invokes method from right widget for plot cleanup process. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a40ded9c74c47088098ee65b50d8139fe}{reset\+Zoom}} (void)
+\begin{DoxyCompactList}\small\item\em reset\+Zoom\+: invokes method from right widget and resets zoom on plot. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_abaad7c9051e5de289f869751988a58f2}{move\+Legend}} (void)
+\begin{DoxyCompactList}\small\item\em move\+Legend\+: invokes method from right widget for clockwise legend move. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a49a0fd7488b34d3d7ca144b95678037f}{show\+Legend}} (void)
+\begin{DoxyCompactList}\small\item\em show\+Legend\+: shows legend if it was hidden. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a11b95b0483be496b570fd4f2bd647277}{step\+Back}} (void)
+\begin{DoxyCompactList}\small\item\em step\+Back\+: invokes method from right widget and moves state back. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_ae3cd462535203dfcc05da99b6fbadedd}{step\+Forward}} (void)
+\begin{DoxyCompactList}\small\item\em step\+Forward\+: invokes method from right widget and moves state forward. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_ab16e47724fae5cdffcea3846e9622f84}{zoom\+In}} (void)
+\begin{DoxyCompactList}\small\item\em zoom\+In\+: increases the plot. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_aa3181f9f72ef0cf200a53c59f52a5b37}{zoom\+Out}} (void)
+\begin{DoxyCompactList}\small\item\em zoom\+Out\+: decreases the plot. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a4855397b5ca8fe387364490d16d8466b}{save\+Plot\+As\+Image}} (void)
+\begin{DoxyCompactList}\small\item\em save\+Plot\+As\+Image\+: calls a method from the right widget to save the graph in image format. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a445f48ee1cba6dcefce099063e60f529}{unpin\+Graph}} (void)
+\begin{DoxyCompactList}\small\item\em unpin\+Graph\+: unpins graph from main window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a575b896f3fcf614847152602a0b9cc5d}{start\+Session}} (void)
+\begin{DoxyCompactList}\small\item\em start\+Session\+: in development. starts a data logging session for the report. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_ac71299b23871397be1322cbffbb258a7}{end\+Session}} (void)
+\begin{DoxyCompactList}\small\item\em end\+Session\+: in development. ends a data logging session for the report. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a388b883e20864e54676cced6c63bc315}{open\+About\+Menu}} (void)
+\begin{DoxyCompactList}\small\item\em open\+About\+Menu\+: invokes about list menu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a5eda0c6243d36f8d9accecf8d27eca11}{open\+Authors\+Menu}} (void)
+\begin{DoxyCompactList}\small\item\em open\+Authors\+Menu\+: invokes authors list menu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a343db185326d050b436d88d198ffbf38}{open\+License\+Menu}} (void)
+\begin{DoxyCompactList}\small\item\em open\+License\+Menu\+: invokes text of license menu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_ab4c099915687b127cffcb682a905d1c4}{draw}} (void)
+\begin{DoxyCompactList}\small\item\em draw\+: determines which rendering method to call \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a2b28cc166d9dd12ac6e93dbf69388eb6}{delete\+Widgets}} (void)
+\begin{DoxyCompactList}\small\item\em delete\+Widgets\+: widgets cleanup method. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainWindow_a2d14757d8e079e6a256d26e57e6c87cc}{could\+Save\+Plot\+As\+Image}} (bool could\+Save)
+\begin{DoxyCompactList}\small\item\em could\+Save\+Plot\+As\+Image\+: return true if plot is not empty. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classMainWindow_aaff20942a0445872a6259a7d21a20793}{rebuild\+Widgets}} (\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&buffer, \mbox{\hyperlink{namespacepymodules_a33d51ba59146bca6b4bf3dcf1882db9b}{pymodules\+::\+Modules}} module)
+\begin{DoxyCompactList}\small\item\em rebuild\+Widgets\+: makes it clear to the left widget that it’s time to change the state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMainWindow_a996c5a2b6f77944776856f08ec30858d}{Main\+Window}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classMainWindow}{Main\+Window}\+: constructor with standard heir argument. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+friend \mbox{\hyperlink{classMainWindow_a108ddd8baa3b86338668ddb504058a07}{Right\+Widget}}
+\item 
+friend \mbox{\hyperlink{classMainWindow_abe085376c4404fe194260aee7fbf0473}{Left\+Widget}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classMainWindow_a996c5a2b6f77944776856f08ec30858d}\label{classMainWindow_a996c5a2b6f77944776856f08ec30858d} 
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{MainWindow()}{MainWindow()}}
+{\footnotesize\ttfamily Main\+Window\+::\+Main\+Window (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{classMainWindow}{Main\+Window}\+: constructor with standard heir argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMainWindow_a46c9f0b1badeeb90f518b2965feadec3}\label{classMainWindow_a46c9f0b1badeeb90f518b2965feadec3} 
+\index{MainWindow@{MainWindow}!calculateSys@{calculateSys}}
+\index{calculateSys@{calculateSys}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{calculateSys}{calculateSys}}
+{\footnotesize\ttfamily void Main\+Window\+::calculate\+Sys (\begin{DoxyParamCaption}\item[{QVector$<$ QVector$<$ double $>$ $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+calculate\+Sys\+: invokes method from right widget for equations system calculation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & numerous of unknown and free members of equation. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classMainWindow_a3f91c09b928d866b0bbf846e4aa1c9b8}\label{classMainWindow_a3f91c09b928d866b0bbf846e4aa1c9b8} 
+\index{MainWindow@{MainWindow}!clearGraph@{clearGraph}}
+\index{clearGraph@{clearGraph}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{clearGraph}{clearGraph}}
+{\footnotesize\ttfamily void Main\+Window\+::clear\+Graph (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+clear\+Graph\+: invokes method from right widget for plot cleanup process. 
+
+\Hypertarget{classMainWindow_a2d14757d8e079e6a256d26e57e6c87cc}\label{classMainWindow_a2d14757d8e079e6a256d26e57e6c87cc} 
+\index{MainWindow@{MainWindow}!couldSavePlotAsImage@{couldSavePlotAsImage}}
+\index{couldSavePlotAsImage@{couldSavePlotAsImage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{couldSavePlotAsImage}{couldSavePlotAsImage}}
+{\footnotesize\ttfamily void Main\+Window\+::could\+Save\+Plot\+As\+Image (\begin{DoxyParamCaption}\item[{bool}]{could\+Save }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+could\+Save\+Plot\+As\+Image\+: return true if plot is not empty. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em could\+Save} & save or ignore request. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classMainWindow_a2b28cc166d9dd12ac6e93dbf69388eb6}\label{classMainWindow_a2b28cc166d9dd12ac6e93dbf69388eb6} 
+\index{MainWindow@{MainWindow}!deleteWidgets@{deleteWidgets}}
+\index{deleteWidgets@{deleteWidgets}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{deleteWidgets}{deleteWidgets}}
+{\footnotesize\ttfamily void Main\+Window\+::delete\+Widgets (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+delete\+Widgets\+: widgets cleanup method. 
+
+\Hypertarget{classMainWindow_ab4c099915687b127cffcb682a905d1c4}\label{classMainWindow_ab4c099915687b127cffcb682a905d1c4} 
+\index{MainWindow@{MainWindow}!draw@{draw}}
+\index{draw@{draw}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{draw}{draw}}
+{\footnotesize\ttfamily void Main\+Window\+::draw (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+draw\+: determines which rendering method to call 
+
+\Hypertarget{classMainWindow_ac71299b23871397be1322cbffbb258a7}\label{classMainWindow_ac71299b23871397be1322cbffbb258a7} 
+\index{MainWindow@{MainWindow}!endSession@{endSession}}
+\index{endSession@{endSession}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{endSession}{endSession}}
+{\footnotesize\ttfamily void Main\+Window\+::end\+Session (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+end\+Session\+: in development. ends a data logging session for the report. 
+
+\Hypertarget{classMainWindow_abaad7c9051e5de289f869751988a58f2}\label{classMainWindow_abaad7c9051e5de289f869751988a58f2} 
+\index{MainWindow@{MainWindow}!moveLegend@{moveLegend}}
+\index{moveLegend@{moveLegend}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{moveLegend}{moveLegend}}
+{\footnotesize\ttfamily void Main\+Window\+::move\+Legend (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+move\+Legend\+: invokes method from right widget for clockwise legend move. 
+
+\Hypertarget{classMainWindow_a388b883e20864e54676cced6c63bc315}\label{classMainWindow_a388b883e20864e54676cced6c63bc315} 
+\index{MainWindow@{MainWindow}!openAboutMenu@{openAboutMenu}}
+\index{openAboutMenu@{openAboutMenu}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{openAboutMenu}{openAboutMenu}}
+{\footnotesize\ttfamily void Main\+Window\+::open\+About\+Menu (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+open\+About\+Menu\+: invokes about list menu. 
+
+\Hypertarget{classMainWindow_a5eda0c6243d36f8d9accecf8d27eca11}\label{classMainWindow_a5eda0c6243d36f8d9accecf8d27eca11} 
+\index{MainWindow@{MainWindow}!openAuthorsMenu@{openAuthorsMenu}}
+\index{openAuthorsMenu@{openAuthorsMenu}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{openAuthorsMenu}{openAuthorsMenu}}
+{\footnotesize\ttfamily void Main\+Window\+::open\+Authors\+Menu (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+open\+Authors\+Menu\+: invokes authors list menu. 
+
+\Hypertarget{classMainWindow_a343db185326d050b436d88d198ffbf38}\label{classMainWindow_a343db185326d050b436d88d198ffbf38} 
+\index{MainWindow@{MainWindow}!openLicenseMenu@{openLicenseMenu}}
+\index{openLicenseMenu@{openLicenseMenu}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{openLicenseMenu}{openLicenseMenu}}
+{\footnotesize\ttfamily void Main\+Window\+::open\+License\+Menu (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+open\+License\+Menu\+: invokes text of license menu. 
+
+\Hypertarget{classMainWindow_adc48d3433f6c13198f551468fdf66afa}\label{classMainWindow_adc48d3433f6c13198f551468fdf66afa} 
+\index{MainWindow@{MainWindow}!openMenu@{openMenu}}
+\index{openMenu@{openMenu}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{openMenu}{openMenu}}
+{\footnotesize\ttfamily void Main\+Window\+::open\+Menu (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{\mbox{\hyperlink{namespacepymodules_a33d51ba59146bca6b4bf3dcf1882db9b}{pymodules\+::\+Modules}}}]{module }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+open\+Menu\+: determines the index of the widget and calls the build\+Specific\+Widget method to build. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & number of toolbar widget. \\
+\hline
+{\em module} & python module if needed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classMainWindow_ae37f5923565a85896bfdcad417dac209}\label{classMainWindow_ae37f5923565a85896bfdcad417dac209} 
+\index{MainWindow@{MainWindow}!printFunctionGraph@{printFunctionGraph}}
+\index{printFunctionGraph@{printFunctionGraph}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{printFunctionGraph}{printFunctionGraph}}
+{\footnotesize\ttfamily void Main\+Window\+::print\+Function\+Graph (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+print\+Function\+Graph\+: invokes method from right widget for simple graph build. 
+
+\Hypertarget{classMainWindow_aaff20942a0445872a6259a7d21a20793}\label{classMainWindow_aaff20942a0445872a6259a7d21a20793} 
+\index{MainWindow@{MainWindow}!rebuildWidgets@{rebuildWidgets}}
+\index{rebuildWidgets@{rebuildWidgets}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{rebuildWidgets}{rebuildWidgets}}
+{\footnotesize\ttfamily void Main\+Window\+::rebuild\+Widgets (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&}]{buffer,  }\item[{\mbox{\hyperlink{namespacepymodules_a33d51ba59146bca6b4bf3dcf1882db9b}{pymodules\+::\+Modules}}}]{module }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+rebuild\+Widgets\+: makes it clear to the left widget that it’s time to change the state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & x \& y variables. \\
+\hline
+{\em module} & python module if needed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classMainWindow_a40ded9c74c47088098ee65b50d8139fe}\label{classMainWindow_a40ded9c74c47088098ee65b50d8139fe} 
+\index{MainWindow@{MainWindow}!resetZoom@{resetZoom}}
+\index{resetZoom@{resetZoom}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{resetZoom}{resetZoom}}
+{\footnotesize\ttfamily void Main\+Window\+::reset\+Zoom (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+reset\+Zoom\+: invokes method from right widget and resets zoom on plot. 
+
+\Hypertarget{classMainWindow_a4855397b5ca8fe387364490d16d8466b}\label{classMainWindow_a4855397b5ca8fe387364490d16d8466b} 
+\index{MainWindow@{MainWindow}!savePlotAsImage@{savePlotAsImage}}
+\index{savePlotAsImage@{savePlotAsImage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{savePlotAsImage}{savePlotAsImage}}
+{\footnotesize\ttfamily void Main\+Window\+::save\+Plot\+As\+Image (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+save\+Plot\+As\+Image\+: calls a method from the right widget to save the graph in image format. 
+
+\Hypertarget{classMainWindow_a49a0fd7488b34d3d7ca144b95678037f}\label{classMainWindow_a49a0fd7488b34d3d7ca144b95678037f} 
+\index{MainWindow@{MainWindow}!showLegend@{showLegend}}
+\index{showLegend@{showLegend}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{showLegend}{showLegend}}
+{\footnotesize\ttfamily void Main\+Window\+::show\+Legend (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+show\+Legend\+: shows legend if it was hidden. 
+
+\Hypertarget{classMainWindow_a575b896f3fcf614847152602a0b9cc5d}\label{classMainWindow_a575b896f3fcf614847152602a0b9cc5d} 
+\index{MainWindow@{MainWindow}!startSession@{startSession}}
+\index{startSession@{startSession}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{startSession}{startSession}}
+{\footnotesize\ttfamily void Main\+Window\+::start\+Session (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+start\+Session\+: in development. starts a data logging session for the report. 
+
+\Hypertarget{classMainWindow_a11b95b0483be496b570fd4f2bd647277}\label{classMainWindow_a11b95b0483be496b570fd4f2bd647277} 
+\index{MainWindow@{MainWindow}!stepBack@{stepBack}}
+\index{stepBack@{stepBack}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{stepBack}{stepBack}}
+{\footnotesize\ttfamily void Main\+Window\+::step\+Back (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+step\+Back\+: invokes method from right widget and moves state back. 
+
+\Hypertarget{classMainWindow_ae3cd462535203dfcc05da99b6fbadedd}\label{classMainWindow_ae3cd462535203dfcc05da99b6fbadedd} 
+\index{MainWindow@{MainWindow}!stepForward@{stepForward}}
+\index{stepForward@{stepForward}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{stepForward}{stepForward}}
+{\footnotesize\ttfamily void Main\+Window\+::step\+Forward (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+step\+Forward\+: invokes method from right widget and moves state forward. 
+
+\Hypertarget{classMainWindow_a445f48ee1cba6dcefce099063e60f529}\label{classMainWindow_a445f48ee1cba6dcefce099063e60f529} 
+\index{MainWindow@{MainWindow}!unpinGraph@{unpinGraph}}
+\index{unpinGraph@{unpinGraph}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{unpinGraph}{unpinGraph}}
+{\footnotesize\ttfamily void Main\+Window\+::unpin\+Graph (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+unpin\+Graph\+: unpins graph from main window. 
+
+\Hypertarget{classMainWindow_ab16e47724fae5cdffcea3846e9622f84}\label{classMainWindow_ab16e47724fae5cdffcea3846e9622f84} 
+\index{MainWindow@{MainWindow}!zoomIn@{zoomIn}}
+\index{zoomIn@{zoomIn}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{zoomIn}{zoomIn}}
+{\footnotesize\ttfamily void Main\+Window\+::zoom\+In (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+zoom\+In\+: increases the plot. 
+
+\Hypertarget{classMainWindow_aa3181f9f72ef0cf200a53c59f52a5b37}\label{classMainWindow_aa3181f9f72ef0cf200a53c59f52a5b37} 
+\index{MainWindow@{MainWindow}!zoomOut@{zoomOut}}
+\index{zoomOut@{zoomOut}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{zoomOut}{zoomOut}}
+{\footnotesize\ttfamily void Main\+Window\+::zoom\+Out (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+zoom\+Out\+: decreases the plot. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classMainWindow_abe085376c4404fe194260aee7fbf0473}\label{classMainWindow_abe085376c4404fe194260aee7fbf0473} 
+\index{MainWindow@{MainWindow}!LeftWidget@{LeftWidget}}
+\index{LeftWidget@{LeftWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{LeftWidget}{LeftWidget}}
+{\footnotesize\ttfamily friend Main\+Window\+::\+Left\+Widget}
+
+\Hypertarget{classMainWindow_a108ddd8baa3b86338668ddb504058a07}\label{classMainWindow_a108ddd8baa3b86338668ddb504058a07} 
+\index{MainWindow@{MainWindow}!RightWidget@{RightWidget}}
+\index{RightWidget@{RightWidget}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{RightWidget}{RightWidget}}
+{\footnotesize\ttfamily friend Main\+Window\+::\+Right\+Widget}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/ui/\mbox{\hyperlink{mainwindow_8h}{mainwindow.\+h}}\end{DoxyCompactItemize}

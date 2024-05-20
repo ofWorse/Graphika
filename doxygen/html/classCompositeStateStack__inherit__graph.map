@@ -1,0 +1,5 @@
+<map id="CompositeStateStack" name="CompositeStateStack">
+<area shape="rect" id="Node000001" title="Simple stack for saving actions and logging into a pdf report." alt="" coords="5,79,168,104"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="47,5,126,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,44,89,79,84,79,84,44"/>
+</map>
