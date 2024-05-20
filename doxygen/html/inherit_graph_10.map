@@ -1,0 +1,29 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,179,84,204"/>
+<area shape="rect" id="Node000001" href="$classCompositeStateStack.html" title="Simple stack for saving actions and logging into a pdf report." alt="" coords="132,5,295,31"/>
+<area shape="poly" id="edge9_Node000000_Node000001" title=" " alt="" coords="52,165,80,102,102,69,130,40,150,28,153,33,134,44,106,72,84,105,56,167"/>
+<area shape="rect" id="Node000002" href="$classGraphBuilder.html" title="GraphBuilder: A class that builds and edits graphs." alt="" coords="160,55,267,80"/>
+<area shape="poly" id="edge10_Node000000_Node000002" title=" " alt="" coords="59,166,89,126,108,106,131,89,159,76,161,81,133,94,112,110,93,130,63,169"/>
+<area shape="rect" id="Node000003" href="$classLayoutInitializer.html" title="The LayoutInitializer class. Contains methods for managing widgets and their initialization." alt="" coords="150,104,277,129"/>
+<area shape="poly" id="edge11_Node000000_Node000003" title=" " alt="" coords="75,169,131,138,162,127,164,132,133,143,78,173"/>
+<area shape="rect" id="Node000009" href="$classLeftWidget.html" title="The LeftWidget class, the main link for managing the state of widgets on the left side of the window." alt="" coords="167,153,259,179"/>
+<area shape="poly" id="edge17_Node000000_Node000009" title=" " alt="" coords="97,181,167,170,167,175,98,186"/>
+<area shape="rect" id="Node000010" href="$classReportPDFGenerator.html" title="A class whose task is to create and save a PDF report in memory." alt="" coords="135,203,291,228"/>
+<area shape="poly" id="edge18_Node000000_Node000010" title=" " alt="" coords="98,196,136,202,135,207,97,201"/>
+<area shape="rect" id="Node000011" href="$classRightWidget.html" title="The RightWidget class, the main link for managing the state of widgets on the right side of the windo..." alt="" coords="162,252,265,277"/>
+<area shape="poly" id="edge19_Node000000_Node000011" title=" " alt="" coords="79,209,133,237,167,249,165,254,131,242,77,214"/>
+<area shape="rect" id="Node000012" href="$classSheetMenu.html" title="The SheetMenu class." alt="" coords="166,301,261,327"/>
+<area shape="poly" id="edge20_Node000000_Node000012" title=" " alt="" coords="63,214,93,252,133,288,167,302,165,307,131,292,89,256,59,217"/>
+<area shape="rect" id="Node000013" href="$classWidgets.html" title="The Widgets class which contains all labels and other left&#45;widget control systems." alt="" coords="176,351,251,376"/>
+<area shape="poly" id="edge21_Node000000_Node000013" title=" " alt="" coords="57,216,85,277,106,310,134,337,154,349,177,356,175,361,152,354,130,341,102,313,80,280,52,218"/>
+<area shape="rect" id="Node000004" href="$classDerivationLayout.html" title="The DerivationLayout class, that heir a super class &quot;LayoutInitializer&quot; which contains widget control..." alt="" coords="349,5,483,31"/>
+<area shape="poly" id="edge12_Node000003_Node000004" title=" " alt="" coords="279,96,293,89,308,77,317,65,326,52,341,40,365,28,367,33,344,44,330,56,321,68,311,81,296,94,282,101"/>
+<area shape="rect" id="Node000005" href="$classEquationsLayout.html" title="The EquationsLayout class, that heir a super class &quot;LayoutInitializer&quot; which contains widget controls..." alt="" coords="351,55,481,80"/>
+<area shape="poly" id="edge13_Node000003_Node000005" title=" " alt="" coords="278,98,362,77,364,83,280,103"/>
+<area shape="rect" id="Node000006" href="$classFunctionLayout.html" title="The FunctionLayout class, that heir a super class &quot;LayoutInitializer&quot; which contains widget controls." alt="" coords="355,104,477,129"/>
+<area shape="poly" id="edge14_Node000003_Node000006" title=" " alt="" coords="291,114,355,114,355,119,291,119"/>
+<area shape="rect" id="Node000007" href="$classIntegrationLayout.html" title="The IntegrationLayout class, that heir a super class &quot;LayoutInitializer&quot; which contains widget contro..." alt="" coords="347,153,485,179"/>
+<area shape="poly" id="edge15_Node000003_Node000007" title=" " alt="" coords="280,130,364,151,362,156,278,135"/>
+<area shape="rect" id="Node000008" href="$classPolynomialsLayout.html" title="The PolynomialsLayout class, that heir a super class &quot;LayoutInitializer&quot; which contains widget contro..." alt="" coords="343,203,489,228"/>
+<area shape="poly" id="edge16_Node000003_Node000008" title=" " alt="" coords="284,132,296,138,311,151,321,164,330,176,344,188,369,200,367,205,341,192,326,179,317,167,308,155,293,143,282,137"/>
+</map>

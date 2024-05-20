@@ -1,0 +1,224 @@
+\doxysection{String\+Parser Class Reference}
+\hypertarget{classStringParser}{}\label{classStringParser}\index{StringParser@{StringParser}}
+
+
+{\ttfamily \#include $<$stringparser.\+h$>$}
+
+
+
+Inheritance diagram for String\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=155pt]{classStringParser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for String\+Parser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=155pt]{classStringParser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classStringParser_a21befdeef5da6bad73ef9b28f9eb0691}{error\+Occurred}} (const QString \&err)
+\begin{DoxyCompactList}\small\item\em error\+Occurred\+: signal providing information about an incorrectly entered line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classStringParser_a04b3a28c4c79623ed913ad1c1150997b}{String\+Parser}} (QObject \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classStringParser}{String\+Parser}\+: constructor with standard heir argument. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classStringParser_ab7c421ecfa7a4814e0116b13eebd64bf}{String\+Parser}} (unsigned char \texorpdfstring{$\ast$}{*}input, const double x)
+\begin{DoxyCompactList}\small\item\em \doxylink{classStringParser}{String\+Parser}\+: constructor with a math expression argument and one node. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classStringParser_a96c4bc537bd164acc6ed61d0b95e2909}{String\+Parser}} (unsigned char \texorpdfstring{$\ast$}{*}input)
+\begin{DoxyCompactList}\small\item\em \doxylink{classStringParser}{String\+Parser}\+: constructor with a math expression argument. \end{DoxyCompactList}\item 
+std\+::optional$<$ \mbox{\hyperlink{structExpression}{Expression}} $>$ \mbox{\hyperlink{classStringParser_aad035ef1f466946676c4b30de67141f5}{parse\+Expression}} (void)
+\begin{DoxyCompactList}\small\item\em parse\+Expression\+: generic method for calling expression parsing. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classStringParser_aacbcadb7439859dd31b0a95d7dfd0fe8}{parse\+Expression}} (QString input)
+\begin{DoxyCompactList}\small\item\em parse\+Expression\+: a method that converts the parameters given to it into the result of a mathematical calculation by substituting the values ​​at point x into the given expression. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classStringParser_a2164e3c163346386d6f6e9e01d439195}{setX}} (const double \&x)
+\begin{DoxyCompactList}\small\item\em setX\+: setter. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classStringParser_a39873ddbe9174ed1d7fb3753974b865e}{set\+DataX}} (const std\+::vector$<$ double $>$ x)
+\begin{DoxyCompactList}\small\item\em set\+DataX\+: vector setter. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classStringParser_a5b4ffda81c13a9e6764d3f3b1644aad5}{eval}} (const std\+::optional$<$ \mbox{\hyperlink{structExpression}{Expression}} $>$ \&e, double x)
+\begin{DoxyCompactList}\small\item\em eval\+: method of comparing a given expression with installed functions. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classStringParser_acc52a95c455dd326217e56416cba1764}{eval}} (const std\+::optional$<$ \mbox{\hyperlink{structExpression}{Expression}} $>$ \&e)
+\begin{DoxyCompactList}\small\item\em eval\+: method of comparing a given expression with installed functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classStringParser_a04b3a28c4c79623ed913ad1c1150997b}\label{classStringParser_a04b3a28c4c79623ed913ad1c1150997b} 
+\index{StringParser@{StringParser}!StringParser@{StringParser}}
+\index{StringParser@{StringParser}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{StringParser()}{StringParser()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily String\+Parser\+::\+String\+Parser (\begin{DoxyParamCaption}\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{classStringParser}{String\+Parser}\+: constructor with standard heir argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classStringParser_ab7c421ecfa7a4814e0116b13eebd64bf}\label{classStringParser_ab7c421ecfa7a4814e0116b13eebd64bf} 
+\index{StringParser@{StringParser}!StringParser@{StringParser}}
+\index{StringParser@{StringParser}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{StringParser()}{StringParser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily String\+Parser\+::\+String\+Parser (\begin{DoxyParamCaption}\item[{unsigned char \texorpdfstring{$\ast$}{*}}]{input,  }\item[{const double}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+\doxylink{classStringParser}{String\+Parser}\+: constructor with a math expression argument and one node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & a line with a string mathematical expression. \\
+\hline
+{\em x} & discretely specified node. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classStringParser_a96c4bc537bd164acc6ed61d0b95e2909}\label{classStringParser_a96c4bc537bd164acc6ed61d0b95e2909} 
+\index{StringParser@{StringParser}!StringParser@{StringParser}}
+\index{StringParser@{StringParser}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{StringParser()}{StringParser()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily String\+Parser\+::\+String\+Parser (\begin{DoxyParamCaption}\item[{unsigned char \texorpdfstring{$\ast$}{*}}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+\doxylink{classStringParser}{String\+Parser}\+: constructor with a math expression argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & a line with a string mathematical expression. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classStringParser_a21befdeef5da6bad73ef9b28f9eb0691}\label{classStringParser_a21befdeef5da6bad73ef9b28f9eb0691} 
+\index{StringParser@{StringParser}!errorOccurred@{errorOccurred}}
+\index{errorOccurred@{errorOccurred}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{errorOccurred}{errorOccurred}}
+{\footnotesize\ttfamily void String\+Parser\+::error\+Occurred (\begin{DoxyParamCaption}\item[{const QString \&}]{err }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+error\+Occurred\+: signal providing information about an incorrectly entered line. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & error message info. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classStringParser_acc52a95c455dd326217e56416cba1764}\label{classStringParser_acc52a95c455dd326217e56416cba1764} 
+\index{StringParser@{StringParser}!eval@{eval}}
+\index{eval@{eval}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{eval()}{eval()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily double String\+Parser\+::eval (\begin{DoxyParamCaption}\item[{const std\+::optional$<$ \mbox{\hyperlink{structExpression}{Expression}} $>$ \&}]{e }\end{DoxyParamCaption})}
+
+
+
+eval\+: method of comparing a given expression with installed functions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & a structure of math expressions.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+evaluation of expression where x = 0. 
+\end{DoxyReturn}
+\Hypertarget{classStringParser_a5b4ffda81c13a9e6764d3f3b1644aad5}\label{classStringParser_a5b4ffda81c13a9e6764d3f3b1644aad5} 
+\index{StringParser@{StringParser}!eval@{eval}}
+\index{eval@{eval}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{eval()}{eval()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily double String\+Parser\+::eval (\begin{DoxyParamCaption}\item[{const std\+::optional$<$ \mbox{\hyperlink{structExpression}{Expression}} $>$ \&}]{e,  }\item[{double}]{x }\end{DoxyParamCaption})}
+
+
+
+eval\+: method of comparing a given expression with installed functions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & a structure of math expressions. \\
+\hline
+{\em x} & a double node.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: result of expression evaluation. 
+\end{DoxyReturn}
+\Hypertarget{classStringParser_aacbcadb7439859dd31b0a95d7dfd0fe8}\label{classStringParser_aacbcadb7439859dd31b0a95d7dfd0fe8} 
+\index{StringParser@{StringParser}!parseExpression@{parseExpression}}
+\index{parseExpression@{parseExpression}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{parseExpression()}{parseExpression()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$ double $>$ String\+Parser\+::parse\+Expression (\begin{DoxyParamCaption}\item[{QString}]{input }\end{DoxyParamCaption})}
+
+
+
+parse\+Expression\+: a method that converts the parameters given to it into the result of a mathematical calculation by substituting the values ​​at point x into the given expression. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & a string typed math expression.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a vector of y values for every given x node. 
+\end{DoxyReturn}
+\Hypertarget{classStringParser_aad035ef1f466946676c4b30de67141f5}\label{classStringParser_aad035ef1f466946676c4b30de67141f5} 
+\index{StringParser@{StringParser}!parseExpression@{parseExpression}}
+\index{parseExpression@{parseExpression}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{parseExpression()}{parseExpression()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::optional$<$ \mbox{\hyperlink{structExpression}{Expression}} $>$ String\+Parser\+::parse\+Expression (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+parse\+Expression\+: generic method for calling expression parsing. 
+
+\begin{DoxyReturn}{Returns}
+nested expression. 
+\end{DoxyReturn}
+\Hypertarget{classStringParser_a39873ddbe9174ed1d7fb3753974b865e}\label{classStringParser_a39873ddbe9174ed1d7fb3753974b865e} 
+\index{StringParser@{StringParser}!setDataX@{setDataX}}
+\index{setDataX@{setDataX}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{setDataX()}{setDataX()}}
+{\footnotesize\ttfamily void String\+Parser\+::set\+DataX (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set\+DataX\+: vector setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & a list of x values. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classStringParser_a2164e3c163346386d6f6e9e01d439195}\label{classStringParser_a2164e3c163346386d6f6e9e01d439195} 
+\index{StringParser@{StringParser}!setX@{setX}}
+\index{setX@{setX}!StringParser@{StringParser}}
+\doxysubsubsection{\texorpdfstring{setX()}{setX()}}
+{\footnotesize\ttfamily void String\+Parser\+::setX (\begin{DoxyParamCaption}\item[{const double \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+setX\+: setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & const value of x node. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/algs/\mbox{\hyperlink{stringparser_8h}{stringparser.\+h}}\end{DoxyCompactItemize}

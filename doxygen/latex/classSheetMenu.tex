@@ -1,0 +1,141 @@
+\doxysection{Sheet\+Menu Class Reference}
+\hypertarget{classSheetMenu}{}\label{classSheetMenu}\index{SheetMenu@{SheetMenu}}
+
+
+The \doxylink{classSheetMenu}{Sheet\+Menu} class.  
+
+
+
+
+{\ttfamily \#include $<$sheetmenu.\+h$>$}
+
+
+
+Inheritance diagram for Sheet\+Menu\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{classSheetMenu__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Sheet\+Menu\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{classSheetMenu__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classSheetMenu_a12a222089c595931805e507a79d2e457}{Sheet\+Menu}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classCompositeStateStack}{Composite\+State\+Stack}\+: constructor with standard heir argument. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classSheetMenu_aa56cda66a9f9d318e13d560dfa12b822}{invoke\+License\+Widget}} (void) noexcept
+\begin{DoxyCompactList}\small\item\em invoke\+License\+Widget\+: a method that generates and displays a window with a text license of a software product. \end{DoxyCompactList}\item 
+static QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classSheetMenu_a5ed8bfa66318a10d9096d0725c1ec764}{invoke\+Authors\+Widget}} (void) noexcept
+\begin{DoxyCompactList}\small\item\em invoke\+Authors\+Widget\+: a method that generates and displays a window with a authors list. \end{DoxyCompactList}\item 
+static QWidget \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classSheetMenu_a20121e8a40272b49d29749088f376747}{invoke\+About\+Widget}} (void) noexcept
+\begin{DoxyCompactList}\small\item\em invoke\+About\+Widget\+: a method that generates and displays a window with a documentation of software usage. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classSheetMenu_aa37d8f84c6734e5dceab77fe7095d816}{cleanup\+Widgets}} (QList$<$ QWidget \texorpdfstring{$\ast$}{*} $>$ \&widgets)
+\begin{DoxyCompactList}\small\item\em cleanup\+Widgets\+: method for clearing widget contents. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classSheetMenu}{Sheet\+Menu} class. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classSheetMenu_a12a222089c595931805e507a79d2e457}\label{classSheetMenu_a12a222089c595931805e507a79d2e457} 
+\index{SheetMenu@{SheetMenu}!SheetMenu@{SheetMenu}}
+\index{SheetMenu@{SheetMenu}!SheetMenu@{SheetMenu}}
+\doxysubsubsection{\texorpdfstring{SheetMenu()}{SheetMenu()}}
+{\footnotesize\ttfamily Sheet\+Menu\+::\+Sheet\+Menu (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+\doxylink{classCompositeStateStack}{Composite\+State\+Stack}\+: constructor with standard heir argument. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em paren} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classSheetMenu_aa37d8f84c6734e5dceab77fe7095d816}\label{classSheetMenu_aa37d8f84c6734e5dceab77fe7095d816} 
+\index{SheetMenu@{SheetMenu}!cleanupWidgets@{cleanupWidgets}}
+\index{cleanupWidgets@{cleanupWidgets}!SheetMenu@{SheetMenu}}
+\doxysubsubsection{\texorpdfstring{cleanupWidgets()}{cleanupWidgets()}}
+{\footnotesize\ttfamily static void Sheet\+Menu\+::cleanup\+Widgets (\begin{DoxyParamCaption}\item[{QList$<$ QWidget \texorpdfstring{$\ast$}{*} $>$ \&}]{widgets }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+cleanup\+Widgets\+: method for clearing widget contents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em widgets} & list of widgets that must to be cleaned. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classSheetMenu_a20121e8a40272b49d29749088f376747}\label{classSheetMenu_a20121e8a40272b49d29749088f376747} 
+\index{SheetMenu@{SheetMenu}!invokeAboutWidget@{invokeAboutWidget}}
+\index{invokeAboutWidget@{invokeAboutWidget}!SheetMenu@{SheetMenu}}
+\doxysubsubsection{\texorpdfstring{invokeAboutWidget()}{invokeAboutWidget()}}
+{\footnotesize\ttfamily static QWidget \texorpdfstring{$\ast$}{*} Sheet\+Menu\+::invoke\+About\+Widget (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+invoke\+About\+Widget\+: a method that generates and displays a window with a documentation of software usage. 
+
+\begin{DoxyReturn}{Returns}
+a widget with license window. 
+\end{DoxyReturn}
+\Hypertarget{classSheetMenu_a5ed8bfa66318a10d9096d0725c1ec764}\label{classSheetMenu_a5ed8bfa66318a10d9096d0725c1ec764} 
+\index{SheetMenu@{SheetMenu}!invokeAuthorsWidget@{invokeAuthorsWidget}}
+\index{invokeAuthorsWidget@{invokeAuthorsWidget}!SheetMenu@{SheetMenu}}
+\doxysubsubsection{\texorpdfstring{invokeAuthorsWidget()}{invokeAuthorsWidget()}}
+{\footnotesize\ttfamily static QWidget \texorpdfstring{$\ast$}{*} Sheet\+Menu\+::invoke\+Authors\+Widget (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+invoke\+Authors\+Widget\+: a method that generates and displays a window with a authors list. 
+
+\begin{DoxyReturn}{Returns}
+a widget with license window. 
+\end{DoxyReturn}
+\Hypertarget{classSheetMenu_aa56cda66a9f9d318e13d560dfa12b822}\label{classSheetMenu_aa56cda66a9f9d318e13d560dfa12b822} 
+\index{SheetMenu@{SheetMenu}!invokeLicenseWidget@{invokeLicenseWidget}}
+\index{invokeLicenseWidget@{invokeLicenseWidget}!SheetMenu@{SheetMenu}}
+\doxysubsubsection{\texorpdfstring{invokeLicenseWidget()}{invokeLicenseWidget()}}
+{\footnotesize\ttfamily static QWidget \texorpdfstring{$\ast$}{*} Sheet\+Menu\+::invoke\+License\+Widget (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+invoke\+License\+Widget\+: a method that generates and displays a window with a text license of a software product. 
+
+\begin{DoxyReturn}{Returns}
+a widget with license window. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/ui/menu/\mbox{\hyperlink{sheetmenu_8h}{sheetmenu.\+h}}\end{DoxyCompactItemize}

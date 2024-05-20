@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['calculateaverageerror_0',['calculateAverageError',['../classMathUtils.html#a9af1e739a13d3738db0c0c0d5bca0466',1,'MathUtils']]],
+  ['calculatedarea_1',['calculatedArea',['../classWidgets.html#a34f40a40eb5858eabda1b651c1538f0c',1,'Widgets']]],
+  ['calculateintegral_2',['calculateIntegral',['../classRightWidget.html#ad8cc1d84eaa4cd406b1a8e5562076449',1,'RightWidget']]],
+  ['calculatesys_3',['calculateSys',['../classMainWindow.html#a46c9f0b1badeeb90f518b2965feadec3',1,'MainWindow']]],
+  ['callpythonfunction_4',['callPythonFunction',['../classPythonConveyor.html#a94729ea73487c9bcdb8bb0f738c29971',1,'PythonConveyor']]],
+  ['changelayer_5',['changeLayer',['../classLayoutInitializer.html#a7616de575301634e223b3027bc209cd2',1,'LayoutInitializer']]],
+  ['cleanupwidgets_6',['cleanupWidgets',['../classSheetMenu.html#aa37d8f84c6734e5dceab77fe7095d816',1,'SheetMenu']]],
+  ['cleardatatable_7',['clearDataTable',['../classLayoutInitializer.html#ac28450c26f903099c614fe43e810734b',1,'LayoutInitializer']]],
+  ['clearequationstable_8',['clearEquationsTable',['../classWidgets.html#afb4dfab213c2224a2cc053e7e095aae6',1,'Widgets']]],
+  ['cleargraph_9',['cleargraph',['../classMainWindow.html#a3f91c09b928d866b0bbf846e4aa1c9b8',1,'MainWindow::clearGraph()'],['../classRightWidget.html#a769fdb37d68c076c352e5de69cd3ccc0',1,'RightWidget::clearGraph()']]],
+  ['cleartable_10',['clearTable',['../classWidgets.html#acf965d64e66d616b2d364ce69024dc92',1,'Widgets']]],
+  ['color_11',['color',['../classGraphInfo.html#ab37b1048a3c8cbccaa69884845809d68',1,'GraphInfo']]],
+  ['compositestatestack_12',['compositestatestack',['../classCompositeStateStack.html',1,'CompositeStateStack'],['../classCompositeStateStack.html#a39aec3e4d3752e965ebe3f7eb97d3fad',1,'CompositeStateStack::CompositeStateStack()']]],
+  ['compositestatestack_2eh_13',['compositestatestack.h',['../compositestatestack_8h.html',1,'']]],
+  ['convertpyobjecttoqvector_14',['convertPyObjectToQVector',['../classPythonConveyor.html#a746256739159ab145f562105f8903ef6',1,'PythonConveyor']]],
+  ['convertvectortoqstring_15',['convertVectorToQString',['../classPythonConveyor.html#af347d3598e79343a8e541d51ef00fd67',1,'PythonConveyor']]],
+  ['convertvectortostringlist_16',['convertVectorToStringList',['../classPythonConveyor.html#a91f7f1e0a45ada8962755bcc05b3e85c',1,'PythonConveyor']]],
+  ['conveyor_17',['conveyor',['../classRightWidget.html#af9977381af7906947b8f2d2d37dc6a01',1,'RightWidget']]],
+  ['couldsaveplotasimage_18',['couldsaveplotasimage',['../classGraphBuilder.html#a962ebc3473848159d4a7dfc98a82efaf',1,'GraphBuilder::couldSavePlotAsImage()'],['../classMainWindow.html#a2d14757d8e079e6a256d26e57e6c87cc',1,'MainWindow::couldSavePlotAsImage()']]],
+  ['createpdfreport_19',['createPdfReport',['../classReportPDFGenerator.html#a39c8a65fd5bf04893800a06a2ce920f6',1,'ReportPDFGenerator']]],
+  ['currentlayout_20',['currentLayout',['../classLeftWidget.html#a8472af530fc6ca0ab973bbf17cd53f19',1,'LeftWidget']]]
+];

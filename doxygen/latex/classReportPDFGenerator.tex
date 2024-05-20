@@ -1,0 +1,99 @@
+\doxysection{Report\+PDFGenerator Class Reference}
+\hypertarget{classReportPDFGenerator}{}\label{classReportPDFGenerator}\index{ReportPDFGenerator@{ReportPDFGenerator}}
+
+
+A class whose task is to create and save a PDF report in memory.  
+
+
+
+
+{\ttfamily \#include $<$reportpdfgenerator.\+h$>$}
+
+
+
+Inheritance diagram for Report\+PDFGenerator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{classReportPDFGenerator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Report\+PDFGenerator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{classReportPDFGenerator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classReportPDFGenerator_a522253b8d4ee5bd82d328a775c803884}{Report\+PDFGenerator}} (const QString file, const QString dir, const QString ext, QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{classReportPDFGenerator}{Report\+PDFGenerator}\+: a constructor that generates a report in PDF format depending on the parameters specified to it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classReportPDFGenerator_a39c8a65fd5bf04893800a06a2ce920f6}{create\+Pdf\+Report}} (\mbox{\hyperlink{classCompositeStateStack}{Composite\+State\+Stack}} \&log\+Stack)
+\begin{DoxyCompactList}\small\item\em create\+Pdf\+Report\+: method that generates a report in order using specified logs from the stack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class whose task is to create and save a PDF report in memory. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classReportPDFGenerator_a522253b8d4ee5bd82d328a775c803884}\label{classReportPDFGenerator_a522253b8d4ee5bd82d328a775c803884} 
+\index{ReportPDFGenerator@{ReportPDFGenerator}!ReportPDFGenerator@{ReportPDFGenerator}}
+\index{ReportPDFGenerator@{ReportPDFGenerator}!ReportPDFGenerator@{ReportPDFGenerator}}
+\doxysubsubsection{\texorpdfstring{ReportPDFGenerator()}{ReportPDFGenerator()}}
+{\footnotesize\ttfamily Report\+PDFGenerator\+::\+Report\+PDFGenerator (\begin{DoxyParamCaption}\item[{const QString}]{file,  }\item[{const QString}]{dir,  }\item[{const QString}]{ext,  }\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{classReportPDFGenerator}{Report\+PDFGenerator}\+: a constructor that generates a report in PDF format depending on the parameters specified to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & the file name you want to appear as the report name. \\
+\hline
+{\em dir} & path to specific directory. \\
+\hline
+{\em ext} & file extension (may be removed in the future). \\
+\hline
+{\em parent} & pointer to the parent object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classReportPDFGenerator_a39c8a65fd5bf04893800a06a2ce920f6}\label{classReportPDFGenerator_a39c8a65fd5bf04893800a06a2ce920f6} 
+\index{ReportPDFGenerator@{ReportPDFGenerator}!createPdfReport@{createPdfReport}}
+\index{createPdfReport@{createPdfReport}!ReportPDFGenerator@{ReportPDFGenerator}}
+\doxysubsubsection{\texorpdfstring{createPdfReport()}{createPdfReport()}}
+{\footnotesize\ttfamily void Report\+PDFGenerator\+::create\+Pdf\+Report (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classCompositeStateStack}{Composite\+State\+Stack}} \&}]{log\+Stack }\end{DoxyParamCaption})}
+
+
+
+create\+Pdf\+Report\+: method that generates a report in order using specified logs from the stack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+Stack} & a stack of data logs. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/algs/\mbox{\hyperlink{reportpdfgenerator_8h}{reportpdfgenerator.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,43 @@
+\doxysection{datamodel.\+h}
+\hypertarget{datamodel_8h_source}{}\label{datamodel_8h_source}\index{/home/ilya/Graphika/src/app/head/ui/wgts/lwgt/datamodel.h@{/home/ilya/Graphika/src/app/head/ui/wgts/lwgt/datamodel.h}}
+\mbox{\hyperlink{datamodel_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ DATAMODEL\_H}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ DATAMODEL\_H}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QWidget>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QMap>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{settings_8h}{settings.h}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classDataModel}{DataModel}}\ :\ \textcolor{keyword}{public}\ QObject}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00013\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }ModuleData}
+\DoxyCodeLine{00015\ \ \ \ \ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ QVector<QVector<QString>>\ tableData;}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ QString\ inputData;}
+\DoxyCodeLine{00018\ \ \ \ \ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ QMap<pymodules::Modules,\ ModuleData>\ data;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classDataModel_a790483e22be04cf8ad1371c079f606dd}{DataModel}}(QObject*\ parent\ =\ \textcolor{keyword}{nullptr})\ :\ QObject(parent)\ \{\}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classDataModel_af861f687e5e10814a08ae810592d176e}{saveData}}(\mbox{\hyperlink{namespacepymodules_a33d51ba59146bca6b4bf3dcf1882db9b}{pymodules::Modules}}\ module,\ \textcolor{keyword}{const}\ QVector<QVector<QString>>\&\ tableData,\ \textcolor{keyword}{const}\ QString\&\ inputData)}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ data[module].tableData\ =\ tableData;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ data[module].inputData\ =\ inputData;}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classDataModel_acdca9b7a7c6899618559ac0efd9835d4}{restoreData}}(\mbox{\hyperlink{namespacepymodules_a33d51ba59146bca6b4bf3dcf1882db9b}{pymodules::Modules}}\ module,\ QVector<QVector<QString>>\&\ tableData,\ QString\&\ inputData)}
+\DoxyCodeLine{00032\ \ \ \ \ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ tableData\ =\ data[module].tableData;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ inputData\ =\ data[module].inputData;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DATAMODEL\_H}}
+
+\end{DoxyCode}

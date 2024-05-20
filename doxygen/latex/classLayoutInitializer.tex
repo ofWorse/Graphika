@@ -1,0 +1,495 @@
+\doxysection{Layout\+Initializer Class Reference}
+\hypertarget{classLayoutInitializer}{}\label{classLayoutInitializer}\index{LayoutInitializer@{LayoutInitializer}}
+
+
+The \doxylink{classLayoutInitializer}{Layout\+Initializer} class. Contains methods for managing widgets and their initialization.  
+
+
+
+
+{\ttfamily \#include $<$layout\+Initializer.\+h$>$}
+
+
+
+Inheritance diagram for Layout\+Initializer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classLayoutInitializer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Layout\+Initializer\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{classLayoutInitializer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLayoutInitializer_a965f34c908de6172c396b345e0307fd1}{handle\+Parser\+Error}} (const QString \&err)
+\begin{DoxyCompactList}\small\item\em handle\+Parser\+Error\+: prevents from building a table due to an error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_af6c0ef213f36eca4b363a4eb7b52129e}{accept\+Data}} (const QString \&model, const double a, const double b)
+\begin{DoxyCompactList}\small\item\em accept\+Data\+: parses a given mathematical function within specified limits with a specially configured step. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a7a475890abd661c3c5f24948441040a8}{on\+Solve\+Equations\+Button\+Clicked}} (void)
+\begin{DoxyCompactList}\small\item\em on\+Solve\+Equations\+Button\+Clicked\+: prepares data from a table for solving a system of equations. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_aa49dcd01bba0e77d3c05e64ef493293a}{set\+Equations\+Result}} (const QString \&result)
+\begin{DoxyCompactList}\small\item\em set\+Equations\+Result\+: setting a result list of founded variables. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ac5b5a73d01109c9e42f2f42622fac2ba}{accept\+Area}} (const std\+::string \&area)
+\begin{DoxyCompactList}\small\item\em accept\+Area\+: setting a result of founded area of curve. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLayoutInitializer_a29794f25fd05ff5d7ca7ba6026153f0f}{valid\+Expression}} (void)
+\begin{DoxyCompactList}\small\item\em valid\+Expression\+: is given math expression was typed currectly. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a50ae1a8722454a7de2e7646fc7c501ff}{invalid\+Expression}} (void)
+\begin{DoxyCompactList}\small\item\em invalid\+Expression\+: is given math expression was typed incorrect. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_acaaaa5ebc15dfe83235b5d0dbea057c9}{ready\+To\+Draw}} (std\+::vector$<$ double $>$ \&x, std\+::vector$<$ double $>$ \&y)
+\begin{DoxyCompactList}\small\item\em ready\+To\+Draw\+: emits when the program ready to display given data to plot. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ac2914de238e31c04c66002a641f70ccd}{ready\+To\+Send\+Equations\+Data}} (QVector$<$ QVector$<$ double $>$ $>$ \&data)
+\begin{DoxyCompactList}\small\item\em ready\+To\+Send\+Equations\+Data\+: emits when called when the program is ready to transfer conveniently formed data from the table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classLayoutInitializer_a7c2de7a34b4568149998b3248eb7253c}{\texorpdfstring{$\sim$}{\string~}\+Layout\+Initializer}} (void)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$\sim$}{\string~}\+Layout\+Initializer\+: standard virtual destructor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classLayoutInitializer_a32d337a8e4cd5d0fe6964793464022a2}{generate\+Widgets}} (\mbox{\hyperlink{classWidgets}{Widgets}} \&\mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}})=0
+\begin{DoxyCompactList}\small\item\em generate\+Widgets\+: initialize layout with given widgets object. \end{DoxyCompactList}\item 
+virtual QGrid\+Layout \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLayoutInitializer_a4212939b0c663bf41902665197261e1d}{get}} (void)=0
+\begin{DoxyCompactList}\small\item\em get\+: standard getter. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... widgets$>$ }\\void \mbox{\hyperlink{classLayoutInitializer_aa24bf1941da76c1f41bc18c33efe4606}{hide\+Widgets}} (\mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}} \texorpdfstring{$\ast$}{*}... w)
+\begin{DoxyCompactList}\small\item\em hide\+Widgets\+: makes every given widget invisible. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_aecd50ebc95952df2442d5d8acbd7f005}{on\+Input\+Text\+Changed}} (const QString \&text)
+\begin{DoxyCompactList}\small\item\em on\+Input\+Text\+Changed\+: invokes validator for updated string expression. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_afe593fe5a12424c1b8ebbad91840ca44}{on\+Validate\+Data\+Valid}} (void)
+\begin{DoxyCompactList}\small\item\em on\+Validate\+Data\+Valid\+: makes it possible to solve the equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a94dafce64f6a1bc7bfce0509b6b81950}{on\+Validate\+Data\+Invalid}} (void)
+\begin{DoxyCompactList}\small\item\em on\+Validate\+Data\+Invalid\+: prohibits solving the equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ace3045edcc88bb6af0cd3868610a9b81}{edit\+Table}} (void)
+\begin{DoxyCompactList}\small\item\em edit\+Table\+: rebuilds data table to default statement. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ac28450c26f903099c614fe43e810734b}{clear\+Data\+Table}} (void)
+\begin{DoxyCompactList}\small\item\em clear\+Data\+Table\+: clears the table. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a7616de575301634e223b3027bc209cd2}{change\+Layer}} (int index)
+\begin{DoxyCompactList}\small\item\em change\+Layer\+: changes the fields for entering limits on x depending on the type of division into nodes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ab1eef8b3917f0d0277fd4659a85030fe}{hide\+First\+Layer}} (void)
+\begin{DoxyCompactList}\small\item\em hide\+First\+Layer\+: limits with step. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a936da477db95d2db49e65ae8e03564fc}{hide\+Second\+Layer}} (void)
+\begin{DoxyCompactList}\small\item\em hide\+Second\+Layer\+: limits with nodes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a54cb373b2afc8f3e7fab60a1105d710a}{on\+Solve\+Button\+Clicked}} (\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&buffer)
+\begin{DoxyCompactList}\small\item\em on\+Solve\+Button\+Clicked\+: collects data, parses values ​​for y, builds a table. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a0ee8cac14815270d2add96a96e5cddcb}{update\+Data\+From\+Table}} (\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&buffer)
+\begin{DoxyCompactList}\small\item\em update\+Data\+From\+Table\+: updates data to the current state and stores it in a buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a01765f3be27efce190f3a770d4d97d51}{setup\+Nodes}} (const double node)
+\begin{DoxyCompactList}\small\item\em setup\+Nodes\+: invokes math utils method for nodes propagation. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classLayoutInitializer_ae29771a4b6eb07d37809818924c260f2}{fill\+Data\+From\+Table}} (int column)
+\begin{DoxyCompactList}\small\item\em fill\+Data\+From\+Table\+: collects all data from table columnt to vector. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a4e964792eb07b384c5d785c113879c0d}{show\+Table}} (const std\+::vector$<$ double $>$ x, const std\+::vector$<$ double $>$ y, const std\+::vector$<$ double $>$ dY)
+\begin{DoxyCompactList}\small\item\em show\+Table\+: generates and displays a table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classWidgets}{Widgets}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}}
+\begin{DoxyCompactList}\small\item\em list of all widgets. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classLayoutInitializer}{Layout\+Initializer} class. Contains methods for managing widgets and their initialization. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 20.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classLayoutInitializer_a7c2de7a34b4568149998b3248eb7253c}\label{classLayoutInitializer_a7c2de7a34b4568149998b3248eb7253c} 
+\index{LayoutInitializer@{LayoutInitializer}!````~LayoutInitializer@{\texorpdfstring{$\sim$}{\string~}LayoutInitializer}}
+\index{````~LayoutInitializer@{\texorpdfstring{$\sim$}{\string~}LayoutInitializer}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}LayoutInitializer()}{\string~LayoutInitializer()}}
+{\footnotesize\ttfamily virtual Layout\+Initializer\+::\texorpdfstring{$\sim$}{\string~}\+Layout\+Initializer (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\texorpdfstring{$\sim$}{\string~}\+Layout\+Initializer\+: standard virtual destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLayoutInitializer_ac5b5a73d01109c9e42f2f42622fac2ba}\label{classLayoutInitializer_ac5b5a73d01109c9e42f2f42622fac2ba} 
+\index{LayoutInitializer@{LayoutInitializer}!acceptArea@{acceptArea}}
+\index{acceptArea@{acceptArea}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{acceptArea}{acceptArea}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::accept\+Area (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{area }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+accept\+Area\+: setting a result of founded area of curve. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em area} & given real number of area. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_af6c0ef213f36eca4b363a4eb7b52129e}\label{classLayoutInitializer_af6c0ef213f36eca4b363a4eb7b52129e} 
+\index{LayoutInitializer@{LayoutInitializer}!acceptData@{acceptData}}
+\index{acceptData@{acceptData}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{acceptData}{acceptData}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::accept\+Data (\begin{DoxyParamCaption}\item[{const QString \&}]{model,  }\item[{const double}]{a,  }\item[{const double}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+accept\+Data\+: parses a given mathematical function within specified limits with a specially configured step. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & math expression. \\
+\hline
+{\em a} & x-\/min. \\
+\hline
+{\em b} & x-\/max. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a7616de575301634e223b3027bc209cd2}\label{classLayoutInitializer_a7616de575301634e223b3027bc209cd2} 
+\index{LayoutInitializer@{LayoutInitializer}!changeLayer@{changeLayer}}
+\index{changeLayer@{changeLayer}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{changeLayer()}{changeLayer()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::change\+Layer (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+change\+Layer\+: changes the fields for entering limits on x depending on the type of division into nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & number of layer. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_ac28450c26f903099c614fe43e810734b}\label{classLayoutInitializer_ac28450c26f903099c614fe43e810734b} 
+\index{LayoutInitializer@{LayoutInitializer}!clearDataTable@{clearDataTable}}
+\index{clearDataTable@{clearDataTable}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{clearDataTable()}{clearDataTable()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::clear\+Data\+Table (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+clear\+Data\+Table\+: clears the table. 
+
+\Hypertarget{classLayoutInitializer_ace3045edcc88bb6af0cd3868610a9b81}\label{classLayoutInitializer_ace3045edcc88bb6af0cd3868610a9b81} 
+\index{LayoutInitializer@{LayoutInitializer}!editTable@{editTable}}
+\index{editTable@{editTable}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{editTable()}{editTable()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::edit\+Table (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+edit\+Table\+: rebuilds data table to default statement. 
+
+\Hypertarget{classLayoutInitializer_ae29771a4b6eb07d37809818924c260f2}\label{classLayoutInitializer_ae29771a4b6eb07d37809818924c260f2} 
+\index{LayoutInitializer@{LayoutInitializer}!fillDataFromTable@{fillDataFromTable}}
+\index{fillDataFromTable@{fillDataFromTable}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{fillDataFromTable()}{fillDataFromTable()}}
+{\footnotesize\ttfamily std\+::vector$<$ double $>$ Layout\+Initializer\+::fill\+Data\+From\+Table (\begin{DoxyParamCaption}\item[{int}]{column }\end{DoxyParamCaption})}
+
+
+
+fill\+Data\+From\+Table\+: collects all data from table columnt to vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em column} & number of column.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of column data. 
+\end{DoxyReturn}
+\Hypertarget{classLayoutInitializer_a32d337a8e4cd5d0fe6964793464022a2}\label{classLayoutInitializer_a32d337a8e4cd5d0fe6964793464022a2} 
+\index{LayoutInitializer@{LayoutInitializer}!generateWidgets@{generateWidgets}}
+\index{generateWidgets@{generateWidgets}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{generateWidgets()}{generateWidgets()}}
+{\footnotesize\ttfamily virtual void Layout\+Initializer\+::generate\+Widgets (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classWidgets}{Widgets}} \&}]{widgets }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+generate\+Widgets\+: initialize layout with given widgets object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em widgets} & list of all needed objects. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classDerivationLayout_ad0bd67b6d8f30e6ca66086d12b421cd4}{Derivation\+Layout}}, \mbox{\hyperlink{classEquationsLayout_a146d389f60533194b5ca96accf938d51}{Equations\+Layout}}, \mbox{\hyperlink{classFunctionLayout_a49f93da3a92fa3d2f4fb49fc67708f7d}{Function\+Layout}}, \mbox{\hyperlink{classIntegrationLayout_a7638eae1813f13286472f6fde6e4be94}{Integration\+Layout}}, and \mbox{\hyperlink{classPolynomialsLayout_a4c84e221e30d3ca50b1a06c5ccfd8ff4}{Polynomials\+Layout}}.
+
+\Hypertarget{classLayoutInitializer_a4212939b0c663bf41902665197261e1d}\label{classLayoutInitializer_a4212939b0c663bf41902665197261e1d} 
+\index{LayoutInitializer@{LayoutInitializer}!get@{get}}
+\index{get@{get}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily virtual QGrid\+Layout \texorpdfstring{$\ast$}{*} Layout\+Initializer\+::get (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+get\+: standard getter. 
+
+\begin{DoxyReturn}{Returns}
+layout. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classDerivationLayout_a19a6cabaf3850c3d9e08fdc89691c870}{Derivation\+Layout}}, \mbox{\hyperlink{classEquationsLayout_aae2a4787e92b11209b8c4caee3560d39}{Equations\+Layout}}, \mbox{\hyperlink{classFunctionLayout_afca48c2744f5ac07e45458fd975ac470}{Function\+Layout}}, \mbox{\hyperlink{classIntegrationLayout_a80068e843b27741e5d5fb5319cd4db04}{Integration\+Layout}}, and \mbox{\hyperlink{classPolynomialsLayout_a81eabdd8afc9bce3a2f4dc811b1196db}{Polynomials\+Layout}}.
+
+\Hypertarget{classLayoutInitializer_a965f34c908de6172c396b345e0307fd1}\label{classLayoutInitializer_a965f34c908de6172c396b345e0307fd1} 
+\index{LayoutInitializer@{LayoutInitializer}!handleParserError@{handleParserError}}
+\index{handleParserError@{handleParserError}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{handleParserError}{handleParserError}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::handle\+Parser\+Error (\begin{DoxyParamCaption}\item[{const QString \&}]{err }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+handle\+Parser\+Error\+: prevents from building a table due to an error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & a given error message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_ab1eef8b3917f0d0277fd4659a85030fe}\label{classLayoutInitializer_ab1eef8b3917f0d0277fd4659a85030fe} 
+\index{LayoutInitializer@{LayoutInitializer}!hideFirstLayer@{hideFirstLayer}}
+\index{hideFirstLayer@{hideFirstLayer}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{hideFirstLayer()}{hideFirstLayer()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::hide\+First\+Layer (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+hide\+First\+Layer\+: limits with step. 
+
+\Hypertarget{classLayoutInitializer_a936da477db95d2db49e65ae8e03564fc}\label{classLayoutInitializer_a936da477db95d2db49e65ae8e03564fc} 
+\index{LayoutInitializer@{LayoutInitializer}!hideSecondLayer@{hideSecondLayer}}
+\index{hideSecondLayer@{hideSecondLayer}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{hideSecondLayer()}{hideSecondLayer()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::hide\+Second\+Layer (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+hide\+Second\+Layer\+: limits with nodes. 
+
+\Hypertarget{classLayoutInitializer_aa24bf1941da76c1f41bc18c33efe4606}\label{classLayoutInitializer_aa24bf1941da76c1f41bc18c33efe4606} 
+\index{LayoutInitializer@{LayoutInitializer}!hideWidgets@{hideWidgets}}
+\index{hideWidgets@{hideWidgets}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{hideWidgets()}{hideWidgets()}}
+{\footnotesize\ttfamily template$<$typename... widgets$>$ \\
+void Layout\+Initializer\+::hide\+Widgets (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}} \texorpdfstring{$\ast$}{*}...}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+hide\+Widgets\+: makes every given widget invisible. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & list of widgets. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a50ae1a8722454a7de2e7646fc7c501ff}\label{classLayoutInitializer_a50ae1a8722454a7de2e7646fc7c501ff} 
+\index{LayoutInitializer@{LayoutInitializer}!invalidExpression@{invalidExpression}}
+\index{invalidExpression@{invalidExpression}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{invalidExpression}{invalidExpression}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::invalid\+Expression (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+invalid\+Expression\+: is given math expression was typed incorrect. 
+
+\Hypertarget{classLayoutInitializer_aecd50ebc95952df2442d5d8acbd7f005}\label{classLayoutInitializer_aecd50ebc95952df2442d5d8acbd7f005} 
+\index{LayoutInitializer@{LayoutInitializer}!onInputTextChanged@{onInputTextChanged}}
+\index{onInputTextChanged@{onInputTextChanged}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{onInputTextChanged()}{onInputTextChanged()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::on\+Input\+Text\+Changed (\begin{DoxyParamCaption}\item[{const QString \&}]{text }\end{DoxyParamCaption})}
+
+
+
+on\+Input\+Text\+Changed\+: invokes validator for updated string expression. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & math expressiom. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a54cb373b2afc8f3e7fab60a1105d710a}\label{classLayoutInitializer_a54cb373b2afc8f3e7fab60a1105d710a} 
+\index{LayoutInitializer@{LayoutInitializer}!onSolveButtonClicked@{onSolveButtonClicked}}
+\index{onSolveButtonClicked@{onSolveButtonClicked}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{onSolveButtonClicked()}{onSolveButtonClicked()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::on\+Solve\+Button\+Clicked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&}]{buffer }\end{DoxyParamCaption})}
+
+
+
+on\+Solve\+Button\+Clicked\+: collects data, parses values ​​for y, builds a table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & setting x \& y data from table for right widget transfer. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a7a475890abd661c3c5f24948441040a8}\label{classLayoutInitializer_a7a475890abd661c3c5f24948441040a8} 
+\index{LayoutInitializer@{LayoutInitializer}!onSolveEquationsButtonClicked@{onSolveEquationsButtonClicked}}
+\index{onSolveEquationsButtonClicked@{onSolveEquationsButtonClicked}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{onSolveEquationsButtonClicked}{onSolveEquationsButtonClicked}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::on\+Solve\+Equations\+Button\+Clicked (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+on\+Solve\+Equations\+Button\+Clicked\+: prepares data from a table for solving a system of equations. 
+
+\Hypertarget{classLayoutInitializer_a94dafce64f6a1bc7bfce0509b6b81950}\label{classLayoutInitializer_a94dafce64f6a1bc7bfce0509b6b81950} 
+\index{LayoutInitializer@{LayoutInitializer}!onValidateDataInvalid@{onValidateDataInvalid}}
+\index{onValidateDataInvalid@{onValidateDataInvalid}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{onValidateDataInvalid()}{onValidateDataInvalid()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::on\+Validate\+Data\+Invalid (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+on\+Validate\+Data\+Invalid\+: prohibits solving the equation. 
+
+\Hypertarget{classLayoutInitializer_afe593fe5a12424c1b8ebbad91840ca44}\label{classLayoutInitializer_afe593fe5a12424c1b8ebbad91840ca44} 
+\index{LayoutInitializer@{LayoutInitializer}!onValidateDataValid@{onValidateDataValid}}
+\index{onValidateDataValid@{onValidateDataValid}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{onValidateDataValid()}{onValidateDataValid()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::on\+Validate\+Data\+Valid (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+on\+Validate\+Data\+Valid\+: makes it possible to solve the equation. 
+
+\Hypertarget{classLayoutInitializer_acaaaa5ebc15dfe83235b5d0dbea057c9}\label{classLayoutInitializer_acaaaa5ebc15dfe83235b5d0dbea057c9} 
+\index{LayoutInitializer@{LayoutInitializer}!readyToDraw@{readyToDraw}}
+\index{readyToDraw@{readyToDraw}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{readyToDraw}{readyToDraw}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::ready\+To\+Draw (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ \&}]{x,  }\item[{std\+::vector$<$ double $>$ \&}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+ready\+To\+Draw\+: emits when the program ready to display given data to plot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & given x data variables. \\
+\hline
+{\em y} & given y data variables. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_ac2914de238e31c04c66002a641f70ccd}\label{classLayoutInitializer_ac2914de238e31c04c66002a641f70ccd} 
+\index{LayoutInitializer@{LayoutInitializer}!readyToSendEquationsData@{readyToSendEquationsData}}
+\index{readyToSendEquationsData@{readyToSendEquationsData}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{readyToSendEquationsData}{readyToSendEquationsData}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::ready\+To\+Send\+Equations\+Data (\begin{DoxyParamCaption}\item[{QVector$<$ QVector$<$ double $>$ $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+ready\+To\+Send\+Equations\+Data\+: emits when called when the program is ready to transfer conveniently formed data from the table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & given formed data from table to vevctor of real number vectors. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_aa49dcd01bba0e77d3c05e64ef493293a}\label{classLayoutInitializer_aa49dcd01bba0e77d3c05e64ef493293a} 
+\index{LayoutInitializer@{LayoutInitializer}!setEquationsResult@{setEquationsResult}}
+\index{setEquationsResult@{setEquationsResult}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{setEquationsResult}{setEquationsResult}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::set\+Equations\+Result (\begin{DoxyParamCaption}\item[{const QString \&}]{result }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+set\+Equations\+Result\+: setting a result list of founded variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em result} & a given list of founded variables result. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a01765f3be27efce190f3a770d4d97d51}\label{classLayoutInitializer_a01765f3be27efce190f3a770d4d97d51} 
+\index{LayoutInitializer@{LayoutInitializer}!setupNodes@{setupNodes}}
+\index{setupNodes@{setupNodes}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{setupNodes()}{setupNodes()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::setup\+Nodes (\begin{DoxyParamCaption}\item[{const double}]{node }\end{DoxyParamCaption})}
+
+
+
+setup\+Nodes\+: invokes math utils method for nodes propagation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & number of nodes. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a4e964792eb07b384c5d785c113879c0d}\label{classLayoutInitializer_a4e964792eb07b384c5d785c113879c0d} 
+\index{LayoutInitializer@{LayoutInitializer}!showTable@{showTable}}
+\index{showTable@{showTable}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{showTable()}{showTable()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::show\+Table (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$}]{x,  }\item[{const std\+::vector$<$ double $>$}]{y,  }\item[{const std\+::vector$<$ double $>$}]{dY }\end{DoxyParamCaption})}
+
+
+
+show\+Table\+: generates and displays a table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & x variables data. \\
+\hline
+{\em y} & y variables data. \\
+\hline
+{\em dY} & derivated y variables data. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a0ee8cac14815270d2add96a96e5cddcb}\label{classLayoutInitializer_a0ee8cac14815270d2add96a96e5cddcb} 
+\index{LayoutInitializer@{LayoutInitializer}!updateDataFromTable@{updateDataFromTable}}
+\index{updateDataFromTable@{updateDataFromTable}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{updateDataFromTable()}{updateDataFromTable()}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::update\+Data\+From\+Table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&}]{buffer }\end{DoxyParamCaption})}
+
+
+
+update\+Data\+From\+Table\+: updates data to the current state and stores it in a buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & setting x \& y data from table for right widget transfer. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLayoutInitializer_a29794f25fd05ff5d7ca7ba6026153f0f}\label{classLayoutInitializer_a29794f25fd05ff5d7ca7ba6026153f0f} 
+\index{LayoutInitializer@{LayoutInitializer}!validExpression@{validExpression}}
+\index{validExpression@{validExpression}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{validExpression}{validExpression}}
+{\footnotesize\ttfamily void Layout\+Initializer\+::valid\+Expression (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+valid\+Expression\+: is given math expression was typed currectly. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}\label{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663} 
+\index{LayoutInitializer@{LayoutInitializer}!widgets@{widgets}}
+\index{widgets@{widgets}!LayoutInitializer@{LayoutInitializer}}
+\doxysubsubsection{\texorpdfstring{widgets}{widgets}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classWidgets}{Widgets}}\texorpdfstring{$\ast$}{*} Layout\+Initializer\+::widgets}
+
+
+
+list of all widgets. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/ui/wgts/lwgt/\mbox{\hyperlink{layoutInitializer_8h}{layout\+Initializer.\+h}}\end{DoxyCompactItemize}

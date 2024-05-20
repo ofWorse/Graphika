@@ -1,0 +1,141 @@
+\doxysection{Math\+Utils Class Reference}
+\hypertarget{classMathUtils}{}\label{classMathUtils}\index{MathUtils@{MathUtils}}
+
+
+The \doxylink{classMathUtils}{Math\+Utils} class that contains some handy utils for work.  
+
+
+
+
+{\ttfamily \#include $<$mathutils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMathUtils_a3feb4a0240604b57f5efc1056cf99d33}{Math\+Utils}} (void)
+\begin{DoxyCompactList}\small\item\em \doxylink{classMathUtils}{Math\+Utils}\+: standard constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::vector$<$ double $>$ \mbox{\hyperlink{classMathUtils_aa4f7c8c5808f400c1cdd38e9e30186e7}{multiply\+Points}} (const double a, const double b) noexcept
+\begin{DoxyCompactList}\small\item\em multiply\+Points\+: multiply points from a to b with some step. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classMathUtils_a0930afd3ff9973b1245d067e28c84ee1}{setup\+Nodes}} (std\+::vector$<$ double $>$ \&X, const double node, const double min, const double max) noexcept
+\begin{DoxyCompactList}\small\item\em setup\+Nodes\+: calculates the step and creates points for the x array. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classMathUtils_a9af1e739a13d3738db0c0c0d5bca0466}{calculate\+Average\+Error}} (std\+::vector$<$ double $>$ \&X1, std\+::vector$<$ double $>$ \&X2) noexcept
+\begin{DoxyCompactList}\small\item\em calculate\+Average\+Error\+: calculates error between two arrays of real numbers data. \end{DoxyCompactList}\item 
+static QVector$<$ QVector$<$ double $>$ $>$ \mbox{\hyperlink{classMathUtils_ad2642bef83c5d6d1dae120cc7769dd21}{form\+The\+System\+Of\+Equations}} (const QTable\+Widget \&table)
+\begin{DoxyCompactList}\small\item\em form\+The\+System\+Of\+Equations\+: forms the data structure from given data table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classMathUtils}{Math\+Utils} class that contains some handy utils for work. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classMathUtils_a3feb4a0240604b57f5efc1056cf99d33}\label{classMathUtils_a3feb4a0240604b57f5efc1056cf99d33} 
+\index{MathUtils@{MathUtils}!MathUtils@{MathUtils}}
+\index{MathUtils@{MathUtils}!MathUtils@{MathUtils}}
+\doxysubsubsection{\texorpdfstring{MathUtils()}{MathUtils()}}
+{\footnotesize\ttfamily Math\+Utils\+::\+Math\+Utils (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxylink{classMathUtils}{Math\+Utils}\+: standard constructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMathUtils_a9af1e739a13d3738db0c0c0d5bca0466}\label{classMathUtils_a9af1e739a13d3738db0c0c0d5bca0466} 
+\index{MathUtils@{MathUtils}!calculateAverageError@{calculateAverageError}}
+\index{calculateAverageError@{calculateAverageError}!MathUtils@{MathUtils}}
+\doxysubsubsection{\texorpdfstring{calculateAverageError()}{calculateAverageError()}}
+{\footnotesize\ttfamily static double Math\+Utils\+::calculate\+Average\+Error (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ \&}]{X1,  }\item[{std\+::vector$<$ double $>$ \&}]{X2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+calculate\+Average\+Error\+: calculates error between two arrays of real numbers data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X1} & first array. \\
+\hline
+{\em X2} & second array.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+average error. 
+\end{DoxyReturn}
+\Hypertarget{classMathUtils_ad2642bef83c5d6d1dae120cc7769dd21}\label{classMathUtils_ad2642bef83c5d6d1dae120cc7769dd21} 
+\index{MathUtils@{MathUtils}!formTheSystemOfEquations@{formTheSystemOfEquations}}
+\index{formTheSystemOfEquations@{formTheSystemOfEquations}!MathUtils@{MathUtils}}
+\doxysubsubsection{\texorpdfstring{formTheSystemOfEquations()}{formTheSystemOfEquations()}}
+{\footnotesize\ttfamily static QVector$<$ QVector$<$ double $>$ $>$ Math\+Utils\+::form\+The\+System\+Of\+Equations (\begin{DoxyParamCaption}\item[{const QTable\+Widget \&}]{table }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+form\+The\+System\+Of\+Equations\+: forms the data structure from given data table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & table of unknown and free terms of the equation system.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+storage format more convenient for programming. 
+\end{DoxyReturn}
+\Hypertarget{classMathUtils_aa4f7c8c5808f400c1cdd38e9e30186e7}\label{classMathUtils_aa4f7c8c5808f400c1cdd38e9e30186e7} 
+\index{MathUtils@{MathUtils}!multiplyPoints@{multiplyPoints}}
+\index{multiplyPoints@{multiplyPoints}!MathUtils@{MathUtils}}
+\doxysubsubsection{\texorpdfstring{multiplyPoints()}{multiplyPoints()}}
+{\footnotesize\ttfamily static std\+::vector$<$ double $>$ Math\+Utils\+::multiply\+Points (\begin{DoxyParamCaption}\item[{const double}]{a,  }\item[{const double}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+multiply\+Points\+: multiply points from a to b with some step. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & x-\/min. \\
+\hline
+{\em b} & x-\/max.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of real x numbers. 
+\end{DoxyReturn}
+\Hypertarget{classMathUtils_a0930afd3ff9973b1245d067e28c84ee1}\label{classMathUtils_a0930afd3ff9973b1245d067e28c84ee1} 
+\index{MathUtils@{MathUtils}!setupNodes@{setupNodes}}
+\index{setupNodes@{setupNodes}!MathUtils@{MathUtils}}
+\doxysubsubsection{\texorpdfstring{setupNodes()}{setupNodes()}}
+{\footnotesize\ttfamily static void Math\+Utils\+::setup\+Nodes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ \&}]{X,  }\item[{const double}]{node,  }\item[{const double}]{min,  }\item[{const double}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+setup\+Nodes\+: calculates the step and creates points for the x array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & x data array for data save. \\
+\hline
+{\em node} & number of nodes in the interim. \\
+\hline
+{\em min} & x-\/min. \\
+\hline
+{\em max} & x-\/max. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/utils/\mbox{\hyperlink{mathutils_8h}{mathutils.\+h}}\end{DoxyCompactItemize}

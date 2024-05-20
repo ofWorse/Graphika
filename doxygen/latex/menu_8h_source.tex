@@ -1,0 +1,51 @@
+\doxysection{menu.\+h}
+\hypertarget{menu_8h_source}{}\label{menu_8h_source}\index{/home/ilya/Graphika/src/app/head/ui/menu.h@{/home/ilya/Graphika/src/app/head/ui/menu.h}}
+\mbox{\hyperlink{menu_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ MENU\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ MENU\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <QMenuBar>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <QMainWindow>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <QtWidgets>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMenu}{Menu}}\ :\ \textcolor{keyword}{public}\ QMainWindow}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00023\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ \ \ \ \ QWidget*\ parent;\ }
+\DoxyCodeLine{00025\ \ \ \ \ QAction*\ startSessionAction;\ }
+\DoxyCodeLine{00026\ \ \ \ \ QAction*\ endSessionAction;\ }
+\DoxyCodeLine{00027\ \ \ \ \ QAction*\ authorsAction;\ }
+\DoxyCodeLine{00028\ \ \ \ \ QMenuBar*\ menu;\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classMenu_a81e517b62384dc184425757e6dba87d3}{Menu}}(\ QWidget\ *parent\ =\ \textcolor{keyword}{nullptr}\ );}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00042\ \ \ \ \ QMenuBar*\ \mbox{\hyperlink{classMenu_a537483b3be82d346449c9030fc67cdee}{getMenu}}(\ \textcolor{keywordtype}{void}\ )\ \{\ \textcolor{keywordflow}{return}\ menu;\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \ \ \ \ QAction*\ \mbox{\hyperlink{classMenu_a363a784c944c9e10058224f71706cdae}{getStartSessionAction}}(\ \textcolor{keywordtype}{void}\ )\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00050\ \textcolor{keyword}{\ \ \ \ }\{\ \textcolor{keywordflow}{return}\ startSessionAction;\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00057\ \ \ \ \ QAction*\ \mbox{\hyperlink{classMenu_a2f9123dacedbd79729ea4d422f6b6896}{getEndSessionAction}}(\ \textcolor{keywordtype}{void}\ )\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00058\ \textcolor{keyword}{\ \ \ \ }\{\ \textcolor{keywordflow}{return}\ endSessionAction;\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ createMenu(\ QWidget\ *parent\ );}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ signals:}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMenu_aae46280dceac07c869a454aa15569b70}{sessionStarted}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMenu_a55d2273bda4b0a2c47ca34bde712b87a}{sessionStopped}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMenu_abc2efe006bcab789a9c8a43a4ff0908d}{licenseMenuOppened}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMenu_a96cf114e075cf4493fe1fbdc8c5fb148}{authorsMenuOppened}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMenu_a3e9ca88609df2112a47211c76daf0903}{aboutMenuOppened}}(\ \textcolor{keywordtype}{void}\ );}
+\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MENU\_H}}
+
+\end{DoxyCode}

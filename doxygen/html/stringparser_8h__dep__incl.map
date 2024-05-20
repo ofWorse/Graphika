@@ -1,0 +1,26 @@
+<map id="/home/ilya/Graphika/src/app/head/algs/stringparser.h" name="/home/ilya/Graphika/src/app/head/algs/stringparser.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,239,45"/>
+<area shape="rect" id="Node000002" href="$leftwidget_8h.html" title=" " alt="" coords="406,401,566,456"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,59,82,120,70,157,61,198,57,239,59,279,70,318,91,352,111,368,141,381,223,402,318,415,406,421,406,427,318,420,222,407,139,386,108,372,87,355,65,320,54,280,52,239,56,197,65,156,77,118,103,57"/>
+<area shape="rect" id="Node000004" href="$widgets_8h.html" title=" " alt="" coords="205,93,365,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,50,240,91,238,96,166,55"/>
+<area shape="rect" id="Node000003" href="$mainwindow_8h.html" title=" " alt="" coords="375,504,597,544"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="489,470,489,504,483,504,483,470"/>
+<area shape="rect" id="Node000005" href="$layoutInitializer_8h.html" title=" " alt="" coords="401,196,571,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="350,152,435,194,432,198,348,156"/>
+<area shape="rect" id="Node000006" href="$derivationlayout_8h.html" title=" " alt="" coords="101,299,279,353"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="397,258,268,301,266,296,395,253"/>
+<area shape="rect" id="Node000007" href="$equationslayout_8h.html" title=" " alt="" coords="303,299,477,353"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="453,262,417,300,413,297,450,259"/>
+<area shape="rect" id="Node000008" href="$functionlayout_8h.html" title=" " alt="" coords="501,299,665,353"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="523,259,560,297,556,300,519,263"/>
+<area shape="rect" id="Node000009" href="$integrationlayout_8h.html" title=" " alt="" coords="689,299,872,353"/>
+<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="577,253,705,296,703,301,575,258"/>
+<area shape="rect" id="Node000010" href="$polynomialslayout_8h.html" title=" " alt="" coords="896,299,1087,353"/>
+<area shape="poly" id="edge13_Node000005_Node000010" title=" " alt="" coords="585,239,885,296,896,298,895,304,884,301,584,244"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="281,355,410,399,408,404,279,360"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="426,361,463,399,459,403,423,365"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="550,365,513,403,509,399,546,361"/>
+<area shape="poly" id="edge12_Node000009_Node000002" title=" " alt="" coords="692,360,564,404,562,399,690,355"/>
+<area shape="poly" id="edge14_Node000010_Node000002" title=" " alt="" coords="883,356,567,416,566,411,882,351"/>
+</map>

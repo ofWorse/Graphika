@@ -1,0 +1,18 @@
+<map id="LeftWidget" name="LeftWidget">
+<area shape="rect" id="Node000001" title="The LeftWidget class, the main link for managing the state of widgets on the left side of the window." alt="" coords="12,344,104,369"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,84,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,119,60,344,55,344,43,119"/>
+<area shape="rect" id="Node000003" href="$classLayoutInitializer.html" title="The LayoutInitializer class. Contains methods for managing widgets and their initialization." alt="" coords="75,256,201,281"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="60,116,134,254,129,257,55,119"/>
+<area shape="rect" id="Node000004" href="$classWidgets.html" title="The Widgets class which contains all labels and other left&#45;widget control systems." alt="" coords="126,168,201,193"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="78,110,104,127,152,166,148,170,100,131,75,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="120,293,71,345,67,342,116,290"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="159,207,144,256,139,255,153,206"/>
+<area shape="rect" id="Node000005" href="$classValidateString.html" title="The ValidateString class, checking valid string." alt="" coords="108,80,221,105"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="167,119,166,168,161,167,162,119"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="191,5,266,31"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="211,43,177,81,173,78,207,40"/>
+<area shape="rect" id="Node000007" href="$classStringParser.html" title=" " alt="" coords="245,80,345,105"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="251,39,286,78,283,81,247,43"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="274,117,234,146,190,170,188,165,231,142,270,112"/>
+</map>

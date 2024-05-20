@@ -1,0 +1,170 @@
+\doxysection{Polynomials\+Layout Class Reference}
+\hypertarget{classPolynomialsLayout}{}\label{classPolynomialsLayout}\index{PolynomialsLayout@{PolynomialsLayout}}
+
+
+The \doxylink{classPolynomialsLayout}{Polynomials\+Layout} class, that heir a super class "{}\+Layout\+Initializer"{} which contains widget controls.  
+
+
+
+
+{\ttfamily \#include $<$polynomialslayout.\+h$>$}
+
+
+
+Inheritance diagram for Polynomials\+Layout\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classPolynomialsLayout__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Polynomials\+Layout\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{classPolynomialsLayout__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPolynomialsLayout_a0fba4b78f1562c6802e68db85e405b77}{\texorpdfstring{$\sim$}{\string~}\+Polynomials\+Layout}} (void)
+\item 
+void \mbox{\hyperlink{classPolynomialsLayout_a4c84e221e30d3ca50b1a06c5ccfd8ff4}{generate\+Widgets}} (\mbox{\hyperlink{classWidgets}{Widgets}} \&\mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}}) override
+\begin{DoxyCompactList}\small\item\em generate\+Widgets\+: method adopting class, additional list of widgets. \end{DoxyCompactList}\item 
+QGrid\+Layout \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classPolynomialsLayout_a81eabdd8afc9bce3a2f4dc811b1196db}{get}} (void) override
+\begin{DoxyCompactList}\small\item\em get\+: standard layout getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classLayoutInitializer}{Layout\+Initializer}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classLayoutInitializer_a7c2de7a34b4568149998b3248eb7253c}{\texorpdfstring{$\sim$}{\string~}\+Layout\+Initializer}} (void)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$\sim$}{\string~}\+Layout\+Initializer\+: standard virtual destructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... widgets$>$ }\\void \mbox{\hyperlink{classLayoutInitializer_aa24bf1941da76c1f41bc18c33efe4606}{hide\+Widgets}} (\mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}} \texorpdfstring{$\ast$}{*}... w)
+\begin{DoxyCompactList}\small\item\em hide\+Widgets\+: makes every given widget invisible. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_aecd50ebc95952df2442d5d8acbd7f005}{on\+Input\+Text\+Changed}} (const QString \&text)
+\begin{DoxyCompactList}\small\item\em on\+Input\+Text\+Changed\+: invokes validator for updated string expression. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_afe593fe5a12424c1b8ebbad91840ca44}{on\+Validate\+Data\+Valid}} (void)
+\begin{DoxyCompactList}\small\item\em on\+Validate\+Data\+Valid\+: makes it possible to solve the equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a94dafce64f6a1bc7bfce0509b6b81950}{on\+Validate\+Data\+Invalid}} (void)
+\begin{DoxyCompactList}\small\item\em on\+Validate\+Data\+Invalid\+: prohibits solving the equation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ace3045edcc88bb6af0cd3868610a9b81}{edit\+Table}} (void)
+\begin{DoxyCompactList}\small\item\em edit\+Table\+: rebuilds data table to default statement. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ac28450c26f903099c614fe43e810734b}{clear\+Data\+Table}} (void)
+\begin{DoxyCompactList}\small\item\em clear\+Data\+Table\+: clears the table. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a7616de575301634e223b3027bc209cd2}{change\+Layer}} (int index)
+\begin{DoxyCompactList}\small\item\em change\+Layer\+: changes the fields for entering limits on x depending on the type of division into nodes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ab1eef8b3917f0d0277fd4659a85030fe}{hide\+First\+Layer}} (void)
+\begin{DoxyCompactList}\small\item\em hide\+First\+Layer\+: limits with step. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a936da477db95d2db49e65ae8e03564fc}{hide\+Second\+Layer}} (void)
+\begin{DoxyCompactList}\small\item\em hide\+Second\+Layer\+: limits with nodes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a54cb373b2afc8f3e7fab60a1105d710a}{on\+Solve\+Button\+Clicked}} (\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&buffer)
+\begin{DoxyCompactList}\small\item\em on\+Solve\+Button\+Clicked\+: collects data, parses values ​​for y, builds a table. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a0ee8cac14815270d2add96a96e5cddcb}{update\+Data\+From\+Table}} (\mbox{\hyperlink{classSpecialBuffer}{Special\+Buffer}} \&buffer)
+\begin{DoxyCompactList}\small\item\em update\+Data\+From\+Table\+: updates data to the current state and stores it in a buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a01765f3be27efce190f3a770d4d97d51}{setup\+Nodes}} (const double node)
+\begin{DoxyCompactList}\small\item\em setup\+Nodes\+: invokes math utils method for nodes propagation. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classLayoutInitializer_ae29771a4b6eb07d37809818924c260f2}{fill\+Data\+From\+Table}} (int column)
+\begin{DoxyCompactList}\small\item\em fill\+Data\+From\+Table\+: collects all data from table columnt to vector. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a4e964792eb07b384c5d785c113879c0d}{show\+Table}} (const std\+::vector$<$ double $>$ x, const std\+::vector$<$ double $>$ y, const std\+::vector$<$ double $>$ dY)
+\begin{DoxyCompactList}\small\item\em show\+Table\+: generates and displays a table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Slots inherited from \mbox{\hyperlink{classLayoutInitializer}{Layout\+Initializer}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLayoutInitializer_a965f34c908de6172c396b345e0307fd1}{handle\+Parser\+Error}} (const QString \&err)
+\begin{DoxyCompactList}\small\item\em handle\+Parser\+Error\+: prevents from building a table due to an error. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_af6c0ef213f36eca4b363a4eb7b52129e}{accept\+Data}} (const QString \&model, const double a, const double b)
+\begin{DoxyCompactList}\small\item\em accept\+Data\+: parses a given mathematical function within specified limits with a specially configured step. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a7a475890abd661c3c5f24948441040a8}{on\+Solve\+Equations\+Button\+Clicked}} (void)
+\begin{DoxyCompactList}\small\item\em on\+Solve\+Equations\+Button\+Clicked\+: prepares data from a table for solving a system of equations. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_aa49dcd01bba0e77d3c05e64ef493293a}{set\+Equations\+Result}} (const QString \&result)
+\begin{DoxyCompactList}\small\item\em set\+Equations\+Result\+: setting a result list of founded variables. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ac5b5a73d01109c9e42f2f42622fac2ba}{accept\+Area}} (const std\+::string \&area)
+\begin{DoxyCompactList}\small\item\em accept\+Area\+: setting a result of founded area of curve. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Signals inherited from \mbox{\hyperlink{classLayoutInitializer}{Layout\+Initializer}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLayoutInitializer_a29794f25fd05ff5d7ca7ba6026153f0f}{valid\+Expression}} (void)
+\begin{DoxyCompactList}\small\item\em valid\+Expression\+: is given math expression was typed currectly. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_a50ae1a8722454a7de2e7646fc7c501ff}{invalid\+Expression}} (void)
+\begin{DoxyCompactList}\small\item\em invalid\+Expression\+: is given math expression was typed incorrect. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_acaaaa5ebc15dfe83235b5d0dbea057c9}{ready\+To\+Draw}} (std\+::vector$<$ double $>$ \&x, std\+::vector$<$ double $>$ \&y)
+\begin{DoxyCompactList}\small\item\em ready\+To\+Draw\+: emits when the program ready to display given data to plot. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLayoutInitializer_ac2914de238e31c04c66002a641f70ccd}{ready\+To\+Send\+Equations\+Data}} (QVector$<$ QVector$<$ double $>$ $>$ \&data)
+\begin{DoxyCompactList}\small\item\em ready\+To\+Send\+Equations\+Data\+: emits when called when the program is ready to transfer conveniently formed data from the table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classLayoutInitializer}{Layout\+Initializer}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classWidgets}{Widgets}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLayoutInitializer_a5b73c3af2a66eb38563ebb34cafd5663}{widgets}}
+\begin{DoxyCompactList}\small\item\em list of all widgets. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classPolynomialsLayout}{Polynomials\+Layout} class, that heir a super class "{}\+Layout\+Initializer"{} which contains widget controls. 
+
+\begin{DoxyAttention}{Attention}
+In development.
+\end{DoxyAttention}
+\begin{DoxyAuthor}{Author}
+Malaniya Mark Timurovich, Dnevnie Mechaniki.
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+last update\+: 18.\+05.\+2024. 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classPolynomialsLayout_a0fba4b78f1562c6802e68db85e405b77}\label{classPolynomialsLayout_a0fba4b78f1562c6802e68db85e405b77} 
+\index{PolynomialsLayout@{PolynomialsLayout}!````~PolynomialsLayout@{\texorpdfstring{$\sim$}{\string~}PolynomialsLayout}}
+\index{````~PolynomialsLayout@{\texorpdfstring{$\sim$}{\string~}PolynomialsLayout}!PolynomialsLayout@{PolynomialsLayout}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}PolynomialsLayout()}{\string~PolynomialsLayout()}}
+{\footnotesize\ttfamily Polynomials\+Layout\+::\texorpdfstring{$\sim$}{\string~}\+Polynomials\+Layout (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+standard class-\/destructor. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPolynomialsLayout_a4c84e221e30d3ca50b1a06c5ccfd8ff4}\label{classPolynomialsLayout_a4c84e221e30d3ca50b1a06c5ccfd8ff4} 
+\index{PolynomialsLayout@{PolynomialsLayout}!generateWidgets@{generateWidgets}}
+\index{generateWidgets@{generateWidgets}!PolynomialsLayout@{PolynomialsLayout}}
+\doxysubsubsection{\texorpdfstring{generateWidgets()}{generateWidgets()}}
+{\footnotesize\ttfamily void Polynomials\+Layout\+::generate\+Widgets (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classWidgets}{Widgets}} \&}]{widgets }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+generate\+Widgets\+: method adopting class, additional list of widgets. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em widgets} & special class for storing all widgets on the left side of the window control. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classLayoutInitializer_a32d337a8e4cd5d0fe6964793464022a2}{Layout\+Initializer}}.
+
+\Hypertarget{classPolynomialsLayout_a81eabdd8afc9bce3a2f4dc811b1196db}\label{classPolynomialsLayout_a81eabdd8afc9bce3a2f4dc811b1196db} 
+\index{PolynomialsLayout@{PolynomialsLayout}!get@{get}}
+\index{get@{get}!PolynomialsLayout@{PolynomialsLayout}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily QGrid\+Layout \texorpdfstring{$\ast$}{*} Polynomials\+Layout\+::get (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+get\+: standard layout getter. 
+
+\begin{DoxyReturn}{Returns}
+private class member layout. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classLayoutInitializer_a4212939b0c663bf41902665197261e1d}{Layout\+Initializer}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ilya/\+Graphika/src/app/head/ui/wgts/lwgt/\mbox{\hyperlink{polynomialslayout_8h}{polynomialslayout.\+h}}\end{DoxyCompactItemize}

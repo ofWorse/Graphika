@@ -1,0 +1,7 @@
+<map id="/home/ilya/Graphika/src/app/head/ui/wgts/lwgt/functionlayout.h" name="/home/ilya/Graphika/src/app/head/ui/wgts/lwgt/functionlayout.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="35,5,199,60"/>
+<area shape="rect" id="Node000002" href="$leftwidget_8h.html" title=" " alt="" coords="37,108,197,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,74,119,108,114,108,114,74"/>
+<area shape="rect" id="Node000003" href="$mainwindow_8h.html" title=" " alt="" coords="5,211,228,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,176,119,211,114,211,114,176"/>
+</map>

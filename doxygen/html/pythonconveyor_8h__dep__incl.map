@@ -1,0 +1,17 @@
+<map id="/home/ilya/Graphika/src/app/head/algs/pythonconveyor.h" name="/home/ilya/Graphika/src/app/head/algs/pythonconveyor.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="35,5,295,45"/>
+<area shape="rect" id="Node000002" href="$rightwidget_8h.html" title=" " alt="" coords="26,196,186,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,59,136,94,121,148,113,196,107,195,116,147,131,92,146,56"/>
+<area shape="rect" id="Node000005" href="$sender_8h.html" title=" " alt="" coords="146,93,299,148"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="186,56,209,92,204,95,182,58"/>
+<area shape="rect" id="Node000003" href="$mainwindow_8h.html" title=" " alt="" coords="54,401,276,441"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="49,261,31,279,17,300,8,327,10,338,17,352,29,367,44,380,80,399,78,404,41,384,25,371,12,355,5,340,3,326,12,298,27,275,46,257"/>
+<area shape="rect" id="Node000004" href="$leftwidget_8h.html" title=" " alt="" coords="26,299,186,353"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="109,264,109,299,104,299,104,264"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="133,364,155,400,151,403,128,367"/>
+<area shape="poly" id="edge9_Node000005_Node000002" title=" " alt="" coords="183,159,138,198,135,194,180,155"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="225,162,220,251,213,303,201,354,179,402,175,400,196,352,207,302,215,250,220,162"/>
+<area shape="rect" id="Node000006" href="$toolbar_8h.html" title=" " alt="" coords="261,306,448,346"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="249,158,344,304,340,307,245,161"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="305,354,205,404,202,399,303,350"/>
+</map>
