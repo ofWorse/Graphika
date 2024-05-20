@@ -4,7 +4,7 @@
 
 void RightWidget::buildWidgetForDerivativeOperations( void )
 {
-    graphBuilder->on_clearButton_clicked();
+    graphBuilder->onClearButtonClicked();
     graphBuilder->wGraphic->yAxis->setLabel( "y'" );
 }
 
@@ -29,7 +29,7 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
 
     if( graphBuilder->wGraphic->yAxis->label() == "y'" )
     {
-        graphBuilder->on_clearButton_clicked();
+        graphBuilder->onClearButtonClicked();
         graphBuilder->wGraphic->yAxis->setLabel( "y" );
     }
     graphBuilder->wGraphic->replot();
@@ -50,7 +50,7 @@ void RightWidget::printFunctionGraph( std::vector<double>& x, std::vector<double
 {
     if( graphBuilder->wGraphic->yAxis->label() == "y'" )
     {
-        graphBuilder->on_clearButton_clicked();
+        graphBuilder->onClearButtonClicked();
         graphBuilder->wGraphic->yAxis->setLabel( "y" );
     }
     graphBuilder->wGraphic->replot();
@@ -121,7 +121,7 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
     // TODO: В отдельный метод
     if( graphBuilder->wGraphic->yAxis->label() == "y'" )
     {
-        graphBuilder->on_clearButton_clicked();
+        graphBuilder->onClearButtonClicked();
         graphBuilder->wGraphic->yAxis->setLabel( "y" );
     }
 
@@ -196,7 +196,7 @@ void RightWidget::sysSolve( QVector<QVector<double>>& data, Sender &sender )
 
 void RightWidget::clearGraph( void )
 {
-    graphBuilder->on_clearButton_clicked();
+    graphBuilder->onClearButtonClicked();
 }
 
 void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std::vector<double> y )
