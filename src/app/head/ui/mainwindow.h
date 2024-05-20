@@ -3,7 +3,7 @@
  *
  * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
  *
- * \date last update: 18.05.2024.
+ * \date last update: 20.05.2024.
  */
 
 #ifndef MAINWINDOW_H
@@ -176,6 +176,11 @@ public slots:
      * \brief openAboutMenu: invokes about list menu.
      */
     void openAboutMenu( void );
+
+    /*!
+     * \brief openAuthorsMenu: invokes authors list menu.
+     */
+    void openAuthorsMenu( void );
 
     /*!
      * \brief openLicenseMenu: invokes text of license menu.

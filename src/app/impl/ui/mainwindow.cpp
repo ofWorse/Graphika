@@ -17,6 +17,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( menu, &Menu::sessionStopped, this, &MainWindow::endSession );
     connect( menu, &Menu::licenseMenuOppened, this, &MainWindow::openLicenseMenu );
     connect( menu, &Menu::aboutMenuOppened, this, &MainWindow::openAboutMenu );
+    connect( menu, &Menu::authorsMenuOppened, this, &MainWindow::openAuthorsMenu );
 
     connect( qApp, &QApplication::aboutToQuit, this, &MainWindow::deleteWidgets );
 
@@ -362,6 +363,11 @@ void MainWindow::unpinGraph( void )
 void MainWindow::openAboutMenu( void )
 {
     widgets.append( SheetMenu::invokeAboutWidget() );
+}
+
+void MainWindow::openAuthorsMenu( void )
+{
+    widgets.append( SheetMenu::invokeAuthorsWidget() );
 }
 
 void MainWindow::openLicenseMenu( void )

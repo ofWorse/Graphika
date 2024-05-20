@@ -29,6 +29,7 @@ void Menu::createMenu( QWidget *parent )
     QAction* programmAction = aboutMenu->addAction( tr( "Руководство" ) );
     connect( programmAction, &QAction::triggered, this, &Menu::aboutMenuOppened );
     connect( licenceAction, &QAction::triggered, this, &Menu::licenseMenuOppened );
+    connect( authorsAction, &QAction::triggered, this, &Menu::authorsMenuOppened );
 
     QMenu* utilsMenu = menu->addMenu( tr( "&Утилиты" ) );
     startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
