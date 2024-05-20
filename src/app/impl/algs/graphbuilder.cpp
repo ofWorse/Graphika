@@ -99,10 +99,6 @@ void GraphBuilder::updateGraphState( const GraphState& state )
         wGraphic->graph( i )->setName( info.name );
         ++i;
     }
-    if( wGraphic->graphCount() > 0 )
-    {
-        tracer->setGraph( wGraphic->graph( 0 ) );
-    }
     wGraphic->replot();
 }
 
