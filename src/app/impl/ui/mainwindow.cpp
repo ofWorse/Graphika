@@ -338,10 +338,6 @@ void MainWindow::unpinGraph( void )
 
     QDialog* dialog = new QDialog( this );
     QVBoxLayout* layout = new QVBoxLayout( dialog );
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
     layout->addWidget( this->toolbar );
     layout->addWidget( rightWidget->graphBuilder->wGraphic );
@@ -349,11 +345,7 @@ void MainWindow::unpinGraph( void )
 
     connect( dialog, &QDialog::finished, this, [=]( int result )
         {
-<<<<<<< Updated upstream
-            Q_UNUSED(result);
-=======
             Q_UNUSED( result );
->>>>>>> Stashed changes
             rightWidget->rightLayout->addWidget( rightWidget->graphBuilder->wGraphic );
             toolbar->actions().at( 17 )->setEnabled( true );
             this->addToolBar( this->toolbar );
