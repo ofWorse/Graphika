@@ -3,7 +3,7 @@
  *
  * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
  *
- * \date last update: 18.05.2024.
+ * \date last update: 21.05.2024.
  */
 
 #ifndef WIDGETS_H
@@ -160,7 +160,7 @@ private:
         max->setSingleStep( 0.1 );
         step->setRange( 0.01, 10.0 );
         step->setSingleStep( 0.1 );
-        nodes->setRange( 0.0, 1000.0 );
+        nodes->setRange( 2.0, 1000.0 );
     }
 
 signals:

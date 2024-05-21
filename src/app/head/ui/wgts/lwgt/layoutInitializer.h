@@ -23,7 +23,7 @@
 class LayoutInitializer : public QWidget
 {
     Q_OBJECT
-private:
+protected:
     bool couldBuildTable{ true }; ///< depends of expression correctness.
     bool manualInput{ false }; ///< is data was entered by manual input.
     bool derivativeLabel{ false }; ///< is derivative label active.

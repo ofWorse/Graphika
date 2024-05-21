@@ -3,7 +3,7 @@
  *
  * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
  *
- * \date last update: 18.05.2024.
+ * \date last update: 21.05.2024.
  */
 
 #ifndef LEFTWIDGET_H
@@ -40,8 +40,6 @@ private:
     EquationsLayout* equationsLayout; ///< contains all widgets for equations module need.
     PolynomialsLayout* polynomialsLayout; ///< contains all widgets for polynomials module need.
 
-    DataModel* dataModel; // ???
-
     Widgets* widgets; ///< a class that stores all widgets for editing members of the LeftWidget class, descendants of LayoutInitializer.
     QGridLayout* layout; ///< main left-widget layout.
 
@@ -49,9 +47,6 @@ public:
     LayoutInitializer* currentLayout; ///< layout that contains up-to-date information about the state of widgets.
 
 private:
-    // ???
-    void clearLayout( QGridLayout* layout );
-
     /*!
      * \brief hideAllWidgets: goes through the list of widgets and makes them invisible.
      *
@@ -83,83 +78,6 @@ public slots:
      * \param module: specific module for layout generation.
      */
     void initLayout( SpecialBuffer& buffer, pymodules::Modules module );
-
-    //???
-    void saveData( pymodules::Modules module );
-
-    //???
-    void restoreData(pymodules::Modules module );
-
-
-
-/*
-public:
-    void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY );
-    QLineEdit* getExpressionInput() const;
-    void setEqResult( const QString& eqResult );
-
-   // std::vector<double> getX( void ) { return X; }
-   // std::vector<double> getY( void ) { return Y; }
-
-private:
-*/
-    //void initLabels( void );
-    /*
-  void connectLabels( SpecialBuffer& buffer );
-    void setRange( void );
-
-    void setupNodes( const double node );
-
-    std::vector<double> fillDataFromTable( int column );
-    bool tableIsEmpty( void );
-
-    void initLayout( void );
-    void buildWidgetForDerivativeOperations( SpecialBuffer& buffer );
-    void buildWidgetForIntegrationOperations( SpecialBuffer& buffer );
-    void buildWidgetForEquationOperations( SpecialBuffer& buffer );
-    void setWidgetToDefaultStatement( SpecialBuffer& buffer );
-    void hideAll( void );
-    void deleteAll( void );
-
-public slots:
-    void onValidateStringValid( void );
-    void onValidateStringInvalid( void );
-
-    void handleParserError( const QString& err );
-
-    void onInputTextChanged( const QString& text );
-
-    void onSolveButtonClicked( SpecialBuffer& buffer );
-    void onSolveEquationButtonClicked( void );
-
-    void clearDataTable( void );
-    void handleClearGraph( RightWidget& right );
-
-    void hideFirstLayer( bool isDerivativeMenu );
-    void hideSecondLayer( bool isDerivativeMenu );
-
-    void buildGraphFromManualFilledTable( void );
-
-    void changeLayer( int index );
-    void switchLayers( int index, bool isDerivativeMenu );
-
-    void editTable( void );
-    void updateDataFromTable( SpecialBuffer& buffer );
-
-    void acceptData( const QString& expr, const double a, const double b );
-    void acceptArea( std::string& area );
-
-    void rebuildWidgets( pymodules::Modules modules, SpecialBuffer& buffer );
-
-signals:
-    // TODO: паттерны
-    void readyToDraw( const std::vector<double> x, const std::vector<double> y );
-    void readyToDrawFunctionGraph( std::vector<double>& x, std::vector<double>& y );
-    void readyToDrawApproximatedGraph( const std::vector<double> x, const std::vector<double> y );
-    void readyToDrawDerivativeGraph( const std::vector<double> x, const std::vector<double> y );
-    void sendData( QObject& data, bool toRemove );
-    void readyToSendLinearEquationsData( QVector<QVector<double>>& data );
-*/
 };
 
 #endif // LEFTWIDGET_H

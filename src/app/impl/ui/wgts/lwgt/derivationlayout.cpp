@@ -50,6 +50,7 @@ void DerivationLayout::generateWidgets( Widgets& widgets )
 
     this->widgets = &widgets;
     this->hideWidgets( widgets.area, widgets.calculatedArea );
+    derivativeLabel = true;
     hideFirstLayer();
 }
 

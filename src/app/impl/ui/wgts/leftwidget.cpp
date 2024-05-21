@@ -41,22 +41,6 @@ void LeftWidget::initLayout( SpecialBuffer& buffer, pymodules::Modules module )
     layout->addLayout( currentLayout->get(), 0, 0 );
 }
 
-void LeftWidget::saveData(pymodules::Modules module)
-{
-    QVector<QVector<QString>> tableData;
-    QString inputData = widgets->expressionInput->text();
-
-    dataModel->saveData(module, tableData, inputData);
-}
-
-void LeftWidget::restoreData( pymodules::Modules module )
-{
-    QVector<QVector<QString>> tableData;
-    QString stringData;
-    dataModel->restoreData(module, tableData, stringData );
-    widgets->expressionInput->text() = stringData;
-}
-
 void LeftWidget::hideAllWidgets( QLayout* layout )
 {
     if ( !layout )

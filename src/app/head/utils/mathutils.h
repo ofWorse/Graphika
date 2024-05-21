@@ -3,7 +3,7 @@
  *
  * \author Malaniya Mark Timurovich, Dnevnie Mechaniki.
  *
- * \date last update: 18.05.2024.
+ * \date last update: 21.05.2024.
  */
 
 #ifndef MATHUTILS_H
@@ -41,11 +41,11 @@ public:
      * \brief setupNodes: calculates the step and creates points for the x array.
      *
      * \param X: x data array for data save.
-     * \param node: number of nodes in the interim.
+     * \param nodes: number of nodes in the interim.
      * \param min: x-min.
      * \param max: x-max.
      */
-    static void setupNodes( std::vector<double>& X, const double node, const double min, const double max ) noexcept;
+    static void setupNodes( std::vector<double>& X, const double nodes, const double min, const double max ) noexcept;
 
     /*!
      * \brief calculateAverageError: calculates error between two arrays of real numbers data.
