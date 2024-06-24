@@ -340,6 +340,8 @@ void MainWindow::unpinGraph( void )
 
 
     QDialog* dialog = new QDialog( this );
+    dialog->setWindowFlags( dialog->windowFlags() & ~Qt::WindowSystemMenuHint );
+    dialog->setWindowTitle( "Unpinned plot" );
     QVBoxLayout* layout = new QVBoxLayout( dialog );
 
     layout->addWidget( this->toolbar );
