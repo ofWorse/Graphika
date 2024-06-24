@@ -1,6 +1,8 @@
-#include_next "rightwidget.h"
+#include "rightwidget.h"
 #include <qstring.h>
 #include <filesystem>
+#include <QString>
+#include <QVariant>
 
 void RightWidget::buildWidgetForDerivativeOperations( void )
 {
@@ -39,10 +41,10 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
 
-    if( stack )
+    if( stack ) [[unlikely]]
     {
-       // emit sendData( *model, false );
-       // emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( model, false );
+//        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -66,9 +68,9 @@ void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, "График производной функции", true, false );
 
-    if( stack )
+    if( stack ) [[unlikely]]
     {
-       // emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -83,9 +85,9 @@ void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const C
 
     differentiationSolve( x, y, sender );
 
-    if( stack )
+    if( stack ) [[unlikely]]
     {
-       // emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 
@@ -96,10 +98,9 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, cons
 
     integrationSolve( x, y, sender );
 
-    if( stack )
+    if( stack ) [[unlikely]]
     {
-       // emit sendData( x.data(), false );
-       // emit sendData( y.data(), false );
+//        emit sendData( *new QLineEdit( area.c_str() ), false );
     }
 }
 
@@ -132,10 +133,10 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
     model->setText( str );
     emit readyToSendData( model->text(), x[0], x.back() );
 
-    if( stack )
+    if( stack ) [[unlikely]]
     {
-       // emit sendData( *model, false );
-       // emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *model, false );
+//        emit sendData( *graphBuilder->wGraphic, false );
     }
 }
 

@@ -10,8 +10,10 @@
 #define COMPOSITESTATESTACK_H
 
 #include <QWidget>
-#include <QStack>
+#include <QVariant>
 #include <QDebug>
+#include <qcustomplot/qcustomplot.h>
+
 
 /*!
  * \class CompositeStateStack.
@@ -22,7 +24,7 @@ class CompositeStateStack : public QWidget
 {
     Q_OBJECT
 private:
-    QStack<QObject*> stack; ///< stack for logs.
+    QVector<QWidget>* stack; ///< stack for logs.
 
 public:
 
@@ -38,24 +40,11 @@ public:
      *
      * \return a stack of QObject's.
      */
-    QStack<QObject*> getLogStack( void )
+    QVector<QWidget>* getLogStack( void )
     { return stack; }
 
-private:
-
-    /*!
-     * \brief set: method for placing data on the stack.
-     *
-     * \param data: a class that heirs QObject.
-     */
-    void set( QObject* data );
-
-    /*!
-     * \brief pop: method for removing data from the heap of stack.
-     *
-     * \param data: a class that heirs QObject.
-     */
-    void pop( QObject* data );
+//    void addItem( const QWidget& item )
+//    { stack->append( item ); }
 
 public slots:
 
@@ -65,7 +54,7 @@ public slots:
      * \param data: a class that heirs QObject.
      * \param toRemove: remove or save data to stack.
      */
-    void receiveData( QObject& data, bool toRemove );
+    //void receiveData( QWidget& data, bool toRemove );
 };
 
 

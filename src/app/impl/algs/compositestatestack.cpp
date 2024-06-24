@@ -4,31 +4,13 @@ CompositeStateStack::CompositeStateStack( QWidget *parent )
     : QWidget{ parent }
 {}
 
-void CompositeStateStack::set( QObject* data )
-{
-    stack.push( data );
-    qDebug() << " Заряжен: " << data->objectName() << "\n";
-}
 
-void CompositeStateStack::pop( QObject* data )
-{
-    int index = stack.indexOf( data );
-    if( index != -1 )
-    {
-        stack.remove( index );
-    }
-    else
-    {
-        qDebug() << "Объект не найден.\n";
-    }
-}
-
-void CompositeStateStack::receiveData( QObject& data, bool toRemove )
-{
-    if( toRemove )
-    {
-        pop( &data );
-        return;
-    }
-    set( &data );
-}
+//void CompositeStateStack::receiveData( QVariant& data, bool toRemove )
+//{
+//    if( toRemove )
+//    {
+//        stack->removeOne( data );
+//        return;
+//    }
+//    stack->append( data );
+//}

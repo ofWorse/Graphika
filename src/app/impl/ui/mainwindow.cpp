@@ -48,9 +48,11 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollContentWidget->setLayout(scrollLayout);
 
     scrollArea->setWidget(scrollContentWidget);
-    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidgetResizable( true );
 
-    connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
+    reportGenerator = new ReportGenerator( this );
+
+    //connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget->currentLayout, &LayoutInitializer::acceptData );
     connect( rightWidget, &RightWidget::readyToSendArea, leftWidget->currentLayout, &LayoutInitializer::acceptArea );
     connect( leftWidget->currentLayout, &LayoutInitializer::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
@@ -79,7 +81,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( toolbar->actions().at( 18 ), &QAction::triggered, this, &MainWindow::savePlotAsImage);
     connect( rightWidget->graphBuilder, &GraphBuilder::couldSavePlotAsImage, this, &MainWindow::couldSavePlotAsImage);
 
-    toolbar->actions().at( 18 )->setEnabled(false);
+    toolbar->actions().at( 18 )->setEnabled( false );
 
     menuSlots.insert( toolbar->actions().at( 0 ), [ this ]()
                      { openMenu( 0, pymodules::Modules::NIL ); } );
@@ -378,20 +380,18 @@ void MainWindow::openLicenseMenu( void )
 void MainWindow::startSession( void )
 {
     isSession = true;
-    QMessageBox mb;
-    mb.setIcon( QMessageBox::Warning );
-    mb.setWindowTitle( "Предупреждение" );
-    mb.setText( "В разработке" );
-    mb.setStandardButtons( QMessageBox::Ok );
-    mb.exec();
-
     menu->getEndSessionAction()->setEnabled( true );
     menu->getStartSessionAction()->setEnabled( false );
+
+    reportGenerator->startSession();
 }
 
-void MainWindow::endSession()
+void MainWindow::endSession( void )
 {
     isSession = false;
     menu->getEndSessionAction()->setEnabled( false );
     menu->getStartSessionAction()->setEnabled( true );
+
+    reportGenerator->endSession();
+    reportGenerator->generateReport( logStack, ReportGenerator::ReportFormat::PDF, "report" );
 }

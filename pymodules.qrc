@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/pyFiles">
+        <file>resources/pymodules/integration.py</file>
+        <file>resources/pymodules/differentiation.py</file>
+        <file>resources/pymodules/polynomials.py</file>
+        <file>resources/pymodules/laes_solver.py</file>
+    </qresource>
+</RCC>

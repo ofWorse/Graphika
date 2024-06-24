@@ -16,6 +16,7 @@
 #include "compositestatestack.h"
 #include "menu.h"
 #include "sheetmenu.h"
+#include "reportgenerator.h"
 
 /*!
  * \class
@@ -39,6 +40,7 @@ private:
     SpecialBuffer buffer; ///< buffer for data transfer.
     CompositeStateStack logStack; ///< stack for PDF reporter logs.
     Sender sender; ///< data sender to right and left widgets.
+    ReportGenerator* reportGenerator; ///< creates report in pdf or docx format with user data logs.
 
     std::vector<double> x; ///< x variables nodes.
     std::vector<double> y; ///< y variables nodes.

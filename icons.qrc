@@ -6,7 +6,6 @@
         <file>resources/beirut.PNG</file>
         <file>resources/home.PNG</file>
         <file>resources/diff.PNG</file>
-        <file>resources/int.PNG</file>
         <file>resources/clearPlot.PNG</file>
         <file>resources/decreasePlot.PNG</file>
         <file>resources/increasePlot.PNG</file>
@@ -14,7 +13,6 @@
         <file>resources/back.PNG</file>
         <file>resources/forward.PNG</file>
         <file>resources/derivation.PNG</file>
-        <file>resources/polynome.PNG</file>
         <file>resources/hideLegend.PNG</file>
         <file>resources/integral.PNG</file>
         <file>resources/sysfunctions.PNG</file>
