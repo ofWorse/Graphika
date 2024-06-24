@@ -1,10 +1,26 @@
 <RCC>
     <qresource prefix="/toolbaricons">
-        <file>lagrange.PNG</file>
         <file>newthon.PNG</file>
+        <file>lagrange.PNG</file>
         <file>function.PNG</file>
-        <file>clearPlot.PNG</file>
         <file>beirut.PNG</file>
+        <file>home.PNG</file>
+        <file>diff.PNG</file>
+        <file>clearPlot.PNG</file>
+        <file>decreasePlot.PNG</file>
+        <file>increasePlot.PNG</file>
+        <file>showLegend.PNG</file>
+        <file>back.PNG</file>
+        <file>forward.PNG</file>
+        <file>derivation.PNG</file>
+        <file>hideLegend.PNG</file>
+        <file>integral.PNG</file>
+        <file>sysfunctions.PNG</file>
+        <file>unpinPlot.PNG</file>
+        <file>logo.png</file>
+        <file>authors.PNG</file>
+        <file>rotateLegend.PNG</file>
+        <file>savePlotAsImage.png</file>
         <file>about.PNG</file>
     </qresource>
 </RCC>

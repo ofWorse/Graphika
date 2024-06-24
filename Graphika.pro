@@ -13,9 +13,8 @@ IMPLDIR = $$SRCDIR/impl
 # In order to do so, uncomment the following line.
 # DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-RESOURCES += ./resources/icons.qrc \
+RESOURCES += icons.qrc \
     pymodules.qrc \
-    ./resources/pymodules/pymodules.qrc \
     referenceinfo.qrc
 
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
@@ -34,7 +33,7 @@ SOURCES += \
     $$IMPLDIR/algs/compositestatestack.cpp \
     $$IMPLDIR/algs/graphbuilder.cpp \
     $$IMPLDIR/algs/pythonconveyor.cpp \
-    $$IMPLDIR/algs/reportpdfgenerator.cpp \
+    $$IMPLDIR/algs/reportgenerator.cpp \
     $$IMPLDIR/algs/stringparser.cpp \
     $$IMPLDIR/utils/mathutils.cpp \
     $$IMPLDIR/ui/wgts/leftwidget.cpp \
@@ -61,7 +60,7 @@ HEADERS += \
     $$HEADDIR/algs/expressionvalidator.h \
     $$HEADDIR/algs/graphbuilder.h \
     $$HEADDIR/algs/pythonconveyor.h \
-    $$HEADDIR/algs/reportpdfgenerator.h \
+    $$HEADDIR/algs/reportgenerator.h \
     $$HEADDIR/algs/stringparser.h \
     $$HEADDIR/settings/settings.h \
     $$HEADDIR/ui/wgts/leftwidget.h \
@@ -91,6 +90,3 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += \
-    icons.qrc \
-    pymodules.qrc

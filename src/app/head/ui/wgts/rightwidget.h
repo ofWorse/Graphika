@@ -229,7 +229,7 @@ signals:
      * \param data: any object that can be figured in session mode.
      * \param toRemove: remove or save object.
      */
-    void sendData( QObject& data, bool toRemove );
+    void sendData( QVariant& data, bool toRemove );
 
     /*!
      * \brief readyToSendArea: signal for leftWidget object for area line-edit setup.
