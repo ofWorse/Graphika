@@ -3,7 +3,7 @@ QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17 compat
+CONFIG += c++17 compat console_build
 
 SRCDIR = $$PWD/src/app
 HEADDIR = $$SRCDIR/head
@@ -20,14 +20,14 @@ RESOURCES += icons.qrc \
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
     $$HEADDIR/ui/wgts/rwgt $$HEADDIR/settings $$HEADDIR/utils \
-    $$HEADDIR/ui/menu
+    $$HEADDIR/ui/menu $$HEADDIR/console
 
 LIBS += -lpython3.11
 
 VPATH += $$IMPLDIR $$IMPLDIR/algs \
     $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/lwgt \
     $$IMPLDIR/utils $$IMPLDIR/ui/wgts/rwgt \
-    $IMPLDIR/ui/menu
+    $$IMPLDIR/ui/menu $$IMPLDIR/console
 
 SOURCES += \
     $$IMPLDIR/algs/compositestatestack.cpp \
@@ -53,6 +53,7 @@ SOURCES += \
     $$IMPLDIR/utils/sender.cpp \
     $$IMPLDIR/utils/validatestring.cpp \
     $$IMPLDIR/main.cpp \
+    $$IMPLDIR/console/consoleapplication.cpp \
     qcustomplot/qcustomplot.cpp
 
 HEADERS += \
@@ -81,8 +82,11 @@ HEADERS += \
     $$HEADDIR/utils/graphInfo.h \
     $$HEADDIR/utils/sender.h \
     $$HEADDIR/utils/mathutils.h \
+    $$HEADDIR/console/consoleapplication.h \
     $$HEADDIR/utils/validatestring.h \
     qcustomplot/qcustomplot.h \
+    src/app/head/console/commands.h \
+    src/app/head/settings/config.h \
     src/app/head/ui/wgts/lwgt/widgets.h
 
 # Default rules for deployment.
