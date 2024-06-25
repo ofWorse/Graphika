@@ -26,8 +26,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     toolbar->setIconSize( *new QSize( 40, 40 ) );
     addToolBar( Qt::TopToolBarArea, toolbar );
 
-    QScrollArea *scrollArea = new QScrollArea( this );
-    QWidget *scrollContentWidget = new QWidget;
+    QScrollArea* scrollArea = new QScrollArea( this );
+    QWidget* scrollContentWidget = new QWidget;
 
     centralwidget = new QWidget( this );
     layout = new QGridLayout( centralwidget );
