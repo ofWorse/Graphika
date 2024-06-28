@@ -1,9 +1,9 @@
-#include_next "sender.h"
-#include_next "settings.h"
+#include "sender.h"
+#include "settings.h"
 
 Sender::Sender() {}
 
-void Sender::setMacro(pymodules::Methods method, pymodules::Modules module) {
+void Sender::setMacro( pymodules::Methods method, pymodules::Modules module ) {
 
     switch (method) {
     case pymodules::Methods::NEWTON:

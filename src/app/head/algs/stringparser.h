@@ -81,8 +81,10 @@ class StringParser : public QObject
 private:
     unsigned const char* input; ///< a line into which a string mathematical expression is entered.
     double x; ///< the value of the number x at a specific node.
+    double y;
 
     std::vector<double> xTable; ///< table of x data values.
+    std::vector<double> yTable;
 
 public:
     /*!
@@ -123,7 +125,7 @@ public:
      *
      * \return a vector of y values for every given x node.
      */
-    std::vector<double> parseExpression( QString input );
+    std::vector<double> parseExpression( QString input, int dimensional );
 
     /*!
      * \brief setX: setter.
@@ -139,6 +141,10 @@ public:
      */
     void setDataX( const std::vector<double> x ) { xTable = x; }
 
+    void setDataY( const std::vector<double> y ) { yTable = y; }
+
+    void setDataZ( const std::vector<double> z ) { yTable = z; }
+
     /*!
      * \brief eval: method of comparing a given expression with installed functions.
      *
@@ -147,7 +153,7 @@ public:
      *
      * \return: result of expression evaluation.
      */
-    double eval( const std::optional<Expression>& e, double x );
+    double eval( const std::optional<Expression>& e, double x, std::optional<double> y = std::nullopt );
 
     /*!
      * \brief eval: method of comparing a given expression with installed functions.

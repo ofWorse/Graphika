@@ -45,7 +45,7 @@ public:
      * \param min: x-min.
      * \param max: x-max.
      */
-    static void setupNodes( std::vector<double>& X, const double nodes, const double min, const double max ) noexcept;
+    static void setupNodes( std::vector<double>& data, const double nodes, const double min, const double max ) noexcept;
 
     /*!
      * \brief calculateAverageError: calculates error between two arrays of real numbers data.

@@ -2,7 +2,7 @@
 #include <QLineEdit>
 #include <QString>
 
-LeftWidget::LeftWidget( SpecialBuffer& buffer, QWidget *parent ) : QWidget( parent )
+LeftWidget::LeftWidget( QWidget *parent ) : QWidget( parent )
 {
     layout = new QGridLayout( this );
     widgets = new Widgets( this );
@@ -40,6 +40,7 @@ void LeftWidget::initLayout( SpecialBuffer& buffer, pymodules::Modules module )
     connectLabels( buffer );
     layout->addLayout( currentLayout->get(), 0, 0 );
 }
+
 
 void LeftWidget::hideAllWidgets( QLayout* layout )
 {

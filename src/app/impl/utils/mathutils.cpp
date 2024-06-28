@@ -15,13 +15,13 @@ std::vector<double> MathUtils::multiplyPoints( const double a, const double b ) 
     return x;
 }
 
-void MathUtils::setupNodes( std::vector<double>& X, const double nodes, const double min, const double max ) noexcept
+void MathUtils::setupNodes( std::vector<double>& data, const double nodes, const double min, const double max ) noexcept
 {
     double step = ( max - min ) / ( nodes - 1 );
     for( auto i = 0; i < nodes; ++i )
     {
         double node = min + i * step;
-        X.push_back( node );
+        data.push_back( node );
     }
 }
 

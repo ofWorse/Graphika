@@ -40,6 +40,7 @@ public:
 
     QVector<double> x; ///< x variables.
     QVector<double> y; ///< y variables.
+    QVector<double> z; ///< z variables.
 
 private:
     /*!
@@ -198,13 +199,6 @@ public slots:
      */
     void printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
 
-    /*!
-     * \brief printFunctionGraph: drawing a simple graph.
-     *
-     * \param x: x data variables.
-     * \param y: y data variables.
-     */
-    void printFunctionGraph( std::vector<double>& x, std::vector<double>& y );
 
 signals:
     /*!

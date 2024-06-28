@@ -33,6 +33,8 @@ public:
      */
     explicit Toolbar( QWidget *parent = nullptr );
 
+    dimensional::PlotDimensional getSelectedFuncMethod( void ) const;
+
     /*!
      * \brief getSelectedDiffMethod: standard getter.
      * \return pymodules::Methods
@@ -83,6 +85,8 @@ private:
     QMenu* sysMenu; ///< equations menu.
 
 private:
+    void initFuncMenu( void );
+
     /*!
      * \brief initDiffMenu: setup menu of derivation actions.
      */
@@ -105,6 +109,8 @@ private:
      * \param items: list of options.
      */
     void initMenu( QMenu*& menu, const QStringList& items );
+
+    void updateFuncCheckState( QAction* checkedAction );
 
     /*!
      * \brief updateDiffCheckState: updates derivation checkbox object.

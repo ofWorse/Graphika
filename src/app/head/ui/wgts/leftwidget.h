@@ -68,7 +68,7 @@ public:
      * \param buffer: x & y data buffer to transfer.
      * \param parent: pointer to the parent object.
      */
-    explicit LeftWidget( SpecialBuffer& buffer, QWidget* parent = nullptr );
+    explicit LeftWidget( QWidget* parent = nullptr );
 
 public slots:
     /*!

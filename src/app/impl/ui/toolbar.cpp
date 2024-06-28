@@ -136,6 +136,7 @@ void Toolbar::initSysMenu()
     });
 }
 
+
 void Toolbar::updateDiffCheckState( QAction *checkedAction )
 {
     if ( checkedAction->isChecked() )

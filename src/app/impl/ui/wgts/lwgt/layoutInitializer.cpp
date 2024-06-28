@@ -27,12 +27,19 @@ void LayoutInitializer::acceptArea( const std::string& area )
 void LayoutInitializer::editTable( void )
 {
     clearDataTable();
-    widgets->tableWidget->setColumnCount( 2 );
+    if( widgets->tableWidget->columnCount() == 3 )
+    {
+        widgets->tableWidget->setColumnCount( 3 );
+    }
+    else
+    {
+        widgets->tableWidget->setColumnCount( 2 );
+    }
     widgets->tableWidget->setRowCount( 10 );
     for( int row{}; row < widgets->tableWidget->rowCount(); ++row )
     {
         QRadioButton* button = new QRadioButton;
-        widgets->tableWidget->setCellWidget( row, 2, button );
+        widgets->tableWidget->setCellWidget( row, widgets->tableWidget->columnCount(), button );
     }
     widgets->solve->setEnabled( false );
     widgets->solve->setStyleSheet( "background-color: tomato;" );
@@ -103,6 +110,13 @@ void LayoutInitializer::hideSecondLayer( void )
 void LayoutInitializer::setupNodes( const double node )
 {
     widgets->X.clear();
+    if( widgets->tableWidget->columnCount() == 3 )
+    {
+        widgets->Y.clear();
+        MathUtils::setupNodes( widgets->Y, node, widgets->yMin->value(), widgets->yMax->value() );
+        MathUtils::setupNodes( widgets->X, node, widgets->min->value(), widgets->max->value() );
+        return;
+    }
     MathUtils::setupNodes( widgets->X, node, widgets->min->value(), widgets->max->value() );
 }
 
@@ -147,28 +161,50 @@ void LayoutInitializer::onSolveButtonClicked( SpecialBuffer& buffer )
     auto expression = widgets->expressionInput->text();
     auto min        = widgets->min->value();
     auto max        = widgets->max->value();
+    auto yMin       = widgets->yMin->value();
+    auto yMax       = widgets->yMax->value();
     auto step       = widgets->step->value();
 
     if( !widgets->nodes->isVisible() && manualInput == false )
     {
+        if( widgets->tableWidget->columnCount() == 3 )
+        {
+            for( double i = yMin; i <= yMax; i += step )
+            {
+                widgets->Y.push_back( i );
+            }
+        }
         for( double i = min; i <= max; i += step )
         {
             widgets->X.push_back( i );
         }
         widgets->parser->setDataX( widgets->X );
-        widgets->Y = widgets->parser->parseExpression( expression.toStdString().c_str() );
+
+        if( widgets->tableWidget->columnCount() == 3 )
+        {
+            widgets->parser->setDataY( widgets->Y );
+            widgets->Z = widgets->parser->parseExpression( expression.toStdString().c_str(), 3 );
+        }
+        else widgets->Y = widgets->parser->parseExpression( expression.toStdString().c_str(), 2 );
     }
     else if( widgets->nodes->isVisible() && manualInput == false )
     {
         setupNodes( widgets->nodes->value() );
         widgets->parser->setDataX( widgets->X );
-        widgets->Y = widgets->parser->parseExpression( expression.toStdString().c_str() );
+        if( widgets->tableWidget->columnCount() == 3 )
+        {
+            widgets->parser->setDataY( widgets->Y );
+            widgets->Z = widgets->parser->parseExpression( expression.toStdString().c_str(), 3 );
+        }
+        else widgets->Y = widgets->parser->parseExpression( expression.toStdString().c_str(), 2 );
     }
     else if( manualInput )
     {
         widgets->X = fillDataFromTable( 0 );
         widgets->Y = fillDataFromTable( 1 );
+        widgets->Z = fillDataFromTable( 2 );
     }
+
 
     if( widgets->X.size() > limits::SIZE_LIMIT )
     {
@@ -178,20 +214,22 @@ void LayoutInitializer::onSolveButtonClicked( SpecialBuffer& buffer )
 
     buffer.x = QVector<double>( widgets->X.begin(), widgets->X.end() );
     buffer.y = QVector<double>( widgets->Y.begin(), widgets->Y.end() );
+    buffer.z = QVector<double>( widgets->Z.begin(), widgets->Z.end() );
 
     if( !widgets->derivativeExpressionInput->text().isEmpty() )
     {
-        widgets->dY = widgets->parser->parseExpression( widgets->derivativeExpressionInput->text().toStdString().c_str() );
+        widgets->dY = widgets->parser->parseExpression( widgets->derivativeExpressionInput->text().toStdString().c_str(), 2 );
         buffer.dy = QVector<double>( widgets->dY.begin(), widgets->dY.end() );
     }
 
     if( couldBuildTable )
     {
-        showTable( widgets->X, widgets->Y, widgets->dY );
+        showTable( widgets->X, widgets->Y, widgets->Z, widgets->dY );
     }
     couldBuildTable = true;
     widgets->X.clear();
     widgets->Y.clear();
+    widgets->Z.clear();
     widgets->dY.clear();
 }
 
@@ -199,23 +237,30 @@ void LayoutInitializer::updateDataFromTable( SpecialBuffer& buffer )
 {
     widgets->X.clear();
     widgets->Y.clear();
+    widgets->Z.clear();
     widgets->dY.clear();
     for( int row{}; row < widgets->tableWidget->rowCount(); ++row )
     {
         QTableWidgetItem* itemX = widgets->tableWidget->item( row, 0 );
         QTableWidgetItem* itemY = widgets->tableWidget->item( row, 1 );
+        QTableWidgetItem* itemZ = widgets->tableWidget->item( row, 2 );
 
         if( itemX && itemY )
         {
             widgets->X.push_back( itemX->text().toDouble() );
             widgets->Y.push_back( itemY->text().toDouble() );
         }
+        if( itemZ )
+        {
+            widgets->Z.push_back( itemZ->text().toDouble() );
+        }
     }
     buffer.x = QVector<double>( widgets->X.begin(), widgets->X.end() );
     buffer.y = QVector<double>( widgets->Y.begin(), widgets->Y.end() );
+    buffer.z = QVector<double>( widgets->Z.begin(), widgets->Z.end() );
 }
 
-void LayoutInitializer::showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY )
+void LayoutInitializer::showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> z, const std::vector<double> dY )
 {
     widgets->tableWidget->clear();
     widgets->tableWidget->setRowCount( x.size() );
@@ -225,6 +270,11 @@ void LayoutInitializer::showTable( const std::vector<double> x, const std::vecto
     {
         labels << "Y'";
     }
+    if( !z.empty() )
+    {
+        labels << "Z";
+    }
+
     widgets->tableWidget->setHorizontalHeaderLabels( labels );
 
     for( std::size_t i{}; i < x.size(); ++i )
@@ -238,6 +288,11 @@ void LayoutInitializer::showTable( const std::vector<double> x, const std::vecto
         {
             QTableWidgetItem* itemDY = new QTableWidgetItem( QString::number( dY[i] ) );
             widgets->tableWidget->setItem( i, 2, itemDY );
+        }
+        if( !z.empty() )
+        {
+            QTableWidgetItem* itemZ = new QTableWidgetItem( QString::number( z[i] ) );
+            widgets->tableWidget->setItem( i, 2, itemZ );
         }
     }
     widgets->buildGraph->setEnabled( true );
@@ -254,7 +309,7 @@ void LayoutInitializer::acceptData( const QString& model, const double a, const 
 {
     auto x = MathUtils::multiplyPoints( a, b );
     widgets->parser->setDataX( x );
-    std::vector<double> y = widgets->parser->parseExpression( model.toStdString().c_str() );
+    std::vector<double> y = widgets->parser->parseExpression( model.toStdString().c_str(), 2 );
     emit readyToDraw( x, y );
 }
 

@@ -29,6 +29,7 @@ public:
 
     QVector<double> x; ///< x data variables.
     QVector<double> y; ///< y data variables.
+    QVector<double> z; ///< z data variables.
     QVector<double> dy; ///< derivated y data variables.
 };
 
