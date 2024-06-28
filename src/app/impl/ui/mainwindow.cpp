@@ -32,7 +32,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     centralwidget = new QWidget( this );
     layout = new QGridLayout( centralwidget );
 
-    leftWidget = new LeftWidget( buffer, this );
+    leftWidget = new LeftWidget( this );
     leftWidget->initLayout( buffer, pymodules::Modules::NIL );
     toolbar->actions().at( 0 )->setChecked( true );
     connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
@@ -47,7 +47,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollLayout->addWidget( rightWidget, 0, 1 );
     scrollContentWidget->setLayout(scrollLayout);
 
-    scrollArea->setWidget(scrollContentWidget);
+    scrollArea->setWidget( scrollContentWidget );
     scrollArea->setWidgetResizable( true );
 
     reportGenerator = new ReportGenerator( this );
@@ -68,6 +68,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
+
+    //connect( toolbar, &Toolbar::buildTwoDimensionalWidget, leftWidget, &LeftWidget::buildTwoDimensionalWidget );
+   // connect( toolbar, &Toolbar::buildThreeDimensionalWidget, leftWidget, &LeftWidget::buildThreeDimensionalWidget );
 
     connect( toolbar->actions().at( 9 ),  &QAction::triggered, this, &MainWindow::clearGraph  );
     connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom   );
@@ -116,13 +119,9 @@ void MainWindow::buildSpecificWidget( int index )
     switch( index )
     {
     case 0:
-        emit rebuildWidgets( buffer, widgetState );
-        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
-        break;
+        [[fallthrough]];
     case 1:
-        emit rebuildWidgets( buffer, widgetState );
-        connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
-        break;
+        [[fallthrough]];
     case 2:
         emit rebuildWidgets( buffer, widgetState );
         connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
@@ -165,8 +164,8 @@ void MainWindow::draw( void )
         break;
     case pymodules::Modules::INTEGRATION:
         calculateIntegral();
+        break;
     default:
-        qDebug() << "No such method.\n";
         break;
     }
 }
@@ -202,7 +201,6 @@ void MainWindow::buildPolynomeGraph( void )
 
 void MainWindow::printFunctionGraph( void )
 {
-    sender.setMacro( pymodules::Methods::NIL, pymodules::Modules::NIL );
     if( isSession )
     {
         rightWidget->printGraph( buffer, sender, &logStack );

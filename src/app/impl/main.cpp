@@ -77,7 +77,6 @@ int main( int argc, char *argv[] )
         return a.exec();
     }
 #endif
-
     qCritical() << "Invalid appliation mode.\nExiting.\n";
     return 1;
 }

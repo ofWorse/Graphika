@@ -21,13 +21,13 @@ RightWidget::RightWidget( QWidget *parent )
     rightLayout->addWidget( modelLabel );
     rightLayout->addWidget( model );
     rightLayout->addWidget( graphBuilder );
-
 }
 
 void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
 {
     x = buffer.x;
     y = buffer.y;
+    z = buffer.z;
 
     if( graphBuilder->wGraphic->yAxis->label() == "y'" )
     {
@@ -38,28 +38,11 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false );
 
-    QString str = QString::fromUtf8( resultModel.c_str() );
-    model->setText( str );
-
     if( stack ) [[unlikely]]
     {
 //        emit sendData( model, false );
 //        emit sendData( *graphBuilder->wGraphic, false );
     }
-}
-
-void RightWidget::printFunctionGraph( std::vector<double>& x, std::vector<double>& y )
-{
-    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
-    {
-        graphBuilder->onClearButtonClicked();
-        graphBuilder->wGraphic->yAxis->setLabel( "y" );
-    }
-    graphBuilder->wGraphic->replot();
-    // TODO: исправить заглушку
-    auto placeholder = QVector<double>::fromStdVector( x );
-    auto placeholder1 = QVector<double>::fromStdVector( y );
-    graphBuilder->PaintG( placeholder, placeholder1, "График заданной функции", true, false );
 }
 
 void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
@@ -145,7 +128,7 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
     conveyor->setData( &PythonConveyor::functionName, sender.functionName );
     conveyor->setData( &PythonConveyor::pythonFilePath, sender.moduleName );
     conveyor->setData( &PythonConveyor::xVector, x );
-    conveyor->setData (&PythonConveyor::yVector, y );
+    conveyor->setData( &PythonConveyor::yVector, y );
 
 
     conveyor->sendArraysToPythonFunction();

@@ -21,6 +21,7 @@ class FunctionLayout : public LayoutInitializer
     Q_OBJECT
 private:
     QGridLayout* layout; ///< a grid layout for widgets.
+    QComboBox* cb;
 public:
     /*!
      * standard class-destructor.
@@ -40,6 +41,11 @@ public:
      * \return private class member layout.
      */
     QGridLayout* get( void ) override;
+
+public slots:
+    void hideThirdDimensionalLayer( void );
+    void showThirdDimensionalLayer( void );
+    void checkoutDimensionals( void );
 };
 
 #endif

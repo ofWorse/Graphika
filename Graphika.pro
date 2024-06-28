@@ -1,4 +1,4 @@
-QT += core gui
+QT += core gui opengl
 QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -43,7 +43,6 @@ SOURCES += \
     $$IMPLDIR/ui/wgts/lwgt/equationslayout.cpp \
     $$IMPLDIR/ui/wgts/lwgt/polynomialslayout.cpp \
     $$IMPLDIR/ui/wgts/lwgt/layoutInitializer.cpp \
-    $$IMPLDIR/ui/wgts/lwgt/datamodel.cpp \
     $$IMPLDIR/ui/mainwindow.cpp \
     $$IMPLDIR/ui/menu.cpp \
     $$IMPLDIR/ui/wgts/rightwidget.cpp \
@@ -71,7 +70,6 @@ HEADERS += \
     $$HEADDIR/ui/wgts/lwgt/equationslayout.h \
     $$HEADDIR/ui/wgts/lwgt/polynomialslayout.h \
     $$HEADDIR/ui/wgts/lwgt/layoutInitializer.h \
-    $$HEADDIR/ui/wgts/lwgt/datamodel.h \
     $$HEADDIR/ui/mainwindow.h \
     $$HEADDIR/ui/menu.h \
     $$HEADDIR/ui/wgts/rightwidget.h \

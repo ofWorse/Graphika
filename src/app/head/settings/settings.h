@@ -15,6 +15,14 @@ const int NODES_LIMIT = 10; ///< limit on the number of interpolation nodes.
 const int SIZE_LIMIT = 1002; ///< limit of nodes for plotting.
 } // limits
 
+namespace dimensional
+{
+enum PlotDimensional
+{
+    _2D, _3D
+};
+} // dimensional
+
 namespace pymodules
 {
 /*!

@@ -1,4 +1,4 @@
-#include_next "stringparser.h"
+#include "stringparser.h"
 
 StringParser::StringParser( QObject *parent ) : QObject( parent ) {}
 
@@ -7,20 +7,36 @@ std::optional<Expression> StringParser::parseExpression()
     return parseBinaryExpression( 0 );
 }
 
-std::vector<double> StringParser::parseExpression( QString input )
+std::vector<double> StringParser::parseExpression( QString input, int dimensional )
 {
     QByteArray bytes = input.toUtf8();
     this->input = reinterpret_cast<unsigned const char*>( bytes.constData() );
-    double y{};
-    std::vector<double> yTable;
     auto parsed = parseExpression();
 
-    for( const auto& x : xTable )
+    if( dimensional == 3 )
     {
-        y = eval( parsed, x );
-        yTable.push_back( y );
+        double z{};
+        std::vector<double> zTable;
+        for( size_t i = 0; i < yTable.size(); ++i )
+        {
+            z = eval( parsed, xTable[i], yTable[i] );
+            zTable.push_back( z );
+        }
+        return zTable;
     }
-    return yTable;
+    else
+    {
+        double y{};
+        std::vector<double> yTable;
+        for( const auto& x : xTable )
+        {
+            y = eval( parsed, x );
+            yTable.push_back( y );
+        }
+        return yTable;
+    }
+    [[unlikely]]
+    return std::vector<double>() ;
 }
 
 std::string StringParser::parseToken()
@@ -44,6 +60,12 @@ std::string StringParser::parseToken()
     {
         ++input;
         return "x";
+    }
+
+    if( *input == 'y' )
+    {
+        ++input;
+        return "y";
     }
 
     static const std::vector<std::string> tokens =
@@ -72,6 +94,16 @@ std::optional<Expression> StringParser::parseSimpleExpression()
         return std::nullopt;
     }
 
+    if( token == "x" )
+    {
+        return Expression( token, true );
+    }
+
+    if( token == "y" )
+    {
+        return Expression( token, true );
+    }
+
     if ( token == "(" )
     {
         auto result = parseExpression();
@@ -89,10 +121,6 @@ std::optional<Expression> StringParser::parseSimpleExpression()
         return Expression( token ) ;
     }
 
-    if( token == "x" )
-    {
-        return Expression( token, true );
-    }
 
     auto nestedExpr = parseSimpleExpression();
     if( !nestedExpr.has_value() )
@@ -137,7 +165,7 @@ int StringParser::getPriority( const std::string &token )
     return 0;
 }
 
-double StringParser::eval( const std::optional<Expression> &e, double x )
+double StringParser::eval( const std::optional<Expression> &e, double x, std::optional<double> y )
 {
     if( !e.has_value() )
     {
@@ -148,15 +176,30 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
     auto expr = e.value();
     if( expr.isVariable )
     {
-        return x;
+        if( expr.token == "x" )
+        {
+            return x;
+        }
+        else if( expr.token == "y" )
+        {
+            if( y.has_value() )
+            {
+                return y.value();
+            }
+            else
+            {
+                emit errorOccurred( "Переменная 'y' не определена" );
+                return 0.0;
+            }
+        }
     }
 
     switch( expr.arguments.size() )
     {
     case 2:
     {
-        auto a = eval( expr.arguments[0], x );
-        auto b = eval( expr.arguments[1], x );
+        auto a = eval( expr.arguments[0], x, y );
+        auto b = eval( expr.arguments[1], x, y );
 
         if( expr.token == "+" )   return a + b;
         if( expr.token == "-" )   return a - b;
@@ -181,7 +224,7 @@ double StringParser::eval( const std::optional<Expression> &e, double x )
     }
     case 1:
     {
-        auto a = eval( expr.arguments[0], x );
+        auto a = eval( expr.arguments[0], x, y );
 
         //TODO: подумать над инкапсуляции реализации путем добавления хеш таблицы.
         if( expr.token == "+"    )     return +a;

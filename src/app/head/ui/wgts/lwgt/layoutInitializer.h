@@ -142,7 +142,7 @@ public:
      * \param y: y variables data.
      * \param dY: derivated y variables data.
      */
-    void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> dY );
+    void showTable( const std::vector<double> x, const std::vector<double> y, const std::vector<double> z, const std::vector<double> dY );
 
 public slots:
     /*!

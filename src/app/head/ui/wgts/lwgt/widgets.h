@@ -48,6 +48,10 @@ public:
     QDoubleSpinBox* min;                     ///< Spin box for setting the minimum value
     QDoubleSpinBox* max;                     ///< Spin box for setting the maximum value
     QDoubleSpinBox* step;                    ///< Spin box for setting the step value
+    QLabel* yMinLabel;
+    QLabel* yMaxLabel;
+    QDoubleSpinBox* yMin;
+    QDoubleSpinBox* yMax;
     QLineEdit* expressionInput;              ///< Line edit for entering the expression
     QLabel* derivativeLabel;                 ///< Label for displaying the derivative
     QLineEdit* derivativeExpressionInput;    ///< Line edit for entering the derivative expression
@@ -73,6 +77,7 @@ public:
 
     std::vector<double> X;                   ///< Vector for storing 'x' values
     std::vector<double> Y;                   ///< Vector for storing 'y' values
+    std::vector<double> Z;                   ///< Vector for storing 'z' values
     std::vector<double> dY;                  ///< Vector for storing derivative values
 
     QPushButton* buildGraph;                 ///< Button for building the graph
@@ -96,20 +101,24 @@ public:
         label = new QLabel( "f(x) = ", this );
         errLabel = new QLabel( "", this );
 
-        typeOfInput = new QLabel( "Ввод значений x: ", this );
+        typeOfInput = new QLabel( "Ввод значений:", this );
 
         typeOfVariableInput = new QComboBox( this );
         typeOfVariableInput->addItems( { "с шагом", "с узлами" } );
 
         {  // Переменные элементы
-            minLabel = new QLabel( "Минимальное значение x:", this );
-            maxLabel = new QLabel( "Максимальное значение x:", this );
-            stepLabel = new QLabel( "Шаг по x:", this );
+            minLabel = new QLabel( "Xmin", this );
+            maxLabel = new QLabel( "Xmax", this );
+            yMinLabel = new QLabel( "Ymin", this );
+            yMaxLabel = new QLabel( "Ymax", this );
+            stepLabel = new QLabel( "Шаг:", this );
 
-            nodesLabel = new QLabel( "Кол-во узлов: ", this );
+            nodesLabel = new QLabel( "Кол-во узлов:", this );
 
             min = new QDoubleSpinBox( this );
             max = new QDoubleSpinBox( this );
+            yMin = new QDoubleSpinBox( this );
+            yMax = new QDoubleSpinBox( this );
             step = new QDoubleSpinBox( this );
             nodes = new QDoubleSpinBox( this );
 
@@ -155,9 +164,13 @@ private:
     void setRange( void )
     {
         min->setRange( -100.0, 100.0 );
+        yMin->setRange( -100.0, 100.0 );
         min->setSingleStep( 0.1 );
+        yMin->setSingleStep( 0.1 );
         max->setRange( -100.0, 100.0 );
+        yMax->setRange( -100.0, 100.0 );
         max->setSingleStep( 0.1 );
+        yMax->setSingleStep( 0.1 );
         step->setRange( 0.01, 10.0 );
         step->setSingleStep( 0.1 );
         nodes->setRange( 2.0, 1000.0 );
