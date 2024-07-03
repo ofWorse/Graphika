@@ -36,7 +36,7 @@ std::vector<double> StringParser::parseExpression( QString input, int dimensiona
         return yTable;
     }
     [[unlikely]]
-    return std::vector<double>() ;
+    return std::vector<double>();
 }
 
 std::string StringParser::parseToken()

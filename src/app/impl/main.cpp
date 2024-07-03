@@ -59,7 +59,7 @@ int main( int argc, char *argv[] )
 #if defined( CONSOLE_MODE )
     if( mode == ApplicationMode::CONSOLE )
     {
-        QCoreApplication a( argc, argv );
+        QApplication a( argc, argv );
         ConsoleApplication consoleApp;
         consoleApp.run();
 
