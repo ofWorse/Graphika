@@ -53,7 +53,9 @@ SOURCES += \
     $$IMPLDIR/utils/validatestring.cpp \
     $$IMPLDIR/main.cpp \
     $$IMPLDIR/console/consoleapplication.cpp \
-    qcustomplot/qcustomplot.cpp
+    qcustomplot/qcustomplot.cpp \
+    $$IMPLDIR/console/commandhandler.cpp
+    $$IMPLDIR/console/commandcompleter.cpp
 
 HEADERS += \
     $$HEADDIR/algs/compositestatestack.h \
@@ -83,6 +85,8 @@ HEADERS += \
     $$HEADDIR/console/consoleapplication.h \
     $$HEADDIR/utils/validatestring.h \
     qcustomplot/qcustomplot.h \
+    $$HEADDIR/console/commandhandler.h \
+    $$HEADDIR/console/commandcompleter.h \
     src/app/head/console/commands.h \
     src/app/head/settings/config.h \
     src/app/head/ui/wgts/lwgt/widgets.h

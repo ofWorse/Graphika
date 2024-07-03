@@ -56,6 +56,8 @@ public:
      */
     explicit RightWidget( QWidget *parent = nullptr );
 
+    std::string getResultModel( void ) { return resultModel; }
+
     /*!
      * \brief printGraph: method for plot generation.
      *
