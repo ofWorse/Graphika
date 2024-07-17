@@ -6,8 +6,8 @@
  * \date last update: 18.05.2024.
  */
 
-#ifndef SHEETMENU_H
-#define SHEETMENU_H
+#ifndef REFERENCEMENU_H
+#define REFERENCEMENU_H
 
 #include <QApplication>
 #include <QWidget>
@@ -21,20 +21,20 @@
 #include <QDebug>
 
 /*!
- * \class SheetMenu
+ * \class Reference
  *
  * \brief The SheetMenu class
  */
-class SheetMenu : public QWidget
+class ReferenceMenu : public QWidget
 {
     Q_OBJECT
 public:
     /*!
-     * \brief CompositeStateStack: constructor with standard heir argument.
+     * \brief ReferenceMenu: constructor with standard heir argument.
      *
-     * \param paren: pointer to the parent object.
+     * \param parent: pointer to the parent object.
      */
-    SheetMenu( QWidget* parent = nullptr );
+    ReferenceMenu( QWidget* parent = nullptr ) : QWidget(parent) {}
 
     /*!
      * \brief invokeLicenseWidget: a method that generates and displays a window with a text license of a software product.

@@ -111,7 +111,9 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
 
     graphBuilder->wGraphic->replot();
     graphBuilder->PaintG( x, y, "Точки интерполяции", false, true );
-    interpolationSolve( x.toStdVector(), y.toStdVector(), sender );
+    std::vector<double> _x(std::begin(x), std::end(x));
+    std::vector<double> _y(std::begin(y), std::end(y));
+    interpolationSolve( _x, _y, sender );
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
     emit readyToSendData( model->text(), x[0], x.back() );
@@ -141,8 +143,10 @@ void RightWidget::integrationSolve( const QVector<double>& x, const QVector<doub
     conveyor->setData( &PythonConveyor::functionName, sender.functionName );
     conveyor->setData( &PythonConveyor::pythonFilePath, sender.moduleName );
 
-    conveyor->setData( &PythonConveyor::xVector, x.toStdVector() );
-    conveyor->setData( &PythonConveyor::yVector, y.toStdVector() );
+    std::vector<double> _x(std::begin(x), std::end(x));
+    std::vector<double> _y(std::begin(y), std::end(y));
+    conveyor->setData( &PythonConveyor::xVector, _x );
+    conveyor->setData( &PythonConveyor::yVector, _y );
 
     conveyor->sendDataToIntegration();
     QString resultStr = conveyor->getData( &PythonConveyor::resultString );
@@ -155,8 +159,11 @@ void RightWidget::differentiationSolve( const QVector<double>& x, const QVector<
     conveyor->setData( &PythonConveyor::functionName, sender.functionName );
     conveyor->setData( &PythonConveyor::pythonFilePath, sender.moduleName );
 
-    conveyor->setData( &PythonConveyor::xVector, x.toStdVector() );
-    conveyor->setData( &PythonConveyor::yVector, y.toStdVector() );
+    std::vector<double> _x(std::begin(x), std::end(x));
+    std::vector<double> _y(std::begin(y), std::end(y));
+
+    conveyor->setData( &PythonConveyor::xVector, _x );
+    conveyor->setData( &PythonConveyor::yVector, _y );
 
     conveyor->sendDataToDifferentiation();
     QVector<double> resultX = conveyor->getData( &PythonConveyor::resultDiff_XVector );
@@ -185,8 +192,8 @@ void RightWidget::clearGraph( void )
 
 void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std::vector<double> y )
 {
-    QVector<double> X = QVector<double>::fromStdVector( x );
-    QVector<double> Y = QVector<double>::fromStdVector( y );
+    QVector<double> X = QVector<double>( x.begin(), x.end() );
+    QVector<double> Y = QVector<double>( y.begin(), y.end() );
     graphBuilder->PaintG( X, Y, "График интерполяции", true, false );
 }
 

@@ -19,6 +19,7 @@
 #include <QGridLayout>
 #include <QTableWidget>
 #include <QLineEdit>
+#include <QFont>
 #include <stringparser.h>
 
 /*!
@@ -137,6 +138,8 @@ public:
 
         derivativeExpressionInput = new QLineEdit( this );
         expressionInput = new QLineEdit( this );
+        QFont font( "Times New Roman", 12, -1, true );
+        expressionInput->setFont( font );
         connect( expressionInput, &QLineEdit::textChanged, this, &Widgets::expressionInputChanged );
         manualTableInput = new QPushButton( "Ручной ввод", this );
         solve = new QPushButton( "Решить", this );

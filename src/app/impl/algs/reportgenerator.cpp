@@ -18,15 +18,15 @@ ReportGenerator::ReportGenerator( const QString file, const QString dir, const Q
 
 void ReportGenerator::startSession( void )
 {
-    timer.start();
+    //timer.start();
 }
 
 void ReportGenerator::endSession( void )
 {
-    int elapsedMs = timer.elapsed();
-    int elapsedSecs = elapsedMs / 1000;
-    int elapsedMins = elapsedSecs / 60;
-    int remainingSecs = elapsedSecs % 60;
+    //int elapsedMs = timer.elapsed();
+    //int elapsedSecs = elapsedMs / 1000;
+    //int elapsedMins = elapsedSecs / 60;
+    //int remainingSecs = elapsedSecs % 60;
 
-    qDebug() << "Time elapsed: " << elapsedMins << ":" << elapsedSecs << "\n";
+    //qDebug() << "Time elapsed: " << elapsedMins << ":" << elapsedSecs << "\n";
 }
