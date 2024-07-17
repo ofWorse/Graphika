@@ -172,7 +172,7 @@ void MainWindow::draw( void )
 
 void MainWindow::deleteWidgets( void )
 {
-    SheetMenu::cleanupWidgets( widgets );
+    ReferenceMenu::cleanupWidgets( widgets );
     widgets.clear();
 }
 
@@ -364,17 +364,17 @@ void MainWindow::unpinGraph( void )
 
 void MainWindow::openAboutMenu( void )
 {
-    widgets.append( SheetMenu::invokeAboutWidget() );
+    widgets.append( ReferenceMenu::invokeAboutWidget() );
 }
 
 void MainWindow::openAuthorsMenu( void )
 {
-    widgets.append( SheetMenu::invokeAuthorsWidget() );
+    widgets.append( ReferenceMenu::invokeAuthorsWidget() );
 }
 
 void MainWindow::openLicenseMenu( void )
 {
-    widgets.append( SheetMenu::invokeLicenseWidget() );
+    widgets.append( ReferenceMenu::invokeLicenseWidget() );
 }
 
 void MainWindow::startSession( void )
