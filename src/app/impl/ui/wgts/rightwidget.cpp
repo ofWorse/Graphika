@@ -36,7 +36,7 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     }
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false );
+    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false, false );
 
     if( stack ) [[unlikely]]
     {
@@ -49,7 +49,7 @@ void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<
 {
     graphBuilder->wGraphic->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, "График производной функции", true, false );
+    graphBuilder->PaintG( x, y, "График производной функции", true, false, false );
 
     if( stack ) [[unlikely]]
     {
@@ -80,6 +80,8 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, cons
     y = buffer.y;
 
     integrationSolve( x, y, sender );
+    graphBuilder->wGraphic->replot();
+    graphBuilder->PaintG( x, y, "Площадь функции", true, false, true );
 
     if( stack ) [[unlikely]]
     {
@@ -110,7 +112,7 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
     }
 
     graphBuilder->wGraphic->replot();
-    graphBuilder->PaintG( x, y, "Точки интерполяции", false, true );
+    graphBuilder->PaintG( x, y, "Точки интерполяции", false, true, false );
     interpolationSolve( x.toStdVector(), y.toStdVector(), sender );
     QString str = QString::fromUtf8( resultModel.c_str() );
     model->setText( str );
@@ -187,7 +189,7 @@ void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std
 {
     QVector<double> X = QVector<double>::fromStdVector( x );
     QVector<double> Y = QVector<double>::fromStdVector( y );
-    graphBuilder->PaintG( X, Y, "График интерполяции", true, false );
+    graphBuilder->PaintG( X, Y, "График интерполяции", true, false, false );
 }
 
 void RightWidget::moveLegend(void)

@@ -22,13 +22,36 @@
 #include <bits/stdc++.h>
 #include <QUrl>
 #include <QDesktopServices>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <QtOpenGL>
+#include <qopengl.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+#include <QVector3D>
+#include <cmath>
+#include <QWidget>
+
+
 
 
 GraphBuilder::GraphBuilder( QWidget* parent )
-    : QWidget( parent )
+    : QWidget(parent)
+
 {
-    layout = new QGridLayout( this );
+    QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+    layout = new QVBoxLayout( this );
     wGraphic = new QCustomPlot( this );
+    glwidget = new QOpenGLWidget( this );
+
+    //wGraphic->setVisible(false);
+    glwidget->setVisible(false);
+
+
+
+
+
 
     textItem = new QCPItemText( wGraphic );
     textItem->setVisible( false );
@@ -39,18 +62,24 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     wGraphic->setMinimumSize( 550, 500 );
 
 
+
     tracer = new QCPItemTracer( wGraphic );
     tracer->setGraph( wGraphic->graph( 0 ) );
 
+
+
     wGraphic->xAxis->setLabel( "x" );
     wGraphic->yAxis->setLabel( "y" );
-
     wGraphic->xAxis->setRange( xmin, xmax );
     wGraphic->yAxis->setRange( ymin, ymax );
 
     wGraphic->replot();
 
     layout->addWidget( wGraphic );
+    layout->addWidget(glwidget);
+
+
+
 }
 
 
@@ -62,6 +91,7 @@ void GraphBuilder::updateGraphState( const GraphState& state )
     auto yAxis = state.yAxis;
     auto scatterOn = state.scatterOn;
     auto graphOn = state.graphOn;
+    auto fillingOn = state.fillingOn;
 
 
     wGraphic->clearGraphs();
@@ -79,6 +109,13 @@ void GraphBuilder::updateGraphState( const GraphState& state )
                                        QRandomGenerator::global()->bounded( 172 ),
                                        QRandomGenerator::global()->bounded( 172 ) );
         QPen pin( color );
+
+        if( info.fillingOn == true ){
+        QColor fillColor = color;
+        fillColor.setAlpha(128);
+        wGraphic->graph(i)->setBrush(QBrush(fillColor));
+        }
+
         wGraphic->graph()->setPen( pin );
         if (scatterOn == false){
             //wGraphic->graph(i)->setScatterStyle();
@@ -103,9 +140,9 @@ void GraphBuilder::updateGraphState( const GraphState& state )
 }
 
 
-void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn )
+void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn, bool fillingOn, const std::optional<QVector<double>> z )
 {
-    GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn );
+    GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn, fillingOn);
 
     if ( std::find_if( graphInfoList.begin(), graphInfoList.end(), [ & ] ( const GraphInfo& info ) {
             return info.name == newGraphInfo.name && info.xAxis == newGraphInfo.xAxis && info.yAxis == newGraphInfo.yAxis;
@@ -188,6 +225,13 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
                                    QRandomGenerator::global()->bounded( 172 ),
                                    QRandomGenerator::global()->bounded( 172 ) );
     QPen pin( color );
+
+    if( fillingOn == true){
+    QColor fillColor = color;
+    fillColor.setAlpha(128);
+    wGraphic->graph(i)->setBrush(QBrush(fillColor));    
+    }
+
     wGraphic->graph( i )->setPen( pin );
     wGraphic->graph( i )->setScatterStyle( scatterOn ? QCPScatterStyle::ssCircle : QCPScatterStyle::ssNone );
     QPen pen = wGraphic->graph( i )->pen();
@@ -196,6 +240,10 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
     wGraphic->graph( i )->setName( name );
     wGraphic->graph( i )->setVisible( graphOn || scatterOn );
     wGraphic->replot();
+
+
+
+
     ++i;
     wGraphic->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables );
     emit couldSavePlotAsImage( true );
@@ -398,5 +446,116 @@ void GraphBuilder::savePlotAsImage()
             pixmap.save(fileName);
         }
     }
+
 }
+
+void GraphBuilder::setupThreeCView() {
+    setGeometry(0, 0, 550, 500);
+}
+
+void GraphBuilder::initializeGL(){
+    initializeOpenGLFunctions();
+    glShadeModel(GL_FLAT);
+    //glEnable(GL_CULL_FACE);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    //wGraphic->setVisible(false);
+
+
+
+}
+
+void GraphBuilder::resizeGL(int width, int height){
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    //float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+    //const float fovy = 45.0f;
+    //const float zNear = 0.1f;
+    //const float zFar = 100.0f;
+    //glFrustum(-aspectRatio * fovy, aspectRatio * fovy, -fovy, fovy, zNear, zFar);
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
+    glOrtho(1.0, 1.0, 0.0, 1.0, -1.0, -1.0);
+    glViewport(0, 0, (GLint)width, (GLint)height);
+}
+
+void GraphBuilder::paintGL() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslatef(0.0f, 0.0f, 0.0f);
+    glScalef(scale, scale, scale);
+    glRotatef(xRot, 1.0f, 0.0f, 0.0f);
+    glRotatef(yRot, 0.0f, 1.0f, 0.0f);
+    glRotatef(zRot, 0.0f, 0.0f, 1.0f);
+    //QOpenGLWidget::update();
+
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex3f(-5.0, 0.0, 0.0);
+    glVertex3f(5.0, 0.0, 0.0);
+    glEnd();
+    //QOpenGLWidget::update();
+
+    glColor3f(0.0, 1.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex3f(0.0, -5.0, 0.0);
+    glVertex3f(0.0, 5.0, 0.0);
+    glEnd();
+    //QOpenGLWidget::update();
+
+    glColor3f(0.0, 0.0, 1.0);
+    glBegin(GL_LINES);
+    glVertex3f(0.0, 0.0, -5.0);
+    glVertex3f(0.0, 0.0, 5.0);
+    glEnd();
+    //QOpenGLWidget::update();
+
+    glColor3f(0.0, 0.0, 0.0);
+    glBegin(GL_POINT);
+    for (int i = 0; i < 50; i++) {
+        x[i] = (float)i / (50 - 1) * 6.0f - 3.0f;
+        y[i] = sinf(x[i]) * 2.0f;
+        z[i] = cosf(x[i]) * 2.0f;
+    }
+    for (int i = 0; i < 50; i++) {
+        glVertex3f(x[i], y[i], z[i]);
+    }
+    glEnd();
+
+
+
+}
+
+void GraphBuilder::mousePressEventd(QMouseEvent* event) {
+    if (event->button() == Qt::LeftButton) {
+        lastPos = event->pos();
+    }
+}
+
+void GraphBuilder::mouseMoveEventd(QMouseEvent* event) {
+    if (event->buttons() & Qt::LeftButton) {
+        float dx = (event->x() - lastPos.x()) * 0.3f;
+        float dy = (event->y() - lastPos.y()) * 0.3f;
+        lastPos = event->pos();
+
+        xRot += dy;
+        yRot += dx;
+        //QOpenGLWidget::update();
+
+    }
+}
+
+void GraphBuilder::wheelEventd(QWheelEvent* event) {
+    float d = event->delta() / 120.0f * 0.1f;
+    scale += d;
+    if (scale < 0.1f)
+        scale = 0.1f;
+    //QOpenGLWidget::update();
+}
+
+
 

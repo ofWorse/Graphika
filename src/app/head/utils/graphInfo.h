@@ -12,6 +12,19 @@
 #include <QString>
 #include <QVector>
 #include <QColor>
+#include <QWidget>
+#include <qcustomplot/qcustomplot.h>
+#include <QDebug>
+#include <string>
+#include <QList>
+#include <QVBoxLayout>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <optional>
+#include <QMatrix4x4>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 
 /*!
  * \class GraphInfo
@@ -27,6 +40,7 @@ public:
     QColor color; ///< color of curve or nodes.
     bool graphOn; ///< is curve must be shown.
     bool scatterOn; ///< is nodes must be shown.
+    bool fillingOn;
 
     /*!
      * \brief GraphInfo: standard constructor.
@@ -37,8 +51,8 @@ public:
      * \param graphOn: color of curve or nodes.
      * \param scatterOn: is nodes must be shown.
      */
-    GraphInfo(const QString& name, const QVector<double>& xAxis, const QVector<double>& yAxis, bool graphOn, bool scatterOn)
-        : name(name), xAxis(xAxis), yAxis(yAxis), graphOn(graphOn), scatterOn(scatterOn) {}
+    GraphInfo(const QString& name, const QVector<double>& xAxis, const QVector<double>& yAxis, bool graphOn, bool scatterOn, bool fillingOn)
+        : name(name), xAxis(xAxis), yAxis(yAxis), graphOn(graphOn), scatterOn(scatterOn), fillingOn(fillingOn) {}
 };
 
 #endif // GRAPHINFO_H

@@ -5,7 +5,7 @@
  *
  * \author Vilenskiy Kirill Romanovich
  *
- * \date last update: 20.05.2024
+ * \date last update: 12.07.2024
  */
 
 #ifndef GRAPHBUILDER_H
@@ -21,8 +21,17 @@
 #include <QList>
 #include <QVBoxLayout>
 #include_next "graphInfo.h"
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <optional>
+#include <QMatrix4x4>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+
 
 struct GraphState
+
 {
     QVector<GraphInfo> graphInfoList; ///< List for saving the graph info.
 
@@ -33,6 +42,7 @@ struct GraphState
 
     bool graphOn; ///< A variable responsible for drawing or not drawing a graph line.
     bool scatterOn; ///< A variable responsible for drawing or not drawing a scatter.
+    const std::optional<bool> fillingOn;
 };
 
 /*!
@@ -40,14 +50,18 @@ struct GraphState
  *
  * \brief GraphBuilder: A class that builds and edits graphs.
  */
-class GraphBuilder : public QWidget
+class GraphBuilder : public QWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 
 private:
+
+    enum WidgetType {ThreeDWidget, CustomPlotWidget};
+
     QCPItemTracer* tracer; ///< Tracer linked to data points.
-    QGridLayout* layout; ///< The layout to which all other objects are written.
+    QVBoxLayout* layout; ///< The layout to which all other objects are written.
     QCPItemText* textItem; ///< Item that displays the coordinates of the point where the user is pointing.
+    QOpenGLWidget* glwidget;
 
     QList<QCustomPlot*>* plots; ///< List that contains all states plot.
 
@@ -59,6 +73,12 @@ private:
     double xmin = -2.0; ///< Minimum X coordinate space.
     double ymax = 2.0; ///< Maximum Y coordinate space.
     double ymin = -2.0; ///< Minimum Y coordinate space.
+
+    float scale = 1.0f;
+    float xRot, yRot, zRot;
+    QPoint lastPos;
+    float x[50], y[50], z[50];
+
 
     QVector<GraphInfo> graphInfoList; ///< List for saving the graph info.
 
@@ -76,7 +96,17 @@ public:
      *
      * \param parent - Pointer to the parent widget.
      */
-    explicit GraphBuilder( QWidget *parent = nullptr );
+    explicit GraphBuilder(QWidget *parent = nullptr );
+
+    void initializeGL();
+
+    void resizeGL(int width, int height);
+
+
+
+
+
+
 
 private:
     /*!
@@ -100,7 +130,7 @@ public slots:
      *
      * \return Graph.
      */
-    void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn );
+    void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn, bool fillingOn , const std::optional<QVector<double>> z = std::nullopt);
 
     /*!
      * \brief onClearButtonClicked: Erases all graphics.
@@ -169,6 +199,16 @@ public slots:
      * \brief savePlotAsImage: Saves graphs.
      */
     void savePlotAsImage();
+
+    void setupThreeCView();
+
+    void paintGL();
+
+    void mousePressEventd(QMouseEvent* event);
+
+    void mouseMoveEventd(QMouseEvent* event);
+
+    void wheelEventd(QWheelEvent* event);
 
 signals:
     /*!
