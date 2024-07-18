@@ -1,5 +1,4 @@
-QT += core gui opengl
-QT += printsupport
+QT += core gui opengl printsupport webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,7 +14,8 @@ IMPLDIR = $$SRCDIR/impl
 
 RESOURCES += icons.qrc \
     pymodules.qrc \
-    referenceinfo.qrc
+    referenceinfo.qrc \
+    resources/web/web.qrc
 
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
@@ -47,13 +47,15 @@ SOURCES += \
     $$IMPLDIR/ui/menu.cpp \
     $$IMPLDIR/ui/wgts/rightwidget.cpp \
     $$IMPLDIR/ui/toolbar.cpp \
-    $$IMPLDIR/ui/menu/sheetmenu.cpp \
+    $$IMPLDIR/ui/menu/referencemenu.cpp \
     $$IMPLDIR/utils/buffer.cpp \
     $$IMPLDIR/utils/sender.cpp \
     $$IMPLDIR/utils/validatestring.cpp \
     $$IMPLDIR/main.cpp \
     $$IMPLDIR/console/consoleapplication.cpp \
-    qcustomplot/qcustomplot.cpp
+    qcustomplot/qcustomplot.cpp \
+    $$IMPLDIR/console/commandhandler.cpp
+    $$IMPLDIR/console/commandcompleter.cpp
 
 HEADERS += \
     $$HEADDIR/algs/compositestatestack.h \
@@ -74,7 +76,7 @@ HEADERS += \
     $$HEADDIR/ui/menu.h \
     $$HEADDIR/ui/wgts/rightwidget.h \
     $$HEADDIR/ui/toolbar.h \
-    $$HEADDIR/ui/menu/sheetmenu.h \
+    $$HEADDIR/ui/menu/referencemenu.h \
     $$HEADDIR/utils/buffer.h \
     $$HEADDIR/utils/errorhandler.h \
     $$HEADDIR/utils/graphInfo.h \
@@ -83,6 +85,8 @@ HEADERS += \
     $$HEADDIR/console/consoleapplication.h \
     $$HEADDIR/utils/validatestring.h \
     qcustomplot/qcustomplot.h \
+    $$HEADDIR/console/commandhandler.h \
+    $$HEADDIR/console/commandcompleter.h \
     src/app/head/console/commands.h \
     src/app/head/settings/config.h \
     src/app/head/ui/wgts/lwgt/widgets.h
@@ -91,4 +95,8 @@ HEADERS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    resources/web/katex.min.css \
+    resources/web/katex.min.js
 

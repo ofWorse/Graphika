@@ -2,10 +2,14 @@
 #define CONSOLEAPPLICATION_H
 
 #include <QMap>
-#include <QStringList>
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <tuple>
+#include "commandhandler.h"
+#include "commandcompleter.h"
+#include "stringparser.h"
+#include "rightwidget.h"
 
 
 #ifdef Q_OS_WIN
@@ -19,12 +23,19 @@
 class ConsoleApplication
 {
 private:
+    CommandCompleter* completer;
+    Statement statement = Statement::HOME;
+    std::string state;
     using CommandFunction = std::function<void(const QStringList&)>;
     QMap<QString, std::pair<QString, CommandFunction>> commands;
+    StringParser* parser;
+
+    pymodules::Methods methodOfInterpolation;
 
 public:
     ConsoleApplication( void )
     {
+        parser = new StringParser();
         initCommandMap();
     }
     int run( void );
@@ -38,7 +49,11 @@ private:
     void printHelp( void );
     void printCommandHelp( const QString& commandName );
     QString getUserName( void );
-};
 
+    void solveInterpolation( void );
+    QString enterFunction( void );
+    QVector<double> enterRanges( const QString& func );
+    void solve( QVector<double> ranges, const QString& func );
+};
 
 #endif

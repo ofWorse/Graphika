@@ -149,6 +149,7 @@ std::vector<double> LayoutInitializer::fillDataFromTable( int column )
 
 void LayoutInitializer::onSolveButtonClicked( SpecialBuffer& buffer )
 {
+
     if( derivativeLabel && ( widgets->derivativeExpressionInput->text().isEmpty() ||
         widgets->expressionInput->text().isEmpty() ) )
     {

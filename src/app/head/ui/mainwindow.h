@@ -15,7 +15,7 @@
 #include "sender.h"
 #include "compositestatestack.h"
 #include "menu.h"
-#include "sheetmenu.h"
+#include "referencemenu.h"
 #include "reportgenerator.h"
 
 /*!

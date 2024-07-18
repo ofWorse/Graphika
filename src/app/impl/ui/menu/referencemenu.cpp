@@ -1,6 +1,6 @@
-#include "sheetmenu.h"
+#include "referencemenu.h"
 
-QWidget* SheetMenu::invokeLicenseWidget( void ) noexcept
+QWidget* ReferenceMenu::invokeLicenseWidget( void ) noexcept
 {
     QTextEdit* textEdit = new QTextEdit;
     textEdit->setReadOnly( true );
@@ -32,7 +32,7 @@ QWidget* SheetMenu::invokeLicenseWidget( void ) noexcept
     return wgt;
 }
 
-QWidget* SheetMenu::invokeAuthorsWidget( void ) noexcept
+QWidget* ReferenceMenu::invokeAuthorsWidget( void ) noexcept
 {
     QWidget* wgt = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout( wgt );
@@ -51,7 +51,7 @@ QWidget* SheetMenu::invokeAuthorsWidget( void ) noexcept
     return wgt;
 }
 
-QWidget* SheetMenu::invokeAboutWidget( void ) noexcept
+QWidget* ReferenceMenu::invokeAboutWidget( void ) noexcept
 {
     QWidget* wgt = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout( wgt );
@@ -75,7 +75,7 @@ QWidget* SheetMenu::invokeAboutWidget( void ) noexcept
     return wgt;
 }
 
-void SheetMenu::cleanupWidgets( QList<QWidget*>& widgets )
+void ReferenceMenu::cleanupWidgets( QList<QWidget*>& widgets )
 {
     for( const auto wgt : widgets )
     {
