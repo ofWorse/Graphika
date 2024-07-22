@@ -28,7 +28,7 @@
 #include <qopengl.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
+//#include <GL/glut.h>
 #include <QVector3D>
 #include <cmath>
 #include <QWidget>
@@ -211,6 +211,26 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
     {
         ymin = *minYElement;
         wGraphic->yAxis->setRange( ymin, ymax );
+        wGraphic->replot();
+        wGraphic->update();
+    }
+
+    if (xmax-xmin < ymax-ymin )
+    {
+        ymax = xmax;
+        ymin = xmin;
+        wGraphic->yAxis->setRange(ymin, ymax);
+        wGraphic->xAxis->setRange(xmin, xmax);
+        wGraphic->replot();
+        wGraphic->update();
+    }
+
+    if (xmax-xmin > ymax-ymin )
+    {
+        xmax = ymax;
+        xmin = ymin;
+        wGraphic->yAxis->setRange(ymin, ymax);
+        wGraphic->xAxis->setRange(xmin, xmax);
         wGraphic->replot();
         wGraphic->update();
     }
