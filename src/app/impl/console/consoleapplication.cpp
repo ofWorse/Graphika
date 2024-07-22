@@ -15,7 +15,7 @@ int ConsoleApplication::run( void )
                 "Konak Vladimir Evgen'evich.\n\n\n";
     std::cout << "Enter command (or type 'exit' to quit).\n";
 
-    ConsoleApplication app;
+    ConsoleApplication app( *this->app );
 
     while( true )
     {
@@ -30,7 +30,7 @@ int ConsoleApplication::run( void )
             continue;
         }
 
-        app.handleCommand(QString::fromStdString( input ));
+        app.handleCommand( QString::fromStdString( input ) );
     }
 }
 
@@ -104,16 +104,16 @@ void ConsoleApplication::initCommandMap( void )
     });
     registerCommand( "license", "Show Graphika application license.\n", [](const QStringList& args)
     {
-        if(args.size() > 0)
+        if( args.size() > 0 )
         {
             std::cerr << "Too many arguments for command 'license'.\nExpected: 0, actually: " << args.size() << std::endl;
             return;
         }
-        QFile file(":/references/resources/fdl-1.3.txt");
-        if( file.open(QIODevice::ReadOnly | QIODevice::Text))
+        QFile file( ":/references/resources/fdl-1.3.txt" );
+        if( file.open( QIODevice::ReadOnly | QIODevice::Text) )
         {
-            QTextStream in(&file);
-            while(!in.atEnd())
+            QTextStream in( &file );
+            while (!in.atEnd() )
             {
                 std::cout << in.readLine().toStdString() << std::endl;
             }
@@ -126,7 +126,7 @@ void ConsoleApplication::initCommandMap( void )
     });
     registerCommand( "authors", "Info about authors & programm.\n", [](const QStringList& args)
     {
-        if(args.size() > 0)
+        if( args.size() > 0 )
         {
             std::cerr << "Too many arguments for command 'authors'.\nExpected: 0, actually: " << args.size() << std::endl;
             return;
@@ -153,7 +153,7 @@ void ConsoleApplication::initCommandMap( void )
                                      "\t\trepresentation of the approximating function.\n\n" \
                                      "\t\tExpecting such arguments as:\n     \n\t\t-L\tLagrange\n\t\t-N\tNewthon\n\t\t-B\tBerruta   \n\n", [this](const QStringList& args)
     {
-        if(args.size() != 1)
+        if( args.size() != 1 )
         {
             std::cerr << "Usage: polynome <method>" << std::endl;
             return;
@@ -166,48 +166,14 @@ void ConsoleApplication::initCommandMap( void )
                 "Expected: \n\t-L\tLagrange\n\t-N\tNewthon\n\t-B\tBerruta   \n\n";
             return;
         }
-        if(s == "-L") { methodOfInterpolation = pymodules::Methods::LAGRANGE; }
-        else if(s == "-N") { methodOfInterpolation = pymodules::Methods::NEWTON; }
+        if( s == "-L" ) { methodOfInterpolation = pymodules::Methods::LAGRANGE; }
+        else if( s == "-N" ) { methodOfInterpolation = pymodules::Methods::NEWTON; }
         else { methodOfInterpolation = pymodules::Methods::BEIRUT; }
-        std::cout << "You in " << (s == "-L" ? "Lagrange" : ( s == "-N" ? "Newthon" : "Berruta") ) << " interpolation mode.\n";
+        std::cout << "You in " << ( s == "-L" ? "Lagrange" : ( s == "-N" ? "Newthon" : "Berruta" ) ) << " interpolation mode.\n";
 
         solveInterpolation();
     });
-
-//    registerCommand( "add", "add.\n", [](const QStringList& args)
-//    {
-//        if( args.size() != 2 )
-//            {
-//            std::cerr << "Usage: add <number1> <number2>" << std::endl;
-//            return;
-//        }
-
-//        bool ok1, ok2;
-//        int a = args[0].toInt(&ok1);
-//        int b = args[1].toInt(&ok2);
-
-//        if( !ok1 || !ok2 )
-//        {
-//            std::cerr << "Invalid arguments!\n";
-//            return;
-//        }
-
-//        std::cout << "Result: " << ( a + b ) << std::endl;
-//    } );
 }
-
-//void ConsoleApplication::executeCommand( const QString& command )
-//{
-//    auto it = commands.find( command );
-//    if( it != commands.end() )
-//    {
-//        it->second;
-//    }
-//    else
-//    {
-//        std::cout << "Unknown command: " << command.toStdString() << std::endl;
-//    }
-//}
 
 void ConsoleApplication::printHelp( void )
 {
@@ -220,7 +186,7 @@ void ConsoleApplication::printHelp( void )
     std::cout << "\n";
 }
 
-void ConsoleApplication::printCommandHelp(const QString &commandName)
+void ConsoleApplication::printCommandHelp( const QString& commandName )
 {
     auto it = commands.find( commandName );
     if( it == commands.end())
@@ -255,22 +221,143 @@ QString ConsoleApplication::getUserName( void )
 
 void ConsoleApplication::solveInterpolation( void )
 {
-    QString func;
-    func = enterFunction();
-    QVector<double> ranges = enterRanges( func );
-    solve( ranges, func );
+    enterFunction();
 }
 
-QString ConsoleApplication::enterFunction( void )
+bool ConsoleApplication::parseArguments( const std::string& input, std::vector<double>& x, std::vector<double>& y )
 {
-    std::cout << "Enter function.\n";
-    while( true )
+    std::istringstream iss( input );
+    std::string token;
+    bool readingX = false
+    bool readingY = false;
+
+    while ( iss >> token )
     {
-        std::cout << "f(x) = ";
-        QString funcText = QTextStream(stdin).readLine();
-        // TODO: добавить проверку корректности выражения
-        return funcText;
+        if ( token == "-x" )
+        {
+            readingX = true;
+            readingY = false;
+        }
+        else if ( token == "-y" )
+        {
+            readingY = true;
+            readingX = false;
+        }
+        else
+        {
+            double value;
+            std::istringstream valueStream( token );
+            if ( valueStream >> value )
+            {
+                if ( readingX )
+                {
+                    x.push_back( value );
+                }
+                else if ( readingY )
+                {
+                    y.push_back( value );
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
+
+    return x.size() == y.size();
+}
+
+int ConsoleApplication::manualInput( std::vector<std::vector<double>>& xy )
+{
+    std::string input;
+    std::vector<double> x;
+    std::vector<double> y;
+
+    do
+    {
+        std::cout << "Enter x & y values (-x <real numbers> -y <real numbers>)\n";
+        std::cout << ": ";
+        std::getline( std::cin, input );
+
+        if( parseArguments( input, x, y ) )
+        {
+            std::cout << "X values: ";
+            for(const auto vals: x) std::cout << vals << " ";
+            std::cout << std::endl;
+            std::cout << "Y values: ";
+            for(const auto vals: y) std::cout << vals << " ";
+            std::cout << std::endl;
+
+            xy = { x, y };
+
+            return 0;
+        }
+        else
+        {
+            std::cerr << "Invalid input format. Please try again.\n";
+            x.clear();
+            y.clear();
+        }
+    } while( true );
+
+    return -1;
+}
+
+void ConsoleApplication::functionInput( void )
+{
+    std::function<QString()> func = [&]()
+    {
+        std::cout << "Enter function.\n";
+        QString userInput;
+        while( true )
+        {
+            std::cout << "f(x) = ";
+            userInput = QTextStream( stdin ).readLine();
+            if( !userInput.isEmpty() )
+            {
+                return userInput;
+            }
+        }
+    };
+    QString function = func();
+    QVector<double> ranges = enterRanges( function );
+    solve( ranges, function );
+}
+
+void ConsoleApplication::enterFunction( void )
+{
+    std::string input;
+    std::cout << "write \'man\' or \'fun\' for manual or functional input.\n";
+    do
+    {
+        std::cout << ": ";
+        std::getline( std::cin, input );
+
+        if( input == "man" )
+        {
+            std::vector<std::vector<double>> xy;
+            if( manualInput( xy ) == 0 )
+            {
+                solve( xy, nullptr );
+                return;
+            }
+        }
+        else if( input == "fun" )
+        {
+            functionInput();
+            return;
+        }
+        else
+        {
+            std::cout << "Enter \'man\' or \'fun\' for manual or functional input.\n";
+            continue;
+        }
+    } while( true );
 }
 
 QVector<double> ConsoleApplication::enterRanges( const QString& func )
@@ -281,7 +368,7 @@ QVector<double> ConsoleApplication::enterRanges( const QString& func )
     while( true )
     {
         std::cout << "[x]range: ";
-        QString funcText = QTextStream(stdin).readLine();
+        QString funcText = QTextStream( stdin ).readLine();
 
         QStringList args = funcText.split(" ");
         if( args.size() != 3 )
@@ -292,7 +379,7 @@ QVector<double> ConsoleApplication::enterRanges( const QString& func )
         for( const QString& a : args )
         {
             bool ok;
-            double xval = a.toDouble(&ok);
+            double xval = a.toDouble( &ok );
             if(!ok)
             {
                 std::cerr << "Double arguments expected!\n";
@@ -306,15 +393,26 @@ QVector<double> ConsoleApplication::enterRanges( const QString& func )
     }
 }
 
-void ConsoleApplication::solve( QVector<double> ranges, const QString& func )
+template<typename T>
+void ConsoleApplication::solve( T ranges, const QString& func )
 {
     std::vector<double> X;
-    for( double i = ranges[0]; i <= ranges[1]; i += ranges[2])
+    std::vector<double> Y;
+
+    if constexpr ( std::is_same_v<std::decay_t<T>, QVector<double>> )
     {
-        X.push_back( i );
+        for( double i = ranges[0]; i <= ranges[1]; i += ranges[2] )
+        {
+            X.push_back( i );
+        }
+        parser->setDataX( X );
+        Y = parser->parseExpression( func.toStdString().c_str(), 2 );
     }
-    parser->setDataX( X );
-    std::vector<double> Y = parser->parseExpression( func.toStdString().c_str(), 2 );
+    else if( std::is_same_v<std::decay_t<T>, std::vector<std::vector<double>>> )
+    {
+        for( double value : ranges[0] ) X.push_back( value );
+        for( double value : ranges[1] ) Y.push_back( value );
+    }
 
     RightWidget rw;
     Sender sender;

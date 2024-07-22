@@ -1,4 +1,4 @@
-QT += core gui opengl printsupport webenginewidgets
+QT += core gui opengl printsupport #webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

@@ -16,9 +16,9 @@
 #include <buffer.h>
 #include "widgets.h"
 #include "mathutils.h"
-#include <QWebEngineView>
-#include <QWebEnginePage>
-#include <QWebEngineSettings>
+//#include <QWebEngineView>
+//#include <QWebEnginePage>
+//#include <QWebEngineSettings>
 
 class MathWidget;
 
