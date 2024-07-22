@@ -10,6 +10,7 @@
 #include "commandcompleter.h"
 #include "stringparser.h"
 #include "rightwidget.h"
+#include <vector>
 
 
 #ifdef Q_OS_WIN
@@ -23,6 +24,7 @@
 class ConsoleApplication
 {
 private:
+    QApplication* app;
     CommandCompleter* completer;
     Statement statement = Statement::HOME;
     std::string state;
@@ -33,8 +35,9 @@ private:
     pymodules::Methods methodOfInterpolation;
 
 public:
-    ConsoleApplication( void )
+    ConsoleApplication( QApplication& app )
     {
+        this->app = &app;
         parser = new StringParser();
         initCommandMap();
     }
@@ -51,9 +54,14 @@ private:
     QString getUserName( void );
 
     void solveInterpolation( void );
-    QString enterFunction( void );
+    void enterFunction( void );
+    int manualInput( std::vector<std::vector<double>>& xy );
+    void functionInput( void );
+    bool parseArguments( const std::string& input, std::vector<double>& x, std::vector<double>& y );
     QVector<double> enterRanges( const QString& func );
-    void solve( QVector<double> ranges, const QString& func );
+
+    template<typename T>
+    void solve( T ranges, const QString& func );
 };
 
 #endif
