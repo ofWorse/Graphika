@@ -32,6 +32,7 @@ private:
     QMainWindow* mainWindow; ///< main menu window.
     Toolbar* toolbar; ///< items for window switching.
     QWidget* centralwidget; ///< bottom layer.
+    ProgrammerDialog* programmer;
 
     LeftWidget* leftWidget; ///< main left side widgets initializator.
     RightWidget* rightWidget; ///< main right side widgets initializator.
@@ -205,6 +206,7 @@ public slots:
      * \param couldSave: save or ignore request.
      */
     void couldSavePlotAsImage( bool couldSave );
+    void openProgrammerDialog();
 
 signals:
     /*!

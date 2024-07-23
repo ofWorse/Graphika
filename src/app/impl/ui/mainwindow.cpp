@@ -21,6 +21,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     connect( qApp, &QApplication::aboutToQuit, this, &MainWindow::deleteWidgets );
 
+    connect( menu, &Menu::programmatorTriggered, this, &MainWindow::openProgrammerDialog );
+
     toolbar = new Toolbar( this );
     toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
     toolbar->setIconSize( *new QSize( 40, 40 ) );
@@ -104,6 +106,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     {
         connect( act.key(), &QAction::triggered, this, act.value() );
     }
+
+    programmer = new ProgrammerDialog( this );
+    connect( programmer, &ProgrammerDialog::settingsApplied, leftWidget, &LeftWidget::applyProgrammerSettings );
 }
 
 void MainWindow::openMenu( int index, pymodules::Modules module )
@@ -394,4 +399,12 @@ void MainWindow::endSession( void )
 
     reportGenerator->endSession();
     reportGenerator->generateReport( logStack, ReportGenerator::ReportFormat::PDF, "report" );
+}
+
+void MainWindow::openProgrammerDialog()
+{
+    programmer->setWindowTitle(tr ( "Программатор" ) );
+    programmer->resize( 600, 400 );
+    programmer->move( 100, 100 );
+    programmer->show();
 }

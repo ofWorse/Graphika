@@ -1,6 +1,7 @@
 #include "leftwidget.h"
 #include <QLineEdit>
 #include <QString>
+#include <iostream>
 
 LeftWidget::LeftWidget( QWidget *parent ) : QWidget( parent )
 {
@@ -39,6 +40,7 @@ void LeftWidget::initLayout( SpecialBuffer& buffer, pymodules::Modules module )
     currentLayout->generateWidgets( *widgets );
     connectLabels( buffer );
     layout->addLayout( currentLayout->get(), 0, 0 );
+    applyStoredSettings();
 }
 
 
@@ -88,4 +90,30 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
                 currentLayout->updateDataFromTable( buffer );
             }
     );
+}
+
+void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals)
+{
+    qDebug() << "Hello from leftWidget after programmer";
+
+    programmerSetting.min = min;
+    programmerSetting.max = max;
+    programmerSetting.yMin = Ymin;
+    programmerSetting.yMax = Ymax;
+    programmerSetting.minStep = minStep;
+    programmerSetting.maxStep = maxStep;
+    programmerSetting.minNodes = minNodes;
+    programmerSetting.maxNodes = maxNodes;
+    programmerSetting.decimals = decimals;
+}
+
+void LeftWidget::applyStoredSettings()
+{
+    widgets->step->setDecimals(programmerSetting.decimals);
+    widgets->step->setRange(programmerSetting.minStep, programmerSetting.maxStep);
+    widgets->min->setRange(programmerSetting.min, programmerSetting.max);
+    widgets->max->setRange(programmerSetting.min, programmerSetting.max);
+    widgets->yMin->setRange(programmerSetting.yMin, programmerSetting.yMax);
+    widgets->yMax->setRange(programmerSetting.yMin, programmerSetting.yMax);
+    widgets->nodes->setRange(programmerSetting.minNodes, programmerSetting.maxNodes);
 }

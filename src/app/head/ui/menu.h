@@ -12,6 +12,8 @@
 #include <QMenuBar>
 #include <QMainWindow>
 #include <QtWidgets>
+#include "programmerdialog.h"
+#include "leftwidget.h"
 
 /*!
  * \class Menu
@@ -20,12 +22,16 @@
 class Menu : public QMainWindow
 {
     Q_OBJECT
+public:
+QAction* programmatorAction;
+
 private:
     QWidget* parent; ///< A pointer to the parent widget of the menu.
     QAction* startSessionAction; ///< A QAction representing the action to start a session.
     QAction* endSessionAction; ///< A QAction representing the action to end a session.
     QAction* authorsAction; ///< A QAction representing the action to display the authors' information.
     QMenuBar* menu; ///< A pointer to the QMenuBar object representing the main menu.
+
 
 public:
     /*!
@@ -90,6 +96,7 @@ signals:
      * \brief aboutMenuOppened: A signal emitted when the about menu is opened.
      */
     void aboutMenuOppened( void );
+    void programmatorTriggered( void );
 };
 
 #endif // MENU_H
