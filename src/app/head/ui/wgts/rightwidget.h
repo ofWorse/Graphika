@@ -57,6 +57,7 @@ public:
     explicit RightWidget( QWidget *parent = nullptr );
 
     std::string getResultModel( void ) { return resultModel; }
+    std::string getArea( void ) { return area; }
 
     /*!
      * \brief printGraph: method for plot generation.

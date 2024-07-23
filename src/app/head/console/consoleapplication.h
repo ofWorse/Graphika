@@ -20,6 +20,7 @@
 #include <pwd.h>
 #endif
 
+typedef std::vector<std::vector<double>> pair;
 
 class ConsoleApplication
 {
@@ -33,6 +34,7 @@ private:
     StringParser* parser;
 
     pymodules::Methods methodOfInterpolation;
+    pymodules::Methods methodOfIntegration;
 
 public:
     ConsoleApplication( QApplication& app )
@@ -54,14 +56,17 @@ private:
     QString getUserName( void );
 
     void solveInterpolation( void );
-    void enterFunction( void );
+    void solveInterpolation( const std::vector<double>& x, const std::vector<double>& y );
+    void solveIntegration( void );
+    void solveIntegration( const std::vector<double>& x, const std::vector<double>& y );
+    pair enterFunction( void );
     int manualInput( std::vector<std::vector<double>>& xy );
-    void functionInput( void );
+    pair setFunctionData( void );
     bool parseArguments( const std::string& input, std::vector<double>& x, std::vector<double>& y );
     QVector<double> enterRanges( const QString& func );
 
     template<typename T>
-    void solve( T ranges, const QString& func );
+    pair setDataVariables( T ranges, const QString& func );
 };
 
 #endif

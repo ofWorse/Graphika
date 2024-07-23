@@ -173,6 +173,32 @@ void ConsoleApplication::initCommandMap( void )
 
         solveInterpolation();
     });
+    // TODO: DRY
+    registerCommand( "integration", "Numerically calculates the area of" \
+                                        "\n​​\t\ta curved trapezoid given analytically or discretely\n\n" \
+                                        "\t\tExpecting such arguments as:\n     \n\t\t-R\trectangle\n\t\t-T\ttrapezoid\n\t\t-P\tparabolic\n\n", [this](const QStringList& args)
+        {
+            if( args.size() != 1 )
+            {
+                std::cerr << "Usage: integration <method>" << std::endl;
+                return;
+            }
+
+            QString s = args[0];
+            if( s !=  "-R" && s != "-T" && s != "-P" )
+            {
+                std::cerr << "Invalid input argument!\n\n" <<
+                    "Expected: \n\t-R\trecrangle\n\t-T\ttrapezoid\n\t-P\tparabolic\n\n";
+                return;
+            }
+
+            if( s == "-R" ) { methodOfIntegration = pymodules::Methods::INTEG_LINEAR; }
+            else if( s == "-T" ) { methodOfIntegration = pymodules::Methods::INTEG_TRAP; }
+            else { methodOfIntegration = pymodules::Methods::INTEG_PARAB; }
+            std::cout << "You in " << ( s == "-R" ? "rectangle" : ( s == "-T" ? "trapezoid" : "parabolic" ) ) << " integration mode.\n";
+
+            solveIntegration();
+        });
 }
 
 void ConsoleApplication::printHelp( void )
@@ -221,14 +247,39 @@ QString ConsoleApplication::getUserName( void )
 
 void ConsoleApplication::solveInterpolation( void )
 {
-    enterFunction();
+    pair xy = enterFunction();
+    solveInterpolation( xy[0], xy[1] );
+}
+
+void ConsoleApplication::solveInterpolation( const std::vector<double>& x, const std::vector<double>& y )
+{
+    RightWidget rw;
+    Sender sender;
+    sender.setMacro( methodOfInterpolation, pymodules::Modules::POLYNOMIALS );
+    rw.interpolationSolve( x, y, sender );
+    std::cout << "Result model: " << QString::fromUtf8( rw.getResultModel().c_str() ).toStdString() << "\n";
+}
+
+void ConsoleApplication::solveIntegration( void )
+{
+    pair xy = enterFunction();
+    solveIntegration( xy[0], xy[1] );
+}
+
+void ConsoleApplication::solveIntegration( const std::vector<double>& x, const std::vector<double>& y )
+{
+    RightWidget rw;
+    Sender sender;
+    sender.setMacro( methodOfIntegration, pymodules::Modules::INTEGRATION );
+    rw.integrationSolve( QVector<double>( x.begin(), x.end() ), QVector<double>( y.begin(), y.end() ), sender );
+    std::cout << "Calculated Area: " << rw.getArea().c_str() << "\n";
 }
 
 bool ConsoleApplication::parseArguments( const std::string& input, std::vector<double>& x, std::vector<double>& y )
 {
     std::istringstream iss( input );
     std::string token;
-    bool readingX = false
+    bool readingX = false;
     bool readingY = false;
 
     while ( iss >> token )
@@ -308,7 +359,7 @@ int ConsoleApplication::manualInput( std::vector<std::vector<double>>& xy )
     return -1;
 }
 
-void ConsoleApplication::functionInput( void )
+pair ConsoleApplication::setFunctionData( void )
 {
     std::function<QString()> func = [&]()
     {
@@ -326,10 +377,10 @@ void ConsoleApplication::functionInput( void )
     };
     QString function = func();
     QVector<double> ranges = enterRanges( function );
-    solve( ranges, function );
+    return setDataVariables( ranges, function );
 }
 
-void ConsoleApplication::enterFunction( void )
+pair ConsoleApplication::enterFunction( void )
 {
     std::string input;
     std::cout << "write \'man\' or \'fun\' for manual or functional input.\n";
@@ -343,14 +394,12 @@ void ConsoleApplication::enterFunction( void )
             std::vector<std::vector<double>> xy;
             if( manualInput( xy ) == 0 )
             {
-                solve( xy, nullptr );
-                return;
+                return setDataVariables( xy, nullptr );
             }
         }
         else if( input == "fun" )
         {
-            functionInput();
-            return;
+            return setFunctionData();
         }
         else
         {
@@ -394,7 +443,7 @@ QVector<double> ConsoleApplication::enterRanges( const QString& func )
 }
 
 template<typename T>
-void ConsoleApplication::solve( T ranges, const QString& func )
+pair ConsoleApplication::setDataVariables( T ranges, const QString& func )
 {
     std::vector<double> X;
     std::vector<double> Y;
@@ -414,10 +463,5 @@ void ConsoleApplication::solve( T ranges, const QString& func )
         for( double value : ranges[1] ) Y.push_back( value );
     }
 
-    RightWidget rw;
-    Sender sender;
-    sender.setMacro( methodOfInterpolation, pymodules::Modules::POLYNOMIALS );
-    rw.interpolationSolve( X, Y, sender );
-    std::cout << "Result model: " << QString::fromUtf8( rw.getResultModel().c_str() ).toStdString() << "\n";
+    return { X, Y };
 }
-
