@@ -37,5 +37,6 @@ void Menu::createMenu( QWidget* parent )
     QAction* programmatorAction = utilsMenu->addAction( tr( "Программатор" ) );
     connect( startSessionAction, &QAction::triggered, this, &Menu::sessionStarted );
     connect( endSessionAction, &QAction::triggered, this, &Menu::sessionStopped );
-    programmatorAction->setDisabled( true );
+    connect(programmatorAction, &QAction::triggered, this, &Menu::programmatorTriggered );
+
 }
