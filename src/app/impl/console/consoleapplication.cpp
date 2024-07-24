@@ -15,7 +15,7 @@ int ConsoleApplication::run( void )
                 "Konak Vladimir Evgen'evich.\n\n\n";
     std::cout << "Enter command (or type 'exit' to quit).\n";
 
-    ConsoleApplication app( *this->app );
+    ConsoleApplication app;
 
     while( true )
     {
@@ -199,6 +199,7 @@ void ConsoleApplication::initCommandMap( void )
 
             solveIntegration();
         });
+    //registerCommand( "derivation", "" );
 }
 
 void ConsoleApplication::printHelp( void )
