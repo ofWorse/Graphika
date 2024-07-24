@@ -25,7 +25,6 @@ typedef std::vector<std::vector<double>> pair;
 class ConsoleApplication
 {
 private:
-    QApplication* app;
     CommandCompleter* completer;
     Statement statement = Statement::HOME;
     std::string state;
@@ -37,9 +36,8 @@ private:
     pymodules::Methods methodOfIntegration;
 
 public:
-    ConsoleApplication( QApplication& app )
+    ConsoleApplication( void )
     {
-        this->app = &app;
         parser = new StringParser();
         initCommandMap();
     }

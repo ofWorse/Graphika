@@ -231,7 +231,6 @@ void PythonConveyor::sendDataToIntegration()
         setData( &PythonConveyor::resultValue, resultValue );
 
         QString resultString = QString::number( resultValue );
-        qDebug() << "Integration result: " << resultString;
         setData( &PythonConveyor::resultString, resultString );
 
         Py_DECREF( pyResult );
@@ -277,9 +276,6 @@ void PythonConveyor::sendDataToDifferentiation()
 
             QString xResultString = convertVectorToQString( xResultList );
             QString yResultString = convertVectorToQString( yResultList );
-
-            qDebug() << "Differentiation result for x: " << xResultString;
-            qDebug() << "Differentiation result for y: " << yResultString;
 
             setData( &PythonConveyor::resultString, xResultString );
             setData( &PythonConveyor::resultDiff_XVector, xResultList );

@@ -25,6 +25,7 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QMessageLogContext>
 #include <QDebug>
 #include <iostream>
 #include "config.h"
@@ -59,9 +60,15 @@ int main( int argc, char *argv[] )
 #if defined( CONSOLE_MODE )
     if( mode == ApplicationMode::CONSOLE )
     {
-        QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+        qInstallMessageHandler( []( QtMsgType type, const QMessageLogContext& context, const QString& msg )
+            {
+                if ( type == QtWarningMsg && ( msg.contains( "Attribute Qt::AA_UseDesktopOpenGL" ) || msg.contains( "index out of bounds" ) ) )
+                {
+                    return;
+                }
+            });
         QApplication a( argc, argv );
-        ConsoleApplication consoleApp( a );
+        ConsoleApplication consoleApp;
         consoleApp.run();
 
         return 0;
@@ -71,7 +78,7 @@ int main( int argc, char *argv[] )
 #if defined( GUI_MODE )
     if( mode == ApplicationMode::GUI )
     {
-        QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+        QApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
         QApplication a( argc, argv );
         MainWindow window;
         window.show();
