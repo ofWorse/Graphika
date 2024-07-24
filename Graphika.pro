@@ -53,6 +53,7 @@ SOURCES += \
     $$IMPLDIR/utils/validatestring.cpp \
     $$IMPLDIR/main.cpp \
     $$IMPLDIR/console/consoleapplication.cpp \
+    programmerdialog.cpp \
     qcustomplot/qcustomplot.cpp \
     $$IMPLDIR/console/commandhandler.cpp
     $$IMPLDIR/console/commandcompleter.cpp
@@ -84,12 +85,16 @@ HEADERS += \
     $$HEADDIR/utils/mathutils.h \
     $$HEADDIR/console/consoleapplication.h \
     $$HEADDIR/utils/validatestring.h \
+    programmerSettings.h \
+    programmerdialog.h \
     qcustomplot/qcustomplot.h \
     $$HEADDIR/console/commandhandler.h \
     $$HEADDIR/console/commandcompleter.h \
     src/app/head/console/commands.h \
     src/app/head/settings/config.h \
-    src/app/head/ui/wgts/lwgt/widgets.h
+    src/app/head/ui/wgts/lwgt/widgets.h \
+    src/app/head/utils/programmerSettings.h \
+    src/app/head/utils/programmerdialog.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

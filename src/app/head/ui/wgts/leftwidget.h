@@ -10,6 +10,7 @@
 #define LEFTWIDGET_H
 
 #include <QWidget>
+#include "widgets.h"
 #include "functionlayout.h"
 #include "derivationlayout.h"
 #include "integrationlayout.h"
@@ -24,6 +25,9 @@
 #include "settings.h"
 #include <QDoubleSpinBox>
 #include <QDebug>
+
+#include "programmerdialog.h"
+#include "programmerSettings.h"
 
 /*!
  * \class LeftWidget
@@ -42,6 +46,7 @@ private:
 
     Widgets* widgets; ///< a class that stores all widgets for editing members of the LeftWidget class, descendants of LayoutInitializer.
     QGridLayout* layout; ///< main left-widget layout.
+    ProgrammerSettings programmerSetting;
 
 public:
     LayoutInitializer* currentLayout; ///< layout that contains up-to-date information about the state of widgets.
@@ -60,6 +65,7 @@ private:
      * \param buffer: x & y data buffer to transfer.
      */
     void connectLabels( SpecialBuffer& buffer );
+    void applyStoredSettings();
 
 public:
     /*!
@@ -78,6 +84,8 @@ public slots:
      * \param module: specific module for layout generation.
      */
     void initLayout( SpecialBuffer& buffer, pymodules::Modules module );
+
+    void applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals);
 };
 
 #endif // LEFTWIDGET_H
