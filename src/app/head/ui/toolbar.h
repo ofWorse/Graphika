@@ -145,6 +145,8 @@ private:
      * \brief setCheckable: set all actions checkable.
      */
     void setCheckable( void );
+    bool isPersistentAction(QAction* action);
+    void connectActions();
 };
 
 #endif // TOOLBAR_H
