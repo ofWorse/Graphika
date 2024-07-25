@@ -10,20 +10,33 @@ Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
     QPixmap beirut( ":/toolbaricons/resources/beirut.PNG" );
     QPixmap scaledBeirut = beirut.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
-    addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
+    QActionGroup* plotGroup = new QActionGroup( this );
+    QAction* plotFunctionAction = addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
+    plotFunctionAction->setCheckable( true );
+    plotGroup->addAction( plotFunctionAction );
+
     diffAction = addAction( QIcon( ":/toolbaricons/resources/derivation.PNG" ), "Построить график функции f'(x)" );
     integralAction = addAction( QIcon( ":/toolbaricons/resources/integral.PNG" ), "Найти площадь трапеции" );
     sysAction = addAction( QIcon( ":/toolbaricons/resources/sysfunctions.PNG" ), "Решить систему линейных/нелинейных уравнений" );
+
+    plotGroup->addAction( diffAction );
+    plotGroup->addAction( integralAction );
+    plotGroup->addAction( sysAction );
+
     addSeparator();
-    addAction( QIcon( QPixmap( ":/toolbaricons/resources/lagrange.PNG" )
+    QAction* lagrangeAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/lagrange.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Лагранжа" );
-    addAction( QIcon( QPixmap( ":/toolbaricons/resources/newthon.PNG" )
+    QAction* newthonAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/newthon.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Ньютона" );
-    addAction( QIcon( QPixmap( ":/toolbaricons/resources/beirut.PNG" )
+    QAction* beirutAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/beirut.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Беррута" );
+    plotGroup->addAction( lagrangeAction );
+    plotGroup->addAction( newthonAction );
+    plotGroup->addAction( beirutAction );
+
     addSeparator();
     addAction( QIcon( ":/toolbaricons/resources/clearPlot.PNG" ), "Очистить график" );
     addAction( QIcon( ":/toolbaricons/resources/home.PNG" ), "Вернуть график" );
@@ -230,12 +243,50 @@ void Toolbar::setCheckable( void )
 
 void Toolbar::unsetChecked( void )
 {
-    for( auto i = 0; i < actions().count(); ++i )
+    for ( auto i = 0; i < actions().count(); ++i )
     {
-        if( actions().at( i )->isChecked() )
+        if ( actions().at( i )->isChecked() && !isPersistentAction( actions().at( i ) ) )
         {
             actions().at( i )->setChecked( false );
         }
+    }
+}
+
+bool Toolbar::isPersistentAction( QAction* action ) {
+    return action->text() == "Построить график функции f(x)" ||
+           action->text() == "Построить график функции f'(x)" ||
+           action->text() == "Найти площадь трапеции" ||
+           action->text() == "Решить систему линейных/нелинейных уравнений" ||
+           action->text() == "Построить модель полинома Лагранжа" ||
+           action->text() == "Построить модель полинома Ньютона" ||
+           action->text() == "Построить модель полинома Беррута";
+}
+
+void Toolbar::connectActions() {
+    QList<QAction*> persistentActions;
+    for ( auto i = 0; i < actions().count(); ++i )
+    {
+        QAction* action = actions().at( i );
+        if ( isPersistentAction( action ) )
+        {
+            persistentActions.append( action );
+        }
+    }
+
+    for ( QAction* action : persistentActions )
+    {
+        connect( action, &QAction::triggered, this, [ this, action, persistentActions ]() {
+            if ( action->isChecked() )
+            {
+                for ( QAction* otherAction : persistentActions )
+                {
+                    if ( otherAction != action && otherAction->isChecked() )
+                    {
+                        otherAction->setChecked( false );
+                    }
+                }
+            }
+        });
     }
 }
 
