@@ -22,6 +22,7 @@ class FunctionLayout : public LayoutInitializer
 private:
     QGridLayout* layout; ///< a grid layout for widgets.
     QComboBox* cb;
+
 public:
     /*!
      * standard class-destructor.
@@ -46,6 +47,9 @@ public slots:
     void hideThirdDimensionalLayer( void );
     void showThirdDimensionalLayer( void );
     void checkoutDimensionals( void );
+
+signals:
+    void switchPlots( const int& index );
 };
 
 #endif

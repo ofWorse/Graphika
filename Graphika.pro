@@ -15,23 +15,25 @@ IMPLDIR = $$SRCDIR/impl
 RESOURCES += icons.qrc \
     pymodules.qrc \
     referenceinfo.qrc \
-    resources/web/web.qrc
+    resources/web/web.qrc \
+    shaders.qrc
 
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
     $$HEADDIR/ui/wgts/rwgt $$HEADDIR/settings $$HEADDIR/utils \
-    $$HEADDIR/ui/menu $$HEADDIR/console
+    $$HEADDIR/ui/menu $$HEADDIR/console $$HEADDIR/algs/graphbuilder
 
 LIBS += -lpython3.11
 
 VPATH += $$IMPLDIR $$IMPLDIR/algs \
     $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/lwgt \
     $$IMPLDIR/utils $$IMPLDIR/ui/wgts/rwgt \
-    $$IMPLDIR/ui/menu $$IMPLDIR/console
+    $$IMPLDIR/ui/menu $$IMPLDIR/console $$IMPLDIR/algs/graphbuilder
 
 SOURCES += \
     $$IMPLDIR/algs/compositestatestack.cpp \
-    $$IMPLDIR/algs/graphbuilder.cpp \
+    $$IMPLDIR/algs/graphbuilder/graphbuilder.cpp \
+    $$IMPLDIR/algs/graphbuilder/gl3dgraphbuilder.cpp \
     $$IMPLDIR/algs/pythonconveyor.cpp \
     $$IMPLDIR/algs/reportgenerator.cpp \
     $$IMPLDIR/algs/stringparser.cpp \
@@ -61,7 +63,8 @@ SOURCES += \
 HEADERS += \
     $$HEADDIR/algs/compositestatestack.h \
     $$HEADDIR/algs/expressionvalidator.h \
-    $$HEADDIR/algs/graphbuilder.h \
+    $$HEADDIR/algs/graphbuilder/graphbuilder.h \
+    $$HEADDIR/algs/graphbuilder/gl3dgraphbuilder.h \
     $$HEADDIR/algs/pythonconveyor.h \
     $$HEADDIR/algs/reportgenerator.h \
     $$HEADDIR/algs/stringparser.h \
@@ -101,7 +104,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    resources/web/katex.min.css \
-    resources/web/katex.min.js
+DISTFILES +=
 

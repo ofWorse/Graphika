@@ -90,6 +90,16 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
                 currentLayout->updateDataFromTable( buffer );
             }
     );
+
+    connect( functionLayout, QOverload<const int&>::of( &FunctionLayout::switchPlots ), this, [ this ]( const int& index )
+        {
+            if( index == 0 )
+            {
+                emit switchToGraphBuilder();
+                return;
+            }
+            emit switchToGL3DGraphBuilder();
+    });
 }
 
 void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals)
@@ -107,7 +117,7 @@ void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, do
     programmerSetting.decimals = decimals;
 }
 
-void LeftWidget::applyStoredSettings()
+void LeftWidget::applyStoredSettings( void )
 {
     widgets->step->setDecimals(programmerSetting.decimals);
     widgets->step->setRange(programmerSetting.minStep, programmerSetting.maxStep);
