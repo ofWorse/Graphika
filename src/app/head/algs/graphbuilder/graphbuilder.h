@@ -20,15 +20,10 @@
 #include <QWidget>
 #include <QList>
 #include <QVBoxLayout>
-#include_next "graphInfo.h"
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include "graphInfo.h"
 #include <optional>
 #include <QMatrix4x4>
-#include <GL/gl.h>
-#include <GL/glu.h>
-//#include <GL/glut.h>
-
+#include "gl3dgraphbuilder.h"
 
 struct GraphState
 
@@ -53,7 +48,6 @@ struct GraphState
 class GraphBuilder : public QWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
-
 private:
 
     enum WidgetType {ThreeDWidget, CustomPlotWidget};
@@ -61,7 +55,6 @@ private:
     QCPItemTracer* tracer; ///< Tracer linked to data points.
     QVBoxLayout* layout; ///< The layout to which all other objects are written.
     QCPItemText* textItem; ///< Item that displays the coordinates of the point where the user is pointing.
-    QOpenGLWidget* glwidget;
 
     QList<QCustomPlot*>* plots; ///< List that contains all states plot.
 
@@ -88,7 +81,8 @@ private:
     bool unpinned = false; ///< The variable indicates whether the graph window is detached from the general program.
 
 public:
-    QCustomPlot* wGraphic; ///< The object to which all graphs are recorded.
+    QCustomPlot* graph2d; ///< The object to which all graphs are recorded.
+    GL3DGraphBuilder* graph3d;
 
 public:
     /*!
@@ -97,16 +91,6 @@ public:
      * \param parent - Pointer to the parent widget.
      */
     explicit GraphBuilder(QWidget *parent = nullptr );
-
-    void initializeGL();
-
-    void resizeGL(int width, int height);
-
-
-
-
-
-
 
 private:
     /*!
@@ -202,13 +186,14 @@ public slots:
 
     void setupThreeCView();
 
-    void paintGL();
-
     void mousePressEventd(QMouseEvent* event);
 
     void mouseMoveEventd(QMouseEvent* event);
 
     void wheelEventd(QWheelEvent* event);
+
+    void switchToGL3DGraphBuilder( void );
+    void switchToGraphBuilder( void );
 
 signals:
     /*!
@@ -217,9 +202,6 @@ signals:
      * \param couldSave - Allow or disable saving the scene.
      */
     void couldSavePlotAsImage( bool couldSave );
-
-
-
 };
 
 #endif // GRAPHBUILDER_H

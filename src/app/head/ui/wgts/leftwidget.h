@@ -86,6 +86,10 @@ public slots:
     void initLayout( SpecialBuffer& buffer, pymodules::Modules module );
 
     void applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals);
+
+signals:
+    void switchToGL3DGraphBuilder( void );
+    void switchToGraphBuilder( void );
 };
 
 #endif // LEFTWIDGET_H

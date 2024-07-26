@@ -41,6 +41,9 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     rightWidget = new RightWidget( this );
 
+    connect( leftWidget, &LeftWidget::switchToGraphBuilder, rightWidget->graphBuilder, &GraphBuilder::switchToGraphBuilder );
+    connect( leftWidget, &LeftWidget::switchToGL3DGraphBuilder, rightWidget->graphBuilder, &GraphBuilder::switchToGL3DGraphBuilder );
+
     centralwidget->setLayout( layout );
     setCentralWidget( centralwidget );
     scrollLayout = new QGridLayout( scrollContentWidget );
@@ -348,13 +351,13 @@ void MainWindow::unpinGraph( void )
     QVBoxLayout* layout = new QVBoxLayout( dialog );
 
     layout->addWidget( this->toolbar );
-    layout->addWidget( rightWidget->graphBuilder->wGraphic );
+    layout->addWidget( rightWidget->graphBuilder->graph2d );
     dialog->setLayout( layout );
 
     connect( dialog, &QDialog::finished, this, [=]( int result )
         {
             Q_UNUSED( result );
-            rightWidget->rightLayout->addWidget( rightWidget->graphBuilder->wGraphic );
+            rightWidget->rightLayout->addWidget( rightWidget->graphBuilder->graph2d );
             toolbar->actions().at( 17 )->setEnabled( true );
             this->addToolBar( this->toolbar );
             dialog->deleteLater();

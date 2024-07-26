@@ -7,7 +7,7 @@
 void RightWidget::buildWidgetForDerivativeOperations( void )
 {
     graphBuilder->onClearButtonClicked();
-    graphBuilder->wGraphic->yAxis->setLabel( "y'" );
+    graphBuilder->graph2d->yAxis->setLabel( "y'" );
 }
 
 RightWidget::RightWidget( QWidget *parent )
@@ -29,31 +29,31 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     y = buffer.y;
     z = buffer.z;
 
-    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    if( graphBuilder->graph2d->yAxis->label() == "y'" )
     {
         graphBuilder->onClearButtonClicked();
-        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+        graphBuilder->graph2d->yAxis->setLabel( "y" );
     }
-    graphBuilder->wGraphic->replot();
+    graphBuilder->graph2d->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false, false );
+    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false, false, z );
 
     if( stack ) [[unlikely]]
     {
 //        emit sendData( model, false );
-//        emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *graphBuilder->graph2d, false );
     }
 }
 
 void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
 {
-    graphBuilder->wGraphic->replot();
+    graphBuilder->graph2d->replot();
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, "График производной функции", true, false, false );
 
     if( stack ) [[unlikely]]
     {
-//        emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *graphBuilder->graph2d, false );
     }
 }
 
@@ -64,13 +64,13 @@ void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const C
     y = buffer.y;
 
     buildWidgetForDerivativeOperations();
-    graphBuilder->wGraphic->replot();
+    graphBuilder->graph2d->replot();
 
     differentiationSolve( x, y, sender );
 
     if( stack ) [[unlikely]]
     {
-//        emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *graphBuilder->graph2d, false );
     }
 }
 
@@ -80,7 +80,7 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, cons
     y = buffer.y;
 
     integrationSolve( x, y, sender );
-    graphBuilder->wGraphic->replot();
+    graphBuilder->graph2d->replot();
     graphBuilder->PaintG( x, y, "Площадь функции", true, false, true );
 
     if( stack ) [[unlikely]]
@@ -105,13 +105,13 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
         return;
     }
     // TODO: В отдельный метод
-    if( graphBuilder->wGraphic->yAxis->label() == "y'" )
+    if( graphBuilder->graph2d->yAxis->label() == "y'" )
     {
         graphBuilder->onClearButtonClicked();
-        graphBuilder->wGraphic->yAxis->setLabel( "y" );
+        graphBuilder->graph2d->yAxis->setLabel( "y" );
     }
 
-    graphBuilder->wGraphic->replot();
+    graphBuilder->graph2d->replot();
     graphBuilder->PaintG( x, y, "Точки интерполяции", false, true, false );
     std::vector<double> _x(std::begin(x), std::end(x));
     std::vector<double> _y(std::begin(y), std::end(y));
@@ -124,7 +124,7 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
     if( stack ) [[unlikely]]
     {
 //        emit sendData( *model, false );
-//        emit sendData( *graphBuilder->wGraphic, false );
+//        emit sendData( *graphBuilder->graph2d, false );
     }
 }
 

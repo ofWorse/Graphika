@@ -90,7 +90,9 @@ void FunctionLayout::checkoutDimensionals( void )
     if( cb->currentIndex() == 0 )
     {
         hideThirdDimensionalLayer();
+        emit switchPlots( cb->currentIndex() );
         return;
     }
     showThirdDimensionalLayer();
+    emit switchPlots( cb->currentIndex() );
 }

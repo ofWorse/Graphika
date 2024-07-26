@@ -140,8 +140,12 @@ public:
         expressionInput = new QLineEdit( this );
         QFont font( "Times New Roman", 12, -1, true );
         expressionInput->setFont( font );
+        derivativeExpressionInput->setFont( expressionInput->font() );
+
         connect( expressionInput, &QLineEdit::textChanged, this, &Widgets::expressionInputChanged );
+
         manualTableInput = new QPushButton( "Ручной ввод", this );
+
         solve = new QPushButton( "Решить", this );
         solve->setStyleSheet( "background-color: tomato;" );
         solve->setEnabled( false );
