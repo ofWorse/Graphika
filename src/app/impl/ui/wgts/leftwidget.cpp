@@ -100,6 +100,14 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
             }
             emit switchToGL3DGraphBuilder();
     });
+
+    connect(currentLayout->widgets->expressionInput, &QLineEdit::textChanged, this, [this](const QString& text) {
+        if (text.length() > 30) {
+            emit functionTextChanged("График заданной функции");
+        } else {
+            emit functionTextChanged("f(x) = " + text);
+        }
+    });
 }
 
 void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals)

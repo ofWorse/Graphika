@@ -58,6 +58,9 @@ public:
      */
     void unsetChecked( void );
 
+signals:
+    void currentMethodChanged( const QString& methodName );
+
 protected:
     /*!
      * \brief mousePressEvent: calls a method when the right mouse button is clicked.
@@ -66,6 +69,12 @@ protected:
     void mousePressEvent( QMouseEvent *event ) override;
 
 private:
+    QAction* plotFunctionAction;
+
+    QAction* lagrangeAction;
+    QAction* newthonAction;
+    QAction* beirutAction;
+
     QAction* diffAction; ///< derivation action menu.
     QAction* methodTwoDots; ///< specific derivation method.
     QAction* methodThreeDots; ///< specific derivation method.
@@ -111,6 +120,7 @@ private:
     void initMenu( QMenu*& menu, const QStringList& items );
 
     void updateFuncCheckState( QAction* checkedAction );
+    void initPolynomeMenu();
 
     /*!
      * \brief updateDiffCheckState: updates derivation checkbox object.
@@ -147,6 +157,10 @@ private:
     void setCheckable( void );
     bool isPersistentAction(QAction* action);
     void connectActions();
+
+private slots:
+    void handleDiffActionTriggered();
+    void handleIntegralActionTriggered();
 };
 
 #endif // TOOLBAR_H

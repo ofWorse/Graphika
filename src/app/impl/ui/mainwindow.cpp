@@ -112,6 +112,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     programmer = new ProgrammerDialog( this );
     connect( programmer, &ProgrammerDialog::settingsApplied, leftWidget, &LeftWidget::applyProgrammerSettings );
+    connect( toolbar, &Toolbar::currentMethodChanged, rightWidget, &RightWidget::updateLegend );
+    connect(leftWidget, &LeftWidget::functionTextChanged, rightWidget, &RightWidget::setFunctionText);
 }
 
 void MainWindow::openMenu( int index, pymodules::Modules module )

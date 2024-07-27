@@ -21,6 +21,19 @@ RightWidget::RightWidget( QWidget *parent )
     rightLayout->addWidget( modelLabel );
     rightLayout->addWidget( model );
     rightLayout->addWidget( graphBuilder );
+    currentLegend = "График заданной функции";
+    functionText = "График заданной функции";
+}
+
+void RightWidget::updateLegend( const QString& legendText )
+{
+    currentLegend = legendText;
+    qDebug() << "Легенда обновлена на:" << currentLegend;
+}
+
+void RightWidget::setFunctionText(const QString& text) {
+    functionText = text;
+    qDebug() << "Функция обновлена на:" << functionText;
 }
 
 void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
@@ -36,7 +49,7 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     }
     graphBuilder->graph2d->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, sender.functionName == nullptr ? "График заданной функции" : sender.functionName, true, false, false, z );
+    graphBuilder->PaintG( x, y,  functionText , true, false, false, z );
 
     if( stack ) [[unlikely]]
     {
@@ -49,7 +62,7 @@ void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<
 {
     graphBuilder->graph2d->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, "График производной функции", true, false, false );
+    graphBuilder->PaintG( x, y, "График производной функции " + functionText + " (" + currentLegend + ")", true, false, false );
 
     if( stack ) [[unlikely]]
     {
@@ -81,7 +94,7 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, cons
 
     integrationSolve( x, y, sender );
     graphBuilder->graph2d->replot();
-    graphBuilder->PaintG( x, y, "Площадь функции", true, false, true );
+    graphBuilder->PaintG( x, y, "Площадь функции " + functionText  + " (" + currentLegend + ")", true, false, true );
 
     if( stack ) [[unlikely]]
     {
@@ -197,7 +210,7 @@ void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std
 {
     QVector<double> X = QVector<double>( x.begin(), x.end() );
     QVector<double> Y = QVector<double>( y.begin(), y.end() );
-    graphBuilder->PaintG( X, Y, "График интерполяции", true, false, false );
+    graphBuilder->PaintG( X, Y, "График интерполяции (" + currentLegend + ")", true, false, false );
 }
 
 void RightWidget::moveLegend(void)
