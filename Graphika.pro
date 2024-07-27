@@ -16,7 +16,6 @@ RESOURCES += icons.qrc \
     pymodules.qrc \
     referenceinfo.qrc \
     resources/web/web.qrc \
-    shaders.qrc
 
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
