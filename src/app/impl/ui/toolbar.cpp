@@ -11,7 +11,7 @@ Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
     QPixmap scaledBeirut = beirut.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
     QActionGroup* plotGroup = new QActionGroup( this );
-    QAction* plotFunctionAction = addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
+    plotFunctionAction = addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
     plotFunctionAction->setCheckable( true );
     plotGroup->addAction( plotFunctionAction );
 
@@ -24,13 +24,13 @@ Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
     plotGroup->addAction( sysAction );
 
     addSeparator();
-    QAction* lagrangeAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/lagrange.PNG" )
+    lagrangeAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/lagrange.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Лагранжа" );
-    QAction* newthonAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/newthon.PNG" )
+    newthonAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/newthon.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Ньютона" );
-    QAction* beirutAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/beirut.PNG" )
+    beirutAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/beirut.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Беррута" );
     plotGroup->addAction( lagrangeAction );
@@ -53,6 +53,42 @@ Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
     initDiffMenu();
     initIntegralMenu();
     initSysMenu();
+    initPolynomeMenu();
+
+    connect(diffAction, &QAction::triggered, this, &Toolbar::handleDiffActionTriggered);
+    connect(integralAction, &QAction::triggered, this, &Toolbar::handleIntegralActionTriggered);
+}
+
+void Toolbar::handleDiffActionTriggered()
+{
+    if ( methodTwoDots->isChecked() )
+    {
+        emit currentMethodChanged( "Дифференцирование по 2 точкам" );
+    }
+    else if ( methodThreeDots->isChecked() )
+    {
+        emit currentMethodChanged( "Дифференцирование по 3 точкам" );
+    }
+    else if ( methodFiveDots->isChecked() )
+    {
+        emit currentMethodChanged( "Дифференцирование по 5 точкам" );
+    }
+}
+
+void Toolbar::handleIntegralActionTriggered()
+{
+    if ( linearMethod->isChecked() )
+    {
+        emit currentMethodChanged( "Линейный метод" );
+    }
+    else if ( trapezoidMethod->isChecked() )
+    {
+        emit currentMethodChanged( "Метод трапеций" );
+    }
+    else if ( parabolicMethod->isChecked() )
+    {
+        emit currentMethodChanged( "Метод Симпсона (парабол)" );
+    }
 }
 
 void Toolbar::mousePressEvent( QMouseEvent* event )
@@ -94,12 +130,15 @@ void Toolbar::initDiffMenu( void )
 
     connect( methodTwoDots, &QAction::triggered, this, [=]() {
         updateDiffCheckState( methodTwoDots );
+        emit currentMethodChanged( "Дифференцирование по 2 точкам" );
     } );
     connect( methodThreeDots, &QAction::triggered, this, [=]() {
         updateDiffCheckState( methodThreeDots );
+        emit currentMethodChanged( "Дифференцирование по 3 точкам" );
     } );
     connect(methodFiveDots, &QAction::triggered, this, [=]() {
         updateDiffCheckState( methodFiveDots );
+        emit currentMethodChanged( "Дифференцирование по 5 точкам" );
     } );
 }
 
@@ -119,12 +158,15 @@ void Toolbar::initIntegralMenu()
 
     connect( linearMethod, &QAction::triggered, this, [=]() {
         updateIntegralCheckState( linearMethod );
+        emit currentMethodChanged( "Линейный метод" );
     } );
     connect( trapezoidMethod, &QAction::triggered, this, [=]() {
         updateIntegralCheckState( trapezoidMethod );
+        emit currentMethodChanged( "Метод трапеций" );
     } );
     connect( parabolicMethod, &QAction::triggered, this, [=]() {
         updateIntegralCheckState( parabolicMethod );
+        emit currentMethodChanged( "Метод Симпсона (парабол)" );
     } );
 }
 
@@ -146,6 +188,19 @@ void Toolbar::initSysMenu()
     });
     connect( simpleIterMethod, &QAction::triggered, this, [=]() {
         updateSysCheckState( simpleIterMethod );
+    });
+}
+
+void Toolbar::initPolynomeMenu()
+{
+    connect(lagrangeAction, &QAction::triggered, this, [=]() {
+        emit currentMethodChanged("Полином Лагранжа");
+    });
+    connect(newthonAction, &QAction::triggered, this, [=]() {
+        emit currentMethodChanged("Полином Ньютона");
+    });
+    connect(beirutAction, &QAction::triggered, this, [=]() {
+        emit currentMethodChanged("Полином Беррута");
     });
 }
 

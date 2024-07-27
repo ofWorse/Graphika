@@ -90,6 +90,7 @@ public slots:
 signals:
     void switchToGL3DGraphBuilder( void );
     void switchToGraphBuilder( void );
+    void functionTextChanged(const QString& functionText);
 };
 
 #endif // LEFTWIDGET_H

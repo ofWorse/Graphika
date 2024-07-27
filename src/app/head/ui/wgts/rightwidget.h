@@ -31,6 +31,8 @@ private:
     std::string area; ///< area of ​​the trapezoid under the curve.
     QLineEdit* model; ///< label for entering model string data.
     QLabel* modelLabel; ///< interpolation model label
+    QString currentLegend;
+    QString functionText;
 
 public:
     QGridLayout* rightLayout; ///< main right-widget layout.
@@ -201,6 +203,8 @@ public slots:
      * \param stack for data log system (in development).
      */
     void printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
+    void updateLegend( const QString& legendText );
+    void setFunctionText(const QString& functionText);
 
 
 signals:
