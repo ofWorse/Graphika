@@ -20,14 +20,16 @@ RESOURCES += icons.qrc \
 INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
     $$HEADDIR/ui/wgts/rwgt $$HEADDIR/settings $$HEADDIR/utils \
-    $$HEADDIR/ui/menu $$HEADDIR/console $$HEADDIR/algs/graphbuilder
+    $$HEADDIR/ui/menu $$HEADDIR/console $$HEADDIR/algs/graphbuilder \
+    $$HEADDIR/utils/notes
 
 LIBS += -lpython3.11
 
 VPATH += $$IMPLDIR $$IMPLDIR/algs \
     $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/lwgt \
     $$IMPLDIR/utils $$IMPLDIR/ui/wgts/rwgt \
-    $$IMPLDIR/ui/menu $$IMPLDIR/console $$IMPLDIR/algs/graphbuilder
+    $$IMPLDIR/ui/menu $$IMPLDIR/console $$IMPLDIR/algs/graphbuilder \
+    $$IMPLDIR/utils/notes
 
 SOURCES += \
     $$IMPLDIR/algs/compositestatestack.cpp \
@@ -51,11 +53,12 @@ SOURCES += \
     $$IMPLDIR/ui/menubar.cpp \
     $$IMPLDIR/ui/menu/referencemenu.cpp \
     $$IMPLDIR/utils/buffer.cpp \
-    $$IMPLDIR/utils/sender.cpp \
     $$IMPLDIR/utils/validatestring.cpp \
+    $$IMPLDIR/utils/notes/errorlabel.cpp \
     $$IMPLDIR/main.cpp \
     $$IMPLDIR/console/consoleapplication.cpp \
-    programmerdialog.cpp \
+    $$IMPLDIR/utils/programmerdialog.cpp \
+    $$IMPLDIR/utils/sender.cpp \
     qcustomplot/qcustomplot.cpp \
     $$IMPLDIR/console/commandhandler.cpp \
     $$IMPLDIR/console/commandcompleter.cpp
@@ -83,14 +86,15 @@ HEADERS += \
     $$HEADDIR/ui/graphbar.h \
     $$HEADDIR/ui/menu/referencemenu.h \
     $$HEADDIR/utils/buffer.h \
-    $$HEADDIR/utils/errorhandler.h \
+    $$HEADDIR/utils/notes/errorhandler.h \
+    $$HEADDIR/utils/notes/errorlabel.h \
     $$HEADDIR/utils/graphInfo.h \
     $$HEADDIR/utils/sender.h \
     $$HEADDIR/utils/mathutils.h \
     $$HEADDIR/console/consoleapplication.h \
     $$HEADDIR/utils/validatestring.h \
-    programmerSettings.h \
-    programmerdialog.h \
+    $$HEADDIR/utils/programmerSettings.h \
+    $$HEADDIR/utils/programmerdialog.h \
     qcustomplot/qcustomplot.h \
     $$HEADDIR/console/commandhandler.h \
     $$HEADDIR/console/commandcompleter.h \

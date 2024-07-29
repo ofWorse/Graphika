@@ -7,7 +7,7 @@ void DerivationLayout::generateWidgets( Widgets& widgets )
     layout->addWidget( widgets.expressionInput, 0, 1, 1, 10 );
     layout->addWidget( widgets.derivativeLabel, layout->rowCount() - layout->rowCount() + 1, 0 );
     layout->addWidget( widgets.derivativeExpressionInput, layout->rowCount() - layout->rowCount() + 1, 1, 1, 10 );
-    layout->addWidget( widgets.errLabel, 2, 0 );
+    //layout->addWidget( widgets.errLabel, 2, 0 );
     layout->addWidget( widgets.typeOfInput, 3, 0 );
     layout->addWidget( widgets.typeOfVariableInput, 3, 1 );
     layout->addWidget( widgets.minLabel, 4, 0 );
