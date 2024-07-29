@@ -16,6 +16,11 @@ LeftWidget::LeftWidget( QWidget *parent ) : QWidget( parent )
 
 void LeftWidget::initLayout( SpecialBuffer& buffer, pymodules::Modules module )
 {
+    if( module != pymodules::Modules::NIL )
+    {
+        emit switchToGraphBuilder();
+    }
+
     switch( module )
     {
     case pymodules::Modules::NIL:
@@ -92,7 +97,7 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
     );
 
     connect( functionLayout, QOverload<const int&>::of( &FunctionLayout::switchPlots ), this, [ this ]( const int& index )
-        {
+    {
             if( index == 0 )
             {
                 emit switchToGraphBuilder();
@@ -101,12 +106,14 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
             emit switchToGL3DGraphBuilder();
     });
 
-    connect(currentLayout->widgets->expressionInput, &QLineEdit::textChanged, this, [this](const QString& text) {
-        if (text.length() > 30) {
-            emit functionTextChanged("График заданной функции");
-        } else {
-            emit functionTextChanged("f(x) = " + text);
+    connect( currentLayout->widgets->expressionInput, &QLineEdit::textChanged, this, [this](const QString& text )
+    {
+        if( text.length() > 30 )
+        {
+            emit functionTextChanged( "График заданной функции" );
+            return;
         }
+        emit functionTextChanged( "f(x) = " + text );
     });
 }
 

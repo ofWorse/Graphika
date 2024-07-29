@@ -6,8 +6,8 @@
  * \date last update: 18.05.2024.
  */
 
-#ifndef TOOLBAR_H
-#define TOOLBAR_H
+#ifndef MENUBAR_H
+#define MENUBAR_H
 
 #include <QMainWindow>
 #include <QToolBar>
@@ -57,9 +57,6 @@ public:
      * \brief unsetChecked: makes every checkable action unchecked.
      */
     void unsetChecked( void );
-
-signals:
-    void currentMethodChanged( const QString& methodName );
 
 protected:
     /*!
@@ -120,7 +117,8 @@ private:
     void initMenu( QMenu*& menu, const QStringList& items );
 
     void updateFuncCheckState( QAction* checkedAction );
-    void initPolynomeMenu();
+
+    void initPolynomeMenu( void );
 
     /*!
      * \brief updateDiffCheckState: updates derivation checkbox object.
@@ -158,9 +156,12 @@ private:
     bool isPersistentAction(QAction* action);
     void connectActions();
 
+signals:
+    void currentMethodChanged( const QString& methodName );
+
 private slots:
     void handleDiffActionTriggered();
     void handleIntegralActionTriggered();
 };
 
-#endif // TOOLBAR_H
+#endif // MENUBAR_H

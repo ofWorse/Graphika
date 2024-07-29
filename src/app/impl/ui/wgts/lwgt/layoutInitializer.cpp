@@ -311,6 +311,7 @@ void LayoutInitializer::acceptData( const QString& model, const double a, const 
     auto x = MathUtils::multiplyPoints( a, b );
     widgets->parser->setDataX( x );
     std::vector<double> y = widgets->parser->parseExpression( model.toStdString().c_str(), 2 );
+    widgets->model->setText( model );
     emit readyToDraw( x, y );
 }
 

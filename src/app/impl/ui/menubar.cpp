@@ -1,29 +1,29 @@
-#include "toolbar.h"
+#include "menubar.h"
 #include <QIcon>
 
-Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
+MenuBar::MenuBar( QWidget* parent ) : QToolBar( parent )
 {
-    QPixmap lagrange( ":/toolbaricons/resources/lagrange.PNG" );
+    QPixmap lagrange( ":/tolbaricons/resources/lagrange.PNG" );
     QPixmap scaledlagrange = lagrange.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    QPixmap newthon( ":/toolbaricons/resources/newthon.PNG" );
+    QPixmap newthon( ":/tolbaricons/resources/newthon.PNG" );
     QPixmap scaledNewthon = newthon.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    QPixmap beirut( ":/toolbaricons/resources/beirut.PNG" );
+    QPixmap beirut( ":/tolbaricons/resources/beirut.PNG" );
     QPixmap scaledBeirut = beirut.scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
     QActionGroup* plotGroup = new QActionGroup( this );
-    plotFunctionAction = addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
-    plotFunctionAction->setCheckable( true );
-    plotGroup->addAction( plotFunctionAction );
 
+    plotFunctionAction = addAction( QIcon( ":/toolbaricons/resources/function.PNG" ), "Построить график функции f(x)" );
     diffAction = addAction( QIcon( ":/toolbaricons/resources/derivation.PNG" ), "Построить график функции f'(x)" );
     integralAction = addAction( QIcon( ":/toolbaricons/resources/integral.PNG" ), "Найти площадь трапеции" );
     sysAction = addAction( QIcon( ":/toolbaricons/resources/sysfunctions.PNG" ), "Решить систему линейных/нелинейных уравнений" );
 
+    plotGroup->addAction( plotFunctionAction );
     plotGroup->addAction( diffAction );
     plotGroup->addAction( integralAction );
     plotGroup->addAction( sysAction );
 
     addSeparator();
+
     lagrangeAction = addAction( QIcon( QPixmap( ":/toolbaricons/resources/lagrange.PNG" )
                         .scaled( 32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation ) ),
                         "Построить модель полинома Лагранжа" );
@@ -38,16 +38,6 @@ Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
     plotGroup->addAction( beirutAction );
 
     addSeparator();
-    addAction( QIcon( ":/toolbaricons/resources/clearPlot.PNG" ), "Очистить график" );
-    addAction( QIcon( ":/toolbaricons/resources/home.PNG" ), "Вернуть график" );
-    addAction( QIcon( ":/toolbaricons/resources/rotateLegend.PNG" ), "Переместить легенду" );
-    addAction( QIcon( ":/toolbaricons/resources/showLegend.PNG" ), "Показать/скрыть легенду" );
-    addAction( QIcon( ":/toolbaricons/resources/back.PNG" ), "Шаг назад" );
-    addAction( QIcon( ":/toolbaricons/resources/forward.PNG" ), "Шаг вперед" );
-    addAction( QIcon( ":/toolbaricons/resources/decreasePlot.PNG" ), "Увеличить график" );
-    addAction( QIcon( ":/toolbaricons/resources/increasePlot.PNG" ), "Уменьшить график" );
-    addAction( QIcon( ":/toolbaricons/resources/unpinPlot.PNG" ), "Отделить график от окна" );
-    addAction( QIcon( ":/toolbaricons/resources/savePlotAsImage.png" ), "Сохранить состояние графика" );
 
     setCheckable();
     initDiffMenu();
@@ -55,11 +45,11 @@ Toolbar::Toolbar( QWidget* parent ) : QToolBar( parent )
     initSysMenu();
     initPolynomeMenu();
 
-    connect(diffAction, &QAction::triggered, this, &Toolbar::handleDiffActionTriggered);
-    connect(integralAction, &QAction::triggered, this, &Toolbar::handleIntegralActionTriggered);
+    connect(diffAction, &QAction::triggered, this, &MenuBar::handleDiffActionTriggered);
+    connect(integralAction, &QAction::triggered, this, &MenuBar::handleIntegralActionTriggered);
 }
 
-void Toolbar::handleDiffActionTriggered()
+void MenuBar::handleDiffActionTriggered()
 {
     if ( methodTwoDots->isChecked() )
     {
@@ -75,7 +65,7 @@ void Toolbar::handleDiffActionTriggered()
     }
 }
 
-void Toolbar::handleIntegralActionTriggered()
+void MenuBar::handleIntegralActionTriggered()
 {
     if ( linearMethod->isChecked() )
     {
@@ -91,7 +81,7 @@ void Toolbar::handleIntegralActionTriggered()
     }
 }
 
-void Toolbar::mousePressEvent( QMouseEvent* event )
+void MenuBar::mousePressEvent( QMouseEvent* event )
 {
     if ( event->button() == Qt::RightButton ) {
         QAction *action = actionAt( event->pos() );
@@ -114,7 +104,7 @@ void Toolbar::mousePressEvent( QMouseEvent* event )
     }
 }
 
-void Toolbar::initDiffMenu( void )
+void MenuBar::initDiffMenu( void )
 {
     diffMenu = new QMenu( this );
 
@@ -142,7 +132,7 @@ void Toolbar::initDiffMenu( void )
     } );
 }
 
-void Toolbar::initIntegralMenu()
+void MenuBar::initIntegralMenu()
 {
     integralMenu = new QMenu( this );
 
@@ -170,7 +160,7 @@ void Toolbar::initIntegralMenu()
     } );
 }
 
-void Toolbar::initSysMenu()
+void MenuBar::initSysMenu()
 {
     sysMenu = new QMenu( this );
 
@@ -191,7 +181,7 @@ void Toolbar::initSysMenu()
     });
 }
 
-void Toolbar::initPolynomeMenu()
+void MenuBar::initPolynomeMenu()
 {
     connect(lagrangeAction, &QAction::triggered, this, [=]() {
         emit currentMethodChanged("Полином Лагранжа");
@@ -205,7 +195,7 @@ void Toolbar::initPolynomeMenu()
 }
 
 
-void Toolbar::updateDiffCheckState( QAction *checkedAction )
+void MenuBar::updateDiffCheckState( QAction *checkedAction )
 {
     if ( checkedAction->isChecked() )
     {
@@ -235,7 +225,7 @@ void Toolbar::updateDiffCheckState( QAction *checkedAction )
     }
 }
 
-void Toolbar::updateIntegralCheckState( QAction *checkedAction )
+void MenuBar::updateIntegralCheckState( QAction *checkedAction )
 {
     if ( checkedAction->isChecked() )
     {
@@ -265,7 +255,7 @@ void Toolbar::updateIntegralCheckState( QAction *checkedAction )
     }
 }
 
-void Toolbar::updateSysCheckState( QAction *checkedAction )
+void MenuBar::updateSysCheckState( QAction *checkedAction )
 {
     if ( checkedAction->isChecked() )
     {
@@ -288,7 +278,7 @@ void Toolbar::updateSysCheckState( QAction *checkedAction )
     }
 }
 
-void Toolbar::setCheckable( void )
+void MenuBar::setCheckable( void )
 {
     for( auto i = 0; i < actions().count(); ++i )
     {
@@ -296,7 +286,7 @@ void Toolbar::setCheckable( void )
     }
 }
 
-void Toolbar::unsetChecked( void )
+void MenuBar::unsetChecked( void )
 {
     for ( auto i = 0; i < actions().count(); ++i )
     {
@@ -307,7 +297,7 @@ void Toolbar::unsetChecked( void )
     }
 }
 
-bool Toolbar::isPersistentAction( QAction* action ) {
+bool MenuBar::isPersistentAction( QAction* action ) {
     return action->text() == "Построить график функции f(x)" ||
            action->text() == "Построить график функции f'(x)" ||
            action->text() == "Найти площадь трапеции" ||
@@ -317,7 +307,7 @@ bool Toolbar::isPersistentAction( QAction* action ) {
            action->text() == "Построить модель полинома Беррута";
 }
 
-void Toolbar::connectActions() {
+void MenuBar::connectActions() {
     QList<QAction*> persistentActions;
     for ( auto i = 0; i < actions().count(); ++i )
     {
@@ -345,7 +335,7 @@ void Toolbar::connectActions() {
     }
 }
 
-pymodules::Methods Toolbar::getSelectedDiffMethod( void ) const
+pymodules::Methods MenuBar::getSelectedDiffMethod( void ) const
 {
     if ( methodTwoDots->isChecked() )
     {
@@ -362,7 +352,7 @@ pymodules::Methods Toolbar::getSelectedDiffMethod( void ) const
     return pymodules::Methods::DIFF_3P;
 }
 
-pymodules::Methods Toolbar::getSelectedIntegralMethod( void ) const
+pymodules::Methods MenuBar::getSelectedIntegralMethod( void ) const
 {
     if ( linearMethod->isChecked() )
     {
@@ -379,7 +369,7 @@ pymodules::Methods Toolbar::getSelectedIntegralMethod( void ) const
     return pymodules::Methods::INTEG_LINEAR;
 }
 
-pymodules::Methods Toolbar::getSelectedSysMethod( void ) const
+pymodules::Methods MenuBar::getSelectedSysMethod( void ) const
 {
     if ( gaussMethod->isChecked() )
     {

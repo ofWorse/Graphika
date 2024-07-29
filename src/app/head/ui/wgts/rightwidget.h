@@ -11,6 +11,7 @@
 
 #include <QWidget>
 #include <QVector>
+#include <graphbar.h>
 #include "graphbuilder.h"
 #include "buffer.h"
 #include "pythonconveyor.h"
@@ -29,10 +30,13 @@ class RightWidget : public QWidget
 private:
     std::string resultModel; ///< model of interpolation.
     std::string area; ///< area of ​​the trapezoid under the curve.
-    QLineEdit* model; ///< label for entering model string data.
-    QLabel* modelLabel; ///< interpolation model label
     QString currentLegend;
     QString functionText;
+    GraphBar* graphBar;
+
+    int graphBarWidth, graph2dHeight, graph3dHeight;;
+
+    bool unpinned{ false };
 
 public:
     QGridLayout* rightLayout; ///< main right-widget layout.
@@ -132,6 +136,8 @@ public:
      */
     void sysSolve( QVector<QVector<double>>& data, Sender& sender );
 
+    void checkoutAxeses( void );
+
     /*!
      * \brief clearGraph: clear plot content.
      */
@@ -172,6 +178,12 @@ public:
      */
     void zoomOut();
 
+    void resetZoom();
+
+    void couldSavePlotAsImage( bool couldSave );
+
+    void unpinGraph();
+
     /*!
      * \brief savePlotAsImage: open a window to save the graph as an image.
      */
@@ -204,8 +216,9 @@ public slots:
      */
     void printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
     void updateLegend( const QString& legendText );
-    void setFunctionText(const QString& functionText);
+    void setFunctionText( const QString& functionText );
 
+    void hideBarButtons( const bool& hide );
 
 signals:
     /*!

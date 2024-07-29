@@ -5,7 +5,108 @@ GL3DGraphBuilder::GL3DGraphBuilder( QWidget* parent ) : QOpenGLWidget( parent )
     axisLineWidth = 5.0f;
     gridLineWidth = 1.0f;
     pointSize = 5.0f;
+    this->setMinimumSize( 550, 500 );
 }
+
+void GL3DGraphBuilder::onClearButtonClicked( void )
+{
+    figures.clear();
+
+    projectionMatrix.setToIdentity();
+    modelView.setToIdentity();
+
+    cameraTransform.setToIdentity();
+    rotation.setToIdentity();
+
+    lastMousePos = QPoint();
+
+    update();
+    emit dataUpdated();
+}
+
+void GL3DGraphBuilder::resetZoom( void )
+{
+}
+
+// TODO: IT DOES NOT WORK
+void GL3DGraphBuilder::zoomIn( void )
+{
+    cameraTransform.translate(0.5f, 0.5f, 0.5f);
+    modelView = cameraTransform * rotation;
+    update();
+}
+
+void GL3DGraphBuilder::zoomOut( void )
+{
+    cameraTransform.translate(-0.5f, -0.5f, -0.5f);
+    modelView = cameraTransform * rotation;
+    update();
+}
+
+void GL3DGraphBuilder::stepBack( void )
+{
+    if( figures.size() > 1 )
+    {
+        buffer.append( figures[ figures.size() - 1 ] );
+        figures.pop_back();
+    }
+    update();
+}
+
+void GL3DGraphBuilder::stepForward( void )
+{
+    if ( !buffer.isEmpty() )
+    {
+        figures.append( buffer.takeFirst() );
+    }
+    update();
+}
+
+// TODO: NOT IMPLEMENTED YET
+void GL3DGraphBuilder::savePlotAsImage( void )
+{
+    QString fileName = QFileDialog::getSaveFileName( this, tr( "Сохранить 3D-график" ), QDir::homePath(),
+                                                                                                        tr("Изображения (*.png *.jpg)"));
+    if ( fileName.isEmpty() )
+    {
+        return;
+    }
+
+    int width = this->width();
+    int height = this->height();
+
+    QOpenGLFramebufferObject fbo( width, height );
+    fbo.bind();
+
+    this->render( &fbo );
+
+    QImage image = fbo.toImage();
+
+    bool saved = false;
+    if( fileName.endsWith( ".png", Qt::CaseInsensitive) )
+    {
+        saved = image.save( fileName, "PNG" );
+    }
+    else if( fileName.endsWith( ".jpg", Qt::CaseInsensitive ) || fileName.endsWith( ".jpeg", Qt::CaseInsensitive ) )
+    {
+        saved = image.save( fileName, "JPEG" );
+    }
+    else
+    {
+        saved = image.save( fileName + ".png", "PNG" );
+    }
+
+    if( saved )
+        qDebug() << "Граф сохранен в файл:" << fileName;
+    else
+        qDebug() << "Не удалось сохранить граф в файл:" << fileName;
+}
+
+void GL3DGraphBuilder::render( QOpenGLFramebufferObject* fbo )
+{
+
+}
+
 
 void GL3DGraphBuilder::initializeGL( void )
 {
@@ -32,25 +133,6 @@ void GL3DGraphBuilder::paintGL( void )
     drawGrid();
     drawAxes();
 
-    /*
-    if ( !points.isEmpty() ) {
-        glPolygonMode( GL_FRONT_FACE, GL_FILL );
-        glColor3f( figures[graphIndex].color.redF(), figures[graphIndex].color.greenF(),figures[graphIndex].color.blueF());
-        glBegin( GL_QUADS );
-        for ( int i = 0; i < points.size() - 1; ++i )
-        {
-            const QVector3D& p1 = points[i];
-            const QVector3D& p2 = points[i + 1];
-            glVertex3f( p1.x(), p1.y(), p1.z() );
-            glVertex3f( p1.x(), 0.0f, p1.z() );
-            glVertex3f( p2.x(), 0.0f, p2.z() );
-            glVertex3f( p2.x(), p2.y(), p2.z() );
-        }
-        glEnd();
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    }
-    */
-
     for (const auto& graph : figures) {
         glColor3f(graph.color.redF(), graph.color.greenF(), graph.color.blueF());
         glPolygonMode( GL_FRONT_FACE, GL_FILL );
@@ -62,7 +144,6 @@ void GL3DGraphBuilder::paintGL( void )
             glVertex3f( p1.x(), 0.0f, p1.z() );
             glVertex3f( p2.x(), 0.0f, p2.z() );
             glVertex3f( p2.x(), p2.y(), p2.z() );
-            //glVertex3f(graph.vertices.x(), graph.vertices.y(), graph.vertices.z());
         }
         glEnd();
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
