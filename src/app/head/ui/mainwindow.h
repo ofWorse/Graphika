@@ -30,7 +30,7 @@ class MainWindow : public QMainWindow
 private:
     Menu* menu; ///< menu at the top of the window.
     QMainWindow* mainWindow; ///< main menu window.
-    Toolbar* toolbar; ///< items for window switching.
+    MenuBar* menubar; ///< items for window switching.
     QWidget* centralwidget; ///< bottom layer.
     ProgrammerDialog* programmer;
 
@@ -53,8 +53,6 @@ private:
     QList<QWidget*> widgets; ///< current widgets statement.
 
     bool isSession{ false }; ///< is session mode is opened.
-    bool unpinned{ false }; ///< is graph unpinned from main window.
-    bool legendEnabled{ false }; ///< is legend enabled.
 
 public:
     /*!
@@ -116,56 +114,6 @@ public slots:
     void calculateSys( QVector<QVector<double>>& data );
 
     /*!
-     * \brief clearGraph: invokes method from right widget for plot cleanup process.
-     */
-    void clearGraph( void );
-
-    /*!
-     * \brief resetZoom: invokes method from right widget and resets zoom on plot.
-     */
-    void resetZoom( void );
-
-    /*!
-     * \brief moveLegend: invokes method from right widget for clockwise legend move.
-     */
-    void moveLegend( void );
-
-    /*!
-     * \brief showLegend: shows legend if it was hidden.
-     */
-    void showLegend( void );
-
-    /*!
-     * \brief stepBack: invokes method from right widget and moves state back.
-     */
-    void stepBack( void );
-
-    /*!
-     * \brief stepForward: invokes method from right widget and moves state forward.
-     */
-    void stepForward( void );
-
-    /*!
-     * \brief zoomIn: increases the plot.
-     */
-    void zoomIn( void );
-
-    /*!
-     * \brief zoomOut: decreases the plot.
-     */
-    void zoomOut( void );
-
-    /*!
-     * \brief savePlotAsImage: calls a method from the right widget to save the graph in image format.
-     */
-    void savePlotAsImage( void );
-
-    /*!
-     * \brief unpinGraph: unpins graph from main window.
-     */
-    void unpinGraph( void );
-
-    /*!
      * \brief startSession: in development. starts a data logging session for the report.
      */
     void startSession( void );
@@ -200,12 +148,6 @@ public slots:
      */
     void deleteWidgets( void );
 
-    /*!
-     * \brief couldSavePlotAsImage: return true if plot is not empty.
-     *
-     * \param couldSave: save or ignore request.
-     */
-    void couldSavePlotAsImage( bool couldSave );
     void openProgrammerDialog();
 
 signals:

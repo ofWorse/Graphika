@@ -13,13 +13,28 @@ void RightWidget::buildWidgetForDerivativeOperations( void )
 RightWidget::RightWidget( QWidget *parent )
     : QWidget{ parent }
 {
+    graphBar = new GraphBar( this );
     graphBuilder = new GraphBuilder( this );
     conveyor = new PythonConveyor();
     rightLayout = new QGridLayout( this );
-    modelLabel = new QLabel( "Полученная модель: ", this );
-    model = new QLineEdit( this );
-    rightLayout->addWidget( modelLabel );
-    rightLayout->addWidget( model );
+    //modelLabel = new QLabel( "Полученная модель: ", this );
+    //model = new QLineEdit( this );
+
+    connect( graphBar->actions().at( 0 ), &QAction::triggered, this, &RightWidget::clearGraph            );
+    connect( graphBar->actions().at( 1 ), &QAction::triggered, this, &RightWidget::resetZoom             );
+    connect( graphBar->actions().at( 2 ), &QAction::triggered, this, &RightWidget::moveLegend            );
+    connect( graphBar->actions().at( 3 ), &QAction::triggered, this, &RightWidget::showLegend            );
+    connect( graphBar->actions().at( 4 ), &QAction::triggered, this, &RightWidget::stepBack              );
+    connect( graphBar->actions().at( 5 ), &QAction::triggered, this, &RightWidget::stepForward           );
+    connect( graphBar->actions().at( 6 ), &QAction::triggered, this, &RightWidget::zoomOut               );
+    connect( graphBar->actions().at( 7 ), &QAction::triggered, this, &RightWidget::zoomIn                );
+    connect( graphBar->actions().at( 8 ), &QAction::triggered, this, &RightWidget::unpinGraph            );
+    connect( graphBar->actions().at( 9 ), &QAction::triggered, this, &RightWidget::savePlotAsImage       );
+    connect( graphBuilder, &GraphBuilder::couldSavePlotAsImage, this, &RightWidget::couldSavePlotAsImage );
+
+    connect( graphBuilder, &GraphBuilder::hideBarButtons, this, &RightWidget::hideBarButtons );
+
+    rightLayout->addWidget( graphBar );
     rightLayout->addWidget( graphBuilder );
     currentLegend = "График заданной функции";
     functionText = "График заданной функции";
@@ -33,7 +48,17 @@ void RightWidget::updateLegend( const QString& legendText )
 
 void RightWidget::setFunctionText(const QString& text) {
     functionText = text;
-    qDebug() << "Функция обновлена на:" << functionText;
+}
+
+void RightWidget::hideBarButtons( const bool& hide )
+{
+    // idgtf how to do it differently
+    graphBar->actions().at( 1 )->setDisabled( hide );
+    graphBar->actions().at( 2 )->setDisabled( hide );
+    graphBar->actions().at( 3 )->setDisabled( hide );
+    graphBar->actions().at( 6 )->setDisabled( hide );
+    graphBar->actions().at( 7 )->setDisabled( hide );
+    graphBar->actions().at( 9 )->setDisabled( hide );
 }
 
 void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
@@ -42,14 +67,10 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     y = buffer.y;
     z = buffer.z;
 
-    if( graphBuilder->graph2d->yAxis->label() == "y'" )
-    {
-        graphBuilder->onClearButtonClicked();
-        graphBuilder->graph2d->yAxis->setLabel( "y" );
-    }
+    checkoutAxeses();
+
     graphBuilder->graph2d->replot();
-    // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y,  functionText , true, false, false, z );
+    graphBuilder->PaintG( x, y, functionText, true, false, false, z );
 
     if( stack ) [[unlikely]]
     {
@@ -92,6 +113,8 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, cons
     x = buffer.x;
     y = buffer.y;
 
+    checkoutAxeses();
+
     integrationSolve( x, y, sender );
     graphBuilder->graph2d->replot();
     graphBuilder->PaintG( x, y, "Площадь функции " + functionText  + " (" + currentLegend + ")", true, false, true );
@@ -117,12 +140,8 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
         emit errorOccured( "Введите значения x по возрастанию" );
         return;
     }
-    // TODO: В отдельный метод
-    if( graphBuilder->graph2d->yAxis->label() == "y'" )
-    {
-        graphBuilder->onClearButtonClicked();
-        graphBuilder->graph2d->yAxis->setLabel( "y" );
-    }
+
+    checkoutAxeses();
 
     graphBuilder->graph2d->replot();
     graphBuilder->PaintG( x, y, "Точки интерполяции", false, true, false );
@@ -131,8 +150,7 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
     interpolationSolve( _x, _y, sender );
   
     QString str = QString::fromUtf8( resultModel.c_str() );
-    model->setText( str );
-    emit readyToSendData( model->text(), x[0], x.back() );
+    emit readyToSendData( str, x[0], x.back() );
 
     if( stack ) [[unlikely]]
     {
@@ -147,7 +165,6 @@ void RightWidget::interpolationSolve( const std::vector<double> &x, const std::v
     conveyor->setData( &PythonConveyor::pythonFilePath, sender.moduleName );
     conveyor->setData( &PythonConveyor::xVector, x );
     conveyor->setData( &PythonConveyor::yVector, y );
-
 
     conveyor->sendArraysToPythonFunction();
     QString str = conveyor->getData( &PythonConveyor::resultString );
@@ -201,9 +218,23 @@ void RightWidget::sysSolve( QVector<QVector<double>>& data, Sender &sender )
     qDebug() << resultSysStr;
 }
 
+void RightWidget::checkoutAxeses( void )
+{
+    if( graphBuilder->graph2d->yAxis->label() == "y'" )
+    {
+        graphBuilder->onClearButtonClicked();
+        graphBuilder->graph2d->yAxis->setLabel( "y" );
+    }
+}
+
 void RightWidget::clearGraph( void )
 {
-    graphBuilder->onClearButtonClicked();
+    if( graphBuilder->graph2d->isVisible() )
+    {
+        graphBuilder->onClearButtonClicked();
+        return;
+    }
+    graphBuilder->graph3d->onClearButtonClicked();
 }
 
 void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std::vector<double> y )
@@ -213,44 +244,141 @@ void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std
     graphBuilder->PaintG( X, Y, "График интерполяции (" + currentLegend + ")", true, false, false );
 }
 
-void RightWidget::moveLegend(void)
+void RightWidget::moveLegend( void )
 {
     graphBuilder->moveLegend();
 }
 
-void RightWidget::showLegend()
+void RightWidget::showLegend( void )
 {
     graphBuilder->showLegend();
+    if( !graphBar->legendEnabled )
+    {
+        graphBar->actions().at( 3 )->setIcon( QIcon( ":/toolbaricons/resources/hideLegend.PNG" ) );
+        graphBuilder->showLegend();
+        graphBar->legendEnabled = true;
+        return;
+    }
+    graphBar->actions().at( 3 )->setIcon( QIcon( ":/toolbaricons/resources/showLegend.PNG" ) );
+    graphBuilder->hideLegend();
+    graphBar->legendEnabled = false;
 }
 
-void RightWidget::hideLegend()
+void RightWidget::hideLegend( void )
 {
     graphBuilder->hideLegend();
 }
 
-void RightWidget::stepBack()
+void RightWidget::stepBack( void )
 {
-    graphBuilder->GoBack();
+    if( graphBuilder->graph2d->isVisible() )
+    {
+        graphBuilder->GoBack();
+        return;
+    }
+    graphBuilder->graph3d->stepBack();
 }
 
-void RightWidget::stepForward()
+void RightWidget::stepForward( void )
 {
-    graphBuilder->GoFront();
+    if( graphBuilder->graph2d->isVisible() )
+    {
+        graphBuilder->GoFront();
+        return;
+    }
+    graphBuilder->graph3d->stepForward();
 }
 
-void RightWidget::zoomIn()
+void RightWidget::zoomIn( void )
 {
-    graphBuilder->zoomIn();
+    if( graphBuilder->graph2d->isVisible() ) [[likely]]
+    {
+        graphBuilder->zoomIn();
+        return;
+    }
+    graphBuilder->graph3d->zoomIn();
 }
 
-void RightWidget::zoomOut()
+void RightWidget::zoomOut( void )
 {
-    graphBuilder->zoomOut();
+    if( graphBuilder->graph2d->isVisible() ) [[likely]]
+    {
+        graphBuilder->zoomOut();
+        return;
+    }
+    graphBuilder->graph3d->zoomOut();
+}
+
+void RightWidget::resetZoom( void )
+{
+    if( graphBuilder->graph2d->isVisible() ) [[likely]]
+    {
+        graphBuilder->resetZoom();
+        return;
+    }
+    //graphBuilder->graph3d->resetZoom();
+}
+
+
+void RightWidget::couldSavePlotAsImage( bool couldSave )
+{
+    graphBar->actions().at( 9 )->setEnabled( couldSave );
+}
+
+void RightWidget::unpinGraph( void )
+{
+    //graphBar->unsetChecked();
+    graphBar->actions().at( 8 )->setChecked( true );
+
+    if( unpinned )
+    {
+        graphBar->actions().at( 8 )->setChecked( false );
+        return;
+    }
+    graphBar->actions().at( 8 )->setEnabled( false );
+
+    graphBarWidth = graphBar->width();
+    graph2dHeight = graphBuilder->graph2d->height();
+    graph3dHeight = graphBuilder->graph3d->height();
+
+    QDialog* dialog = new QDialog;
+    dialog->setWindowFlags( dialog->windowFlags() & ~Qt::WindowSystemMenuHint );
+    dialog->setWindowTitle( "Unpinned plot" );
+    QVBoxLayout* layout = new QVBoxLayout( dialog );
+
+    layout->addWidget( this->graphBar );
+    layout->addWidget( graphBuilder->graph2d );
+    layout->addWidget( graphBuilder->graph3d );
+    dialog->setLayout( layout );
+
+    connect( dialog, &QDialog::finished, this, [=]( int result )
+        {
+            Q_UNUSED( result );
+            rightLayout->addWidget( graphBar );
+            rightLayout->addWidget( graphBuilder->graph2d );
+            rightLayout->addWidget( graphBuilder->graph3d );
+            graphBar->setFixedWidth( graphBarWidth );
+            graphBuilder->graph2d->setFixedHeight( graph2dHeight );
+            graphBuilder->graph3d->setFixedHeight( graph3dHeight );
+            graphBar->actions().at( 8 )->setEnabled( true );
+            dialog->deleteLater();
+            unpinned = false;
+        }
+    );
+
+    dialog->show();
+    unpinned = true;
+    graphBar->actions().at( 8 )->setChecked( false );
 }
 
 void RightWidget::savePlotAsImage()
 {
-    graphBuilder->savePlotAsImage();
+    if( graphBuilder->graph2d->isVisible() )
+    {
+        graphBuilder->savePlotAsImage();
+        return;
+    }
+    graphBuilder->graph3d->savePlotAsImage();
 }
 
 void RightWidget::rebuildWidgets( pymodules::Modules modules )
@@ -262,3 +390,4 @@ void RightWidget::rebuildWidgets( pymodules::Modules modules )
         break;
     };
 }
+

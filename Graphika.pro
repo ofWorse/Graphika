@@ -47,7 +47,8 @@ SOURCES += \
     $$IMPLDIR/ui/mainwindow.cpp \
     $$IMPLDIR/ui/menu.cpp \
     $$IMPLDIR/ui/wgts/rightwidget.cpp \
-    $$IMPLDIR/ui/toolbar.cpp \
+    $$IMPLDIR/ui/graphbar.cpp \
+    $$IMPLDIR/ui/menubar.cpp \
     $$IMPLDIR/ui/menu/referencemenu.cpp \
     $$IMPLDIR/utils/buffer.cpp \
     $$IMPLDIR/utils/sender.cpp \
@@ -56,7 +57,7 @@ SOURCES += \
     $$IMPLDIR/console/consoleapplication.cpp \
     programmerdialog.cpp \
     qcustomplot/qcustomplot.cpp \
-    $$IMPLDIR/console/commandhandler.cpp
+    $$IMPLDIR/console/commandhandler.cpp \
     $$IMPLDIR/console/commandcompleter.cpp
 
 HEADERS += \
@@ -78,7 +79,8 @@ HEADERS += \
     $$HEADDIR/ui/mainwindow.h \
     $$HEADDIR/ui/menu.h \
     $$HEADDIR/ui/wgts/rightwidget.h \
-    $$HEADDIR/ui/toolbar.h \
+    $$HEADDIR/ui/menubar.h \
+    $$HEADDIR/ui/graphbar.h \
     $$HEADDIR/ui/menu/referencemenu.h \
     $$HEADDIR/utils/buffer.h \
     $$HEADDIR/utils/errorhandler.h \

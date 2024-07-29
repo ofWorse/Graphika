@@ -28,6 +28,8 @@ void DerivationLayout::generateWidgets( Widgets& widgets )
     layout->addWidget( widgets.calculatedArea = new QLabel( "Вычисленная площадь: ", this ),
                       layout->rowCount(), 0 );
     layout->addWidget( widgets.area = new QLineEdit( this ), layout->rowCount() - 1, 1 );
+    layout->addWidget( widgets.modelLabel, layout->rowCount(), 0 );
+    layout->addWidget( widgets.model, layout->rowCount() - 1, 1, 1, 10 );
 
     layout->setColumnStretch( 1, 10 );
     layout->setColumnStretch( 0, 2 );
@@ -49,7 +51,7 @@ void DerivationLayout::generateWidgets( Widgets& widgets )
     }
 
     this->widgets = &widgets;
-    this->hideWidgets( widgets.area, widgets.calculatedArea );
+    this->hideWidgets( widgets.area, widgets.calculatedArea, widgets.modelLabel, widgets.model );
     derivativeLabel = true;
     hideFirstLayer();
 }

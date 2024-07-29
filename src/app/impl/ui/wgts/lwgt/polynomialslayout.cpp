@@ -3,6 +3,7 @@
 void PolynomialsLayout::generateWidgets( Widgets& widgets )
 {
     layout = new QGridLayout;
+
     layout->addWidget( widgets.label, 0, 0 );
     layout->addWidget( widgets.expressionInput, 0, 1, 1, 10 );
     layout->addWidget( widgets.derivativeLabel, layout->rowCount() - layout->rowCount() + 1, 0 );
@@ -28,6 +29,8 @@ void PolynomialsLayout::generateWidgets( Widgets& widgets )
     layout->addWidget( widgets.calculatedArea = new QLabel( "Вычисленная площадь: ", this ),
                       layout->rowCount(), 0 );
     layout->addWidget( widgets.area = new QLineEdit( this ), layout->rowCount() - 1, 1 );
+    layout->addWidget( widgets.modelLabel, layout->rowCount(), 0 );
+    layout->addWidget( widgets.model, layout->rowCount() - 1, 1, 1, 10 );
 
     layout->setColumnStretch( 1, 10 );
     layout->setColumnStretch( 0, 2 );

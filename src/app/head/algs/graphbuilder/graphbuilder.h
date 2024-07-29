@@ -26,7 +26,6 @@
 #include "gl3dgraphbuilder.h"
 
 struct GraphState
-
 {
     QVector<GraphInfo> graphInfoList; ///< List for saving the graph info.
 
@@ -78,7 +77,7 @@ private:
     std::vector<GraphState> graphStates; ///< Graphic state vector.
     std::vector<GraphState>::iterator currentState; ///< Iterator of the current state graph.
 
-    bool unpinned = false; ///< The variable indicates whether the graph window is detached from the general program.
+    bool unpinned{ false }; ///< The variable indicates whether the graph window is detached from the general program.
 
 public:
     QCustomPlot* graph2d; ///< The object to which all graphs are recorded.
@@ -90,7 +89,7 @@ public:
      *
      * \param parent - Pointer to the parent widget.
      */
-    explicit GraphBuilder(QWidget *parent = nullptr );
+    explicit GraphBuilder( QWidget* parent = nullptr );
 
 private:
     /*!
@@ -114,7 +113,7 @@ public slots:
      *
      * \return Graph.
      */
-    void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn, bool fillingOn , const std::optional<QVector<double>> z = std::nullopt);
+    void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn, bool fillingOn , const std::optional<QVector<double>> z = std::nullopt );
 
     /*!
      * \brief onClearButtonClicked: Erases all graphics.
@@ -186,11 +185,11 @@ public slots:
 
     void setupThreeCView();
 
-    void mousePressEventd(QMouseEvent* event);
+    void mousePressEventd( QMouseEvent* event );
 
-    void mouseMoveEventd(QMouseEvent* event);
+    void mouseMoveEventd( QMouseEvent* event );
 
-    void wheelEventd(QWheelEvent* event);
+    void wheelEventd( QWheelEvent* event );
 
     void switchToGL3DGraphBuilder( void );
     void switchToGraphBuilder( void );
@@ -201,7 +200,9 @@ signals:
      *
      * \param couldSave - Allow or disable saving the scene.
      */
-    void couldSavePlotAsImage( bool couldSave );
+    void couldSavePlotAsImage( const bool& couldSave );
+
+    void hideBarButtons( const bool& hide );
 };
 
 #endif // GRAPHBUILDER_H

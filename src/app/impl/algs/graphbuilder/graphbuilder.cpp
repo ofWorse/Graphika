@@ -27,7 +27,7 @@
 #include <QWidget>
 
 GraphBuilder::GraphBuilder( QWidget* parent )
-    : QWidget(parent)
+    : QWidget( parent )
 
 {
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
@@ -121,7 +121,7 @@ void GraphBuilder::updateGraphState( const GraphState& state )
 void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn, bool fillingOn, const std::optional<QVector<double>> z )
 {
 
-    if( z->size() > 0 )
+    if( z && z->size() > 0 && z.has_value() )
     {
         auto _x = std::vector<double>( xAxis.begin(), xAxis.end() );
         auto _y = std::vector<double>( yAxis.begin(), yAxis.end() );
@@ -134,6 +134,7 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
             points.append( QVector3D( _x[i], _y[i], _z[i] ) );
         }
         graph3d->buildGraph( points );
+        return;
     }
 
     GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn, fillingOn);
@@ -466,12 +467,14 @@ void GraphBuilder::setupThreeCView( void )
 
 void GraphBuilder::switchToGL3DGraphBuilder( void )
 {
+    emit hideBarButtons( true );
     graph2d->setVisible( false );
     graph3d->setVisible( true );
 }
 
 void GraphBuilder::switchToGraphBuilder( void )
 {
+    emit hideBarButtons( false );
     graph2d->setVisible( true );
     graph3d->setVisible( false );
 }

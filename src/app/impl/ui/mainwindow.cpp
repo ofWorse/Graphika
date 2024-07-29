@@ -5,7 +5,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
     signal( SIGSEGV, signalHandler );
 
-    resize( 1100, 720 );
+    resize( 1280, 740 );
     setMinimumSize( 640, 380 );
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
@@ -23,10 +23,10 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     connect( menu, &Menu::programmatorTriggered, this, &MainWindow::openProgrammerDialog );
 
-    toolbar = new Toolbar( this );
-    toolbar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
-    toolbar->setIconSize( *new QSize( 40, 40 ) );
-    addToolBar( Qt::TopToolBarArea, toolbar );
+    menubar = new MenuBar( this );
+    menubar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
+    menubar->setIconSize( *new QSize( 40, 40 ) );
+    addToolBar( Qt::LeftToolBarArea, menubar );
 
     QScrollArea* scrollArea = new QScrollArea( this );
     QWidget* scrollContentWidget = new QWidget;
@@ -36,7 +36,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     leftWidget = new LeftWidget( this );
     leftWidget->initLayout( buffer, pymodules::Modules::NIL );
-    toolbar->actions().at( 0 )->setChecked( true );
+    menubar->actions().at( 0 )->setChecked( true );
     connect( leftWidget->currentLayout->widgets->buildGraph, &QPushButton::clicked, this, &MainWindow::draw );
 
     rightWidget = new RightWidget( this );
@@ -57,10 +57,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     reportGenerator = new ReportGenerator( this );
 
-    //connect( rightWidget, &RightWidget::sendData, &logStack, &CompositeStateStack::receiveData );
     connect( rightWidget, &RightWidget::readyToSendData, leftWidget->currentLayout, &LayoutInitializer::acceptData );
     connect( rightWidget, &RightWidget::readyToSendArea, leftWidget->currentLayout, &LayoutInitializer::acceptArea );
-    connect( leftWidget->currentLayout, &LayoutInitializer::readyToDraw, rightWidget, &RightWidget::drawInterpolationGraph );
     scrollLayout->addWidget( leftWidget, 1, 0 );
     scrollLayout->addWidget( rightWidget, 1, 1 );
     connect( rightWidget, &RightWidget::errorOccured, leftWidget->currentLayout, &LayoutInitializer::handleParserError );
@@ -74,36 +72,21 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidget( scrollContentWidget );
     layout->addWidget( scrollArea, 0, 0 );
 
-    //connect( toolbar, &Toolbar::buildTwoDimensionalWidget, leftWidget, &LeftWidget::buildTwoDimensionalWidget );
-   // connect( toolbar, &Toolbar::buildThreeDimensionalWidget, leftWidget, &LeftWidget::buildThreeDimensionalWidget );
+    //connect( rightWidget->graphBuilder, &GraphBuilder::couldSavePlotAsImage, this, &MainWindow::couldSavePlotAsImage );
 
-    connect( toolbar->actions().at( 9 ),  &QAction::triggered, this, &MainWindow::clearGraph  );
-    connect( toolbar->actions().at( 10 ), &QAction::triggered, this, &MainWindow::resetZoom   );
-    connect( toolbar->actions().at( 11 ), &QAction::triggered, this, &MainWindow::moveLegend  );
-    connect( toolbar->actions().at( 12 ), &QAction::triggered, this, &MainWindow::showLegend  );
-    connect( toolbar->actions().at( 13 ), &QAction::triggered, this, &MainWindow::stepBack    );
-    connect( toolbar->actions().at( 14 ), &QAction::triggered, this, &MainWindow::stepForward );
-    connect( toolbar->actions().at( 15 ), &QAction::triggered, this, &MainWindow::zoomOut     );
-    connect( toolbar->actions().at( 16 ), &QAction::triggered, this, &MainWindow::zoomIn      );
-    connect( toolbar->actions().at( 17 ), &QAction::triggered, this, &MainWindow::unpinGraph  );
-    connect( toolbar->actions().at( 18 ), &QAction::triggered, this, &MainWindow::savePlotAsImage);
-    connect( rightWidget->graphBuilder, &GraphBuilder::couldSavePlotAsImage, this, &MainWindow::couldSavePlotAsImage);
-
-    toolbar->actions().at( 18 )->setEnabled( false );
-
-    menuSlots.insert( toolbar->actions().at( 0 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 0 ), [ this ]()
                      { openMenu( 0, pymodules::Modules::NIL ); } );
-    menuSlots.insert( toolbar->actions().at( 1 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 1 ), [ this ]()
                      { openMenu( 1, pymodules::Modules::DIFFERENTIATION ); } );
-    menuSlots.insert( toolbar->actions().at( 2 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 2 ), [ this ]()
                      { openMenu( 2, pymodules::Modules::INTEGRATION ); } );
-    menuSlots.insert( toolbar->actions().at( 3 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 3 ), [ this ]()
                      { openMenu( 3, pymodules::Modules::EQUATIONS ); } );
-    menuSlots.insert( toolbar->actions().at( 5 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 5 ), [ this ]()
                      { openMenu( 5, pymodules::Modules::POLYNOMIALS ); } );
-    menuSlots.insert( toolbar->actions().at( 6 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 6 ), [ this ]()
                      { openMenu( 6, pymodules::Modules::POLYNOMIALS ); } );
-    menuSlots.insert( toolbar->actions().at( 7 ), [ this ]()
+    menuSlots.insert( menubar->actions().at( 7 ), [ this ]()
                      { openMenu( 7, pymodules::Modules::POLYNOMIALS ); } );
     for( auto act = menuSlots.constBegin(); act != menuSlots.constEnd(); ++act )
     {
@@ -112,14 +95,14 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 
     programmer = new ProgrammerDialog( this );
     connect( programmer, &ProgrammerDialog::settingsApplied, leftWidget, &LeftWidget::applyProgrammerSettings );
-    connect( toolbar, &Toolbar::currentMethodChanged, rightWidget, &RightWidget::updateLegend );
-    connect(leftWidget, &LeftWidget::functionTextChanged, rightWidget, &RightWidget::setFunctionText);
+    connect( menubar, &MenuBar::currentMethodChanged, rightWidget, &RightWidget::updateLegend );
+    connect( leftWidget, &LeftWidget::functionTextChanged, rightWidget, &RightWidget::setFunctionText );
 }
 
 void MainWindow::openMenu( int index, pymodules::Modules module )
 {
-    toolbar->unsetChecked();
-    toolbar->actions().at( index )->setChecked( true );
+    menubar->unsetChecked();
+    menubar->actions().at( index )->setChecked( true );
     widgetState = module;
     buildSpecificWidget( index );
 }
@@ -186,11 +169,6 @@ void MainWindow::deleteWidgets( void )
     widgets.clear();
 }
 
-void MainWindow::couldSavePlotAsImage( bool couldSave )
-{
-    toolbar->actions().at( 18 )->setEnabled(couldSave);
-}
-
 void MainWindow::buildPolynomeGraph( void )
 {
     switch( methodOfInterpolation )
@@ -222,7 +200,7 @@ void MainWindow::printFunctionGraph( void )
 
 void MainWindow::printDiffGraph( void )
 {
-    pymodules::Methods method = toolbar->getSelectedDiffMethod();
+    pymodules::Methods method = menubar->getSelectedDiffMethod();
     sender.setMacro( method, pymodules::Modules::DIFFERENTIATION );
     if( isSession )
     {
@@ -234,7 +212,7 @@ void MainWindow::printDiffGraph( void )
 
 void MainWindow::calculateIntegral( void )
 {
-    pymodules::Methods method = toolbar->getSelectedIntegralMethod();
+    pymodules::Methods method = menubar->getSelectedIntegralMethod();
     sender.setMacro( method, pymodules::Modules::INTEGRATION );
     if( isSession )
     {
@@ -246,7 +224,7 @@ void MainWindow::calculateIntegral( void )
 
 void MainWindow::calculateSys( QVector<QVector<double>>& data )
 {
-    pymodules::Methods method = toolbar->getSelectedSysMethod();
+    pymodules::Methods method = menubar->getSelectedSysMethod();
     sender.setMacro( method, pymodules::Modules::EQUATIONS );
     rightWidget->sysSolve( data, sender );
 }
@@ -263,114 +241,6 @@ void MainWindow::invokePolynomeMethod( pymodules::Methods method )
     rightWidget->buildPolynome( buffer, sender, nullptr );
 }
 
-void MainWindow::clearGraph( void )
-{
-    toolbar->unsetChecked();
-    rightWidget->clearGraph();
-}
-
-void MainWindow::resetZoom( void )
-{
-    toolbar->unsetChecked();
-    rightWidget->graphBuilder->resetZoom();
-}
-
-void MainWindow::moveLegend( void )
-{
-    toolbar->unsetChecked();
-    rightWidget->moveLegend();
-}
-
-void MainWindow::showLegend( void )
-{
-    toolbar->unsetChecked();
-    if( !legendEnabled )
-    {
-        toolbar->actions().at( 12 )->setIcon( QIcon( ":/toolbaricons/resources/hideLegend.PNG" ) );
-        rightWidget->showLegend();
-        legendEnabled = true;
-        return;
-    }
-    toolbar->actions().at( 12 )->setIcon( QIcon( ":/toolbaricons/resources/showLegend.PNG" ) );
-    rightWidget->hideLegend();
-    legendEnabled = false;
-}
-
-void MainWindow::stepBack( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 13 )->setChecked( true );
-    rightWidget->stepBack();
-    toolbar->actions().at( 13 )->setChecked( false );
-}
-
-void MainWindow::stepForward( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 14 )->setChecked( true );
-    rightWidget->stepForward();
-    toolbar->actions().at( 14 )->setChecked( false );
-}
-
-void MainWindow::zoomIn( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 16 )->setChecked( true );
-    rightWidget->zoomIn();
-    toolbar->actions().at( 16 )->setChecked( false );
-}
-
-void MainWindow::zoomOut( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 15 )->setChecked( true );
-    rightWidget->zoomOut();
-    toolbar->actions().at( 15 )->setChecked( false );
-}
-
-void MainWindow::savePlotAsImage( void )
-{
-    toolbar->unsetChecked();
-    rightWidget->savePlotAsImage();
-}
-
-void MainWindow::unpinGraph( void )
-{
-    toolbar->unsetChecked();
-    toolbar->actions().at( 17 )->setChecked( true );
-
-    if( unpinned )
-    {
-        toolbar->actions().at( 17 )->setChecked( false );
-        return;
-    }
-    toolbar->actions().at( 17 )->setEnabled( false );
-
-
-    QDialog* dialog = new QDialog( this );
-    dialog->setWindowFlags( dialog->windowFlags() & ~Qt::WindowSystemMenuHint );
-    dialog->setWindowTitle( "Unpinned plot" );
-    QVBoxLayout* layout = new QVBoxLayout( dialog );
-
-    layout->addWidget( this->toolbar );
-    layout->addWidget( rightWidget->graphBuilder->graph2d );
-    dialog->setLayout( layout );
-
-    connect( dialog, &QDialog::finished, this, [=]( int result )
-        {
-            Q_UNUSED( result );
-            rightWidget->rightLayout->addWidget( rightWidget->graphBuilder->graph2d );
-            toolbar->actions().at( 17 )->setEnabled( true );
-            this->addToolBar( this->toolbar );
-            dialog->deleteLater();
-            unpinned = false;
-        }
-    );
-
-    dialog->show();
-    unpinned = true;
-    toolbar->actions().at( 17 )->setChecked( false );
-}
 
 void MainWindow::openAboutMenu( void )
 {

@@ -73,6 +73,9 @@ public:
     QLabel* resultDescription;               ///< Label for displaying the result description
     QLineEdit* description;                  ///< Line edit for displaying the description
 
+    QLineEdit* model;                        ///< label for entering model string data.
+    QLabel* modelLabel;                      ///< interpolation model label
+
     QLabel* calculatedArea;                  ///< Label for displaying the calculated area
     QLineEdit* area;                         ///< Line edit for displaying the area
 
@@ -106,6 +109,9 @@ public:
 
         typeOfVariableInput = new QComboBox( this );
         typeOfVariableInput->addItems( { "с шагом", "с узлами" } );
+
+        model = new QLineEdit( this );
+        modelLabel = new QLabel( "P(x) = ", this );
 
         {  // Переменные элементы
             minLabel = new QLabel( "Xmin", this );

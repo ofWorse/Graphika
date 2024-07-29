@@ -20,8 +20,10 @@
 class PolynomialsLayout : public LayoutInitializer
 {
     Q_OBJECT
+
 private:
     QGridLayout* layout; ///< a grid layout for widgets.
+
 public:
     /*!
      * standard class-destructor.

@@ -2,13 +2,16 @@
 #define GL3DGRAPBUILDER_H
 
 #include "qevent.h"
+#include <QFileDialog>
+#include <QDebug>
+#include <QImage>
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QOpenGLFramebufferObject>
 #include <GL/gl.h>
-
 
 class GL3DGraphBuilder : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -29,6 +32,10 @@ private:
     };
 
     QVector<GraphData> figures;
+    QVector<GraphData> buffer;
+
+    QList<QVector<QVector3D>> graphStates;
+    int currentState = 0;
 
     float axisLineWidth;
     float gridLineWidth;
@@ -39,21 +46,20 @@ public:
 
     void buildGraph( const QVector<QVector3D>& points )
     {
-        /*
-        GraphData graph;
-        graph.color = getRandomColor();
-        graph.vertices = points;
-
-        figures.append( graph );
-        this->points = points;
-        update();
-        */
         GraphData graphData;
         graphData.vertices = points;
         graphData.color = getRandomColor();
         figures.push_back(graphData);
         update();
     }
+
+    void onClearButtonClicked( void );
+    void resetZoom( void );
+    void zoomIn( void );
+    void zoomOut( void );
+    void stepBack( void );
+    void stepForward( void );
+    void savePlotAsImage( void );
 
 protected:
 
@@ -74,6 +80,8 @@ private:
                                 static_cast<float>(rand())/RAND_MAX,
                                 static_cast<float>(rand())/RAND_MAX );
     }
+
+    void render( QOpenGLFramebufferObject *fbo );
 
 signals:
     void dataUpdated();
