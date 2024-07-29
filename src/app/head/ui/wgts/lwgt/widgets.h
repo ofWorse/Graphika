@@ -10,6 +10,7 @@
 #define WIDGETS_H
 
 #include "validatestring.h"
+#include "errorlabel.h"
 #include <QLineEdit>
 #include <QWidget>
 #include <QLabel>
@@ -35,7 +36,7 @@ public:
     StringParser* parser;                    ///< expression validator-calculator.
 
     QLabel* label;                           ///< Label for displaying information
-    QLabel* errLabel;                        ///< Label for displaying error messages
+    ErrorLabel* errLabel;
     QLabel* xIs;                             ///< Label for displaying the variable 'x'
     QSpinBox* xVariables;                    ///< Spin box for selecting the number of 'x' variables
     QLabel* typeOfInput;                     ///< Label for displaying the type of input
@@ -103,7 +104,7 @@ public:
         parser = new StringParser( this );
 
         label = new QLabel( "f(x) = ", this );
-        errLabel = new QLabel( "", this );
+        errLabel = new ErrorLabel;
 
         typeOfInput = new QLabel( "Ввод значений:", this );
 

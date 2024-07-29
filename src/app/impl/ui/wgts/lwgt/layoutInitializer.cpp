@@ -52,7 +52,6 @@ void LayoutInitializer::clearDataTable( void )
     widgets->tableWidget->setRowCount( 0 );
     widgets->equationsTableWidget->clearContents();
     widgets->eqResult->clear();
-    widgets->errLabel->clear();
     widgets->X.clear();
     widgets->Y.clear();
     widgets->dY.clear();
@@ -302,8 +301,8 @@ void LayoutInitializer::showTable( const std::vector<double> x, const std::vecto
 void LayoutInitializer::handleParserError( const QString& err )
 {
     couldBuildTable = false;
-    widgets->errLabel->setStyleSheet( "QLabel { color : red; }" );
-    widgets->errLabel->setText( err + "!" );
+    widgets->errLabel->setPopupText( err + "!" );
+    widgets->errLabel->show();
 }
 
 void LayoutInitializer::acceptData( const QString& model, const double a, const double b )

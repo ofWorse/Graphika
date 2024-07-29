@@ -9,8 +9,8 @@
 #ifndef SENDER_H
 #define SENDER_H
 
-#include "../algs/pythonconveyor.h"
-#include "../settings/settings.h"
+#include "pythonconveyor.h"
+#include "settings.h"
 #include <QString>
 
 /*!
