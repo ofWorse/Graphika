@@ -42,6 +42,15 @@ public:
      * \return private class member layout.
      */
     QGridLayout* get( void ) override;
+
+public slots:
+    void updateEquationsButtonsPosition();
+    void onAddEquationRowButtonClicked();
+    void onRemoveEquationRowButtonClicked();
+
+signals:
+    void equationsTableEdited();
+
 };
 
 #endif

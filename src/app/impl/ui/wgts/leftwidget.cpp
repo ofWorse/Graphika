@@ -115,6 +115,8 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
         }
         emit functionTextChanged( "f(x) = " + text );
     });
+    connect( currentLayout, &LayoutInitializer::tableEdited, this, &LeftWidget::onTableEdited );
+    connect( equationsLayout, &EquationsLayout::equationsTableEdited, this, &LeftWidget::onEquationsTableEdited);
 }
 
 void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals)
@@ -141,4 +143,28 @@ void LeftWidget::applyStoredSettings( void )
     widgets->yMin->setRange(programmerSetting.yMin, programmerSetting.yMax);
     widgets->yMax->setRange(programmerSetting.yMin, programmerSetting.yMax);
     widgets->nodes->setRange(programmerSetting.minNodes, programmerSetting.maxNodes);
+}
+
+void LeftWidget::onTableEdited()
+{
+    if (currentLayout == polynomialsLayout)
+    {
+        return;
+    }
+    connect( currentLayout->widgets->tableWidget->horizontalHeader(), &QHeaderView::sectionResized, currentLayout, &LayoutInitializer::updateButtonsPosition );
+    QTimer::singleShot(2, currentLayout, &LayoutInitializer::updateButtonsPosition);
+    currentLayout->updateButtonsPosition();
+}
+
+void LeftWidget::onEquationsTableEdited()
+{
+
+    if (currentLayout != equationsLayout)
+    {
+        return;
+    }
+    connect( equationsLayout->widgets->equationsTableWidget->horizontalHeader(), &QHeaderView::sectionResized, equationsLayout, &EquationsLayout::updateEquationsButtonsPosition );
+    QTimer::singleShot(2, equationsLayout, &EquationsLayout::updateEquationsButtonsPosition );
+    equationsLayout->updateEquationsButtonsPosition();
+
 }

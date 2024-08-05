@@ -86,6 +86,9 @@ public slots:
     void initLayout( SpecialBuffer& buffer, pymodules::Modules module );
 
     void applyProgrammerSettings( double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals );
+    void onTableEdited();
+    void onEquationsTableEdited();
+
 
 signals:
     void switchToGL3DGraphBuilder( void );

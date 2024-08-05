@@ -27,23 +27,85 @@ void LayoutInitializer::acceptArea( const std::string& area )
 void LayoutInitializer::editTable( void )
 {
     clearDataTable();
-    if( widgets->tableWidget->columnCount() == 3 )
-    {
-        widgets->tableWidget->setColumnCount( 3 );
-    }
-    else
-    {
-        widgets->tableWidget->setColumnCount( 2 );
-    }
-    widgets->tableWidget->setRowCount( 10 );
-    for( int row{}; row < widgets->tableWidget->rowCount(); ++row )
+    int columnCount = (widgets->tableWidget->columnCount() == 3) ? 3 : 2;
+    int initialRowCount = 10; // начальное количество строк
+    int totalRowCount = initialRowCount ; // +1 для строки с кнопками
+
+    widgets->tableWidget->setColumnCount(columnCount);
+    widgets->tableWidget->setRowCount(totalRowCount);
+
+    for( int row{}; row < initialRowCount; ++row )
     {
         QRadioButton* button = new QRadioButton;
-        widgets->tableWidget->setCellWidget( row, widgets->tableWidget->columnCount(), button );
+        widgets->tableWidget->setCellWidget( row, columnCount, button );
     }
-    widgets->solve->setEnabled( false );
-    widgets->solve->setStyleSheet( "background-color: tomato;" );
-    widgets->buildGraph->setEnabled( true );
+
+
+    widgets->solve->setEnabled(false);
+    widgets->solve->setStyleSheet("background-color: tomato;");
+    widgets->buildGraph->setEnabled(true);
+    emit tableEdited();
+}
+
+void LayoutInitializer::onAddRowButtonClicked()
+{
+    int rowCount = widgets->tableWidget->rowCount();
+    widgets->tableWidget->insertRow(rowCount - 1);
+}
+
+void LayoutInitializer::onRemoveRowButtonClicked()
+{
+    int rowCount = widgets->tableWidget->rowCount();
+    if (rowCount > 1) // Не удалять последнюю строку с кнопками
+    {
+        widgets->tableWidget->removeRow(rowCount - 2);
+    }
+}
+
+void LayoutInitializer::updateButtonsPosition()
+{
+    // Проверяем, существует ли уже buttonsWidget
+    if (widgets->buttonsWidget != nullptr)
+    {
+        widgets->buttonsWidget->hide();
+        delete widgets->buttonsWidget;
+    }
+
+    widgets->buttonsWidget = new QWidget(widgets->tableWidget->parentWidget());
+    QVBoxLayout* buttonsLayout = new QVBoxLayout(widgets->buttonsWidget);
+
+    QPushButton* addButton = new QPushButton("+");
+    addButton->setFixedSize(30, 30);
+    addButton->setStyleSheet("border-radius: 15px; background-color: limegreen; font-weight: bold;");
+
+    QPushButton* removeButton = new QPushButton("-");
+    removeButton->setFixedSize(30, 30);
+    removeButton->setStyleSheet("border-radius: 15px; background-color: orange; font-weight: bold;");
+
+    buttonsLayout->addWidget(addButton);
+    buttonsLayout->addWidget(removeButton);
+    buttonsLayout->addStretch();
+
+    widgets->buttonsWidget->setLayout(buttonsLayout);
+
+    QRect tableGeometry = widgets->tableWidget->geometry();
+    int columnCount = widgets->tableWidget->columnCount();
+    int lastColumnWidth = widgets->tableWidget->columnWidth(columnCount - 1);
+
+    // Получаем размер крайнего правого заголовка колонки
+    int headerWidth = widgets->tableWidget->horizontalHeader()->sectionSize(columnCount - 1);
+
+    int buttonWidgetX = tableGeometry.left() + widgets->tableWidget->verticalHeader()->width()
+                        + widgets->tableWidget->columnViewportPosition(columnCount - 1)
+                        + headerWidth + 5; // +5 для небольшого отступа
+    int buttonWidgetY = tableGeometry.top() + (tableGeometry.height() / 2) - (widgets->buttonsWidget->height() / 2);
+
+    widgets->buttonsWidget->setGeometry(buttonWidgetX, buttonWidgetY, widgets->buttonsWidget->sizeHint().width(), widgets->buttonsWidget->sizeHint().height());
+
+    connect(addButton, &QPushButton::clicked, this, &LayoutInitializer::onAddRowButtonClicked);
+    connect(removeButton, &QPushButton::clicked, this, &LayoutInitializer::onRemoveRowButtonClicked);
+
+    widgets->buttonsWidget->show();
 }
 
 void LayoutInitializer::clearDataTable( void )
@@ -344,3 +406,66 @@ void LayoutInitializer::setEquationsResult(const QString &result)
 {
     widgets->eqResult->setText( result );
 }
+
+/*
+void LayoutInitializer::updateEquationsButtonsPosition()
+{
+    // Проверяем, существует ли уже equationsButtonsWidget
+    if (widgets->equationsButtonsWidget != nullptr)
+    {
+        widgets->equationsButtonsWidget->hide();
+        delete widgets->equationsButtonsWidget;
+    }
+
+    widgets->equationsButtonsWidget = new QWidget(widgets->equationsTableWidget->parentWidget());
+    QVBoxLayout* buttonsLayout = new QVBoxLayout(widgets->equationsButtonsWidget);
+
+    QPushButton* addButton = new QPushButton("+");
+    addButton->setFixedSize(30, 30);
+    addButton->setStyleSheet("border-radius: 15px; background-color: limegreen; font-weight: bold;");
+
+    QPushButton* removeButton = new QPushButton("-");
+    removeButton->setFixedSize(30, 30);
+    removeButton->setStyleSheet("border-radius: 15px; background-color: orange; font-weight: bold;");
+
+    buttonsLayout->addWidget(addButton);
+    buttonsLayout->addWidget(removeButton);
+    buttonsLayout->addStretch();
+
+    widgets->equationsButtonsWidget->setLayout(buttonsLayout);
+
+    QRect tableGeometry = widgets->equationsTableWidget->geometry();
+    int columnCount = widgets->equationsTableWidget->columnCount();
+    int lastColumnWidth = widgets->equationsTableWidget->columnWidth(columnCount - 1);
+
+    // Получаем размер крайнего правого заголовка колонки
+    int headerWidth = widgets->equationsTableWidget->horizontalHeader()->sectionSize(columnCount - 1);
+
+    int buttonWidgetX = tableGeometry.left() + widgets->equationsTableWidget->verticalHeader()->width()
+                        + widgets->equationsTableWidget->columnViewportPosition(columnCount - 1)
+                        + headerWidth + 5; // +5 для небольшого отступа
+    int buttonWidgetY = tableGeometry.top() + (tableGeometry.height() / 2) - (widgets->equationsButtonsWidget->height() / 2);
+
+    widgets->equationsButtonsWidget->setGeometry(buttonWidgetX, buttonWidgetY, widgets->equationsButtonsWidget->sizeHint().width(), widgets->equationsButtonsWidget->sizeHint().height());
+
+    connect(addButton, &QPushButton::clicked, this, &LayoutInitializer::onAddEquationRowButtonClicked);
+    connect(removeButton, &QPushButton::clicked, this, &LayoutInitializer::onRemoveEquationRowButtonClicked);
+
+    widgets->equationsButtonsWidget->show();
+}
+
+void LayoutInitializer::onAddEquationRowButtonClicked()
+{
+    int rowCount = widgets->equationsTableWidget->rowCount();
+    widgets->equationsTableWidget->insertRow(rowCount);
+}
+
+void LayoutInitializer::onRemoveEquationRowButtonClicked()
+{
+    int rowCount = widgets->equationsTableWidget->rowCount();
+    if (rowCount > 0) // Не удалять последнюю строку
+    {
+        widgets->equationsTableWidget->removeRow(rowCount - 1);
+    }
+}
+*/
