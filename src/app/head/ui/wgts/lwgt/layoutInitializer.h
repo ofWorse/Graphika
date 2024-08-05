@@ -187,11 +187,22 @@ public slots:
      */
     void acceptArea( const std::string& area );
 
+    void onAddRowButtonClicked();
+    void onRemoveRowButtonClicked();
+    void updateButtonsPosition();
+
+    /*
+    void updateEquationsButtonsPosition();
+    void onAddEquationRowButtonClicked();
+    void onRemoveEquationRowButtonClicked();
+    */
+
 signals:
     /*!
      * \brief validExpression: is given math expression was typed currectly.
      */
     void validExpression( void );
+    void tableEdited();
 
     /*!
      * \brief invalidExpression: is given math expression was typed  incorrect.

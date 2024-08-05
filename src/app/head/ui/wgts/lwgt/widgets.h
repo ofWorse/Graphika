@@ -86,7 +86,8 @@ public:
     std::vector<double> dY;                  ///< Vector for storing derivative values
 
     QPushButton* buildGraph;                 ///< Button for building the graph
-
+    QWidget* buttonsWidget;
+    QWidget* equationsButtonsWidget;
 
     /*!
      * \brief Widgets: constructor with standard heir argument.
@@ -166,6 +167,8 @@ public:
         QStringList labels;
         labels << "X" << "Y";
         tableWidget->setHorizontalHeaderLabels( labels );
+        buttonsWidget = new QWidget( this );
+        equationsButtonsWidget = new QWidget( this );
 
         setRange();
     }
