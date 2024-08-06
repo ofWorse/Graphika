@@ -12,16 +12,17 @@ IMPLDIR = $$SRCDIR/impl
 # In order to do so, uncomment the following line.
 # DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-RESOURCES += icons.qrc \
+RESOURCES += \
+    icons.qrc \
     pymodules.qrc \
     referenceinfo.qrc \
     resources/web/web.qrc \
 
-INCLUDEPATH += ./python3.11 $$HEADDIR $$HEADDIR/algs \
+INCLUDEPATH += ./python3.11 ./qcustomplot/include $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
     $$HEADDIR/ui/wgts/rwgt $$HEADDIR/settings $$HEADDIR/utils \
     $$HEADDIR/ui/menu $$HEADDIR/console $$HEADDIR/algs/graphbuilder \
-    $$HEADDIR/utils/notes
+    $$HEADDIR/utils/notes $$HEADDIR/algs/repgen
 
 LIBS += -lpython3.11
 
@@ -29,14 +30,14 @@ VPATH += $$IMPLDIR $$IMPLDIR/algs \
     $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/lwgt \
     $$IMPLDIR/utils $$IMPLDIR/ui/wgts/rwgt \
     $$IMPLDIR/ui/menu $$IMPLDIR/console $$IMPLDIR/algs/graphbuilder \
-    $$IMPLDIR/utils/notes
+    $$IMPLDIR/utils/notes $$IMPLDIR/algs/repgen
 
 SOURCES += \
-    $$IMPLDIR/algs/compositestatestack.cpp \
+    $$IMPLDIR/algs/repgen/loglist.cpp \
     $$IMPLDIR/algs/graphbuilder/graphbuilder.cpp \
     $$IMPLDIR/algs/graphbuilder/gl3dgraphbuilder.cpp \
     $$IMPLDIR/algs/pythonconveyor.cpp \
-    $$IMPLDIR/algs/reportgenerator.cpp \
+    $$IMPLDIR/algs/repgen/reportgenerator.cpp \
     $$IMPLDIR/algs/stringparser.cpp \
     $$IMPLDIR/utils/mathutils.cpp \
     $$IMPLDIR/ui/wgts/leftwidget.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
     $$IMPLDIR/ui/wgts/lwgt/polynomialslayout.cpp \
     $$IMPLDIR/ui/wgts/lwgt/layoutInitializer.cpp \
     $$IMPLDIR/ui/mainwindow.cpp \
+    $$IMPLDIR/ui/sessionwindow.cpp \
     $$IMPLDIR/ui/menu.cpp \
     $$IMPLDIR/ui/wgts/rightwidget.cpp \
     $$IMPLDIR/ui/graphbar.cpp \
@@ -64,12 +66,12 @@ SOURCES += \
     $$IMPLDIR/console/commandcompleter.cpp
 
 HEADERS += \
-    $$HEADDIR/algs/compositestatestack.h \
+    $$HEADDIR/algs/repgen/loglist.h \
     $$HEADDIR/algs/expressionvalidator.h \
     $$HEADDIR/algs/graphbuilder/graphbuilder.h \
     $$HEADDIR/algs/graphbuilder/gl3dgraphbuilder.h \
     $$HEADDIR/algs/pythonconveyor.h \
-    $$HEADDIR/algs/reportgenerator.h \
+    $$HEADDIR/algs/repgen/reportgenerator.h \
     $$HEADDIR/algs/stringparser.h \
     $$HEADDIR/settings/settings.h \
     $$HEADDIR/ui/wgts/leftwidget.h \
@@ -80,6 +82,7 @@ HEADERS += \
     $$HEADDIR/ui/wgts/lwgt/polynomialslayout.h \
     $$HEADDIR/ui/wgts/lwgt/layoutInitializer.h \
     $$HEADDIR/ui/mainwindow.h \
+    $$HEADDIR/ui/sessionwindow.h \
     $$HEADDIR/ui/menu.h \
     $$HEADDIR/ui/wgts/rightwidget.h \
     $$HEADDIR/ui/menubar.h \

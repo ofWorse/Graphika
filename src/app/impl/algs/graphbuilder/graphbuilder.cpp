@@ -42,7 +42,7 @@ GraphBuilder::GraphBuilder( QWidget* parent )
     connect( graph2d, &QCustomPlot::mouseMove, this, &GraphBuilder::onMousMove );
     connect( graph2d, &QCustomPlot::mouseMove, this, &GraphBuilder::textVisible );
 
-    graph2d->setMinimumSize( 550, 500 );
+    graph2d->setMinimumSize( 950, 850 );
 
     tracer = new QCPItemTracer( graph2d );
     tracer->setGraph( graph2d->graph( 0 ) );
@@ -54,7 +54,6 @@ GraphBuilder::GraphBuilder( QWidget* parent )
 
     graph2d->replot();
 
-    graph3d->setMinimumSize( 550, 500 );
     graph3d->hide();
 
     layout->addWidget( graph2d );
@@ -118,7 +117,7 @@ void GraphBuilder::updateGraphState( const GraphState& state )
     graph2d->replot();
 }
 
-void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn, bool fillingOn, const std::optional<QVector<double>> z )
+std::optional<QCustomPlot*> GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& yAxis, const QString& name, bool graphOn, bool scatterOn, bool fillingOn, const std::optional<QVector<double>> z )
 {
 
     if( z && z->size() > 0 && z.has_value() )
@@ -134,7 +133,7 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
             points.append( QVector3D( _x[i], _y[i], _z[i] ) );
         }
         graph3d->buildGraph( points );
-        return;
+        return std::nullopt;
     }
 
     GraphInfo newGraphInfo( name, xAxis, yAxis, graphOn, scatterOn, fillingOn);
@@ -143,7 +142,7 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
             return info.name == newGraphInfo.name && info.xAxis == newGraphInfo.xAxis && info.yAxis == newGraphInfo.yAxis;
         } ) != graphInfoList.end() )
     {
-        return;
+        return std::nullopt;
     }
 
     graphInfoList.append( newGraphInfo );
@@ -236,7 +235,7 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
     }
     graph2d->graph( i )->setData( xAxis, yAxis );
     graph2d->graph( i )->setLineStyle( graphOn ? QCPGraph::lsLine : QCPGraph::lsNone );
-    QColor color = QColor::fromRgb( QRandomGenerator::global()->bounded( 172 ),
+    color = QColor::fromRgb( QRandomGenerator::global()->bounded( 172 ),
                                    QRandomGenerator::global()->bounded( 172 ),
                                    QRandomGenerator::global()->bounded( 172 ) );
     QPen pin( color );
@@ -254,11 +253,14 @@ void GraphBuilder::PaintG( const QVector<double>& xAxis, const QVector<double>& 
     graph2d->graph( i )->setPen( pen );
     graph2d->graph( i )->setName( name );
     graph2d->graph( i )->setVisible( graphOn || scatterOn );
+
     graph2d->replot();
 
     ++i;
     graph2d->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom |QCP::iSelectPlottables );
     emit couldSavePlotAsImage( true );
+
+    return graph2d;
 }
 
 void GraphBuilder::onClearButtonClicked()

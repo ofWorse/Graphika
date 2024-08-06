@@ -22,5 +22,7 @@
         <file>resources/rotateLegend.PNG</file>
         <file>resources/savePlotAsImage.png</file>
         <file>resources/about.PNG</file>
+        <file>resources/reddot.png</file>
+        <file>resources/emptypng.png</file>
     </qresource>
 </RCC>

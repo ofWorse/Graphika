@@ -28,7 +28,6 @@ QAction* programmatorAction;
 private:
     QWidget* parent; ///< A pointer to the parent widget of the menu.
     QAction* startSessionAction; ///< A QAction representing the action to start a session.
-    QAction* endSessionAction; ///< A QAction representing the action to end a session.
     QAction* authorsAction; ///< A QAction representing the action to display the authors' information.
     QMenuBar* menu; ///< A pointer to the QMenuBar object representing the main menu.
 
@@ -54,14 +53,6 @@ public:
      */
     QAction* getStartSessionAction( void ) const
     { return startSessionAction; }
-
-    /*!
-     * \brief getStartSessionAction: standard getter.
-     *
-     * \return endSessionAction.
-     */
-    QAction* getEndSessionAction( void ) const
-    { return endSessionAction; }
 
 private:
     /*!

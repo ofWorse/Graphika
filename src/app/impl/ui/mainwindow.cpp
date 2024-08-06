@@ -5,7 +5,7 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
     signal( SIGSEGV, signalHandler );
 
-    resize( 1280, 740 );
+    resize( 1920, 1080 );
     setMinimumSize( 640, 380 );
     setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
     setWindowTitle( "Graphika" );
@@ -14,7 +14,6 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     menu = new Menu( this );
     setMenuBar( menu->getMenu() );
     connect( menu, &Menu::sessionStarted, this, &MainWindow::startSession );
-    connect( menu, &Menu::sessionStopped, this, &MainWindow::endSession );
     connect( menu, &Menu::licenseMenuOppened, this, &MainWindow::openLicenseMenu );
     connect( menu, &Menu::aboutMenuOppened, this, &MainWindow::openAboutMenu );
     connect( menu, &Menu::authorsMenuOppened, this, &MainWindow::openAuthorsMenu );
@@ -55,9 +54,8 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     scrollArea->setWidget( scrollContentWidget );
     scrollArea->setWidgetResizable( true );
 
-    reportGenerator = new ReportGenerator( this );
+    reportGenerator = new ReportGenerator;
 
-    connect( rightWidget, &RightWidget::readyToSendData, leftWidget->currentLayout, &LayoutInitializer::acceptData );
     connect( rightWidget, &RightWidget::readyToSendArea, leftWidget->currentLayout, &LayoutInitializer::acceptArea );
     scrollLayout->addWidget( leftWidget, 1, 0 );
     scrollLayout->addWidget( rightWidget, 1, 1 );
@@ -192,6 +190,7 @@ void MainWindow::printFunctionGraph( void )
     if( isSession )
     {
         rightWidget->printGraph( buffer, sender, &logStack );
+        sessionWidget->addGraphToCounter();
         return;
     }
     rightWidget->printGraph( buffer, sender, nullptr );
@@ -205,6 +204,7 @@ void MainWindow::printDiffGraph( void )
     if( isSession )
     {
         rightWidget->printDiffGraph( buffer, sender, &logStack );
+        sessionWidget->addGraphToCounter();
         return;
     }
     rightWidget->printDiffGraph( buffer, sender, nullptr );
@@ -217,6 +217,7 @@ void MainWindow::calculateIntegral( void )
     if( isSession )
     {
         rightWidget->calculateIntegral( buffer, sender, &logStack );
+        sessionWidget->addGraphToCounter();
         return;
     }
     rightWidget->calculateIntegral( buffer, sender, nullptr );
@@ -236,6 +237,7 @@ void MainWindow::invokePolynomeMethod( pymodules::Methods method )
     if( isSession )
     {
         rightWidget->buildPolynome( buffer, sender, &logStack );
+        sessionWidget->addGraphToCounter();
         return;
     }
     rightWidget->buildPolynome( buffer, sender, nullptr );
@@ -259,21 +261,17 @@ void MainWindow::openLicenseMenu( void )
 
 void MainWindow::startSession( void )
 {
+    sessionWidget = new SessionWidget(this);
+
+    addToolBar( Qt::RightToolBarArea, sessionWidget->getToolBar() );
+    sessionWidget->startSession();
+
     isSession = true;
-    menu->getEndSessionAction()->setEnabled( true );
     menu->getStartSessionAction()->setEnabled( false );
-
-    reportGenerator->startSession();
-}
-
-void MainWindow::endSession( void )
-{
-    isSession = false;
-    menu->getEndSessionAction()->setEnabled( false );
-    menu->getStartSessionAction()->setEnabled( true );
-
-    reportGenerator->endSession();
-    reportGenerator->generateReport( logStack, ReportGenerator::ReportFormat::PDF, "report" );
+    auto* l = new ErrorLabel( this );
+    l->setPopupText( "Начался сессионный режим" );
+    l->show();
+    connect(sessionWidget, &SessionWidget::sessionStopped, this, &MainWindow::showSaveDialog);
 }
 
 void MainWindow::openProgrammerDialog()
@@ -282,4 +280,45 @@ void MainWindow::openProgrammerDialog()
     programmer->resize( 600, 400 );
     programmer->move( 100, 100 );
     programmer->show();
+}
+
+void MainWindow::showSaveDialog( const QTime& elapsedTime )
+{
+    isSession = false;
+
+    QDialog* saveDialog = new QDialog(this);
+    saveDialog->setWindowTitle("Сохранить результат проделанной работы");
+
+    QLineEdit* titleEdit = new QLineEdit();
+    titleEdit->setPlaceholderText("Наименование работы");
+
+    QLineEdit* authorsEdit = new QLineEdit();
+    authorsEdit->setPlaceholderText("Работу выполнил(и)");
+
+    QPushButton* saveButton = new QPushButton("Сохранить");
+    QPushButton* cancelButton = new QPushButton("Отмена");
+
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->addWidget(titleEdit);
+    layout->addWidget(authorsEdit);
+    layout->addWidget(saveButton);
+    layout->addWidget(cancelButton);
+
+    saveDialog->setLayout(layout);
+
+    connect(saveButton, &QPushButton::clicked, [this, saveDialog, titleEdit, authorsEdit, elapsedTime]() {
+        QString title = titleEdit->text();
+        QString authors = authorsEdit->text();
+        QString filePath = QFileDialog::getSaveFileName(this, "Save PDF", QString(), "PDF Files (*.pdf)");
+        if (!filePath.isEmpty()) {
+            reportGenerator->generateReport( logStack, title, authors, elapsedTime, filePath );
+            saveDialog->accept();
+        }
+    });
+
+    connect(cancelButton, &QPushButton::clicked, saveDialog, &QDialog::reject);
+
+    saveDialog->exec();
+
+    menu->getStartSessionAction()->setEnabled( true );
 }

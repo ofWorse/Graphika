@@ -1,4 +1,4 @@
-#include_next "buffer.h"
+#include "buffer.h"
 
 SpecialBuffer::SpecialBuffer()
 {
