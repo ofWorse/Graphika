@@ -11,7 +11,6 @@
 #ifndef GRAPHBUILDER_H
 #define GRAPHBUILDER_H
 
-#include <QMainWindow>
 #include <qcustomplot/qcustomplot.h>
 #include <QDebug>
 #include <string>
@@ -82,6 +81,7 @@ private:
 public:
     QCustomPlot* graph2d; ///< The object to which all graphs are recorded.
     GL3DGraphBuilder* graph3d;
+    QColor color;
 
 public:
     /*!
@@ -113,7 +113,7 @@ public slots:
      *
      * \return Graph.
      */
-    void PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn, bool fillingOn , const std::optional<QVector<double>> z = std::nullopt );
+    std::optional<QCustomPlot*> PaintG( const QVector<double>& x, const QVector<double>& y, const QString& name, bool graphOn, bool scatterOn, bool fillingOn , const std::optional<QVector<double>> z = std::nullopt );
 
     /*!
      * \brief onClearButtonClicked: Erases all graphics.

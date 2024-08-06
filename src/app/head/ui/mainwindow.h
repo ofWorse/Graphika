@@ -13,10 +13,11 @@
 #include "leftwidget.h"
 #include "rightwidget.h"
 #include "sender.h"
-#include "compositestatestack.h"
+#include "loglist.h"
 #include "menu.h"
 #include "referencemenu.h"
 #include "reportgenerator.h"
+#include "sessionwindow.h"
 
 /*!
  * \class
@@ -33,13 +34,14 @@ private:
     MenuBar* menubar; ///< items for window switching.
     QWidget* centralwidget; ///< bottom layer.
     ProgrammerDialog* programmer;
+    SessionWidget* sessionWidget;
 
     LeftWidget* leftWidget; ///< main left side widgets initializator.
     RightWidget* rightWidget; ///< main right side widgets initializator.
     QGridLayout* scrollLayout; ///< scrolling system.
     QGridLayout* layout; ///< main layout.
     SpecialBuffer buffer; ///< buffer for data transfer.
-    CompositeStateStack logStack; ///< stack for PDF reporter logs.
+    LogList logStack; ///< stack for PDF reporter logs.
     Sender sender; ///< data sender to right and left widgets.
     ReportGenerator* reportGenerator; ///< creates report in pdf or docx format with user data logs.
 
@@ -119,11 +121,6 @@ public slots:
     void startSession( void );
 
     /*!
-     * \brief endSession: in development. ends a data logging session for the report.
-     */
-    void endSession( void );
-
-    /*!
      * \brief openAboutMenu: invokes about list menu.
      */
     void openAboutMenu( void );
@@ -149,6 +146,9 @@ public slots:
     void deleteWidgets( void );
 
     void openProgrammerDialog();
+
+private slots:
+    void showSaveDialog( const QTime& elapsedTime );
 
 signals:
     /*!

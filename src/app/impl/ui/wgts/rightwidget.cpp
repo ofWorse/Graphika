@@ -17,8 +17,6 @@ RightWidget::RightWidget( QWidget *parent )
     graphBuilder = new GraphBuilder( this );
     conveyor = new PythonConveyor();
     rightLayout = new QGridLayout( this );
-    //modelLabel = new QLabel( "Полученная модель: ", this );
-    //model = new QLineEdit( this );
 
     connect( graphBar->actions().at( 0 ), &QAction::triggered, this, &RightWidget::clearGraph            );
     connect( graphBar->actions().at( 1 ), &QAction::triggered, this, &RightWidget::resetZoom             );
@@ -46,7 +44,8 @@ void RightWidget::updateLegend( const QString& legendText )
     qDebug() << "Легенда обновлена на:" << currentLegend;
 }
 
-void RightWidget::setFunctionText(const QString& text) {
+void RightWidget::setFunctionText( const QString& text )
+{
     functionText = text;
 }
 
@@ -61,7 +60,7 @@ void RightWidget::hideBarButtons( const bool& hide )
     graphBar->actions().at( 9 )->setDisabled( hide );
 }
 
-void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
+void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, LogList* logList )
 {
     x = buffer.x;
     y = buffer.y;
@@ -70,29 +69,85 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, const Compo
     checkoutAxeses();
 
     graphBuilder->graph2d->replot();
-    graphBuilder->PaintG( x, y, functionText, true, false, false, z );
+    std::optional<QCustomPlot*> graph = graphBuilder->PaintG( x, y, functionText, true, false, false, z );
 
-    if( stack ) [[unlikely]]
+    if (logList)
     {
-//        emit sendData( model, false );
-//        emit sendData( *graphBuilder->graph2d, false );
+        LogList::Item item;
+        item.item = LogList::ItemType::QString;
+        item.str = new QString(QString(
+                                   "При заданном числовом диапазоне x[ %1, %2 ], функции %3, получен график функции:\n"
+                                   ).arg(x.takeFirst())
+                                   .arg(x.takeLast())
+                                   .arg(functionText));
+        logList->addItem(item);
+
+        QCustomPlot* customPlot = new QCustomPlot();
+        auto gb = new GraphBuilder( customPlot );
+
+        gb->graph2d->addGraph();
+        gb->graph2d->graph(0)->setData(x, y);
+        gb->graph2d->graph(0)->setPen(graphBuilder->color);
+        QPen pen = graphBuilder->graph2d->graph()->pen();
+        pen.setWidth( 4 );
+        gb->graph2d->graph()->setPen( pen );
+
+        gb->graph2d->xAxis->setRange(x.takeFirst(), x.takeLast());
+        gb->graph2d->yAxis->setRange(*std::min_element(y.begin(), y.end()), *std::max_element(y.begin(), y.end()));
+        gb->graph2d->xAxis->setLabel("x");
+        gb->graph2d->yAxis->setLabel("f(x)");
+
+        gb->graph2d->rescaleAxes();
+        gb->graph2d->replot();
+
+        item.item = LogList::ItemType::QCustomPlot;
+        item.gbd = gb;
+        logList->addItem(item);
     }
 }
 
-void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack  )
+void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, LogList* logList )
 {
     graphBuilder->graph2d->replot();
     // TODO: исправить заглушку
     graphBuilder->PaintG( x, y, "График производной функции " + functionText + " (" + currentLegend + ")", true, false, false );
 
-    if( stack ) [[unlikely]]
+    std::vector<double> _x(std::begin(x), std::end(x));
+    std::vector<double> _y(std::begin(y), std::end(y));
+
+    if( logList )
     {
-//        emit sendData( *graphBuilder->graph2d, false );
+        LogList::Item item;
+        item.item = LogList::ItemType::QString;
+        item.str = new QString(QString(
+                                   "С данным числовым диапозоном x[ %1, %2 ], функции %3, получен график производной от данной функции:\n"
+                                   ).arg(_x.at(0))
+                                   .arg(_x.at(_x.size()))
+                                   .arg(functionText));
+        logList->addItem(item);
+
+        QCustomPlot* customPlot = new QCustomPlot();
+        auto gb = new GraphBuilder( customPlot );
+        gb->graph2d->addGraph();
+        gb->graph2d->graph(0)->setData(x, y);
+        gb->graph2d->graph(0)->setPen(graphBuilder->color);
+        QPen pen = graphBuilder->graph2d->graph()->pen();
+        pen.setWidth( 4 );
+        gb->graph2d->graph()->setPen( pen );
+        gb->graph2d->xAxis->setRange(_x.at(0), _x.at(_x.size()));
+        gb->graph2d->yAxis->setRange(*std::min_element(y.begin(), y.end()), *std::max_element(y.begin(), y.end()));
+        gb->graph2d->xAxis->setLabel("x");
+        gb->graph2d->yAxis->setLabel("f'(x)");
+
+        gb->graph2d->rescaleAxes();
+        gb->graph2d->replot();
+        item.item = LogList::ItemType::QCustomPlot;
+        item.gbd = gb;
+        logList->addItem(item);
     }
 }
 
-
-void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const CompositeStateStack* stack )
+void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, LogList* logList )
 {
     x = buffer.x;
     y = buffer.y;
@@ -102,13 +157,42 @@ void RightWidget::printDiffGraph( SpecialBuffer &buffer, Sender &sender, const C
 
     differentiationSolve( x, y, sender );
 
-    if( stack ) [[unlikely]]
+    if( logList )
     {
-//        emit sendData( *graphBuilder->graph2d, false );
+        LogList::Item item;
+        item.item = LogList::ItemType::QString;
+        item.str = new QString(QString(
+                                   "С данным числовым диапозоном x[ %1, %2 ], функции %3, получен график разности между исходной функцией и полученной моделью:\n"
+                                   ).arg(x.takeFirst())
+                                   .arg(x.takeLast())
+                                   .arg(functionText));
+        logList->addItem(item);
+
+        QCustomPlot* customPlot = new QCustomPlot();
+        item.item = LogList::ItemType::QCustomPlot;
+        auto gb = new GraphBuilder( customPlot );
+
+        gb->graph2d->addGraph();
+        gb->graph2d->graph(0)->setData(x, y);
+        gb->graph2d->graph(0)->setPen(graphBuilder->color);
+        QPen pen = graphBuilder->graph2d->graph()->pen();
+        pen.setWidth( 4 );
+        gb->graph2d->graph()->setPen( pen );
+        gb->graph2d->xAxis->setRange(x.takeFirst(), x.takeLast());
+        gb->graph2d->yAxis->setRange(*std::min_element(y.begin(), y.end()), *std::max_element(y.begin(), y.end()));
+        gb->graph2d->xAxis->setLabel("x");
+        gb->graph2d->yAxis->setLabel("f(x) - P(x)");
+
+        gb->graph2d->rescaleAxes();
+
+        gb->graph2d->replot();
+
+        item.gbd = gb;
+        logList->addItem(item);
     }
 }
 
-void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack )
+void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, LogList* logList )
 {
     x = buffer.x;
     y = buffer.y;
@@ -119,13 +203,40 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, cons
     graphBuilder->graph2d->replot();
     graphBuilder->PaintG( x, y, "Площадь функции " + functionText  + " (" + currentLegend + ")", true, false, true );
 
-    if( stack ) [[unlikely]]
+    if( logList )
     {
-//        emit sendData( *new QLineEdit( area.c_str() ), false );
+        LogList::Item item;
+        item.item = LogList::ItemType::QString;
+        item.str = new QString(QString(
+                                   "С числовым диапозоном x[ %1, %2 ], функции %3, был получен график криволинейной трапеции, площадь которой равна S = %4:\n"
+                                   ).arg(x.takeFirst())
+                                   .arg(x.takeLast())
+                                   .arg(functionText)
+                                   .arg(area.c_str()));
+        logList->addItem(item);
+
+        QCustomPlot* customPlot = new QCustomPlot();
+        item.item = LogList::ItemType::QCustomPlot;
+        auto gb = new GraphBuilder( customPlot );
+        gb->graph2d->addGraph();
+        gb->graph2d->graph(0)->setData(x, y);
+        gb->graph2d->graph(0)->setPen(graphBuilder->color);
+        QPen pen = graphBuilder->graph2d->graph()->pen();
+        pen.setWidth( 4 );
+        gb->graph2d->graph()->setPen( pen );
+        gb->graph2d->xAxis->setRange(x.takeFirst(), x.takeLast());
+        gb->graph2d->yAxis->setRange(*std::min_element(y.begin(), y.end()), *std::max_element(y.begin(), y.end()));
+        gb->graph2d->xAxis->setLabel("x");
+        gb->graph2d->yAxis->setLabel("∫f(x)dx");
+
+        gb->graph2d->rescaleAxes();
+        gb->graph2d->replot();
+        item.gbd = gb;
+        logList->addItem(item);
     }
 }
 
-void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const CompositeStateStack* stack  )
+void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, LogList* logList )
 {
     x = buffer.x;
     y = buffer.y;
@@ -152,10 +263,34 @@ void RightWidget::buildPolynome( SpecialBuffer &buffer, Sender &sender, const Co
     QString str = QString::fromUtf8( resultModel.c_str() );
     emit readyToSendData( str, x[0], x.back() );
 
-    if( stack ) [[unlikely]]
-    {
-//        emit sendData( *model, false );
-//        emit sendData( *graphBuilder->graph2d, false );
+    if (logList) {
+        LogList::Item item;
+        item.item = LogList::ItemType::QString;
+        item.str = new QString("Полученная модель интерполяции: P(x) = " + str + "\n");
+        logList->addItem(item);
+
+        QCustomPlot* customPlot = new QCustomPlot();
+        auto gb = new GraphBuilder(customPlot);
+        gb->graph2d->addGraph();
+        gb->graph2d->graph(0)->setData(x, y);
+        gb->graph2d->graph(0)->setPen(graphBuilder->color);
+        QPen pen = graphBuilder->graph2d->graph()->pen();
+        pen.setWidth(4);
+        gb->graph2d->graph()->setPen(pen);
+
+        gb->graph2d->xAxis->setRange(x.takeFirst(), x.takeLast());
+        gb->graph2d->yAxis->setRange(*std::min_element(y.begin(), y.end()), *std::max_element(y.begin(), y.end()));
+        gb->graph2d->xAxis->setLabel("x");
+        gb->graph2d->yAxis->setLabel("P(x)");
+
+        gb->graph2d->rescaleAxes();
+        gb->graph2d->replot();
+
+        item.item = LogList::ItemType::QCustomPlot;
+        item.gbd = gb;
+        logList->addItem(item);
+        x.clear();
+        y.clear();
     }
 }
 
@@ -241,6 +376,8 @@ void RightWidget::drawInterpolationGraph( const std::vector<double> x, const std
 {
     QVector<double> X = QVector<double>( x.begin(), x.end() );
     QVector<double> Y = QVector<double>( y.begin(), y.end() );
+    this->x = X;
+    this->y = Y;
     graphBuilder->PaintG( X, Y, "График интерполяции (" + currentLegend + ")", true, false, false );
 }
 

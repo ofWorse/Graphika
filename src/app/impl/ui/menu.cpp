@@ -33,10 +33,7 @@ void Menu::createMenu( QWidget* parent )
 
     QMenu* utilsMenu = menu->addMenu( tr( "&Утилиты" ) );
     startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
-    endSessionAction = utilsMenu->addAction( tr( "Закончить сессию" ) );
     QAction* programmatorAction = utilsMenu->addAction( tr( "Программатор" ) );
     connect( startSessionAction, &QAction::triggered, this, &Menu::sessionStarted );
-    connect( endSessionAction, &QAction::triggered, this, &Menu::sessionStopped );
     connect(programmatorAction, &QAction::triggered, this, &Menu::programmatorTriggered );
-
 }

@@ -5,7 +5,7 @@ GL3DGraphBuilder::GL3DGraphBuilder( QWidget* parent ) : QOpenGLWidget( parent )
     axisLineWidth = 5.0f;
     gridLineWidth = 1.0f;
     pointSize = 5.0f;
-    this->setMinimumSize( 550, 500 );
+    setMinimumSize( 950, 850 );
 }
 
 void GL3DGraphBuilder::onClearButtonClicked( void )

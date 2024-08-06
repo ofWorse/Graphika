@@ -16,7 +16,7 @@
 #include "buffer.h"
 #include "pythonconveyor.h"
 #include "sender.h"
-#include "compositestatestack.h"
+#include "loglist.h"
 #include "settings.h"
 
 /*!
@@ -56,7 +56,7 @@ private:
 
 public:
     /*!
-     * \brief CompositeStateStack: constructor with standard heir argument.
+     * \brief RightWidget: constructor with standard heir argument.
      *
      * \param paren: pointer to the parent object.
      */
@@ -72,7 +72,7 @@ public:
      * \param sender: module to invoke & legend name.
      * \param stack: stack for data log system (in development).
      */
-    void printGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
+    void printGraph( SpecialBuffer& buffer, Sender& sender, LogList* logList );
 
     /*!
      * \brief printGraph: method for derivation-plot generation.
@@ -81,7 +81,7 @@ public:
      * \param sender: module to invoke & legend name.
      * \param stack: stack for data log system (in development).
      */
-    void printDiffGraph( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
+    void printDiffGraph( SpecialBuffer& buffer, Sender& sender, LogList* logList );
 
     /*!
      * \brief calculateIntegral: method for area calculating algorithm.
@@ -90,7 +90,7 @@ public:
      * \param sender: integration module with specific method.
      * \param stack: stack for data log system (in development).
      */
-    void calculateIntegral( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
+    void calculateIntegral( SpecialBuffer& buffer, Sender& sender, LogList* logList );
 
     /*!
      * \brief buildPolynome:  method for polynome-plot generation.
@@ -99,7 +99,7 @@ public:
      * \param sender: integration method.
      * \param stack: stack for data log system (in development).
      */
-    void buildPolynome( SpecialBuffer& buffer, Sender& sender, const CompositeStateStack* stack );
+    void buildPolynome( SpecialBuffer& buffer, Sender& sender, LogList* logList );
 
     /*!
      * \brief interpolationSolve: method for python polynomials.py module invokation.
@@ -214,7 +214,7 @@ public slots:
      * \param sender: differentiation module with specific method.
      * \param stack for data log system (in development).
      */
-    void printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, const CompositeStateStack* stack );
+    void printDerivationGraph( const QVector<double>& x, const QVector<double>& y, Sender& sender, LogList* stack );
     void updateLegend( const QString& legendText );
     void setFunctionText( const QString& functionText );
 
