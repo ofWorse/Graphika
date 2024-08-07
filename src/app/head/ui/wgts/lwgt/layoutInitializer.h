@@ -191,11 +191,7 @@ public slots:
     void onRemoveRowButtonClicked();
     void updateButtonsPosition();
 
-    /*
-    void updateEquationsButtonsPosition();
-    void onAddEquationRowButtonClicked();
-    void onRemoveEquationRowButtonClicked();
-    */
+    void clearTableButtons();
 
 signals:
     /*!

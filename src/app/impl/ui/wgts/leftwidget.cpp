@@ -117,6 +117,8 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
     });
     connect( currentLayout, &LayoutInitializer::tableEdited, this, &LeftWidget::onTableEdited );
     connect( equationsLayout, &EquationsLayout::equationsTableEdited, this, &LeftWidget::onEquationsTableEdited);
+
+    connect( currentLayout->widgets->clearTable, &QPushButton::clicked, currentLayout, &LayoutInitializer::clearTableButtons );
 }
 
 void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals)
