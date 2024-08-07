@@ -71,7 +71,7 @@ void RightWidget::printGraph( SpecialBuffer& buffer, Sender& sender, LogList* lo
     graphBuilder->graph2d->replot();
     std::optional<QCustomPlot*> graph = graphBuilder->PaintG( x, y, functionText, true, false, false, z );
 
-    if (logList)
+    if (logList && graph.has_value())
     {
         LogList::Item item;
         item.item = LogList::ItemType::QString;
@@ -110,12 +110,12 @@ void RightWidget::printDerivationGraph( const QVector<double>& x, const QVector<
 {
     graphBuilder->graph2d->replot();
     // TODO: исправить заглушку
-    graphBuilder->PaintG( x, y, "График производной функции " + functionText + " (" + currentLegend + ")", true, false, false );
+    auto graph = graphBuilder->PaintG( x, y, "График производной функции " + functionText + " (" + currentLegend + ")", true, false, false );
 
     std::vector<double> _x(std::begin(x), std::end(x));
     std::vector<double> _y(std::begin(y), std::end(y));
 
-    if( logList )
+    if( logList && graph.has_value() )
     {
         LogList::Item item;
         item.item = LogList::ItemType::QString;
@@ -201,7 +201,7 @@ void RightWidget::calculateIntegral( SpecialBuffer& buffer, Sender& sender, LogL
 
     integrationSolve( x, y, sender );
     graphBuilder->graph2d->replot();
-    graphBuilder->PaintG( x, y, "Площадь функции " + functionText  + " (" + currentLegend + ")", true, false, true );
+    auto graph = graphBuilder->PaintG( x, y, "Площадь функции " + functionText  + " (" + currentLegend + ")", true, false, true );
 
     if( logList )
     {
