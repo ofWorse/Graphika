@@ -21,7 +21,7 @@ void Menu::createMenu( QWidget* parent )
 
     QMenu* viewMenu = menu->addMenu( tr( "&Вид" ) );
     QAction* viewAction = viewMenu->addAction( "Внешний вид" );
-    viewAction->setDisabled( true );
+    connect( viewAction, &QAction::triggered, this, &Menu::viewMenuOppened );
 
     QMenu* aboutMenu = menu->addMenu( tr( "&О программе" ) );
     QAction* licenceAction = aboutMenu->addAction( tr( "Лицензия" ) );
@@ -35,5 +35,5 @@ void Menu::createMenu( QWidget* parent )
     startSessionAction = utilsMenu->addAction( tr( "Начать сессию" ) );
     QAction* programmatorAction = utilsMenu->addAction( tr( "Программатор" ) );
     connect( startSessionAction, &QAction::triggered, this, &Menu::sessionStarted );
-    connect(programmatorAction, &QAction::triggered, this, &Menu::programmatorTriggered );
+    connect(programmatorAction, &QAction::triggered, this, &Menu::programmatorOppened );
 }

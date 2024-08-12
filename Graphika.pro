@@ -17,12 +17,14 @@ RESOURCES += \
     pymodules.qrc \
     referenceinfo.qrc \
     resources/web/web.qrc \
+    themes.qrc
 
 INCLUDEPATH += ./python3.11 ./qcustomplot/include $$HEADDIR $$HEADDIR/algs \
     $$HEADDIR/ui $$HEADDIR/ui/wgts $$HEADDIR/ui/wgts/lwgt \
     $$HEADDIR/ui/wgts/rwgt $$HEADDIR/settings $$HEADDIR/utils \
     $$HEADDIR/ui/menu $$HEADDIR/console $$HEADDIR/algs/graphbuilder \
-    $$HEADDIR/utils/notes $$HEADDIR/algs/repgen
+    $$HEADDIR/utils/notes $$HEADDIR/utils/appearance $$HEADDIR/utils/programmer \
+    $$HEADDIR/algs/repgen
 
 LIBS += -lpython3.11
 
@@ -30,7 +32,8 @@ VPATH += $$IMPLDIR $$IMPLDIR/algs \
     $$IMPLDIR/ui $$IMPLDIR/ui/wgts $$IMPLDIR/ui/wgts/lwgt \
     $$IMPLDIR/utils $$IMPLDIR/ui/wgts/rwgt \
     $$IMPLDIR/ui/menu $$IMPLDIR/console $$IMPLDIR/algs/graphbuilder \
-    $$IMPLDIR/utils/notes $$IMPLDIR/algs/repgen
+    $$IMPLDIR/utils/notes $$IMPLDIR/utils/appearance $$IMPLDIR/utils/programmer \
+    $$IMPLDIR/algs/repgen
 
 SOURCES += \
     $$IMPLDIR/algs/repgen/loglist.cpp \
@@ -55,11 +58,12 @@ SOURCES += \
     $$IMPLDIR/ui/menubar.cpp \
     $$IMPLDIR/ui/menu/referencemenu.cpp \
     $$IMPLDIR/utils/buffer.cpp \
+    $$IMPLDIR/utils/appearance/appearance.cpp \
     $$IMPLDIR/utils/validatestring.cpp \
     $$IMPLDIR/utils/notes/errorlabel.cpp \
     $$IMPLDIR/main.cpp \
     $$IMPLDIR/console/consoleapplication.cpp \
-    $$IMPLDIR/utils/programmerdialog.cpp \
+    $$IMPLDIR/utils/programmer/programmerdialog.cpp \
     $$IMPLDIR/utils/sender.cpp \
     qcustomplot/qcustomplot.cpp \
     $$IMPLDIR/console/commandhandler.cpp \
@@ -96,16 +100,15 @@ HEADERS += \
     $$HEADDIR/utils/mathutils.h \
     $$HEADDIR/console/consoleapplication.h \
     $$HEADDIR/utils/validatestring.h \
-    $$HEADDIR/utils/programmerSettings.h \
-    $$HEADDIR/utils/programmerdialog.h \
+    $$HEADDIR/utils/appearance/appearance.h \
+    $$HEADDIR/utils/programmer/programmerSettings.h \
+    $$HEADDIR/utils/programmer/programmerdialog.h \
     qcustomplot/qcustomplot.h \
     $$HEADDIR/console/commandhandler.h \
     $$HEADDIR/console/commandcompleter.h \
     src/app/head/console/commands.h \
     src/app/head/settings/config.h \
     src/app/head/ui/wgts/lwgt/widgets.h \
-    src/app/head/utils/programmerSettings.h \
-    src/app/head/utils/programmerdialog.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

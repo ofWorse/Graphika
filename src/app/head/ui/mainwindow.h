@@ -18,6 +18,7 @@
 #include "referencemenu.h"
 #include "reportgenerator.h"
 #include "sessionwindow.h"
+#include "appearance.h"
 
 /*!
  * \class
@@ -35,6 +36,7 @@ private:
     QWidget* centralwidget; ///< bottom layer.
     ProgrammerDialog* programmer;
     SessionWidget* sessionWidget;
+    Appearance* appearance;
 
     LeftWidget* leftWidget; ///< main left side widgets initializator.
     RightWidget* rightWidget; ///< main right side widgets initializator.
@@ -134,6 +136,8 @@ public slots:
      * \brief openLicenseMenu: invokes text of license menu.
      */
     void openLicenseMenu( void );
+
+    void openViewDialog( void );
 
     /*!
      * \brief draw: determines which rendering method to call
