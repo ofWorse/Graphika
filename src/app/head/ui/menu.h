@@ -87,7 +87,8 @@ signals:
      * \brief aboutMenuOppened: A signal emitted when the about menu is opened.
      */
     void aboutMenuOppened( void );
-    void programmatorTriggered( void );
+    void programmatorOppened( void );
+    void viewMenuOppened( void );
 };
 
 #endif // MENU_H

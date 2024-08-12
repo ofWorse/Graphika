@@ -4,6 +4,9 @@
 MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
 {
     signal( SIGSEGV, signalHandler );
+    Q_INIT_RESOURCE( themes );
+
+    appearance = new Appearance( this );
 
     resize( 1920, 1080 );
     setMinimumSize( 640, 380 );
@@ -17,10 +20,12 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent )
     connect( menu, &Menu::licenseMenuOppened, this, &MainWindow::openLicenseMenu );
     connect( menu, &Menu::aboutMenuOppened, this, &MainWindow::openAboutMenu );
     connect( menu, &Menu::authorsMenuOppened, this, &MainWindow::openAuthorsMenu );
+    connect( menu, &Menu::programmatorOppened, this, &MainWindow::openProgrammerDialog );
+    connect( menu, &Menu::viewMenuOppened, this, &MainWindow::openViewDialog );
+
 
     connect( qApp, &QApplication::aboutToQuit, this, &MainWindow::deleteWidgets );
 
-    connect( menu, &Menu::programmatorTriggered, this, &MainWindow::openProgrammerDialog );
 
     menubar = new MenuBar( this );
     menubar->setContextMenuPolicy( Qt::ContextMenuPolicy::PreventContextMenu );
@@ -257,6 +262,11 @@ void MainWindow::openAuthorsMenu( void )
 void MainWindow::openLicenseMenu( void )
 {
     widgets.append( ReferenceMenu::invokeLicenseWidget() );
+}
+
+void MainWindow::openViewDialog( void )
+{
+    appearance->show();
 }
 
 void MainWindow::startSession( void )
