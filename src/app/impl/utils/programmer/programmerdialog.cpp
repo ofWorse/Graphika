@@ -1,66 +1,82 @@
 #include "programmerdialog.h"
 #include <QDebug>
+#include <QGroupBox>
 
 ProgrammerDialog::ProgrammerDialog(QWidget *parent)
     : QDialog(parent)
 {
-    setWindowTitle(tr("Программатор"));
+setWindowTitle(tr("Программатор"));
 
+    QGroupBox* stepGroupBox = new QGroupBox(tr("Настройки шага"), this);
+    QFormLayout* stepLayout = new QFormLayout();
 
     minStepSpinBox = new QDoubleSpinBox(this);
     minStepSpinBox->setDecimals(5);
     minStepSpinBox->setRange(0.00001, 10000);
     minStepSpinBox->setValue(0.01);
+    stepLayout->addRow(tr("Минимальный шаг:"), minStepSpinBox);
 
     maxStepSpinBox = new QDoubleSpinBox(this);
     maxStepSpinBox->setDecimals(4);
     maxStepSpinBox->setRange(0.0001, 10000);
     maxStepSpinBox->setValue(10);
+    stepLayout->addRow(tr("Максимальный шаг:"), maxStepSpinBox);
+
+    stepGroupBox->setLayout(stepLayout);
+
+    QGroupBox* xRangeGroupBox = new QGroupBox(tr("Настройки пределов по X"), this);
+    QFormLayout* xRangeLayout = new QFormLayout();
 
     minSpinBox = new QDoubleSpinBox(this);
     minSpinBox->setRange(-99999.1, 99999.1);
     minSpinBox->setValue(-100);
+    xRangeLayout->addRow(tr("Нижний предел по X:"), minSpinBox);
 
     maxSpinBox = new QDoubleSpinBox(this);
     maxSpinBox->setRange(-99999.1, 99999.1);
     maxSpinBox->setValue(100);
+    xRangeLayout->addRow(tr("Верхний предел по X:"), maxSpinBox);
+
+    xRangeGroupBox->setLayout(xRangeLayout);
+
+    QGroupBox* yRangeGroupBox = new QGroupBox(tr("Настройки пределов по Y"), this);
+    QFormLayout* yRangeLayout = new QFormLayout();
 
     yMinSpinBox = new QDoubleSpinBox(this);
     yMinSpinBox->setRange(-99999.1, 99999.1);
     yMinSpinBox->setValue(-100);
+    yRangeLayout->addRow(tr("Нижний предел по Y:"), yMinSpinBox);
 
     yMaxSpinBox = new QDoubleSpinBox(this);
     yMaxSpinBox->setRange(-99999.1, 99999.1);
     yMaxSpinBox->setValue(100);
+    yRangeLayout->addRow(tr("Верхний предел по Y:"), yMaxSpinBox);
+
+    yRangeGroupBox->setLayout(yRangeLayout);
+
+    QGroupBox* nodesGroupBox = new QGroupBox(tr("Настройки узлов"), this);
+    QFormLayout* nodesLayout = new QFormLayout();
 
     minNodesSpinBox = new QDoubleSpinBox(this);
     minNodesSpinBox->setRange(2, 99999);
     minNodesSpinBox->setValue(2);
+    nodesLayout->addRow(tr("Наименьшее кол-во узлов:"), minNodesSpinBox);
 
     maxNodesSpinBox = new QDoubleSpinBox(this);
     maxNodesSpinBox->setRange(2, 99999);
     maxNodesSpinBox->setValue(100);
+    nodesLayout->addRow(tr("Наибольшее кол-во узлов:"), maxNodesSpinBox);
+
+    nodesGroupBox->setLayout(nodesLayout);
 
     applyButton = new QPushButton(tr("Применить"), this);
     resetButton = new QPushButton(tr("Сброс"), this);
 
-
-    formLayout = new QFormLayout();
-
-    formLayout->addRow(tr("Минимальный шаг:"), minStepSpinBox);
-    formLayout->addRow(tr("Максимальный шаг:"), maxStepSpinBox);
-
-    formLayout->addRow(tr("Нижний предел по X:"), minSpinBox);
-    formLayout->addRow(tr("Верхний предел по X:"), maxSpinBox);
-
-    formLayout->addRow(tr("Нижний предел по Y:"), yMinSpinBox);
-    formLayout->addRow(tr("Верхний предел по Y:"),yMaxSpinBox);
-
-    formLayout->addRow(tr("Наименьшее кол-во узлов:"), minNodesSpinBox);
-    formLayout->addRow(tr("Наибольшее кол-во узлов:"), maxNodesSpinBox);
-
     mainLayout = new QVBoxLayout();
-    mainLayout->addLayout(formLayout);
+    mainLayout->addWidget(stepGroupBox);
+    mainLayout->addWidget(xRangeGroupBox);
+    mainLayout->addWidget(yRangeGroupBox);
+    mainLayout->addWidget(nodesGroupBox);
     mainLayout->addWidget(applyButton);
     mainLayout->addWidget(resetButton);
 

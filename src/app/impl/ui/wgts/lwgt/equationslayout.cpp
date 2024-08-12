@@ -73,7 +73,12 @@ void EquationsLayout::updateEquationsButtonsPosition()
     int buttonWidgetX = tableGeometry.left() + widgets->equationsTableWidget->verticalHeader()->width()
                         + widgets->equationsTableWidget->columnViewportPosition(columnCount - 1)
                         + headerWidth + 5; // +5 для небольшого отступа
-    int buttonWidgetY = tableGeometry.top() + (tableGeometry.height() / 2) - (widgets->equationsButtonsWidget->height() / 2);
+
+    int rowCount = widgets->equationsTableWidget->rowCount();
+    int lastRowY = widgets->equationsTableWidget->rowViewportPosition(rowCount - 1);
+    int lastRowHeight = widgets->equationsTableWidget->rowHeight(rowCount - 1);
+
+    int buttonWidgetY = tableGeometry.top() + lastRowY + (lastRowHeight / 2) - (widgets->equationsButtonsWidget->height() / 2);
 
     widgets->equationsButtonsWidget->setGeometry(buttonWidgetX, buttonWidgetY, widgets->equationsButtonsWidget->sizeHint().width(), widgets->equationsButtonsWidget->sizeHint().height());
 
@@ -87,15 +92,17 @@ void EquationsLayout::onAddEquationRowButtonClicked()
 {
     int rowCount = widgets->equationsTableWidget->rowCount();
     widgets->equationsTableWidget->insertRow(rowCount);
+    updateEquationsButtonsPosition();
 }
 
 void EquationsLayout::onRemoveEquationRowButtonClicked()
 {
     int rowCount = widgets->equationsTableWidget->rowCount();
-    if (rowCount > 0) // Не удалять последнюю строку
+    if (rowCount > 1) // Не удалять последнюю строку
     {
-        widgets->equationsTableWidget->removeRow(rowCount - 1);
+        widgets->equationsTableWidget->removeRow(rowCount - 2);
     }
+    updateEquationsButtonsPosition();
 }
 
 QGridLayout *EquationsLayout::get()

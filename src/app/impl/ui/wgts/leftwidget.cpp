@@ -117,6 +117,9 @@ void LeftWidget::connectLabels( SpecialBuffer& buffer )
     });
     connect( currentLayout, &LayoutInitializer::tableEdited, this, &LeftWidget::onTableEdited );
     connect( equationsLayout, &EquationsLayout::equationsTableEdited, this, &LeftWidget::onEquationsTableEdited);
+
+    connect( currentLayout->widgets->clearTable, &QPushButton::clicked, currentLayout, &LayoutInitializer::clearTableButtons );
+    connect( functionLayout, &FunctionLayout::switchPlots, currentLayout, &LayoutInitializer::updateButtonsPosition );
 }
 
 void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, double Ymax, double minStep, double maxStep, double minNodes, double maxNodes, int decimals)
@@ -132,6 +135,8 @@ void LeftWidget::applyProgrammerSettings(double min, double Ymin, double max, do
     programmerSetting.minNodes = minNodes;
     programmerSetting.maxNodes = maxNodes;
     programmerSetting.decimals = decimals;
+
+    applyStoredSettings();
 }
 
 void LeftWidget::applyStoredSettings( void )
@@ -152,6 +157,7 @@ void LeftWidget::onTableEdited()
         return;
     }
     connect( currentLayout->widgets->tableWidget->horizontalHeader(), &QHeaderView::sectionResized, currentLayout, &LayoutInitializer::updateButtonsPosition );
+    connect( currentLayout->widgets->tableWidget->verticalHeader(), &QHeaderView::sectionResized, currentLayout, &LayoutInitializer::updateButtonsPosition );
     QTimer::singleShot(2, currentLayout, &LayoutInitializer::updateButtonsPosition);
     currentLayout->updateButtonsPosition();
 }
@@ -164,6 +170,7 @@ void LeftWidget::onEquationsTableEdited()
         return;
     }
     connect( equationsLayout->widgets->equationsTableWidget->horizontalHeader(), &QHeaderView::sectionResized, equationsLayout, &EquationsLayout::updateEquationsButtonsPosition );
+    connect( equationsLayout->widgets->equationsTableWidget->verticalHeader(), &QHeaderView::sectionResized, equationsLayout, &EquationsLayout::updateEquationsButtonsPosition );
     QTimer::singleShot(2, equationsLayout, &EquationsLayout::updateEquationsButtonsPosition );
     equationsLayout->updateEquationsButtonsPosition();
 
